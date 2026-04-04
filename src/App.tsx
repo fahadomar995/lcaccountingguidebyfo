@@ -9,9 +9,36 @@ import NotFound from "./pages/NotFound";
 import PlaceholderPage from "./pages/PlaceholderPage";
 import TheoryPage from "./pages/TheoryPage";
 import WorkingsPage from "./pages/WorkingsPage";
+import LearnPage from "./pages/LearnPage";
+import ClassifyPage from "./pages/ClassifyPage";
+import LayoutsPage from "./pages/LayoutsPage";
+import FormulasPage from "./pages/FormulasPage";
+import Q1GuidePage from "./pages/Q1GuidePage";
+import RatiosPage from "./pages/RatiosPage";
+import StudyToolsPage from "./pages/StudyToolsPage";
+import WorkingsListPage from "./pages/WorkingsListPage";
 import { COSTING_ARCHETYPES, COSTING_CATEGORIES, BUDGETING_ARCHETYPES, BUDGETING_CATEGORIES } from "./data/archetypes";
 
 const queryClient = new QueryClient();
+
+const Q1_TOPICS = [
+  { name: "Closing Stock & Adjustments", count: 8, desc: "Year-end adjustments: closing stock, accruals, prepayments, bad debts." },
+  { name: "Depreciation", count: 6, desc: "Straight line and reducing balance methods." },
+  { name: "Provision for Bad Debts", count: 5, desc: "Creating, increasing, and decreasing provisions." },
+  { name: "Error Corrections in Q1", count: 4, desc: "Suspense account entries and correcting journal entries." },
+  { name: "Company Adjustments", count: 7, desc: "Corporation tax, dividends, transfers to reserves." },
+  { name: "Manufacturing Adjustments", count: 7, desc: "Factory overheads, WIP, cost of production." },
+];
+
+const S2_TOPICS = [
+  { name: "Club Accounts", count: 6, desc: "Subscriptions, accumulated fund, I&E account." },
+  { name: "Service Firm Accounts", count: 5, desc: "Statement of capital, fee income, I&E." },
+  { name: "Cash Flow Statements", count: 6, desc: "Operating activities, capital expenditure, reconciliation." },
+  { name: "Correction of Errors", count: 5, desc: "Suspense account, journal entries, corrected TB." },
+  { name: "Published Accounts", count: 6, desc: "Published P&L, balance sheet, notes." },
+  { name: "Tabular Statements", count: 4, desc: "Columnar format adjustments." },
+  { name: "Incomplete Records", count: 5, desc: "Opening capital, mark-up/margin calculations." },
+];
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -23,13 +50,29 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/theory" element={<TheoryPage />} />
-            <Route path="/learn" element={<PlaceholderPage title="Learn Mode" description="5 interactive modules with 33 lessons and 75 steps." />} />
-            <Route path="/classify" element={<PlaceholderPage title="Where Does This Go?" description="141-item classification quiz for debit/credit practice." />} />
-            <Route path="/layouts" element={<PlaceholderPage title="Layout Practice" description="11 exam layout formats to practise." />} />
-            <Route path="/formulas" element={<PlaceholderPage title="Formula Cheat Sheet" description="All key formulas in one searchable reference." />} />
-            <Route path="/q1-guide" element={<PlaceholderPage title="Q1 Adjustment Guide" description="Complete reference for every Q1 adjustment type." />} />
-            <Route path="/q1-workings" element={<PlaceholderPage title="Q1 Step-by-Step Workings" description="37 workings with real SEC marking scheme data." />} />
-            <Route path="/s2-workings" element={<PlaceholderPage title="Section 2 Workings" description="37 topic workings with exam tips." />} />
+            <Route path="/learn" element={<LearnPage />} />
+            <Route path="/classify" element={<ClassifyPage />} />
+            <Route path="/layouts" element={<LayoutsPage />} />
+            <Route path="/formulas" element={<FormulasPage />} />
+            <Route path="/q1-guide" element={<Q1GuidePage />} />
+            <Route path="/q1-workings" element={
+              <WorkingsListPage
+                title="Q1 Step-by-Step Workings"
+                subtitle="37 workings with real SEC marking scheme data. Each working shows you exactly how to handle every Q1 adjustment."
+                sectionLabel="Section 1 — Question 1"
+                count={37}
+                topics={Q1_TOPICS}
+              />
+            } />
+            <Route path="/s2-workings" element={
+              <WorkingsListPage
+                title="Section 2 Workings"
+                subtitle="37 topic workings covering every Section 2 question type with exam tips."
+                sectionLabel="Section 2 — Questions 2-7"
+                count={37}
+                topics={S2_TOPICS}
+              />
+            } />
             <Route path="/q8-costing" element={
               <WorkingsPage
                 title="Q8 Costing — Full Question Practice"
@@ -50,8 +93,8 @@ const App = () => (
                 categories={BUDGETING_CATEGORIES}
               />
             } />
-            <Route path="/study-tools" element={<PlaceholderPage title="Study Tools" description="Study planner, exam timing, and revision checklists." />} />
-            <Route path="/ratios" element={<PlaceholderPage title="Q5 Ratios Hub" description="Practice papers, formula quiz, report guide, and sector analysis." />} />
+            <Route path="/study-tools" element={<StudyToolsPage />} />
+            <Route path="/ratios" element={<RatiosPage />} />
             <Route path="/predictions" element={<PlaceholderPage title="Prediction Engine" description="Full statistical analysis and model transparency." />} />
             <Route path="/predictions/*" element={<PlaceholderPage title="Prediction Engine" description="Full statistical analysis and model transparency." />} />
             <Route path="*" element={<NotFound />} />
