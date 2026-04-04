@@ -66,6 +66,23 @@ export const SEC3_Q9_SUBTOPICS: TopicMeta[] = [
   {key:"Flexible Budget",note:"Budgets at different activity levels."}
 ];
 
+export interface InterpPartB {
+  type: string;
+  prob: number;
+  color: string;
+  years: number[];
+  lastYear: number;
+  ratios: string[];
+  rationale: string;
+  studyTips: string;
+}
+
+export const INTERP_PARTB: InterpPartB[] = [
+  {type:"Debenture Holders",prob:50,color:"#5a7d9a",years:[2011,2013,2016,2019,2020,2023],lastYear:2023,ratios:["Gearing Ratio","Interest Cover","Debt/Equity Ratio","Return on Capital Employed","Long-term Solvency"],rationale:"Last appeared 2023 — 3 years ago. Rotation pattern points strongly to Debenture Holders for 2026.",studyTips:"Gearing = long-term liabilities / capital employed (x100). Interest cover = EBIT / interest payable."},
+  {type:"Bank Manager",prob:28,color:"#c06030",years:[2010,2012,2014,2015,2017,2018,2020,2022,2024],lastYear:2024,ratios:["Current Ratio","Acid Test Ratio","Debt Ratio","Working Capital","Net Profit Margin","Return on Investment"],rationale:"Appeared 2024 — only 2 years ago. The examiner has never repeated the same stakeholder in consecutive years.",studyTips:"Bank manager wants liquidity (current ratio >2:1 ideal, acid test >1:1) and ability to repay."},
+  {type:"Shareholders",prob:18,color:"#4a8a52",years:[2009,2013,2015,2018,2021,2025],lastYear:2025,ratios:["Earnings Per Share (EPS)","Dividend Yield","P/E Ratio","Return on Equity","Dividend Cover","Net Asset Value per Share"],rationale:"Appeared 2025 — just 1 year ago. P(repeat) = 0 historically. Least likely for 2026.",studyTips:"EPS = profit after tax / number of shares. Dividend yield = DPS / market price x 100. P/E = market price / EPS."}
+];
+
 export const ACCOUNT_TYPE_TOPICS = ['Service Firm','Club Accounts','Farm Accounts'];
 export function isAccountType(key: string) { return ACCOUNT_TYPE_TOPICS.includes(key); }
 
