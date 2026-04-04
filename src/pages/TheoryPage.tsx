@@ -1,0 +1,276 @@
+import { useState, useMemo } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { THEORY_BANK, THEORY_FLASHCARDS, THEORY_TOPICS } from "@/data/theory";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { Eye, EyeOff, RotateCcw, Check, X, Minus, ChevronLeft, ChevronRight, BarChart3, Filter } from "lucide-react";
+
+type Score = "got" | "partial" | "missed";
+
+export default function TheoryPage() {
+  const [topicFilter, setTopicFilter] = useState<string>("All");
+  const [revealedIds, setRevealedIds] = useState<Set<number>>(new Set());
+  const [scores, setScores] = useLocalStorage<Record<number, Score>>("lc-theory-scores", {});
+
+  // Flashcard state
+  const [flashTopic, setFlashTopic] = useState<string>("All");
+  const [flashIndex, setFlashIndex] = useState(0);
+  const [flipped, setFlipped] = useState(false);
+  const [known, setKnown] = useLocalStorage<string[]>("lc-flash-known", []);
+
+  const filtered = useMemo(() => {
+    if (topicFilter === "All") return THEORY_BANK;
+    return THEORY_BANK.filter(q => q.topic === topicFilter);
+  }, [topicFilter]);
+
+  const flashFiltered = useMemo(() => {
+    const cards = flashTopic === "All" ? THEORY_FLASHCARDS : THEORY_FLASHCARDS.filter(f => f.topic === flashTopic);
+    return cards;
+  }, [flashTopic]);
+
+  const toggleReveal = (i: number) => {
+    setRevealedIds(prev => {
+      const next = new Set(prev);
+      next.has(i) ? next.delete(i) : next.add(i);
+      return next;
+    });
+  };
+
+  const setScore = (i: number, score: Score) => {
+    setScores(prev => ({ ...prev, [i]: score }));
+  };
+
+  // Frequency analysis
+  const freqData = useMemo(() => {
+    const map: Record<string, number> = {};
+    THEORY_BANK.forEach(q => { map[q.topic] = (map[q.topic] || 0) + 1; });
+    return Object.entries(map).sort((a, b) => b[1] - a[1]);
+  }, []);
+
+  const totalScored = Object.keys(scores).length;
+  const gotCount = Object.values(scores).filter(s => s === "got").length;
+
+  return (
+    <div className="max-w-[900px] mx-auto px-4 sm:px-7 py-8 pb-16">
+      <h1 className="font-display text-2xl sm:text-3xl font-bold mb-2">Theory Revision</h1>
+      <p className="text-sm text-muted-foreground font-light leading-relaxed mb-6">
+        {THEORY_BANK.length} past exam theory questions with marking scheme answers. Filter by topic, practise, and track your progress.
+      </p>
+
+      {totalScored > 0 && (
+        <Card className="mb-6 border-border">
+          <CardContent className="p-4 flex flex-wrap gap-6 items-center justify-center">
+            <Stat label="Attempted" value={`${totalScored}/${THEORY_BANK.length}`} />
+            <Stat label="Got It" value={String(gotCount)} />
+            <Stat label="Score" value={totalScored > 0 ? `${Math.round(gotCount / totalScored * 100)}%` : "—"} />
+            <Stat label="Flashcards Known" value={`${known.length}/${THEORY_FLASHCARDS.length}`} />
+          </CardContent>
+        </Card>
+      )}
+
+      <Tabs defaultValue="questions" className="w-full">
+        <TabsList className="mb-6 w-full justify-start overflow-x-auto">
+          <TabsTrigger value="questions">All Questions</TabsTrigger>
+          <TabsTrigger value="practice">Practice Mode</TabsTrigger>
+          <TabsTrigger value="flashcards">Flashcards</TabsTrigger>
+          <TabsTrigger value="frequency">Frequency</TabsTrigger>
+        </TabsList>
+
+        {/* ALL QUESTIONS TAB */}
+        <TabsContent value="questions">
+          <FilterBar topics={THEORY_TOPICS} active={topicFilter} onSelect={setTopicFilter} />
+          <p className="text-xs text-muted-foreground mb-4">{filtered.length} question{filtered.length !== 1 ? "s" : ""}</p>
+          <div className="space-y-4">
+            {filtered.map((q, i) => {
+              const globalIdx = THEORY_BANK.indexOf(q);
+              const revealed = revealedIds.has(globalIdx);
+              return (
+                <QuestionCard
+                  key={globalIdx}
+                  q={q}
+                  revealed={revealed}
+                  onToggle={() => toggleReveal(globalIdx)}
+                  score={scores[globalIdx]}
+                  onScore={(s) => setScore(globalIdx, s)}
+                  showScoring={false}
+                />
+              );
+            })}
+          </div>
+        </TabsContent>
+
+        {/* PRACTICE MODE */}
+        <TabsContent value="practice">
+          <FilterBar topics={THEORY_TOPICS} active={topicFilter} onSelect={setTopicFilter} />
+          <p className="text-xs text-muted-foreground mb-4">Read the question, try to answer, then reveal and score yourself.</p>
+          <div className="space-y-4">
+            {filtered.map((q) => {
+              const globalIdx = THEORY_BANK.indexOf(q);
+              const revealed = revealedIds.has(globalIdx);
+              return (
+                <QuestionCard
+                  key={globalIdx}
+                  q={q}
+                  revealed={revealed}
+                  onToggle={() => toggleReveal(globalIdx)}
+                  score={scores[globalIdx]}
+                  onScore={(s) => setScore(globalIdx, s)}
+                  showScoring={true}
+                />
+              );
+            })}
+          </div>
+        </TabsContent>
+
+        {/* FLASHCARDS */}
+        <TabsContent value="flashcards">
+          <FilterBar topics={THEORY_TOPICS} active={flashTopic} onSelect={(t) => { setFlashTopic(t); setFlashIndex(0); setFlipped(false); }} />
+          {flashFiltered.length > 0 ? (
+            <div className="max-w-[500px] mx-auto">
+              <p className="text-xs text-muted-foreground mb-3 text-center">
+                {flashIndex + 1} of {flashFiltered.length} · {known.length} known
+              </p>
+              <div
+                className="relative cursor-pointer perspective-1000"
+                style={{ minHeight: 220 }}
+                onClick={() => setFlipped(!flipped)}
+              >
+                <Card className={`p-8 text-center transition-all duration-300 ${flipped ? "bg-sage-bg" : "bg-card"}`}>
+                  <CardContent className="p-0">
+                    <Badge variant="outline" className="mb-4 text-[10px]">{flashFiltered[flashIndex].topic}</Badge>
+                    {!flipped ? (
+                      <p className="font-display text-lg font-bold">{flashFiltered[flashIndex].term}</p>
+                    ) : (
+                      <p className="text-sm font-light leading-relaxed">{flashFiltered[flashIndex].def}</p>
+                    )}
+                    <p className="text-[10px] text-muted-foreground mt-4">{flipped ? "Click to see term" : "Click to reveal definition"}</p>
+                  </CardContent>
+                </Card>
+              </div>
+              <div className="flex gap-3 justify-center mt-4">
+                <Button variant="outline" size="sm" onClick={() => { setFlashIndex(Math.max(0, flashIndex - 1)); setFlipped(false); }} disabled={flashIndex === 0}>
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant={known.includes(flashFiltered[flashIndex].term) ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => {
+                    const term = flashFiltered[flashIndex].term;
+                    setKnown(prev => prev.includes(term) ? prev.filter(t => t !== term) : [...prev, term]);
+                  }}
+                >
+                  {known.includes(flashFiltered[flashIndex].term) ? "Known ✓" : "Mark Known"}
+                </Button>
+                <Button variant="outline" size="sm" onClick={() => { setFlashIndex(Math.min(flashFiltered.length - 1, flashIndex + 1)); setFlipped(false); }} disabled={flashIndex === flashFiltered.length - 1}>
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <p className="text-sm text-muted-foreground text-center py-8">No flashcards for this topic.</p>
+          )}
+        </TabsContent>
+
+        {/* FREQUENCY */}
+        <TabsContent value="frequency">
+          <p className="text-xs text-muted-foreground mb-4">How often each topic appears as a theory question in the HL exam.</p>
+          <div className="space-y-2">
+            {freqData.map(([topic, count]) => (
+              <div key={topic} className="flex items-center gap-3">
+                <span className="text-sm font-medium w-44 shrink-0">{topic}</span>
+                <div className="flex-1 bg-muted rounded-full h-5 overflow-hidden">
+                  <div
+                    className="h-full bg-primary/80 rounded-full flex items-center justify-end pr-2 transition-all"
+                    style={{ width: `${(count / freqData[0][1]) * 100}%` }}
+                  >
+                    <span className="text-[10px] font-mono font-bold text-primary-foreground">{count}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+}
+
+function FilterBar({ topics, active, onSelect }: { topics: string[]; active: string; onSelect: (t: string) => void }) {
+  return (
+    <div className="flex gap-1.5 flex-wrap mb-4">
+      <Button variant={active === "All" ? "default" : "outline"} size="sm" className="text-xs h-7 px-3" onClick={() => onSelect("All")}>All</Button>
+      {topics.map(t => (
+        <Button key={t} variant={active === t ? "default" : "outline"} size="sm" className="text-xs h-7 px-3" onClick={() => onSelect(t)}>
+          {t}
+        </Button>
+      ))}
+    </div>
+  );
+}
+
+function Stat({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="text-center min-w-[60px]">
+      <div className="font-mono text-lg font-bold text-primary">{value}</div>
+      <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">{label}</div>
+    </div>
+  );
+}
+
+interface QuestionCardProps {
+  q: { topic: string; year: number; marks: number; tags: string[]; q: string; a: string };
+  revealed: boolean;
+  onToggle: () => void;
+  score?: Score;
+  onScore: (s: Score) => void;
+  showScoring: boolean;
+}
+
+function QuestionCard({ q, revealed, onToggle, score, onScore, showScoring }: QuestionCardProps) {
+  return (
+    <Card className="border-border">
+      <CardContent className="p-5">
+        <div className="flex items-center gap-2 flex-wrap mb-2">
+          <Badge variant="outline" className="text-[10px]">{q.topic}</Badge>
+          <span className="text-[11px] font-mono text-muted-foreground">{q.year}</span>
+          <span className="text-[11px] font-mono text-primary font-bold">{q.marks} marks</span>
+          {score && (
+            <Badge className={`text-[9px] ${score === "got" ? "bg-green-600" : score === "partial" ? "bg-amber-500" : "bg-red-500"} text-white`}>
+              {score === "got" ? "Got It" : score === "partial" ? "Partial" : "Missed"}
+            </Badge>
+          )}
+        </div>
+        <div className="flex gap-1.5 flex-wrap mb-3">
+          {q.tags.map(tag => (
+            <span key={tag} className="text-[9px] bg-muted rounded px-1.5 py-0.5 text-muted-foreground font-medium">{tag}</span>
+          ))}
+        </div>
+        <p className="text-sm leading-relaxed mb-3">{q.q}</p>
+        <Button variant="outline" size="sm" className="text-xs gap-1.5" onClick={onToggle}>
+          {revealed ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+          {revealed ? "Hide Answer" : "Show Answer"}
+        </Button>
+        {revealed && (
+          <div className="mt-4 p-4 bg-sage-bg border border-border rounded-lg">
+            <p className="text-sm font-light leading-relaxed whitespace-pre-line">{q.a}</p>
+          </div>
+        )}
+        {revealed && showScoring && (
+          <div className="flex gap-2 mt-3">
+            <Button size="sm" variant={score === "got" ? "default" : "outline"} className="text-xs gap-1 h-7" onClick={() => onScore("got")}>
+              <Check className="h-3 w-3" /> Got It
+            </Button>
+            <Button size="sm" variant={score === "partial" ? "default" : "outline"} className="text-xs gap-1 h-7" onClick={() => onScore("partial")}>
+              <Minus className="h-3 w-3" /> Partial
+            </Button>
+            <Button size="sm" variant={score === "missed" ? "default" : "outline"} className="text-xs gap-1 h-7" onClick={() => onScore("missed")}>
+              <X className="h-3 w-3" /> Missed
+            </Button>
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
