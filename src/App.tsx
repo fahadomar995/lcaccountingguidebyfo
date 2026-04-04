@@ -96,8 +96,14 @@ const App = () => (
             } />
             <Route path="/study-tools" element={<StudyToolsPage />} />
             <Route path="/ratios" element={<RatiosPage />} />
-            <Route path="/predictions" element={<PlaceholderPage title="Prediction Engine" description="Full statistical analysis and model transparency." />} />
-            <Route path="/predictions/*" element={<PlaceholderPage title="Prediction Engine" description="Full statistical analysis and model transparency." />} />
+            <Route path="/predictions" element={<PredOverview />} />
+            <Route path="/predictions/charts" element={<PredCharts />} />
+            <Route path="/predictions/interp" element={<PredInterp />} />
+            <Route path="/predictions/q1" element={<PredQ1 />} />
+            <Route path="/predictions/section3" element={<PredSection3 />} />
+            <Route path="/predictions/simulate" element={<PredSimulate />} />
+            <Route path="/predictions/model" element={<PredModel />} />
+            <Route path="/predictions/stats" element={<PredStats />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AppLayout>
