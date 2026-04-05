@@ -702,7 +702,7 @@ export const STUDY_TOOLS_DATA: StudyTool[] = [
   {
     title: "Revision Checklist",
     desc: "Track what you've covered",
-    icon: "✅",
+    icon: CheckSquare,
     content: [
       "□ Q1: Sole Trader Final Accounts",
       "□ Q1: Company Final Accounts (Published)",
