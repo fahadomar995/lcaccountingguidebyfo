@@ -1101,5 +1101,159 @@ export const Q1_ARCHETYPES: Archetype[] = [
         mistakes: []
       }
     ]
+  },
+  {
+    id: "q1-bank-recon-transposition",
+    type: "Universal",
+    name: "Bank Reconciliation — Transposition & Credit Errors",
+    year: 2023,
+    source: "ADJ (ix)",
+    totalMarks: 8,
+    category: "universal",
+    desc: "Bank statement shows transposition error in a lodgement and a credit transfer not recorded in the books.",
+    partSummary: ["Identify transposition","Credit transfer","Adjusted bank","Cashbook correction"],
+    question: `<p>The bank statement shows a lodgement of <strong>€5,430</strong> but the cashbook recorded it as <strong>€5,340</strong> (transposition error). A credit transfer of <strong>€1,200</strong> from a debtor appears on the statement but is not in the cashbook.</p>`,
+    steps: [
+      {
+        title: "Step 1 — Transposition Error",
+        marks: 2,
+        explain: "Cashbook recorded €5,340 instead of €5,430. Difference = €90. The cashbook is understated. Debit Bank (cashbook) €90.",
+        content: `<table class="w-full text-sm border-collapse"><tbody><tr><td class="p-2 border border-border">Bank statement</td><td class="p-2 border border-border text-right font-mono">5,430</td></tr><tr><td class="p-2 border border-border">Cashbook</td><td class="p-2 border border-border text-right font-mono">5,340</td></tr><tr class="font-bold bg-muted"><td class="p-2 border border-border">Correction needed (Debit Bank)</td><td class="p-2 border border-border text-right font-mono">90</td></tr></tbody></table>`,
+        mistakes: ["Adjusting the bank statement side — transposition in cashbook means fix the cashbook"]
+      },
+      {
+        title: "Step 2 — Credit Transfer",
+        marks: 2,
+        explain: "Credit transfer = debtor paid directly into bank. Bank has it, cashbook doesn't. Debit Bank €1,200, Credit Debtors €1,200.",
+        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border">Account</th><th class="p-2 border border-border">Debit</th><th class="p-2 border border-border">Credit</th></tr></thead><tbody><tr><td class="p-2 border border-border">Bank</td><td class="p-2 border border-border text-right font-mono">1,200</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Debtors</td><td class="p-2 border border-border"></td><td class="p-2 border border-border text-right font-mono">1,200</td></tr></tbody></table>`,
+        mistakes: []
+      },
+      {
+        title: "Step 3 — Effect on Cashbook",
+        marks: 2,
+        explain: "Both corrections increase the cashbook bank balance by €1,290 (90 + 1,200). Debtors decrease by €1,200.",
+        content: `<p class="text-sm"><strong>Bank (cashbook):</strong> increases by €1,290</p><p class="text-sm"><strong>Debtors:</strong> decreases by €1,200</p>`,
+        mistakes: []
+      },
+      {
+        title: "Step 4 — Reconciliation Statement",
+        marks: 2,
+        explain: "After correcting the cashbook, prepare a Bank Reconciliation Statement starting with the adjusted cashbook balance to match the bank statement.",
+        content: `<p class="text-sm">Bank Reconciliation starts with <strong>adjusted cashbook balance</strong>, then adjust for unpresented cheques (subtract) and lodgements not yet credited (add) to reach the bank statement balance.</p>`,
+        mistakes: ["Mixing up which items go in the cashbook correction vs the reconciliation statement"]
+      }
+    ]
+  },
+  {
+    id: "q1-machine-disposal-omitted",
+    type: "Manufacturing",
+    name: "Machine Disposal Completely Omitted",
+    year: 2022,
+    source: "ADJ (vii)",
+    totalMarks: 8,
+    category: "manufacturing",
+    desc: "A factory machine was sold but no entries were made. Record the full disposal from scratch.",
+    partSummary: ["Calculate NBV","Record disposal","Remove from books","P&L impact"],
+    question: `<p>A factory machine (cost <strong>€60,000</strong>) was sold for <strong>€18,000</strong>. It had been depreciated at 20% reducing balance for <strong>3 years</strong>. No entries have been made for the sale.</p>`,
+    steps: [
+      {
+        title: "Step 1 — Calculate NBV (Reducing Balance)",
+        marks: 3,
+        explain: "Year 1: 60,000 × 20% = 12,000, NBV = 48,000. Year 2: 48,000 × 20% = 9,600, NBV = 38,400. Year 3: 38,400 × 20% = 7,680, NBV = 30,720. Acc Dep = 60,000 − 30,720 = 29,280.",
+        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border">Year</th><th class="p-2 border border-border text-right">Opening NBV</th><th class="p-2 border border-border text-right">Dep (20%)</th><th class="p-2 border border-border text-right">Closing NBV</th></tr></thead><tbody><tr><td class="p-2 border border-border">1</td><td class="p-2 border border-border text-right font-mono">60,000</td><td class="p-2 border border-border text-right font-mono">12,000</td><td class="p-2 border border-border text-right font-mono">48,000</td></tr><tr><td class="p-2 border border-border">2</td><td class="p-2 border border-border text-right font-mono">48,000</td><td class="p-2 border border-border text-right font-mono">9,600</td><td class="p-2 border border-border text-right font-mono">38,400</td></tr><tr><td class="p-2 border border-border">3</td><td class="p-2 border border-border text-right font-mono">38,400</td><td class="p-2 border border-border text-right font-mono">7,680</td><td class="p-2 border border-border text-right font-mono">30,720</td></tr></tbody></table>`,
+        mistakes: ["Using straight line instead of reducing balance","Depreciating on cost each year instead of NBV"]
+      },
+      {
+        title: "Step 2 — Disposal Account",
+        marks: 2,
+        explain: "NBV = €30,720. Sold for €18,000. Loss on disposal = 30,720 − 18,000 = €12,720.",
+        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Disposal of Machine A/C</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border">Cost: 60,000</td><td class="p-2 border border-border">Acc. Dep: 29,280</td></tr><tr><td class="p-2 border border-border"></td><td class="p-2 border border-border">Bank (proceeds): 18,000</td></tr><tr><td class="p-2 border border-border"></td><td class="p-2 border border-border font-bold text-red-600">Loss: 12,720</td></tr><tr class="font-bold bg-muted"><td class="p-2 border border-border">60,000</td><td class="p-2 border border-border">60,000</td></tr></tbody></table>`,
+        mistakes: []
+      },
+      {
+        title: "Step 3 — Entries Required",
+        marks: 2,
+        explain: "Since nothing was recorded: Debit Bank €18,000 (proceeds). Credit Machinery €60,000. Debit Acc Dep €29,280. Debit Loss on Disposal €12,720 (P&L).",
+        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border">Account</th><th class="p-2 border border-border">Debit</th><th class="p-2 border border-border">Credit</th></tr></thead><tbody><tr><td class="p-2 border border-border">Bank</td><td class="p-2 border border-border text-right font-mono">18,000</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Acc. Dep — Machinery</td><td class="p-2 border border-border text-right font-mono">29,280</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Loss on Disposal (P&L)</td><td class="p-2 border border-border text-right font-mono">12,720</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Machinery (Cost)</td><td class="p-2 border border-border"></td><td class="p-2 border border-border text-right font-mono">60,000</td></tr></tbody></table>`,
+        mistakes: ["Forgetting to record the bank receipt"]
+      },
+      {
+        title: "Step 4 — P&L Placement",
+        marks: 1,
+        explain: "Loss on disposal of factory machine = €12,720. Goes to P&L as an expense (NOT Manufacturing Account — profits/losses on disposal always go to P&L).",
+        content: `<p class="text-sm"><strong>P&L — Expenses:</strong> Loss on disposal = €12,720</p><p class="text-sm"><strong>BS:</strong> Machinery cost ↓ €60,000, Acc Dep ↓ €29,280, Bank ↑ €18,000</p>`,
+        mistakes: ["Putting loss on disposal in Manufacturing Account — it goes to P&L"]
+      }
+    ]
+  },
+  {
+    id: "q1-stock-fire-insurance",
+    type: "Universal",
+    name: "Stock Destroyed by Fire + Insurance Claim",
+    year: 2022,
+    source: "ADJ (v)/(x)",
+    totalMarks: 6,
+    category: "universal",
+    desc: "Stock destroyed by fire with partial insurance compensation. Split between insured and uninsured loss.",
+    partSummary: ["Remove from stock","Insurance claim","Uninsured loss"],
+    question: `<p>Stock costing <strong>€8,500</strong> was destroyed by fire on 20/12/2024. The insurance company agreed to pay <strong>€6,000</strong>. The destroyed stock was <strong>included</strong> in the closing stock figure of €45,000.</p>`,
+    steps: [
+      {
+        title: "Step 1 — Remove Destroyed Stock",
+        marks: 2,
+        explain: "Reduce closing stock by €8,500: new closing stock = 45,000 − 8,500 = €36,500.",
+        content: `<table class="w-full text-sm border-collapse"><tbody><tr><td class="p-2 border border-border">Closing stock (per count)</td><td class="p-2 border border-border text-right font-mono">45,000</td></tr><tr><td class="p-2 border border-border">Less: Destroyed stock</td><td class="p-2 border border-border text-right font-mono">(8,500)</td></tr><tr class="font-bold bg-muted"><td class="p-2 border border-border">Adjusted closing stock</td><td class="p-2 border border-border text-right font-mono">36,500</td></tr></tbody></table>`,
+        mistakes: ["Not removing from closing stock if it was already excluded from the count"]
+      },
+      {
+        title: "Step 2 — Split Insured vs Uninsured",
+        marks: 2,
+        explain: "Insurance claim = €6,000 (Debtor — Current Asset). Uninsured loss = 8,500 − 6,000 = €2,500 (P&L expense).",
+        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border">Account</th><th class="p-2 border border-border">Debit</th><th class="p-2 border border-border">Credit</th></tr></thead><tbody><tr><td class="p-2 border border-border">Insurance Claim Due (BS — CA)</td><td class="p-2 border border-border text-right font-mono">6,000</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Loss by Fire (P&L)</td><td class="p-2 border border-border text-right font-mono">2,500</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Stock (Trading A/C)</td><td class="p-2 border border-border"></td><td class="p-2 border border-border text-right font-mono">8,500</td></tr></tbody></table>`,
+        mistakes: ["Charging the full €8,500 to P&L and ignoring the insurance"]
+      },
+      {
+        title: "Step 3 — Summary",
+        marks: 2,
+        explain: "Trading: Closing stock = €36,500. P&L: Loss by fire = €2,500. BS: Insurance claim due = €6,000 (CA). Stock = €36,500 (CA).",
+        content: `<p class="text-sm"><strong>Trading:</strong> Closing stock = €36,500</p><p class="text-sm"><strong>P&L:</strong> Loss by fire = €2,500</p><p class="text-sm"><strong>BS — CA:</strong> Insurance claim = €6,000</p>`,
+        mistakes: []
+      }
+    ]
+  },
+  {
+    id: "q1-private-debt-offset",
+    type: "Universal",
+    name: "Private Debt Offset Against Business Debt",
+    year: 2022,
+    source: "ADJ (i)",
+    totalMarks: 6,
+    category: "universal",
+    desc: "A business creditor owed money personally to the owner. The debts are offset against each other.",
+    partSummary: ["Understand the offset","Double entry","BS impact"],
+    question: `<p>T. Walsh is a creditor of the business for <strong>€3,500</strong>. Walsh owes the owner <strong>€1,500</strong> personally. It was agreed to offset the personal debt against the business debt.</p>`,
+    steps: [
+      {
+        title: "Step 1 — Understand the Offset",
+        marks: 2,
+        explain: "Business owes Walsh €3,500 (creditor). Walsh owes the owner €1,500 privately. The €1,500 private debt is set against the business debt. Net creditor = 3,500 − 1,500 = €2,000.",
+        content: `<table class="w-full text-sm border-collapse"><tbody><tr><td class="p-2 border border-border">Business debt to Walsh</td><td class="p-2 border border-border text-right font-mono">3,500</td></tr><tr><td class="p-2 border border-border">Walsh's private debt to owner</td><td class="p-2 border border-border text-right font-mono">(1,500)</td></tr><tr class="font-bold bg-muted"><td class="p-2 border border-border">Net creditor balance</td><td class="p-2 border border-border text-right font-mono">2,000</td></tr></tbody></table>`,
+        mistakes: []
+      },
+      {
+        title: "Step 2 — Double Entry",
+        marks: 2,
+        explain: "Debit Creditors €1,500 (reduce business debt). Credit Drawings €1,500 (owner used private money to reduce business liability — reverse of drawings).",
+        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border">Account</th><th class="p-2 border border-border">Debit</th><th class="p-2 border border-border">Credit</th></tr></thead><tbody><tr><td class="p-2 border border-border">Creditors</td><td class="p-2 border border-border text-right font-mono">1,500</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Drawings (or Capital introduced)</td><td class="p-2 border border-border"></td><td class="p-2 border border-border text-right font-mono">1,500</td></tr></tbody></table>`,
+        mistakes: ["Debiting the P&L — this is a BS-only adjustment, no P&L impact"]
+      },
+      {
+        title: "Step 3 — BS Impact",
+        marks: 2,
+        explain: "Creditors reduced by €1,500. Capital increases by €1,500 (or Drawings decreases). No P&L effect.",
+        content: `<p class="text-sm"><strong>BS — CL:</strong> Creditors ↓ €1,500 (Walsh now €2,000)</p><p class="text-sm"><strong>BS — Capital:</strong> Drawings ↓ €1,500 (or capital introduced ↑ €1,500)</p><p class="text-sm"><strong>P&L:</strong> No effect</p>`,
+        mistakes: []
+      }
+    ]
   }
 ];
