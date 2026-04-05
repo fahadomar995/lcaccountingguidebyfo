@@ -10,7 +10,7 @@ export interface LearnModule {
 
 export const LEARN_MODULES: LearnModule[] = [
   {
-    id: 1, title: "Correction of Errors", icon: "🔧", color: "hsl(0, 72%, 51%)",
+    id: 1, title: "Correction of Errors", icon: Wrench, color: "hsl(0, 72%, 51%)",
     lessons: [
       { title: "Types of Errors", steps: 4 },
       { title: "Suspense Account", steps: 3 },
