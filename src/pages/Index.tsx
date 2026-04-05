@@ -2,10 +2,52 @@ import { Link } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { RESULTS, SEC3_Q8_RESULTS, SEC3_Q9_RESULTS, tier } from "@/data/predictions";
+import { THEORY_BANK, THEORY_FLASHCARDS } from "@/data/theory";
+import { CLASSIFY_ITEMS, LAYOUT_FORMATS } from "@/data/studyContent";
+import { useMemo } from "react";
+
+function useDashboardStats() {
+  return useMemo(() => {
+    try {
+      // Theory scores
+      const scoresRaw = localStorage.getItem("lc-theory-scores");
+      const scores: Record<string, string> = scoresRaw ? JSON.parse(scoresRaw) : {};
+      const attempted = Object.keys(scores).length;
+      const gotCount = Object.values(scores).filter(s => s === "got").length;
+
+      // Flashcards known
+      const knownRaw = localStorage.getItem("lc-flash-known");
+      const known: string[] = knownRaw ? JSON.parse(knownRaw) : [];
+
+      // Classify best
+      const classifyBest = Number(localStorage.getItem("lc-classify-best")) || 0;
+
+      // Practice tracker
+      const trackerRaw = localStorage.getItem("lc-practice-tracker");
+      const tracker: Record<string, boolean> = trackerRaw ? JSON.parse(trackerRaw) : {};
+      const practiceCount = Object.values(tracker).filter(Boolean).length;
+
+      // Learn progress
+      const learnRaw = localStorage.getItem("lc-learn-progress");
+      const learnProgress: Record<string, boolean> = learnRaw ? JSON.parse(learnRaw) : {};
+      const modulesComplete = Object.values(learnProgress).filter(Boolean).length;
+
+      return {
+        questions: `${attempted}/${THEORY_BANK.length}`,
+        practice: attempted > 0 ? `${Math.round((gotCount / attempted) * 100)}%` : "0%",
+        flashcards: `${known.length}/${THEORY_FLASHCARDS.length}`,
+        classify: `${classifyBest}%`,
+        tracker: `${practiceCount}`,
+      };
+    } catch {
+      return { questions: "0", practice: "0%", flashcards: "0", classify: "0%", tracker: "0" };
+    }
+  }, []);
+}
 
 const TOOLS = [
-  { href: "/theory", name: "Theory Revision", desc: "Past exam theory questions with marking scheme answers. Practice mode, flashcards, frequency analysis.", stat: "113+ questions", color: "bg-sage-bg border-sage" },
-  { href: "/study-tools", name: "Study Tools", desc: "Exam timing calculator, study planner, mark allocation, checklists.", stat: "8 revision tools", color: "bg-blue-bg border-blue" },
+  { href: "/theory", name: "Theory Revision", desc: "Past exam theory questions with marking scheme answers. Practice mode, flashcards, frequency analysis.", stat: `${THEORY_BANK.length}+ questions`, color: "bg-sage-bg border-sage" },
+  { href: "/study-tools", name: "Study Tools", desc: "Exam timing calculator, study planner, practice tracker, checklists.", stat: "3 interactive tools", color: "bg-blue-bg border-blue" },
   { href: "/q1-guide", name: "Q1 Adjustment Guide", desc: "Complete reference for every Q1 adjustment type. Filterable by account type.", stat: "Filterable by type", color: "bg-rose-bg border-rose" },
   { href: "/ratios", name: "Q5 Ratios Hub", desc: "Practice papers, formula quiz, Part (b) report guide, sector notes.", stat: "5 papers, 19 formulas", color: "bg-lavender-bg border-lavender" },
 ];
@@ -17,6 +59,7 @@ const Q1_PAIRS = [
 ];
 
 export default function Index() {
+  const stats = useDashboardStats();
   const shown = RESULTS.filter(r => !r.wildcard).slice(0, 5);
   const q8top = SEC3_Q8_RESULTS.slice(0, 3);
   const q9top = SEC3_Q9_RESULTS.slice(0, 3);
@@ -38,11 +81,11 @@ export default function Index() {
         <CardContent className="p-4 sm:p-5">
           <div className="flex flex-wrap gap-5 justify-center">
             {[
-              { label: "Questions", value: "0" },
-              { label: "Practice", value: "0%" },
-              { label: "Flashcards", value: "0" },
-              { label: "Classify", value: "0%" },
-              { label: "Modules", value: "0/5" },
+              { label: "Questions", value: stats.questions },
+              { label: "Score", value: stats.practice },
+              { label: "Flashcards", value: stats.flashcards },
+              { label: "Classify", value: stats.classify },
+              { label: "Practice", value: stats.tracker },
             ].map(item => (
               <div key={item.label} className="text-center min-w-[70px]">
                 <div className="font-mono text-xl font-bold text-primary">{item.value}</div>
@@ -173,8 +216,8 @@ export default function Index() {
           { to: "/ratios", label: "Q5 Ratios Hub" },
           { to: "/q8-costing", label: "Q8 Costing (27)" },
           { to: "/q9-budgeting", label: "Q9 Budgeting (24)" },
-          { to: "/layouts", label: "Layout Practice (11)" },
-          { to: "/classify", label: "Classify (141 Items)" },
+          { to: "/layouts", label: `Layout Practice (${LAYOUT_FORMATS.length})` },
+          { to: "/classify", label: `Classify (${CLASSIFY_ITEMS.length} Items)` },
           { to: "/formulas", label: "Formula Cheat Sheet" },
         ].map(link => (
           <Link
