@@ -12,18 +12,24 @@ interface WorkingsPageProps {
   accentColor: string;
   archetypes: Archetype[];
   categories: { key: string; label: string }[];
+  categoryColors?: Record<string, string>;
 }
 
-export default function WorkingsPage({ title, subtitle, sectionLabel, accentColor, archetypes, categories }: WorkingsPageProps) {
+const DEFAULT_CATEGORY_COLORS: Record<string, string> = {};
+
+export default function WorkingsPage({ title, subtitle, sectionLabel, accentColor, archetypes, categories, categoryColors = DEFAULT_CATEGORY_COLORS }: WorkingsPageProps) {
   const [filter, setFilter] = useState("all");
   const [activeArch, setActiveArch] = useState<Archetype | null>(null);
   const [currentStep, setCurrentStep] = useState(0);
 
   const filtered = filter === "all" ? archetypes : archetypes.filter(a => a.category === filter);
 
+  const getCatColor = (category: string) => categoryColors[category] || accentColor;
+
   if (activeArch) {
     const step = activeArch.steps[currentStep];
     const progress = ((currentStep + 1) / activeArch.steps.length) * 100;
+    const archColor = getCatColor(activeArch.category);
 
     return (
       <div className="max-w-[960px] mx-auto px-4 sm:px-7 py-6 pb-16">
@@ -32,15 +38,23 @@ export default function WorkingsPage({ title, subtitle, sectionLabel, accentColo
           <Button variant="outline" size="sm" className="text-xs gap-1" onClick={() => { setActiveArch(null); setCurrentStep(0); }}>
             <ArrowLeft className="h-3.5 w-3.5" /> Back
           </Button>
-          <div>
-            <h2 className="font-display text-lg font-bold">{activeArch.name}</h2>
+          <div className="flex-1">
+            <div className="flex items-center gap-2 mb-0.5">
+              <h2 className="font-display text-lg font-bold">{activeArch.name}</h2>
+              <span
+                className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full text-white"
+                style={{ background: archColor }}
+              >
+                {activeArch.type}
+              </span>
+            </div>
             <p className="text-xs text-muted-foreground">{activeArch.source} · {activeArch.totalMarks} marks</p>
           </div>
         </div>
 
         {/* Progress bar */}
         <div className="h-1 bg-muted rounded-full overflow-hidden mb-5">
-          <div className="h-full rounded-full transition-all duration-400" style={{ width: `${progress}%`, background: accentColor }} />
+          <div className="h-full rounded-full transition-all duration-400" style={{ width: `${progress}%`, background: archColor }} />
         </div>
 
         {/* Question panel */}
@@ -64,7 +78,7 @@ export default function WorkingsPage({ title, subtitle, sectionLabel, accentColo
                   ? "bg-green-600 text-white border-green-600"
                   : "border-border text-muted-foreground hover:border-primary"
               }`}
-              style={i === currentStep ? { background: accentColor, borderColor: accentColor } : {}}
+              style={i === currentStep ? { background: archColor, borderColor: archColor } : {}}
             >
               {i + 1}
             </button>
@@ -75,7 +89,7 @@ export default function WorkingsPage({ title, subtitle, sectionLabel, accentColo
         <Card className="mb-4 border-border overflow-hidden">
           <div className="bg-muted/50 border-b border-border px-5 py-3 flex justify-between items-center">
             <h4 className="font-display text-sm font-bold">{step.title}</h4>
-            <Badge variant="outline" className="font-mono text-xs" style={{ color: accentColor, borderColor: accentColor + "44" }}>
+            <Badge variant="outline" className="font-mono text-xs" style={{ color: archColor, borderColor: archColor + "44" }}>
               {typeof step.marks === "number" ? `${step.marks} marks` : step.marks}
             </Badge>
           </div>
@@ -85,8 +99,8 @@ export default function WorkingsPage({ title, subtitle, sectionLabel, accentColo
               {step.explain}
             </div>
 
-            {/* Content (HTML tables etc.) */}
-            <div className="prose prose-sm max-w-none dark:prose-invert overflow-x-auto" dangerouslySetInnerHTML={{ __html: step.content }} />
+            {/* Content (HTML tables / T-accounts) */}
+            <div className="prose prose-sm max-w-none dark:prose-invert overflow-x-auto t-accounts-container" dangerouslySetInnerHTML={{ __html: step.content }} />
 
             {/* Common mistakes */}
             {step.mistakes.length > 0 && (
@@ -108,7 +122,7 @@ export default function WorkingsPage({ title, subtitle, sectionLabel, accentColo
             <ChevronLeft className="h-3.5 w-3.5" /> Previous
           </Button>
           <span className="text-xs text-muted-foreground font-mono">Step {currentStep + 1} of {activeArch.steps.length}</span>
-          <Button size="sm" className="text-xs gap-1" style={{ background: accentColor }} onClick={() => {
+          <Button size="sm" className="text-xs gap-1" style={{ background: archColor }} onClick={() => {
             if (currentStep < activeArch.steps.length - 1) {
               setCurrentStep(currentStep + 1);
             } else {
@@ -140,51 +154,65 @@ export default function WorkingsPage({ title, subtitle, sectionLabel, accentColo
             <Badge variant="outline" className="text-[9px]">Real SEC Data</Badge>
             <Badge variant="outline" className="text-[9px]">Mark Allocations</Badge>
             <Badge variant="outline" className="text-[9px]">Step by Step</Badge>
+            <Badge variant="outline" className="text-[9px]">T-Accounts</Badge>
           </div>
         </CardContent>
       </Card>
 
       {/* Filter bar */}
       <div className="flex gap-1.5 flex-wrap mb-5">
-        {categories.map(cat => (
-          <Button
-            key={cat.key}
-            variant={filter === cat.key ? "default" : "outline"}
-            size="sm"
-            className="text-xs h-7 px-3"
-            onClick={() => setFilter(cat.key)}
-            style={filter === cat.key ? { background: accentColor } : {}}
-          >
-            {cat.label}
-          </Button>
-        ))}
+        {categories.map(cat => {
+          const catColor = cat.key === "all" ? accentColor : getCatColor(cat.key);
+          return (
+            <Button
+              key={cat.key}
+              variant={filter === cat.key ? "default" : "outline"}
+              size="sm"
+              className="text-xs h-7 px-3"
+              onClick={() => setFilter(cat.key)}
+              style={filter === cat.key ? { background: catColor } : {}}
+            >
+              {cat.label}
+            </Button>
+          );
+        })}
       </div>
 
       {/* Archetype grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {filtered.map(arch => (
-          <Card
-            key={arch.id}
-            className="cursor-pointer border-t-4 hover:shadow-md hover:-translate-y-0.5 transition-all"
-            style={{ borderTopColor: accentColor }}
-            onClick={() => { setActiveArch(arch); setCurrentStep(0); }}
-          >
-            <CardContent className="p-5">
-              <div className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground mb-1">{arch.type}</div>
-              <h3 className="font-display text-sm font-bold mb-1">{arch.name}</h3>
-              <p className="font-mono text-[11px] mb-2" style={{ color: accentColor }}>{arch.source} · {arch.totalMarks} marks</p>
-              <p className="text-xs text-muted-foreground font-light leading-relaxed mb-3">{arch.desc}</p>
-              <div className="flex gap-1.5 flex-wrap">
-                {arch.partSummary.slice(0, 3).map(p => (
-                  <span key={p} className="text-[9px] bg-muted rounded px-1.5 py-0.5 text-muted-foreground font-medium">{p}</span>
-                ))}
-                {arch.partSummary.length > 3 && (
-                  <span className="text-[9px] bg-muted rounded px-1.5 py-0.5 text-muted-foreground font-medium">+{arch.partSummary.length - 3} more</span>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+        {filtered.map(arch => {
+          const cardColor = getCatColor(arch.category);
+          return (
+            <Card
+              key={arch.id}
+              className="cursor-pointer border-t-4 hover:shadow-md hover:-translate-y-0.5 transition-all"
+              style={{ borderTopColor: cardColor }}
+              onClick={() => { setActiveArch(arch); setCurrentStep(0); }}
+            >
+              <CardContent className="p-5">
+                <div className="flex items-center gap-2 mb-1">
+                  <span
+                    className="text-[8px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full text-white"
+                    style={{ background: cardColor }}
+                  >
+                    {arch.type}
+                  </span>
+                </div>
+                <h3 className="font-display text-sm font-bold mb-1">{arch.name}</h3>
+                <p className="font-mono text-[11px] mb-2" style={{ color: cardColor }}>{arch.source} · {arch.totalMarks} marks</p>
+                <p className="text-xs text-muted-foreground font-light leading-relaxed mb-3">{arch.desc}</p>
+                <div className="flex gap-1.5 flex-wrap">
+                  {arch.partSummary.slice(0, 3).map(p => (
+                    <span key={p} className="text-[9px] bg-muted rounded px-1.5 py-0.5 text-muted-foreground font-medium">{p}</span>
+                  ))}
+                  {arch.partSummary.length > 3 && (
+                    <span className="text-[9px] bg-muted rounded px-1.5 py-0.5 text-muted-foreground font-medium">+{arch.partSummary.length - 3} more</span>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
     </div>
   );

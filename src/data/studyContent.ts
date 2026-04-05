@@ -674,16 +674,16 @@ export interface StudyTool {
 export const STUDY_TOOLS_DATA: StudyTool[] = [
   {
     title: "Exam Timing Guide",
-    desc: "How to allocate your 2.5 hours across all sections",
+    desc: "How to allocate your 3 hours across all sections",
     icon: Clock,
     content: [
-      "Section 1 — Q1 (120 marks): 45 minutes maximum",
-      "Section 2 — Q2-Q7 pick 2 (100 marks each): 35 minutes each = 70 minutes",
-      "Section 3 — Q8 or Q9 (80 marks): 30 minutes",
-      "Reading & checking time: 5 minutes",
-      "Total: 2 hours 30 minutes",
+      "Total exam time: 3 hours (180 minutes)",
+      "Section 1 — Q1 (120 marks): 54 minutes",
+      "Section 2 — Pick 2 from Q2–Q7 (100 marks each): 46 minutes each = 92 minutes",
+      "Section 3 — Q8 or Q9 (80 marks): 34 minutes",
+      "Total: 54 + 92 + 34 = 180 minutes (3 hours)",
       "TIP: Start with Q1 — it's worth the most marks and is the most predictable",
-      "TIP: Don't spend more than 45 mins on Q1 — you need time for the rest"
+      "TIP: Don't spend more than 54 mins on Q1 — you need time for the rest"
     ]
   },
   {

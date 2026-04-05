@@ -2,12 +2,18 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { STUDY_TOOLS_DATA } from "@/data/studyContent";
 
 const YEARS = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025];
 const QUESTIONS = ["Q1","Q2","Q3","Q4","Q5","Q6","Q7","Q8","Q9"];
+
+const TIMING_SECTIONS = [
+  { label: "Section 1 — Q1", marks: 120, minutes: 54, color: "hsl(142, 72%, 29%)" },
+  { label: "Section 2 — Question A", marks: 100, minutes: 46, color: "hsl(217, 91%, 60%)" },
+  { label: "Section 2 — Question B", marks: 100, minutes: 46, color: "hsl(217, 91%, 60%)" },
+  { label: "Section 3 — Q8 or Q9", marks: 80, minutes: 34, color: "hsl(38, 92%, 50%)" },
+];
 
 export default function StudyToolsPage() {
   const [expanded, setExpanded] = useState<Set<number>>(new Set([0]));
@@ -84,69 +90,69 @@ export default function StudyToolsPage() {
         </div>
       )}
 
-      {activeTab === "timing" && <ExamTimingCalculator />}
+      {activeTab === "timing" && <ExamTimingDisplay />}
       {activeTab === "tracker" && <PracticeTracker />}
     </div>
   );
 }
 
-function ExamTimingCalculator() {
-  const [marks, setMarks] = useState<Record<string, number>>({
-    q1: 120, q2: 100, q3: 100, q8: 80,
-  });
-
-  const totalMarks = 400;
-  const totalMinutes = 150;
-  const readingTime = 5;
-  const workingMinutes = totalMinutes - readingTime;
-
-  const getTime = (m: number) => Math.round((m / totalMarks) * workingMinutes);
+function ExamTimingDisplay() {
+  const totalMinutes = 180;
 
   return (
     <Card className="border-border">
       <CardContent className="p-5">
-        <h3 className="font-display text-base font-bold mb-1">Exam Timing Calculator</h3>
-        <p className="text-xs text-muted-foreground mb-4">
-          Total: {totalMinutes} minutes (2h 30m). Reading time: {readingTime} min. Working time: {workingMinutes} min.
-        </p>
-        <p className="text-xs text-muted-foreground mb-4">
-          Formula: (marks ÷ {totalMarks}) × {workingMinutes} min
+        <h3 className="font-display text-base font-bold mb-1">Exam Timing — 3 Hours (180 Minutes)</h3>
+        <p className="text-xs text-muted-foreground mb-5">
+          Fixed recommended time allocations based on mark weighting. Stick to these and you'll finish with time to check.
         </p>
 
-        <div className="space-y-3">
-          {[
-            { key: "q1", label: "Q1 (Section 1)", defaultMarks: 120 },
-            { key: "q2", label: "Section 2 — Question A", defaultMarks: 100 },
-            { key: "q3", label: "Section 2 — Question B", defaultMarks: 100 },
-            { key: "q8", label: "Section 3 (Q8 or Q9)", defaultMarks: 80 },
-          ].map(q => (
-            <div key={q.key} className="flex items-center gap-3">
-              <span className="text-xs font-medium w-40 shrink-0">{q.label}</span>
-              <Input
-                type="number"
-                className="w-20 h-8 text-xs"
-                value={marks[q.key]}
-                onChange={e => setMarks(prev => ({ ...prev, [q.key]: Number(e.target.value) || 0 }))}
-              />
-              <span className="text-xs text-muted-foreground">marks →</span>
-              <Badge variant="outline" className="font-mono text-xs">
-                {getTime(marks[q.key])} min
-              </Badge>
+        <div className="space-y-3 mb-5">
+          {TIMING_SECTIONS.map((s, i) => (
+            <div key={i} className="flex items-center gap-3">
+              <span className="text-xs font-medium w-44 shrink-0">{s.label}</span>
+              <div className="flex-1 bg-muted rounded-full h-7 overflow-hidden">
+                <div
+                  className="h-full rounded-full flex items-center justify-end pr-3 transition-all"
+                  style={{ width: `${(s.minutes / totalMinutes) * 100}%`, background: s.color }}
+                >
+                  <span className="text-[10px] font-mono font-bold text-white">{s.minutes} min</span>
+                </div>
+              </div>
+              <Badge variant="outline" className="font-mono text-xs shrink-0">{s.marks} marks</Badge>
             </div>
           ))}
         </div>
 
-        <div className="mt-4 pt-4 border-t border-border">
-          <div className="flex items-center gap-3">
-            <span className="text-xs font-bold w-40">Total Allocated</span>
-            <Badge className="font-mono text-xs">
-              {Object.values(marks).reduce((s, m) => s + getTime(m), 0)} min + {readingTime} min reading = {Object.values(marks).reduce((s, m) => s + getTime(m), 0) + readingTime} min
-            </Badge>
+        <div className="border-t border-border pt-4">
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-bold">Total</span>
+            <div className="flex gap-3">
+              <Badge className="font-mono text-xs">180 min</Badge>
+              <Badge variant="outline" className="font-mono text-xs">400 marks</Badge>
+            </div>
           </div>
         </div>
 
+        {/* Visual timeline */}
+        <div className="mt-5 flex rounded-lg overflow-hidden h-8">
+          {TIMING_SECTIONS.map((s, i) => (
+            <div
+              key={i}
+              className="flex items-center justify-center text-[9px] font-bold text-white"
+              style={{ width: `${(s.minutes / totalMinutes) * 100}%`, background: s.color }}
+            >
+              {s.minutes}m
+            </div>
+          ))}
+        </div>
+        <div className="flex justify-between mt-1">
+          <span className="text-[9px] text-muted-foreground">0 min</span>
+          <span className="text-[9px] text-muted-foreground">180 min</span>
+        </div>
+
         <div className="mt-4 p-3 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded text-xs">
-          <strong className="text-amber-700 dark:text-amber-400">TIP:</strong> Don't spend more than 45 minutes on Q1. Move on even if not finished — marks per minute drop sharply after the main workings.
+          <strong className="text-amber-700 dark:text-amber-400">TIP:</strong> Don't spend more than 54 minutes on Q1. Move on even if not finished — marks per minute drop sharply after the main workings.
         </div>
       </CardContent>
     </Card>

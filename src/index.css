@@ -137,3 +137,44 @@
 .font-body {
   font-family: 'DM Sans', sans-serif;
 }
+
+/* ═══ T-Account Styles ═══ */
+.t-accounts-container table {
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+}
+
+.t-accounts-container table thead tr.bg-muted {
+  background: hsl(var(--muted));
+}
+
+.t-accounts-container table thead tr.bg-muted th {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.5rem 0.75rem;
+  text-align: center;
+  border-bottom: 2px solid hsl(var(--border));
+}
+
+.t-accounts-container table td {
+  padding: 0.4rem 0.75rem;
+  border: 1px solid hsl(var(--border));
+  font-size: 0.8rem;
+}
+
+.t-accounts-container table td.text-right {
+  text-align: right;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.t-accounts-container table tr.font-bold.bg-muted {
+  background: hsl(var(--muted));
+}
+
+.t-accounts-container table tr.font-bold td {
+  font-weight: 700;
+  border-top: 2px solid hsl(var(--foreground) / 0.3);
+}
