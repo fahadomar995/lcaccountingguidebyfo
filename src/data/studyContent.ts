@@ -1,7 +1,9 @@
+import { Wrench, Landmark, Briefcase, BarChart3, Banknote, Clock, PieChart, CheckSquare, CalendarDays, type LucideIcon } from "lucide-react";
+
 export interface LearnModule {
   id: number;
   title: string;
-  icon: string;
+  icon: LucideIcon;
   lessons: { title: string; steps: number }[];
   color: string;
 }
