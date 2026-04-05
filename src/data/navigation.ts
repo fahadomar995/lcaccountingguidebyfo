@@ -1,7 +1,7 @@
 import {
   Home, BookOpen, GraduationCap, Layers, FileText, Calculator,
   ClipboardList, BarChart3, PenTool, Grid3X3, HelpCircle,
-  Factory, Coins, Wrench, TrendingUp
+  Factory, Coins, Wrench, TrendingUp, Mail
 } from "lucide-react";
 
 export interface NavItem {
@@ -52,6 +52,7 @@ export const NAV_SECTIONS: NavSection[] = [
     items: [
       { title: "Study Tools", url: "/study-tools", icon: Wrench },
       { title: "Q5 Ratios", url: "/ratios", icon: BarChart3 },
+      { title: "Contact", url: "/contact", icon: Mail },
     ],
   },
 ];

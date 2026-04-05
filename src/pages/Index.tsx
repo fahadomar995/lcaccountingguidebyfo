@@ -204,6 +204,61 @@ export default function Index() {
         })}
       </div>
 
+      {/* Patch Notes */}
+      <SectionHeader title="Patch Notes" sub="Recent updates and improvements to the study guide." />
+      <div className="space-y-3 mb-8">
+        {[
+          { version: "v2.4", date: "5 Apr 2026", items: ["Rebuilt Learn Mode with original 5-module layout, interactive quizzes, fill-in practice", "Added sequential T-account reveal to all Workings pages", "Theory Practice Mode revamped with self-scoring quiz flow"] },
+          { version: "v2.3", date: "28 Mar 2026", items: ["Q8 Costing & Q9 Budgeting full question walkthroughs added", "Section 2 Workings expanded to 37 archetypes", "Prediction engine updated with 2025 paper data"] },
+          { version: "v2.2", date: "15 Mar 2026", items: ["Q1 Adjustment Guide with filterable categories", "Classify game for BS/P&L item classification", "Formula cheat sheet with all key formulas"] },
+          { version: "v2.1", date: "1 Mar 2026", items: ["Dark mode support", "Q5 Ratios Hub with practice papers and formula quiz", "Study planner and exam timing calculator"] },
+        ].map(patch => (
+          <Card key={patch.version} className="border-border">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="font-mono text-xs font-bold text-primary bg-primary/10 px-2 py-0.5 rounded">{patch.version}</span>
+                <span className="text-[10px] text-muted-foreground font-mono">{patch.date}</span>
+              </div>
+              <ul className="space-y-1">
+                {patch.items.map((item, j) => (
+                  <li key={j} className="text-xs text-muted-foreground font-light leading-relaxed flex items-start gap-1.5">
+                    <span className="text-primary mt-0.5 shrink-0">•</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {/* Coming Soon */}
+      <SectionHeader title="Coming Soon" sub="Features currently in development." />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-10">
+        {[
+          { title: "Q1 Full Walkthrough", desc: "Step-by-step guide to completing a full Q1 final account from start to finish, integrated into Learn Mode.", status: "In Progress" },
+          { title: "Timed Mock Exams", desc: "Full exam simulations with real past papers, auto-timing, and score tracking.", status: "Planned" },
+          { title: "Marking Scheme Viewer", desc: "Side-by-side view of questions and official SEC marking schemes with annotations.", status: "Planned" },
+          { title: "Mobile App (PWA)", desc: "Install as an app on your phone for offline access to all study materials.", status: "Planned" },
+        ].map(item => (
+          <Card key={item.title} className="border-border border-dashed">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-2 mb-1.5">
+                <h3 className="text-sm font-bold">{item.title}</h3>
+                <Badge variant="outline" className={`text-[9px] px-2 py-0 ${
+                  item.status === "In Progress"
+                    ? "text-primary border-primary/30 bg-primary/5"
+                    : "text-muted-foreground border-border"
+                }`}>
+                  {item.status}
+                </Badge>
+              </div>
+              <p className="text-xs text-muted-foreground font-light leading-relaxed">{item.desc}</p>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
       {/* Quick Links */}
       <div className="flex flex-wrap gap-2 mb-6">
         {[
@@ -219,6 +274,7 @@ export default function Index() {
           { to: "/layouts", label: `Layout Practice (${LAYOUT_FORMATS.length})` },
           { to: "/classify", label: `Classify (${CLASSIFY_ITEMS.length} Items)` },
           { to: "/formulas", label: "Formula Cheat Sheet" },
+          { to: "/contact", label: "Contact & Feedback" },
         ].map(link => (
           <Link
             key={link.to}
