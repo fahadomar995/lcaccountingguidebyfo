@@ -55,7 +55,7 @@ export const LEARN_MODULES: LearnModule[] = [
     ]
   },
   {
-    id: 5, title: "Cash Flow Statement", icon: "💰", color: "hsl(38, 92%, 50%)",
+    id: 5, title: "Cash Flow Statement", icon: Banknote, color: "hsl(38, 92%, 50%)",
     lessons: [
       { title: "Cash vs Profit", steps: 3 },
       { title: "Operating Activities", steps: 4 },
