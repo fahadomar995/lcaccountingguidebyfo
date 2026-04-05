@@ -385,3 +385,66 @@ table.acct td.l.blank {
   font-size: 0.8rem;
   line-height: 1.7;
 }
+
+/* ═══ T-Account styling ═══ */
+.tacct {
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background: hsl(var(--card));
+}
+.tacct-title {
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding: 0.4rem 0.75rem;
+  border-bottom: 2px solid hsl(var(--foreground));
+  background: hsl(var(--muted) / 0.5);
+  font-family: 'DM Sans', sans-serif;
+}
+.tacct-body {
+  display: flex;
+  min-height: 2.5rem;
+}
+.tacct-side {
+  flex: 1;
+  padding: 0.25rem 0;
+}
+.tacct-divider {
+  width: 1px;
+  background: hsl(var(--foreground));
+}
+.tacct-hdr {
+  font-weight: 700;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.2rem 0.6rem;
+  color: hsl(var(--muted-foreground));
+  border-bottom: 1px solid hsl(var(--border));
+}
+.tacct-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.78rem;
+  gap: 0.5rem;
+  transition: background 0.4s, opacity 0.4s;
+}
+.tacct-row.tacct-empty { visibility: hidden; }
+.tacct-label { flex: 1; }
+.tacct-amt { font-family: 'JetBrains Mono', monospace; font-weight: 600; white-space: nowrap; }
+.tacct-new {
+  background: hsl(var(--primary) / 0.12);
+  animation: tacctFadeIn 0.5s ease-out;
+}
+@keyframes tacctFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.tacct-total .tacct-amt { border-top: 1px solid hsl(var(--foreground)); border-bottom: 3px double hsl(var(--foreground)); }
+.tacct-total { font-weight: 700; margin-top: 0.15rem; }
+.tacct-balance { font-weight: 700; color: hsl(var(--primary)); }
+.tacct-loss { color: hsl(0 62% 50%); font-weight: 600; }
+.tacct-profit { color: hsl(135 40% 40%); font-weight: 600; }

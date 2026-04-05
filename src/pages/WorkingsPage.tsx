@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ChevronLeft, ChevronRight, AlertTriangle } from "lucide-react";
+import { ArrowLeft, ChevronLeft, ChevronRight, AlertTriangle, Plus } from "lucide-react";
 import type { Archetype } from "@/data/archetypes";
+import { TAccountPanel, getMaxOrderForStep } from "@/components/TAccount";
+import { T_ACCOUNT_DEFS } from "@/data/tAccountDefs";
 
 interface WorkingsPageProps {
   title: string;
@@ -21,10 +23,25 @@ export default function WorkingsPage({ title, subtitle, sectionLabel, accentColo
   const [filter, setFilter] = useState("all");
   const [activeArch, setActiveArch] = useState<Archetype | null>(null);
   const [currentStep, setCurrentStep] = useState(0);
+  const [revealedInStep, setRevealedInStep] = useState(0);
 
   const filtered = filter === "all" ? archetypes : archetypes.filter(a => a.category === filter);
-
   const getCatColor = (category: string) => categoryColors[category] || accentColor;
+
+  // T-account data for the active archetype
+  const tAccounts = activeArch ? T_ACCOUNT_DEFS[activeArch.id] : undefined;
+  const maxOrderInStep = useMemo(() => {
+    if (!tAccounts) return 0;
+    return getMaxOrderForStep(tAccounts, currentStep);
+  }, [tAccounts, currentStep]);
+
+  const hasMoreEntries = tAccounts && revealedInStep < maxOrderInStep;
+
+  const goToStep = (step: number) => {
+    // Auto-reveal all remaining entries for current step before advancing
+    setCurrentStep(step);
+    setRevealedInStep(0);
+  };
 
   if (activeArch) {
     const step = activeArch.steps[currentStep];
@@ -35,16 +52,13 @@ export default function WorkingsPage({ title, subtitle, sectionLabel, accentColo
       <div className="max-w-[960px] mx-auto px-4 sm:px-7 py-6 pb-16">
         {/* Header */}
         <div className="flex items-center gap-3 mb-4">
-          <Button variant="outline" size="sm" className="text-xs gap-1" onClick={() => { setActiveArch(null); setCurrentStep(0); }}>
+          <Button variant="outline" size="sm" className="text-xs gap-1" onClick={() => { setActiveArch(null); setCurrentStep(0); setRevealedInStep(0); }}>
             <ArrowLeft className="h-3.5 w-3.5" /> Back
           </Button>
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-0.5">
               <h2 className="font-display text-lg font-bold">{activeArch.name}</h2>
-              <span
-                className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full text-white"
-                style={{ background: archColor }}
-              >
+              <span className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full text-white" style={{ background: archColor }}>
                 {activeArch.type}
               </span>
             </div>
@@ -65,12 +79,37 @@ export default function WorkingsPage({ title, subtitle, sectionLabel, accentColo
           </CardContent>
         </Card>
 
+        {/* T-Account Panel (persistent, builds up) */}
+        {tAccounts && (
+          <Card className="mb-5 border-border overflow-hidden">
+            <div className="bg-muted/50 border-b border-border px-5 py-2 flex items-center justify-between">
+              <h4 className="font-display text-xs font-bold uppercase tracking-wider text-muted-foreground">T-Accounts</h4>
+              {hasMoreEntries && (
+                <Button
+                  size="sm"
+                  className="text-xs gap-1 h-7"
+                  style={{ background: archColor }}
+                  onClick={() => setRevealedInStep(revealedInStep + 1)}
+                >
+                  <Plus className="h-3 w-3" /> Show Next Entry
+                </Button>
+              )}
+              {!hasMoreEntries && maxOrderInStep > 0 && (
+                <span className="text-[10px] text-muted-foreground font-medium">All entries shown ✓</span>
+              )}
+            </div>
+            <CardContent className="p-4">
+              <TAccountPanel accounts={tAccounts} currentStep={currentStep} revealedInStep={revealedInStep} />
+            </CardContent>
+          </Card>
+        )}
+
         {/* Step dots */}
         <div className="flex gap-1.5 flex-wrap mb-5">
           {activeArch.steps.map((s, i) => (
             <button
               key={i}
-              onClick={() => setCurrentStep(i)}
+              onClick={() => goToStep(i)}
               className={`w-9 h-9 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all ${
                 i === currentStep
                   ? "text-white border-primary"
@@ -99,7 +138,7 @@ export default function WorkingsPage({ title, subtitle, sectionLabel, accentColo
               {step.explain}
             </div>
 
-            {/* Content (HTML tables / T-accounts) */}
+            {/* Content (HTML tables / fallback for workings without T-accounts) */}
             <div className="prose prose-sm max-w-none dark:prose-invert overflow-x-auto t-accounts-container" dangerouslySetInnerHTML={{ __html: step.content }} />
 
             {/* Common mistakes */}
@@ -118,16 +157,17 @@ export default function WorkingsPage({ title, subtitle, sectionLabel, accentColo
 
         {/* Step navigation */}
         <div className="flex justify-between items-center pt-2 border-t border-border">
-          <Button variant="outline" size="sm" className="text-xs gap-1" disabled={currentStep === 0} onClick={() => setCurrentStep(currentStep - 1)}>
+          <Button variant="outline" size="sm" className="text-xs gap-1" disabled={currentStep === 0} onClick={() => goToStep(currentStep - 1)}>
             <ChevronLeft className="h-3.5 w-3.5" /> Previous
           </Button>
           <span className="text-xs text-muted-foreground font-mono">Step {currentStep + 1} of {activeArch.steps.length}</span>
           <Button size="sm" className="text-xs gap-1" style={{ background: archColor }} onClick={() => {
             if (currentStep < activeArch.steps.length - 1) {
-              setCurrentStep(currentStep + 1);
+              goToStep(currentStep + 1);
             } else {
               setActiveArch(null);
               setCurrentStep(0);
+              setRevealedInStep(0);
             }
           }}>
             {currentStep < activeArch.steps.length - 1 ? "Next" : "Finish"} <ChevronRight className="h-3.5 w-3.5" />
@@ -148,13 +188,13 @@ export default function WorkingsPage({ title, subtitle, sectionLabel, accentColo
         <CardContent className="p-5">
           <h2 className="font-display text-base font-bold mb-1.5">Learn by Doing Full Exam Questions</h2>
           <p className="text-xs text-muted-foreground font-light leading-relaxed">
-            Each walkthrough uses real SEC data with mark allocations from the official marking scheme. Click any question type below to start.
+            Each walkthrough uses real SEC data with mark allocations from the official marking scheme. T-account entries appear sequentially — click "Show Next Entry" to build each account step by step.
           </p>
           <div className="flex gap-1.5 mt-3 flex-wrap">
             <Badge variant="outline" className="text-[9px]">Real SEC Data</Badge>
             <Badge variant="outline" className="text-[9px]">Mark Allocations</Badge>
+            <Badge variant="outline" className="text-[9px]">Sequential T-Accounts</Badge>
             <Badge variant="outline" className="text-[9px]">Step by Step</Badge>
-            <Badge variant="outline" className="text-[9px]">T-Accounts</Badge>
           </div>
         </CardContent>
       </Card>
@@ -182,21 +222,24 @@ export default function WorkingsPage({ title, subtitle, sectionLabel, accentColo
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {filtered.map(arch => {
           const cardColor = getCatColor(arch.category);
+          const hasTAccounts = !!T_ACCOUNT_DEFS[arch.id];
           return (
             <Card
               key={arch.id}
               className="cursor-pointer border-t-4 hover:shadow-md hover:-translate-y-0.5 transition-all"
               style={{ borderTopColor: cardColor }}
-              onClick={() => { setActiveArch(arch); setCurrentStep(0); }}
+              onClick={() => { setActiveArch(arch); setCurrentStep(0); setRevealedInStep(0); }}
             >
               <CardContent className="p-5">
                 <div className="flex items-center gap-2 mb-1">
-                  <span
-                    className="text-[8px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full text-white"
-                    style={{ background: cardColor }}
-                  >
+                  <span className="text-[8px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full text-white" style={{ background: cardColor }}>
                     {arch.type}
                   </span>
+                  {hasTAccounts && (
+                    <span className="text-[8px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full bg-primary/10 text-primary">
+                      T-Accounts
+                    </span>
+                  )}
                 </div>
                 <h3 className="font-display text-sm font-bold mb-1">{arch.name}</h3>
                 <p className="font-mono text-[11px] mb-2" style={{ color: cardColor }}>{arch.source} · {arch.totalMarks} marks</p>

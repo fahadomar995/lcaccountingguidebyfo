@@ -1,11 +1,11 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { THEORY_BANK, THEORY_FLASHCARDS, THEORY_TOPICS } from "@/data/theory";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { Eye, EyeOff, RotateCcw, Check, X, Minus, ChevronLeft, ChevronRight, BarChart3 } from "lucide-react";
+import { Eye, EyeOff, RotateCcw, Check, X, Minus, ChevronLeft, ChevronRight, BarChart3, Shuffle } from "lucide-react";
 
 type Score = "got" | "partial" | "missed";
 const PAGE_SIZE = 20;
@@ -22,6 +22,14 @@ export default function TheoryPage() {
   const [flipped, setFlipped] = useState(false);
   const [known, setKnown] = useLocalStorage<string[]>("lc-flash-known", []);
 
+  // Practice mode state
+  const [practiceFilter, setPracticeFilter] = useState<string>("All");
+  const [practiceIdx, setPracticeIdx] = useState(0);
+  const [practiceRevealed, setPracticeRevealed] = useState(false);
+  const [practiceAnswer, setPracticeAnswer] = useState("");
+  const [practiceShuffled, setPracticeShuffled] = useState(false);
+  const [practiceOrder, setPracticeOrder] = useState<number[]>([]);
+
   const filtered = useMemo(() => {
     if (topicFilter === "All") return THEORY_BANK;
     return THEORY_BANK.filter(q => q.topic === topicFilter);
@@ -33,6 +41,51 @@ export default function TheoryPage() {
   const flashFiltered = useMemo(() => {
     return flashTopic === "All" ? THEORY_FLASHCARDS : THEORY_FLASHCARDS.filter(f => f.topic === flashTopic);
   }, [flashTopic]);
+
+  // Practice filtered questions
+  const practiceFiltered = useMemo(() => {
+    const base = practiceFilter === "All" ? THEORY_BANK : THEORY_BANK.filter(q => q.topic === practiceFilter);
+    return base;
+  }, [practiceFilter]);
+
+  const practiceQuestions = useMemo(() => {
+    if (practiceShuffled && practiceOrder.length === practiceFiltered.length) {
+      return practiceOrder.map(i => practiceFiltered[i]);
+    }
+    return practiceFiltered;
+  }, [practiceFiltered, practiceShuffled, practiceOrder]);
+
+  const currentPracticeQ = practiceQuestions[practiceIdx];
+  const currentPracticeGlobalIdx = currentPracticeQ ? THEORY_BANK.indexOf(currentPracticeQ) : -1;
+
+  const shufflePractice = useCallback(() => {
+    const order = Array.from({ length: practiceFiltered.length }, (_, i) => i);
+    for (let i = order.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [order[i], order[j]] = [order[j], order[i]];
+    }
+    setPracticeOrder(order);
+    setPracticeShuffled(true);
+    setPracticeIdx(0);
+    setPracticeRevealed(false);
+    setPracticeAnswer("");
+  }, [practiceFiltered.length]);
+
+  const goToPracticeNext = () => {
+    if (practiceIdx < practiceQuestions.length - 1) {
+      setPracticeIdx(practiceIdx + 1);
+      setPracticeRevealed(false);
+      setPracticeAnswer("");
+    }
+  };
+
+  const goToPracticePrev = () => {
+    if (practiceIdx > 0) {
+      setPracticeIdx(practiceIdx - 1);
+      setPracticeRevealed(false);
+      setPracticeAnswer("");
+    }
+  };
 
   const toggleReveal = (i: number) => {
     setRevealedIds(prev => {
@@ -58,6 +111,16 @@ export default function TheoryPage() {
 
   const totalScored = Object.keys(scores).length;
   const gotCount = Object.values(scores).filter(s => s === "got").length;
+
+  // Practice stats
+  const practiceScored = practiceQuestions.filter((_, i) => {
+    const gIdx = THEORY_BANK.indexOf(practiceQuestions[i]);
+    return scores[gIdx] !== undefined;
+  }).length;
+  const practiceGot = practiceQuestions.filter((_, i) => {
+    const gIdx = THEORY_BANK.indexOf(practiceQuestions[i]);
+    return scores[gIdx] === "got";
+  }).length;
 
   return (
     <div className="max-w-[900px] mx-auto px-4 sm:px-7 py-8 pb-16">
@@ -118,13 +181,7 @@ export default function TheoryPage() {
                 <ChevronLeft className="h-3.5 w-3.5" /> Prev
               </Button>
               {Array.from({ length: totalPages }, (_, i) => (
-                <Button
-                  key={i}
-                  variant={page === i ? "default" : "outline"}
-                  size="sm"
-                  className="text-xs w-8 h-8 p-0"
-                  onClick={() => setPage(i)}
-                >
+                <Button key={i} variant={page === i ? "default" : "outline"} size="sm" className="text-xs w-8 h-8 p-0" onClick={() => setPage(i)}>
                   {i + 1}
                 </Button>
               ))}
@@ -135,46 +192,111 @@ export default function TheoryPage() {
           )}
         </TabsContent>
 
-        {/* PRACTICE MODE */}
+        {/* PRACTICE MODE — Single question quiz flow */}
         <TabsContent value="practice">
-          <FilterBar topics={THEORY_TOPICS} active={topicFilter} onSelect={(t) => { setTopicFilter(t); setPage(0); }} />
-          <p className="text-xs text-muted-foreground mb-4">Read the question, try to answer, then reveal and score yourself.</p>
-          <div className="space-y-4">
-            {paged.map((q) => {
-              const globalIdx = THEORY_BANK.indexOf(q);
-              const revealed = revealedIds.has(globalIdx);
-              return (
-                <QuestionCard
-                  key={globalIdx}
-                  q={q}
-                  revealed={revealed}
-                  onToggle={() => toggleReveal(globalIdx)}
-                  score={scores[globalIdx]}
-                  onScore={(s) => setScore(globalIdx, s)}
-                  showScoring={true}
-                />
-              );
-            })}
+          <FilterBar topics={THEORY_TOPICS} active={practiceFilter} onSelect={(t) => { setPracticeFilter(t); setPracticeIdx(0); setPracticeRevealed(false); setPracticeAnswer(""); setPracticeShuffled(false); }} />
+
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <p className="text-xs text-muted-foreground font-mono">
+                {practiceIdx + 1} of {practiceQuestions.length}
+              </p>
+              {practiceScored > 0 && (
+                <p className="text-xs text-muted-foreground">
+                  {practiceGot}/{practiceScored} correct ({Math.round(practiceGot / practiceScored * 100)}%)
+                </p>
+              )}
+            </div>
+            <div className="flex gap-2">
+              <Button variant="outline" size="sm" className="text-xs gap-1 h-7" onClick={shufflePractice}>
+                <Shuffle className="h-3 w-3" /> Shuffle
+              </Button>
+              <Button variant="outline" size="sm" className="text-xs gap-1 h-7" onClick={() => { setPracticeIdx(0); setPracticeRevealed(false); setPracticeAnswer(""); setScores({}); }}>
+                <RotateCcw className="h-3 w-3" /> Reset
+              </Button>
+            </div>
           </div>
-          {totalPages > 1 && (
-            <div className="flex items-center justify-center gap-2 mt-6">
-              <Button variant="outline" size="sm" className="text-xs" disabled={page === 0} onClick={() => setPage(page - 1)}>
-                <ChevronLeft className="h-3.5 w-3.5" /> Prev
-              </Button>
-              {Array.from({ length: totalPages }, (_, i) => (
-                <Button
-                  key={i}
-                  variant={page === i ? "default" : "outline"}
-                  size="sm"
-                  className="text-xs w-8 h-8 p-0"
-                  onClick={() => setPage(i)}
-                >
-                  {i + 1}
+
+          {/* Progress bar */}
+          <div className="h-1.5 bg-muted rounded-full overflow-hidden mb-6">
+            <div className="h-full bg-primary rounded-full transition-all" style={{ width: `${((practiceIdx + 1) / practiceQuestions.length) * 100}%` }} />
+          </div>
+
+          {currentPracticeQ && (
+            <div className="space-y-4">
+              {/* Question */}
+              <Card className="border-border">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-2 flex-wrap mb-3">
+                    <Badge variant="outline" className="text-[10px]">{currentPracticeQ.topic}</Badge>
+                    <span className="text-[11px] font-mono text-muted-foreground">{currentPracticeQ.year}</span>
+                    <span className="text-[11px] font-mono text-primary font-bold">{currentPracticeQ.marks} marks</span>
+                    {scores[currentPracticeGlobalIdx] && (
+                      <Badge className={`text-[9px] ${scores[currentPracticeGlobalIdx] === "got" ? "bg-green-600" : scores[currentPracticeGlobalIdx] === "partial" ? "bg-amber-500" : "bg-red-500"} text-white`}>
+                        {scores[currentPracticeGlobalIdx] === "got" ? "Got It" : scores[currentPracticeGlobalIdx] === "partial" ? "Partial" : "Missed"}
+                      </Badge>
+                    )}
+                  </div>
+                  <div className="flex gap-1.5 flex-wrap mb-3">
+                    {currentPracticeQ.tags.map(tag => (
+                      <span key={tag} className="text-[9px] bg-muted rounded px-1.5 py-0.5 text-muted-foreground font-medium">{tag}</span>
+                    ))}
+                  </div>
+                  <p className="text-base leading-relaxed font-medium">{currentPracticeQ.q}</p>
+                </CardContent>
+              </Card>
+
+              {/* Your answer area */}
+              <Card className="border-border border-dashed">
+                <CardContent className="p-4">
+                  <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2 block">Your Answer (scratch pad)</label>
+                  <textarea
+                    className="w-full min-h-[120px] bg-transparent border border-border rounded-lg p-3 text-sm leading-relaxed resize-y focus:outline-none focus:ring-1 focus:ring-primary"
+                    placeholder="Write your answer here before revealing the marking scheme answer..."
+                    value={practiceAnswer}
+                    onChange={(e) => setPracticeAnswer(e.target.value)}
+                  />
+                </CardContent>
+              </Card>
+
+              {/* Reveal / Answer */}
+              {!practiceRevealed ? (
+                <Button className="w-full gap-2" size="lg" onClick={() => setPracticeRevealed(true)}>
+                  <Eye className="h-4 w-4" /> Reveal Marking Scheme Answer
                 </Button>
-              ))}
-              <Button variant="outline" size="sm" className="text-xs" disabled={page === totalPages - 1} onClick={() => setPage(page + 1)}>
-                Next <ChevronRight className="h-3.5 w-3.5" />
-              </Button>
+              ) : (
+                <>
+                  <Card className="border-border bg-sage-bg">
+                    <CardContent className="p-6">
+                      <h4 className="text-xs font-bold text-primary uppercase tracking-wider mb-3">Marking Scheme Answer</h4>
+                      <p className="text-sm font-light leading-relaxed whitespace-pre-line">{currentPracticeQ.a}</p>
+                    </CardContent>
+                  </Card>
+
+                  {/* Self-scoring */}
+                  <div className="flex gap-3 justify-center">
+                    <Button size="lg" variant={scores[currentPracticeGlobalIdx] === "got" ? "default" : "outline"} className="text-sm gap-2 flex-1 max-w-[160px]" onClick={() => setScore(currentPracticeGlobalIdx, "got")}>
+                      <Check className="h-4 w-4" /> Got It
+                    </Button>
+                    <Button size="lg" variant={scores[currentPracticeGlobalIdx] === "partial" ? "default" : "outline"} className="text-sm gap-2 flex-1 max-w-[160px]" onClick={() => setScore(currentPracticeGlobalIdx, "partial")}>
+                      <Minus className="h-4 w-4" /> Partial
+                    </Button>
+                    <Button size="lg" variant={scores[currentPracticeGlobalIdx] === "missed" ? "default" : "outline"} className="text-sm gap-2 flex-1 max-w-[160px]" onClick={() => setScore(currentPracticeGlobalIdx, "missed")}>
+                      <X className="h-4 w-4" /> Missed
+                    </Button>
+                  </div>
+                </>
+              )}
+
+              {/* Navigation */}
+              <div className="flex justify-between items-center pt-4 border-t border-border">
+                <Button variant="outline" size="sm" className="text-xs gap-1" disabled={practiceIdx === 0} onClick={goToPracticePrev}>
+                  <ChevronLeft className="h-3.5 w-3.5" /> Previous
+                </Button>
+                <Button size="sm" className="text-xs gap-1" disabled={practiceIdx === practiceQuestions.length - 1} onClick={goToPracticeNext}>
+                  Next <ChevronRight className="h-3.5 w-3.5" />
+                </Button>
+              </div>
             </div>
           )}
         </TabsContent>
