@@ -6,6 +6,22 @@ import { Input } from "@/components/ui/input";
 import { LAYOUT_FORMATS } from "@/data/studyContent";
 import { Check, X } from "lucide-react";
 
+const TAB_LABELS: Record<string, string> = {
+  "trading-st": "ST P&L",
+  "trading-plc": "Published P&L",
+  "bs-st": "ST Bal Sheet",
+  "balance-sheet-plc": "Co. Bal Sheet",
+  "manufacturing": "Mfg",
+  "cash-flow-stmt": "Cash Flow",
+  "published-bs": "Published BS",
+  "club-ie": "Club I&E",
+  "club-bs": "Club BS",
+  "service-ie": "Service I&E",
+  "mcs": "MCS",
+  "cash-budget": "Cash Budget",
+  "job-cost": "Job Cost",
+};
+
 export default function LayoutsPage() {
   const [activeIdx, setActiveIdx] = useState(0);
   const [practiceMode, setPracticeMode] = useState(false);
@@ -30,7 +46,7 @@ export default function LayoutsPage() {
                 : "bg-muted text-muted-foreground hover:bg-muted/80"
             }`}
           >
-            {l.title.replace("Trading, Profit & Loss", "ST P&L").replace("Sole Trader ", "ST ").replace("Balance Sheet", "Bal Sheet").replace("Company ", "Co. ").replace("Manufacturing", "Mfg").replace("Published P&L", "Published").replace("Income & Expenditure", "I&E").replace("Marginal Costing Statement", "MCS").replace("Cash Budget (6 months)", "Cash Budget").replace("Job Cost Sheet", "Job Cost")}
+            {TAB_LABELS[l.id] || l.title}
           </button>
         ))}
       </div>
@@ -54,46 +70,78 @@ export default function LayoutsPage() {
       {practiceMode ? (
         <PracticeLayout layout={active} />
       ) : (
-        <>
-          <Card className="border-border overflow-hidden">
-            <div className="bg-muted/50 border-b border-border px-5 py-3 flex items-center justify-between">
-              <h2 className="font-display text-base font-bold">{active.title}</h2>
-              <Badge variant="outline" className="text-[10px]">{active.section}</Badge>
+        <Card className="border-border overflow-hidden">
+          {/* Title header - accounting style */}
+          <div className="bg-muted/50 border-b border-border px-5 py-4 text-center">
+            <h2 className="font-display text-base font-bold">{active.title}</h2>
+            <p className="text-[10px] text-muted-foreground mt-0.5">of __________ for the year ended 31/12/20__</p>
+            <Badge variant="outline" className="text-[10px] mt-1">{active.section}</Badge>
+          </div>
+
+          {/* Tips panel */}
+          {active.tips.length > 0 && (
+            <div className="bg-amber-50 dark:bg-amber-950/20 border-b border-border px-5 py-3">
+              <ul className="text-xs text-amber-800 dark:text-amber-300 space-y-0.5 list-disc list-inside">
+                {active.tips.map((tip, i) => <li key={i}>{tip}</li>)}
+              </ul>
             </div>
-            <CardContent className="p-0">
-              {/* Layout note if tips exist */}
-              {active.tips.length > 0 && (
-                <div className="bg-amber-50 dark:bg-amber-950/20 border-b border-border px-5 py-3">
-                  <ul className="text-xs text-amber-800 dark:text-amber-300 space-y-0.5 list-disc list-inside">
-                    {active.tips.map((tip, i) => <li key={i}>{tip}</li>)}
-                  </ul>
-                </div>
-              )}
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm border-collapse">
-                  <thead>
-                    <tr className="bg-muted">
-                      <th className="text-left p-3 border-b border-border font-bold text-xs w-[220px]"></th>
-                      {active.columns.map((c, i) => (
-                        <th key={i} className="p-3 border-b border-border text-right font-bold text-xs">{c}</th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {active.rows.map((row, i) => (
-                      <tr key={i} className={`${row.isTotal ? "font-bold border-t-2 border-foreground" : row.isSubtotal ? "font-semibold border-t border-border" : ""}`}>
-                        <td className={`p-2.5 border-b border-border text-xs ${row.indent ? "pl-6" : ""} ${row.isTotal || row.isSubtotal ? "font-bold" : ""}`}>{row.label}</td>
+          )}
+
+          {/* Accounting statement format */}
+          <CardContent className="p-0">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm border-collapse">
+                <thead>
+                  <tr className="bg-muted/30">
+                    <th className="text-left p-2.5 border-b-2 border-foreground/20 font-bold text-xs w-[45%]"></th>
+                    {active.columns.map((c, i) => (
+                      <th key={i} className="p-2.5 border-b-2 border-foreground/20 text-right font-bold text-xs w-[100px]">{c}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {active.rows.map((row, i) => {
+                    const isEmpty = row.label.trim() === "";
+                    const isSection = !row.indent && !row.isTotal && !row.isSubtotal && !isEmpty && row.values.every(v => v === "");
+                    return (
+                      <tr
+                        key={i}
+                        className={`
+                          ${row.isTotal ? "border-t-2 border-b-[3px] border-double border-foreground/40 bg-muted/20" : ""}
+                          ${row.isSubtotal ? "border-t border-foreground/20" : ""}
+                          ${isSection ? "bg-muted/10" : ""}
+                        `}
+                      >
+                        <td className={`
+                          p-2 border-b border-border text-xs
+                          ${row.indent ? "pl-8" : "pl-3"}
+                          ${row.isTotal ? "font-bold" : ""}
+                          ${row.isSubtotal ? "font-semibold" : ""}
+                          ${isSection ? "font-bold text-foreground/80 italic" : ""}
+                        `}>
+                          {row.label}
+                        </td>
                         {row.values.map((v, j) => (
-                          <td key={j} className="p-2.5 border-b border-border text-right text-xs font-mono">{v}</td>
+                          <td
+                            key={j}
+                            className={`
+                              p-2 border-b border-border text-right text-xs font-mono
+                              ${row.isTotal ? "font-bold border-t-2 border-b-[3px] border-double border-foreground/40" : ""}
+                              ${row.isSubtotal ? "font-semibold border-t border-foreground/20" : ""}
+                              ${v.startsWith("(") ? "text-red-600 dark:text-red-400" : ""}
+                            `}
+                          >
+                            {v}
+                          </td>
                         ))}
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
-        </>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
       )}
     </div>
   );

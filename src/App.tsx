@@ -46,6 +46,7 @@ const App = () => (
                 accentColor="hsl(142, 72%, 29%)"
                 archetypes={Q1_ARCHETYPES}
                 categories={Q1_CATEGORIES}
+                categoryColors={{ universal: "#2d6a4f", company: "#1d4ed8", manufacturing: "#d97706" }}
               />
             } />
             <Route path="/s2-workings" element={
@@ -56,6 +57,7 @@ const App = () => (
                 accentColor="hsl(0, 72%, 51%)"
                 archetypes={S2_ARCHETYPES}
                 categories={S2_CATEGORIES}
+                categoryColors={{ suspense: "#dc2626", club: "#2d6a4f", service: "#1d4ed8", published: "#7c3aed", cashflow: "#d97706" }}
               />
             } />
             <Route path="/q8-costing" element={
