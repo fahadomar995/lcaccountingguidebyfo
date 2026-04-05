@@ -21,7 +21,7 @@ export const LEARN_MODULES: LearnModule[] = [
     ]
   },
   {
-    id: 2, title: "Club Accounts", icon: "🏟️", color: "hsl(142, 72%, 29%)",
+    id: 2, title: "Club Accounts", icon: Landmark, color: "hsl(142, 72%, 29%)",
     lessons: [
       { title: "Accumulated Fund", steps: 3 },
       { title: "Subscriptions Account", steps: 4 },
