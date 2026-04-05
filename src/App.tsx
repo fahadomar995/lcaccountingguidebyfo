@@ -83,6 +83,7 @@ const App = () => (
             } />
             <Route path="/study-tools" element={<StudyToolsPage />} />
             <Route path="/ratios" element={<RatiosPage />} />
+            <Route path="/contact" element={<ContactPage />} />
             <Route path="/predictions" element={<PredOverview />} />
             <Route path="/predictions/charts" element={<PredCharts />} />
             <Route path="/predictions/interp" element={<PredInterp />} />

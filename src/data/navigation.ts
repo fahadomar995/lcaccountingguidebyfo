@@ -52,7 +52,7 @@ export const NAV_SECTIONS: NavSection[] = [
     items: [
       { title: "Study Tools", url: "/study-tools", icon: Wrench },
       { title: "Q5 Ratios", url: "/ratios", icon: BarChart3 },
-      { title: "Contact", url: "/contact", icon: HelpCircle },
+      { title: "Contact", url: "/contact", icon: Mail },
     ],
   },
 ];
