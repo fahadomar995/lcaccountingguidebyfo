@@ -689,7 +689,7 @@ export const STUDY_TOOLS_DATA: StudyTool[] = [
   {
     title: "Mark Allocation",
     desc: "How marks are distributed across the paper",
-    icon: "📊",
+    icon: PieChart,
     content: [
       "Q1 (Section 1): 120 marks — Final Accounts with adjustments",
       "Q2-Q7 (Section 2): 100 marks each, answer 2 — Various topics",
