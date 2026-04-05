@@ -65,95 +65,184 @@ export const LEARN_MODULES: LearnModule[] = [
   }
 ];
 
+// ═══════════════════════════════════════════════════
+// CLASSIFY — 10 Categories
+// ═══════════════════════════════════════════════════
+
+export type ClassifyCategory =
+  | "Trading Account"
+  | "P&L (Administration)"
+  | "P&L (Selling & Distribution)"
+  | "BS Fixed Assets"
+  | "BS Current Assets"
+  | "BS Creditors < 1 Year"
+  | "BS Creditors > 1 Year"
+  | "BS Capital & Reserves"
+  | "Manufacturing Account"
+  | "NOT in any account";
+
+export const CLASSIFY_CATEGORIES: ClassifyCategory[] = [
+  "Trading Account",
+  "P&L (Administration)",
+  "P&L (Selling & Distribution)",
+  "BS Fixed Assets",
+  "BS Current Assets",
+  "BS Creditors < 1 Year",
+  "BS Creditors > 1 Year",
+  "BS Capital & Reserves",
+  "Manufacturing Account",
+  "NOT in any account",
+];
+
 export interface ClassifyItem {
   item: string;
-  answer: "debit" | "credit";
-  category: string;
+  answer: ClassifyCategory;
   hint?: string;
 }
 
 export const CLASSIFY_ITEMS: ClassifyItem[] = [
-  // Assets (Debit)
-  { item: "Premises", answer: "debit", category: "Fixed Assets" },
-  { item: "Machinery", answer: "debit", category: "Fixed Assets" },
-  { item: "Motor Vehicles", answer: "debit", category: "Fixed Assets" },
-  { item: "Office Equipment", answer: "debit", category: "Fixed Assets" },
-  { item: "Fixtures & Fittings", answer: "debit", category: "Fixed Assets" },
-  { item: "Goodwill", answer: "debit", category: "Fixed Assets" },
-  { item: "Patents", answer: "debit", category: "Fixed Assets" },
-  { item: "Investments", answer: "debit", category: "Fixed Assets" },
-  { item: "Land", answer: "debit", category: "Fixed Assets" },
-  { item: "Debtors", answer: "debit", category: "Current Assets" },
-  { item: "Stock", answer: "debit", category: "Current Assets" },
-  { item: "Cash at Bank", answer: "debit", category: "Current Assets" },
-  { item: "Cash in Hand", answer: "debit", category: "Current Assets" },
-  { item: "Prepaid Insurance", answer: "debit", category: "Current Assets" },
-  { item: "Prepaid Rent", answer: "debit", category: "Current Assets" },
-  { item: "Prepaid Rates", answer: "debit", category: "Current Assets" },
-  { item: "Petty Cash", answer: "debit", category: "Current Assets" },
-  // Expenses (Debit)
-  { item: "Purchases", answer: "debit", category: "Expenses" },
-  { item: "Carriage Inwards", answer: "debit", category: "Expenses" },
-  { item: "Wages", answer: "debit", category: "Expenses" },
-  { item: "Salaries", answer: "debit", category: "Expenses" },
-  { item: "Rent Expense", answer: "debit", category: "Expenses" },
-  { item: "Insurance", answer: "debit", category: "Expenses" },
-  { item: "Light & Heat", answer: "debit", category: "Expenses" },
-  { item: "Telephone", answer: "debit", category: "Expenses" },
-  { item: "Postage", answer: "debit", category: "Expenses" },
-  { item: "Advertising", answer: "debit", category: "Expenses" },
-  { item: "Repairs", answer: "debit", category: "Expenses" },
-  { item: "Bad Debts", answer: "debit", category: "Expenses" },
-  { item: "Discount Allowed", answer: "debit", category: "Expenses" },
-  { item: "Depreciation", answer: "debit", category: "Expenses" },
-  { item: "Bank Charges", answer: "debit", category: "Expenses" },
-  { item: "Interest Paid", answer: "debit", category: "Expenses" },
-  { item: "Carriage Outwards", answer: "debit", category: "Expenses" },
-  { item: "Drawings", answer: "debit", category: "Expenses", hint: "Reduces capital — always debit" },
-  { item: "Returns Inwards", answer: "debit", category: "Expenses" },
-  { item: "Motor Expenses", answer: "debit", category: "Expenses" },
-  { item: "Cleaning", answer: "debit", category: "Expenses" },
-  { item: "Stationery", answer: "debit", category: "Expenses" },
-  { item: "Commission Paid", answer: "debit", category: "Expenses" },
-  { item: "General Expenses", answer: "debit", category: "Expenses" },
-  { item: "Professional Fees", answer: "debit", category: "Expenses" },
-  { item: "Provision for Bad Debts (Increase)", answer: "debit", category: "Expenses" },
-  { item: "Loss on Sale of Fixed Asset", answer: "debit", category: "Expenses" },
-  // Liabilities (Credit)
-  { item: "Capital", answer: "credit", category: "Capital & Reserves" },
-  { item: "Creditors", answer: "credit", category: "Current Liabilities" },
-  { item: "Bank Overdraft", answer: "credit", category: "Current Liabilities" },
-  { item: "Accrued Expenses", answer: "credit", category: "Current Liabilities" },
-  { item: "VAT Owed", answer: "credit", category: "Current Liabilities" },
-  { item: "PAYE/PRSI Owed", answer: "credit", category: "Current Liabilities" },
-  { item: "Bank Loan", answer: "credit", category: "Long-Term Liabilities" },
-  { item: "Mortgage", answer: "credit", category: "Long-Term Liabilities" },
-  { item: "Debentures", answer: "credit", category: "Long-Term Liabilities" },
-  { item: "Long-Term Loan", answer: "credit", category: "Long-Term Liabilities" },
-  // Income (Credit)
-  { item: "Sales", answer: "credit", category: "Income" },
-  { item: "Returns Outwards", answer: "credit", category: "Income" },
-  { item: "Discount Received", answer: "credit", category: "Income" },
-  { item: "Rent Received", answer: "credit", category: "Income" },
-  { item: "Commission Received", answer: "credit", category: "Income" },
-  { item: "Interest Received", answer: "credit", category: "Income" },
-  { item: "Profit on Sale of Fixed Asset", answer: "credit", category: "Income" },
-  { item: "Investment Income", answer: "credit", category: "Income" },
-  { item: "Provision for Bad Debts (Decrease)", answer: "credit", category: "Income" },
-  { item: "Accumulated Fund", answer: "credit", category: "Capital & Reserves", hint: "Club equivalent of Capital" },
-  { item: "Reserves", answer: "credit", category: "Capital & Reserves" },
-  { item: "Retained Profits", answer: "credit", category: "Capital & Reserves" },
-  { item: "Share Premium", answer: "credit", category: "Capital & Reserves" },
-  { item: "Revaluation Reserve", answer: "credit", category: "Capital & Reserves" },
-  { item: "Ordinary Share Capital", answer: "credit", category: "Capital & Reserves" },
-  { item: "Preference Share Capital", answer: "credit", category: "Capital & Reserves" },
-  { item: "Revenue Reserves", answer: "credit", category: "Capital & Reserves" },
-  { item: "Capital Reserves", answer: "credit", category: "Capital & Reserves" },
-  { item: "Income Tax Owed", answer: "credit", category: "Current Liabilities" },
-  { item: "Dividends Proposed", answer: "credit", category: "Current Liabilities" },
-  { item: "Deferred Income", answer: "credit", category: "Current Liabilities" },
-  { item: "Subscriptions in Advance", answer: "credit", category: "Current Liabilities", hint: "Club — money received for next year" },
+  // Trading Account
+  { item: "Sales", answer: "Trading Account" },
+  { item: "Purchases", answer: "Trading Account" },
+  { item: "Opening Stock", answer: "Trading Account" },
+  { item: "Closing Stock", answer: "Trading Account" },
+  { item: "Returns Inwards", answer: "Trading Account" },
+  { item: "Returns Outwards", answer: "Trading Account" },
+  { item: "Carriage Inwards", answer: "Trading Account" },
+  { item: "Customs Duty", answer: "Trading Account" },
+  { item: "Import Levies", answer: "Trading Account" },
+  { item: "Cost of Sales", answer: "Trading Account" },
+  { item: "Gross Profit", answer: "Trading Account", hint: "Balancing figure in the Trading Account" },
+  { item: "Discount Received (Trade)", answer: "Trading Account", hint: "Trade discount reduces cost of purchases" },
+
+  // P&L (Administration)
+  { item: "Salaries", answer: "P&L (Administration)" },
+  { item: "Rent Expense", answer: "P&L (Administration)" },
+  { item: "Insurance", answer: "P&L (Administration)" },
+  { item: "Light & Heat", answer: "P&L (Administration)" },
+  { item: "Telephone", answer: "P&L (Administration)" },
+  { item: "Postage", answer: "P&L (Administration)" },
+  { item: "Stationery", answer: "P&L (Administration)" },
+  { item: "Cleaning", answer: "P&L (Administration)" },
+  { item: "Repairs", answer: "P&L (Administration)" },
+  { item: "Bad Debts", answer: "P&L (Administration)" },
+  { item: "Provision for Bad Debts (Increase)", answer: "P&L (Administration)" },
+  { item: "Provision for Bad Debts (Decrease)", answer: "P&L (Administration)", hint: "Credit side — reduces expenses" },
+  { item: "Depreciation", answer: "P&L (Administration)" },
+  { item: "Bank Charges", answer: "P&L (Administration)" },
+  { item: "Interest Paid", answer: "P&L (Administration)" },
+  { item: "Professional Fees", answer: "P&L (Administration)" },
+  { item: "General Expenses", answer: "P&L (Administration)" },
+  { item: "Audit Fee", answer: "P&L (Administration)" },
+  { item: "Loss on Sale of Fixed Asset", answer: "P&L (Administration)" },
+  { item: "Profit on Sale of Fixed Asset", answer: "P&L (Administration)", hint: "Credit side — reduces admin expenses" },
+  { item: "Discount Allowed", answer: "P&L (Administration)" },
+  { item: "Discount Received", answer: "P&L (Administration)", hint: "Credit side — cash discount" },
+  { item: "Rent Received", answer: "P&L (Administration)", hint: "Credit side — income" },
+  { item: "Interest Received", answer: "P&L (Administration)", hint: "Credit side — income" },
+  { item: "Investment Income", answer: "P&L (Administration)", hint: "Credit side — income" },
+  { item: "Commission Received", answer: "P&L (Administration)", hint: "Credit side — income" },
+  { item: "Patent Written Off", answer: "P&L (Administration)" },
+  { item: "Goodwill Written Off", answer: "P&L (Administration)" },
+
+  // P&L (Selling & Distribution)
+  { item: "Carriage Outwards", answer: "P&L (Selling & Distribution)" },
+  { item: "Advertising", answer: "P&L (Selling & Distribution)" },
+  { item: "Sales Representatives' Salaries", answer: "P&L (Selling & Distribution)" },
+  { item: "Sales Commission Paid", answer: "P&L (Selling & Distribution)" },
+  { item: "Packaging & Delivery Costs", answer: "P&L (Selling & Distribution)" },
+  { item: "Motor Expenses", answer: "P&L (Selling & Distribution)", hint: "If sales-related vehicles" },
+  { item: "Exhibition Costs", answer: "P&L (Selling & Distribution)" },
+  { item: "Samples", answer: "P&L (Selling & Distribution)" },
+
+  // BS Fixed Assets
+  { item: "Premises", answer: "BS Fixed Assets" },
+  { item: "Machinery", answer: "BS Fixed Assets" },
+  { item: "Motor Vehicles", answer: "BS Fixed Assets" },
+  { item: "Office Equipment", answer: "BS Fixed Assets" },
+  { item: "Fixtures & Fittings", answer: "BS Fixed Assets" },
+  { item: "Land", answer: "BS Fixed Assets" },
+  { item: "Goodwill (BS)", answer: "BS Fixed Assets", hint: "Intangible asset — until written off" },
+  { item: "Patents (BS)", answer: "BS Fixed Assets", hint: "Intangible asset" },
+  { item: "Investments (Long-Term)", answer: "BS Fixed Assets" },
+  { item: "Accumulated Depreciation", answer: "BS Fixed Assets", hint: "Deducted from cost to give NBV" },
+
+  // BS Current Assets
+  { item: "Closing Stock (BS)", answer: "BS Current Assets" },
+  { item: "Debtors", answer: "BS Current Assets" },
+  { item: "Cash at Bank", answer: "BS Current Assets" },
+  { item: "Cash in Hand", answer: "BS Current Assets" },
+  { item: "Prepaid Insurance", answer: "BS Current Assets" },
+  { item: "Prepaid Rent", answer: "BS Current Assets" },
+  { item: "Prepaid Rates", answer: "BS Current Assets" },
+  { item: "Petty Cash", answer: "BS Current Assets" },
+  { item: "Investment Income Due", answer: "BS Current Assets", hint: "Debtor — income earned but not received" },
+  { item: "Fees Due (Service Firm)", answer: "BS Current Assets" },
+  { item: "Subscriptions Due (Club)", answer: "BS Current Assets" },
+  { item: "Short-Term Investments", answer: "BS Current Assets" },
+  { item: "Work in Progress", answer: "BS Current Assets" },
+
+  // BS Creditors < 1 Year
+  { item: "Creditors", answer: "BS Creditors < 1 Year" },
+  { item: "Bank Overdraft", answer: "BS Creditors < 1 Year" },
+  { item: "Accrued Expenses", answer: "BS Creditors < 1 Year" },
+  { item: "VAT Owed", answer: "BS Creditors < 1 Year" },
+  { item: "PAYE/PRSI Owed", answer: "BS Creditors < 1 Year" },
+  { item: "Income Tax Owed", answer: "BS Creditors < 1 Year" },
+  { item: "Corporation Tax Owed", answer: "BS Creditors < 1 Year" },
+  { item: "Dividends Proposed", answer: "BS Creditors < 1 Year" },
+  { item: "Deferred Income", answer: "BS Creditors < 1 Year" },
+  { item: "Subscriptions in Advance (Club)", answer: "BS Creditors < 1 Year", hint: "Money received for next year" },
+  { item: "Fees in Advance (Service Firm)", answer: "BS Creditors < 1 Year" },
+
+  // BS Creditors > 1 Year
+  { item: "Bank Loan (Long-Term)", answer: "BS Creditors > 1 Year" },
+  { item: "Mortgage", answer: "BS Creditors > 1 Year" },
+  { item: "Debentures", answer: "BS Creditors > 1 Year" },
+  { item: "Long-Term Loan", answer: "BS Creditors > 1 Year" },
+  { item: "Levy Fund (Club)", answer: "BS Creditors > 1 Year", hint: "Reserve for special project" },
+  { item: "Life Membership Fund (Club)", answer: "BS Creditors > 1 Year" },
+
+  // BS Capital & Reserves
+  { item: "Capital", answer: "BS Capital & Reserves" },
+  { item: "Accumulated Fund (Club)", answer: "BS Capital & Reserves", hint: "Club equivalent of Capital" },
+  { item: "Ordinary Share Capital", answer: "BS Capital & Reserves" },
+  { item: "Preference Share Capital", answer: "BS Capital & Reserves" },
+  { item: "Share Premium", answer: "BS Capital & Reserves" },
+  { item: "Revaluation Reserve", answer: "BS Capital & Reserves" },
+  { item: "General Reserve", answer: "BS Capital & Reserves" },
+  { item: "Retained Profits", answer: "BS Capital & Reserves" },
+  { item: "Revenue Reserves", answer: "BS Capital & Reserves" },
+  { item: "Capital Reserves", answer: "BS Capital & Reserves" },
+
+  // Manufacturing Account
+  { item: "Raw Materials Purchased", answer: "Manufacturing Account" },
+  { item: "Direct Labour", answer: "Manufacturing Account" },
+  { item: "Direct Expenses", answer: "Manufacturing Account" },
+  { item: "Factory Rent", answer: "Manufacturing Account" },
+  { item: "Factory Insurance", answer: "Manufacturing Account" },
+  { item: "Factory Power", answer: "Manufacturing Account" },
+  { item: "Depreciation of Factory Machinery", answer: "Manufacturing Account" },
+  { item: "Factory Maintenance", answer: "Manufacturing Account" },
+  { item: "Indirect Factory Wages", answer: "Manufacturing Account" },
+  { item: "Factory Rates", answer: "Manufacturing Account" },
+  { item: "Opening Raw Materials", answer: "Manufacturing Account" },
+  { item: "Closing Raw Materials", answer: "Manufacturing Account" },
+  { item: "Prime Cost", answer: "Manufacturing Account", hint: "Direct Materials + Direct Labour + Direct Expenses" },
+
+  // NOT in any account
+  { item: "Drawings", answer: "NOT in any account", hint: "Deducted directly from Capital on BS — not an expense" },
+  { item: "Capital Introduced", answer: "NOT in any account", hint: "Added directly to Capital on BS" },
+  { item: "Receipts from Debtors", answer: "NOT in any account", hint: "Cash movement only — already recorded as sales" },
+  { item: "Payments to Creditors", answer: "NOT in any account", hint: "Cash movement only — already recorded as purchases" },
+  { item: "Cash Sales (already recorded)", answer: "NOT in any account", hint: "Already in Sales figure" },
+  { item: "Bank Lodgement", answer: "NOT in any account", hint: "Internal transfer — no effect on profit or BS total" },
+  { item: "Petty Cash Reimbursement", answer: "NOT in any account", hint: "Internal transfer between cash and bank" },
 ];
+
+// ═══════════════════════════════════════════════════
+// LAYOUTS — 11 Templates
+// ═══════════════════════════════════════════════════
 
 export interface LayoutFormat {
   id: string;
@@ -165,6 +254,37 @@ export interface LayoutFormat {
 }
 
 export const LAYOUT_FORMATS: LayoutFormat[] = [
+  {
+    id: "trading-st", title: "Trading P&L (Sole Trader)", section: "Q1",
+    columns: ["€", "€"],
+    rows: [
+      { label: "Sales", values: ["", "X"] },
+      { label: "Less: Returns Inwards", values: ["", "(X)"] },
+      { label: "Net Sales", values: ["", "X"], isSubtotal: true },
+      { label: "Less: Cost of Sales", values: ["", ""] },
+      { label: "Opening Stock", values: ["X", ""], indent: true },
+      { label: "Add: Purchases", values: ["X", ""], indent: true },
+      { label: "Add: Carriage Inwards", values: ["X", ""], indent: true },
+      { label: "Less: Returns Outwards", values: ["(X)", ""], indent: true },
+      { label: "Net Purchases", values: ["X", ""], indent: true },
+      { label: "Goods Available for Sale", values: ["X", ""], isSubtotal: true },
+      { label: "Less: Closing Stock", values: ["(X)", ""] },
+      { label: "Cost of Sales", values: ["", "(X)"] },
+      { label: "Gross Profit", values: ["", "X"], isSubtotal: true },
+      { label: "Add: Income (Rent Received, etc.)", values: ["", "X"] },
+      { label: "Less: Expenses", values: ["", ""] },
+      { label: "Wages & Salaries", values: ["X", ""], indent: true },
+      { label: "Rent", values: ["X", ""], indent: true },
+      { label: "Insurance", values: ["X", ""], indent: true },
+      { label: "Light & Heat", values: ["X", ""], indent: true },
+      { label: "Depreciation", values: ["X", ""], indent: true },
+      { label: "Bad Debts", values: ["X", ""], indent: true },
+      { label: "General Expenses", values: ["X", ""], indent: true },
+      { label: "Total Expenses", values: ["", "(X)"] },
+      { label: "Net Profit", values: ["", "X"], isTotal: true },
+    ],
+    tips: ["Carriage Inwards is a Trading Account item", "Carriage Outwards is a P&L expense", "Drawings are NOT an expense — deducted from Capital on BS"]
+  },
   {
     id: "trading-plc", title: "Trading P&L (Published Company)", section: "Q4",
     columns: ["€", "€"],
@@ -184,6 +304,38 @@ export const LAYOUT_FORMATS: LayoutFormat[] = [
       { label: "Profit After Tax", values: ["", "X"], isTotal: true },
     ],
     tips: ["Cost of Sales = Opening Stock + Purchases − Closing Stock", "Distribution = Carriage Out, Advertising, Salespeople Salaries", "Admin = Office costs, Depreciation, Bad Debts, Audit Fee"]
+  },
+  {
+    id: "bs-st", title: "Balance Sheet (Sole Trader)", section: "Q1",
+    columns: ["€", "€"],
+    rows: [
+      { label: "Fixed Assets", values: ["", ""] },
+      { label: "Premises", values: ["X", ""], indent: true },
+      { label: "Equipment", values: ["X", ""], indent: true },
+      { label: "Motor Vehicles", values: ["X", ""], indent: true },
+      { label: "Less: Accumulated Depreciation", values: ["(X)", ""] },
+      { label: "Net Fixed Assets", values: ["", "X"], isSubtotal: true },
+      { label: "Current Assets", values: ["", ""] },
+      { label: "Closing Stock", values: ["X", ""], indent: true },
+      { label: "Debtors", values: ["X", ""], indent: true },
+      { label: "Prepayments", values: ["X", ""], indent: true },
+      { label: "Bank", values: ["X", ""], indent: true },
+      { label: "Cash", values: ["X", ""], indent: true },
+      { label: "", values: ["X", ""] },
+      { label: "Less: Current Liabilities", values: ["", ""] },
+      { label: "Creditors", values: ["X", ""], indent: true },
+      { label: "Accruals", values: ["X", ""], indent: true },
+      { label: "Bank Overdraft", values: ["X", ""], indent: true },
+      { label: "", values: ["(X)", ""] },
+      { label: "Working Capital", values: ["", "X"], isSubtotal: true },
+      { label: "Total Net Assets", values: ["", "X"], isSubtotal: true },
+      { label: "Financed By:", values: ["", ""] },
+      { label: "Opening Capital", values: ["", "X"] },
+      { label: "Add: Net Profit", values: ["", "X"] },
+      { label: "Less: Drawings", values: ["", "(X)"] },
+      { label: "Closing Capital", values: ["", "X"], isTotal: true },
+    ],
+    tips: ["Total Net Assets MUST equal Closing Capital", "Prepayments are current assets", "Accruals are current liabilities"]
   },
   {
     id: "balance-sheet-plc", title: "Balance Sheet (Published Company)", section: "Q4",
@@ -207,6 +359,153 @@ export const LAYOUT_FORMATS: LayoutFormat[] = [
       { label: "Shareholders' Funds", values: ["", "X"], isTotal: true },
     ],
     tips: ["Net Assets MUST equal Shareholders' Funds", "Creditors < 1 year includes bank overdraft, creditors, tax, dividends proposed"]
+  },
+  {
+    id: "manufacturing", title: "Manufacturing Account", section: "Q1",
+    columns: ["€", "€"],
+    rows: [
+      { label: "Opening Stock of Raw Materials", values: ["X", ""] },
+      { label: "Add: Purchases of Raw Materials", values: ["X", ""] },
+      { label: "Less: Closing Stock of Raw Materials", values: ["(X)", ""] },
+      { label: "Cost of Raw Materials Used", values: ["", "X"], isSubtotal: true },
+      { label: "Direct Labour (Factory Wages)", values: ["", "X"] },
+      { label: "Direct Expenses", values: ["", "X"] },
+      { label: "Prime Cost", values: ["", "X"], isSubtotal: true },
+      { label: "Add: Factory Overheads", values: ["", ""] },
+      { label: "Factory Rent", values: ["X", ""], indent: true },
+      { label: "Factory Insurance", values: ["X", ""], indent: true },
+      { label: "Factory Power", values: ["X", ""], indent: true },
+      { label: "Dep'n of Factory Machinery", values: ["X", ""], indent: true },
+      { label: "Indirect Factory Wages", values: ["X", ""], indent: true },
+      { label: "Total Factory Overheads", values: ["", "X"] },
+      { label: "Factory Cost of Production", values: ["", "X"], isSubtotal: true },
+      { label: "Add: Opening WIP", values: ["", "X"] },
+      { label: "Less: Closing WIP", values: ["", "(X)"] },
+      { label: "Cost of Finished Goods", values: ["", "X"], isTotal: true },
+    ],
+    tips: ["Prime Cost = Direct Materials + Direct Labour + Direct Expenses", "WIP = Work in Progress (partially completed goods)", "Cost of Finished Goods transfers to Trading Account"]
+  },
+  {
+    id: "cash-flow-stmt", title: "Cash Flow Statement", section: "Q3",
+    columns: ["€", "€"],
+    rows: [
+      { label: "Operating Profit", values: ["", "X"] },
+      { label: "Add: Depreciation", values: ["X", ""] },
+      { label: "Add/Less: Stock change", values: ["X/(X)", ""] },
+      { label: "Add/Less: Debtors change", values: ["X/(X)", ""] },
+      { label: "Add/Less: Creditors change", values: ["X/(X)", ""] },
+      { label: "Net Cash from Operations", values: ["", "X"], isSubtotal: true },
+      { label: "Returns on Investments & Servicing", values: ["", ""] },
+      { label: "Interest paid", values: ["(X)", ""] },
+      { label: "Dividends paid", values: ["(X)", ""] },
+      { label: "", values: ["", "(X)"] },
+      { label: "Capital Expenditure", values: ["", ""] },
+      { label: "Purchase of Fixed Assets", values: ["(X)", ""] },
+      { label: "Sale of Fixed Assets", values: ["X", ""] },
+      { label: "", values: ["", "X/(X)"] },
+      { label: "Net Cash Flow", values: ["", "X"], isTotal: true },
+    ],
+    tips: ["Stock increase = LESS cash (debit balance grew)", "Debtors increase = LESS cash (money owed grew)", "Creditors increase = MORE cash (delayed payments)"]
+  },
+  {
+    id: "published-bs", title: "Published Balance Sheet", section: "Q4",
+    columns: ["This Year €", "Last Year €"],
+    rows: [
+      { label: "Fixed Assets", values: ["", ""] },
+      { label: "Intangible Assets", values: ["X", "X"], indent: true },
+      { label: "Tangible Assets", values: ["X", "X"], indent: true },
+      { label: "Financial Assets", values: ["X", "X"], indent: true },
+      { label: "", values: ["X", "X"], isSubtotal: true },
+      { label: "Current Assets", values: ["", ""] },
+      { label: "Stock", values: ["X", "X"], indent: true },
+      { label: "Debtors", values: ["X", "X"], indent: true },
+      { label: "Cash at Bank and in Hand", values: ["X", "X"], indent: true },
+      { label: "", values: ["X", "X"], isSubtotal: true },
+      { label: "Creditors: Amounts falling due within 1 year", values: ["(X)", "(X)"] },
+      { label: "Net Current Assets", values: ["X", "X"], isSubtotal: true },
+      { label: "Total Assets less Current Liabilities", values: ["X", "X"], isSubtotal: true },
+      { label: "Creditors: Amounts falling due after 1 year", values: ["(X)", "(X)"] },
+      { label: "Net Assets", values: ["X", "X"], isTotal: true },
+      { label: "Capital and Reserves", values: ["", ""] },
+      { label: "Called-up Share Capital", values: ["X", "X"], indent: true },
+      { label: "Share Premium", values: ["X", "X"], indent: true },
+      { label: "Revaluation Reserve", values: ["X", "X"], indent: true },
+      { label: "Profit and Loss Account", values: ["X", "X"], indent: true },
+      { label: "Shareholders' Funds", values: ["X", "X"], isTotal: true },
+    ],
+    tips: ["Must show comparative figures (this year and last year)", "Net Assets = Shareholders' Funds"]
+  },
+  {
+    id: "club-ie", title: "Club Income & Expenditure", section: "Q2",
+    columns: ["€", "€"],
+    rows: [
+      { label: "Income", values: ["", ""] },
+      { label: "Subscriptions", values: ["", "X"] },
+      { label: "Profit on Special Event", values: ["", "X"] },
+      { label: "Fundraising Income", values: ["", "X"] },
+      { label: "Investment Income", values: ["", "X"] },
+      { label: "Total Income", values: ["", "X"], isSubtotal: true },
+      { label: "Less: Expenditure", values: ["", ""] },
+      { label: "Wages", values: ["X", ""], indent: true },
+      { label: "Rent & Rates", values: ["X", ""], indent: true },
+      { label: "Insurance", values: ["X", ""], indent: true },
+      { label: "Light & Heat", values: ["X", ""], indent: true },
+      { label: "Repairs & Maintenance", values: ["X", ""], indent: true },
+      { label: "Depreciation", values: ["X", ""], indent: true },
+      { label: "Printing & Stationery", values: ["X", ""], indent: true },
+      { label: "Total Expenditure", values: ["", "(X)"] },
+      { label: "Surplus / (Deficit)", values: ["", "X"], isTotal: true },
+    ],
+    tips: ["Subscriptions must be on accruals basis", "Surplus is added to Accumulated Fund on BS", "Special event profit comes from a separate P&L"]
+  },
+  {
+    id: "club-bs", title: "Club Balance Sheet", section: "Q2",
+    columns: ["€", "€"],
+    rows: [
+      { label: "Fixed Assets (NBV)", values: ["", "X"] },
+      { label: "Current Assets", values: ["", ""] },
+      { label: "Stock (supplies)", values: ["X", ""], indent: true },
+      { label: "Subscriptions Due", values: ["X", ""], indent: true },
+      { label: "Prepayments", values: ["X", ""], indent: true },
+      { label: "Bank", values: ["X", ""], indent: true },
+      { label: "Cash", values: ["X", ""], indent: true },
+      { label: "", values: ["", "X"], isSubtotal: true },
+      { label: "Less: Current Liabilities", values: ["", ""] },
+      { label: "Creditors", values: ["X", ""], indent: true },
+      { label: "Accruals", values: ["X", ""], indent: true },
+      { label: "Subscriptions in Advance", values: ["X", ""], indent: true },
+      { label: "", values: ["", "(X)"] },
+      { label: "Net Current Assets", values: ["", "X"], isSubtotal: true },
+      { label: "Less: Long-Term Liabilities", values: ["", ""] },
+      { label: "Levy Fund", values: ["", "(X)"], indent: true },
+      { label: "Life Membership Fund", values: ["", "(X)"], indent: true },
+      { label: "Net Assets", values: ["", "X"], isTotal: true },
+      { label: "Financed By:", values: ["", ""] },
+      { label: "Opening Accumulated Fund", values: ["", "X"] },
+      { label: "Add: Surplus for Year", values: ["", "X"] },
+      { label: "Closing Accumulated Fund", values: ["", "X"], isTotal: true },
+    ],
+    tips: ["Accumulated Fund = Club's net worth (like Capital)", "Subscriptions Due = current asset (debtor)", "Subscriptions in Advance = current liability"]
+  },
+  {
+    id: "service-ie", title: "Service Firm I&E", section: "Q2",
+    columns: ["€", "€"],
+    rows: [
+      { label: "Fee Income", values: ["", "X"] },
+      { label: "Less: Expenses", values: ["", ""] },
+      { label: "Salaries", values: ["X", ""], indent: true },
+      { label: "Rent", values: ["X", ""], indent: true },
+      { label: "Insurance", values: ["X", ""], indent: true },
+      { label: "Light & Heat", values: ["X", ""], indent: true },
+      { label: "Telephone", values: ["X", ""], indent: true },
+      { label: "Motor Expenses", values: ["X", ""], indent: true },
+      { label: "Depreciation", values: ["X", ""], indent: true },
+      { label: "Bad Debts", values: ["X", ""], indent: true },
+      { label: "General Expenses", values: ["X", ""], indent: true },
+      { label: "Total Expenses", values: ["", "(X)"] },
+      { label: "Net Profit / (Loss)", values: ["", "X"], isTotal: true },
+    ],
+    tips: ["No Trading Account — service firms have no stock", "Fee income is the main revenue source", "Adjust fees for amounts due and received in advance"]
   },
   {
     id: "mcs", title: "Marginal Costing Statement", section: "Q8",
@@ -258,29 +557,11 @@ export const LAYOUT_FORMATS: LayoutFormat[] = [
     ],
     tips: ["Overheads = Hours worked × OAR per hour", "Mark-up is on COST, Margin is on SALES", "Each department may have a different OAR"]
   },
-  {
-    id: "cash-flow-stmt", title: "Cash Flow Statement", section: "Q3",
-    columns: ["€", "€"],
-    rows: [
-      { label: "Operating Profit", values: ["", "X"] },
-      { label: "Add: Depreciation", values: ["X", ""] },
-      { label: "Add/Less: Stock change", values: ["X/(X)", ""] },
-      { label: "Add/Less: Debtors change", values: ["X/(X)", ""] },
-      { label: "Add/Less: Creditors change", values: ["X/(X)", ""] },
-      { label: "Net Cash from Operations", values: ["", "X"], isSubtotal: true },
-      { label: "Returns on Investments & Servicing", values: ["", ""] },
-      { label: "Interest paid", values: ["(X)", ""] },
-      { label: "Dividends paid", values: ["(X)", ""] },
-      { label: "", values: ["", "(X)"] },
-      { label: "Capital Expenditure", values: ["", ""] },
-      { label: "Purchase of Fixed Assets", values: ["(X)", ""] },
-      { label: "Sale of Fixed Assets", values: ["X", ""] },
-      { label: "", values: ["", "X/(X)"] },
-      { label: "Net Cash Flow", values: ["", "X"], isTotal: true },
-    ],
-    tips: ["Stock increase = LESS cash (debit balance grew)", "Debtors increase = LESS cash (money owed grew)", "Creditors increase = MORE cash (delayed payments)"]
-  },
 ];
+
+// ═══════════════════════════════════════════════════
+// FORMULAS
+// ═══════════════════════════════════════════════════
 
 export interface Formula {
   name: string;
@@ -290,7 +571,6 @@ export interface Formula {
 }
 
 export const FORMULAS: Formula[] = [
-  // Ratios (Q5)
   { name: "Return on Capital Employed (ROCE)", formula: "Operating Profit / Capital Employed × 100", section: "Profitability" },
   { name: "Gross Profit Margin", formula: "Gross Profit / Sales × 100", section: "Profitability" },
   { name: "Net Profit Margin", formula: "Net Profit / Sales × 100", section: "Profitability" },
@@ -310,7 +590,6 @@ export const FORMULAS: Formula[] = [
   { name: "Net Asset Value Per Share", formula: "Net Assets / Number of Ordinary Shares", section: "Investment" },
   { name: "Return on Equity (ROE)", formula: "Profit After Tax / Shareholders' Funds × 100", section: "Profitability" },
   { name: "Working Capital", formula: "Current Assets − Current Liabilities", section: "Liquidity" },
-  // Costing (Q8)
   { name: "Break-Even Point (units)", formula: "Fixed Costs / Unit Contribution", section: "Costing" },
   { name: "Break-Even Point (€)", formula: "BEP units × Selling Price", section: "Costing" },
   { name: "Margin of Safety (units)", formula: "Actual Sales − BEP", section: "Costing" },
@@ -321,10 +600,13 @@ export const FORMULAS: Formula[] = [
   { name: "Target Profit (units)", formula: "(Fixed Costs + Target Profit) / Unit Contribution", section: "Costing" },
   { name: "Variable Cost per Unit (High/Low)", formula: "Change in Cost / Change in Activity", section: "Costing" },
   { name: "Overhead Absorption Rate", formula: "Budgeted Overheads / Budgeted Activity", section: "Costing" },
-  // Depreciation
   { name: "Straight Line Depreciation", formula: "(Cost − Residual Value) / Useful Life", section: "Depreciation" },
   { name: "Reducing Balance Depreciation", formula: "NBV × Rate%", section: "Depreciation" },
 ];
+
+// ═══════════════════════════════════════════════════
+// Q1 ADJUSTMENTS
+// ═══════════════════════════════════════════════════
 
 export interface Q1Adjustment {
   name: string;
@@ -355,6 +637,10 @@ export const Q1_ADJUSTMENTS: Q1Adjustment[] = [
   { name: "Work in Progress", type: "Year-End", debit: "WIP (BS — CA)", credit: "Manufacturing A/c", effect: "Closing WIP reduces cost of production", example: "WIP at year end €8,000", accountTypes: ["Manufacturing"] },
 ];
 
+// ═══════════════════════════════════════════════════
+// RATIO THEORY
+// ═══════════════════════════════════════════════════
+
 export interface RatioTheoryQ {
   q: string;
   a: string;
@@ -371,6 +657,10 @@ export const RATIO_THEORY: RatioTheoryQ[] = [
   {q:"What might encourage a bank to give a loan?",a:"Productive purpose. Interest cover at least 4 times. Gearing below 50%. Retaining profits (dividend cover >2). Adequate security in fixed assets.",tags:["Bank Manager","Gearing"]},
   {q:"Name the users of financial statements.",a:"Banks, Creditors, Debenture holders, Existing/Potential Shareholders, Management, Employees, Competitors, Financial Commentators, Revenue Commissioners.",tags:["Users of Financial Statements"]},
 ];
+
+// ═══════════════════════════════════════════════════
+// STUDY TOOLS
+// ═══════════════════════════════════════════════════
 
 export interface StudyTool {
   title: string;
