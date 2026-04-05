@@ -1,14 +1,16 @@
+import { Wrench, Landmark, Briefcase, BarChart3, Banknote, Clock, PieChart, CheckSquare, CalendarDays, type LucideIcon } from "lucide-react";
+
 export interface LearnModule {
   id: number;
   title: string;
-  icon: string;
+  icon: LucideIcon;
   lessons: { title: string; steps: number }[];
   color: string;
 }
 
 export const LEARN_MODULES: LearnModule[] = [
   {
-    id: 1, title: "Correction of Errors", icon: "🔧", color: "hsl(0, 72%, 51%)",
+    id: 1, title: "Correction of Errors", icon: Wrench, color: "hsl(0, 72%, 51%)",
     lessons: [
       { title: "Types of Errors", steps: 4 },
       { title: "Suspense Account", steps: 3 },
@@ -19,7 +21,7 @@ export const LEARN_MODULES: LearnModule[] = [
     ]
   },
   {
-    id: 2, title: "Club Accounts", icon: "🏟️", color: "hsl(142, 72%, 29%)",
+    id: 2, title: "Club Accounts", icon: Landmark, color: "hsl(142, 72%, 29%)",
     lessons: [
       { title: "Accumulated Fund", steps: 3 },
       { title: "Subscriptions Account", steps: 4 },
@@ -31,7 +33,7 @@ export const LEARN_MODULES: LearnModule[] = [
     ]
   },
   {
-    id: 3, title: "Service Firm Accounts", icon: "💼", color: "hsl(217, 91%, 60%)",
+    id: 3, title: "Service Firm Accounts", icon: Briefcase, color: "hsl(217, 91%, 60%)",
     lessons: [
       { title: "Statement of Capital", steps: 3 },
       { title: "Fee Income & Expenses", steps: 4 },
@@ -42,7 +44,7 @@ export const LEARN_MODULES: LearnModule[] = [
     ]
   },
   {
-    id: 4, title: "Published Accounts", icon: "📊", color: "hsl(270, 60%, 50%)",
+    id: 4, title: "Published Accounts", icon: BarChart3, color: "hsl(270, 60%, 50%)",
     lessons: [
       { title: "Companies Act Requirements", steps: 3 },
       { title: "Published P&L", steps: 5 },
@@ -53,7 +55,7 @@ export const LEARN_MODULES: LearnModule[] = [
     ]
   },
   {
-    id: 5, title: "Cash Flow Statement", icon: "💰", color: "hsl(38, 92%, 50%)",
+    id: 5, title: "Cash Flow Statement", icon: Banknote, color: "hsl(38, 92%, 50%)",
     lessons: [
       { title: "Cash vs Profit", steps: 3 },
       { title: "Operating Activities", steps: 4 },
@@ -665,7 +667,7 @@ export const RATIO_THEORY: RatioTheoryQ[] = [
 export interface StudyTool {
   title: string;
   desc: string;
-  icon: string;
+  icon: LucideIcon;
   content: string[];
 }
 
@@ -673,7 +675,7 @@ export const STUDY_TOOLS_DATA: StudyTool[] = [
   {
     title: "Exam Timing Guide",
     desc: "How to allocate your 2.5 hours across all sections",
-    icon: "⏱️",
+    icon: Clock,
     content: [
       "Section 1 — Q1 (120 marks): 45 minutes maximum",
       "Section 2 — Q2-Q7 pick 2 (100 marks each): 35 minutes each = 70 minutes",
@@ -687,7 +689,7 @@ export const STUDY_TOOLS_DATA: StudyTool[] = [
   {
     title: "Mark Allocation",
     desc: "How marks are distributed across the paper",
-    icon: "📊",
+    icon: PieChart,
     content: [
       "Q1 (Section 1): 120 marks — Final Accounts with adjustments",
       "Q2-Q7 (Section 2): 100 marks each, answer 2 — Various topics",
@@ -700,7 +702,7 @@ export const STUDY_TOOLS_DATA: StudyTool[] = [
   {
     title: "Revision Checklist",
     desc: "Track what you've covered",
-    icon: "✅",
+    icon: CheckSquare,
     content: [
       "□ Q1: Sole Trader Final Accounts",
       "□ Q1: Company Final Accounts (Published)",
@@ -727,7 +729,7 @@ export const STUDY_TOOLS_DATA: StudyTool[] = [
   {
     title: "Study Planner",
     desc: "Suggested 6-week revision schedule",
-    icon: "📅",
+    icon: CalendarDays,
     content: [
       "Week 1: Q1 (Sole Trader + Company) — do 3 past papers timed",
       "Week 2: Q5 Ratios + Section 2 (Club, Service Firm)",

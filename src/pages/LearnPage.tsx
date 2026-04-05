@@ -47,7 +47,7 @@ export default function LearnPage() {
           ← Back to Modules
         </Button>
         <div className="flex items-center gap-3 mb-6">
-          <span className="text-3xl">{mod.icon}</span>
+          <mod.icon className="h-7 w-7 shrink-0" style={{ color: mod.color }} />
           <div>
             <h1 className="font-display text-xl font-bold">{mod.title}</h1>
             <p className="text-xs text-muted-foreground">{mod.lessons.length} lessons · {mod.lessons.reduce((s, l) => s + l.steps, 0)} steps</p>
@@ -122,7 +122,7 @@ export default function LearnPage() {
           return (
             <Card key={m.id} className="cursor-pointer hover:shadow-md transition-all border-l-4" style={{ borderLeftColor: m.color }} onClick={() => setActiveModule(i)}>
               <CardContent className="p-5 flex items-center gap-4">
-                <span className="text-3xl">{m.icon}</span>
+                <m.icon className="h-7 w-7 shrink-0" style={{ color: m.color }} />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
                     <h3 className="font-display text-sm font-bold">{m.title}</h3>
