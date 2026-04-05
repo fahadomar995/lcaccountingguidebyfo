@@ -667,7 +667,7 @@ export const RATIO_THEORY: RatioTheoryQ[] = [
 export interface StudyTool {
   title: string;
   desc: string;
-  icon: string;
+  icon: LucideIcon;
   content: string[];
 }
 
