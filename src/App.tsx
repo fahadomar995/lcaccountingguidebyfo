@@ -17,6 +17,7 @@ import Q1GuidePage from "./pages/Q1GuidePage";
 import RatiosPage from "./pages/RatiosPage";
 import StudyToolsPage from "./pages/StudyToolsPage";
 import { PredOverview, PredCharts, PredInterp, PredQ1, PredSection3, PredSimulate, PredModel, PredStats } from "./pages/PredictionPages";
+import ContactPage from "./pages/ContactPage";
 import { COSTING_ARCHETYPES, COSTING_CATEGORIES, BUDGETING_ARCHETYPES, BUDGETING_CATEGORIES } from "./data/archetypes";
 import { Q1_ARCHETYPES, Q1_CATEGORIES } from "./data/q1Workings";
 import { S2_ARCHETYPES, S2_CATEGORIES } from "./data/s2Workings";
