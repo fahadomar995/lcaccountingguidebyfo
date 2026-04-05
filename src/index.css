@@ -139,42 +139,89 @@
 }
 
 /* ═══ T-Account Styles ═══ */
+
+/* Account title row — centered bold header with bottom border */
 .t-accounts-container table {
-  border: 1px solid hsl(var(--border));
-  border-radius: 0.5rem;
+  border: 2px solid hsl(var(--foreground) / 0.25);
+  border-radius: 0;
   overflow: hidden;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.t-accounts-container table thead tr.bg-muted {
-  background: hsl(var(--muted));
-}
-
-.t-accounts-container table thead tr.bg-muted th {
+/* Title bar — the account name */
+.t-accounts-container table thead tr.bg-muted th,
+.t-accounts-container table thead tr.bg-muted th[colspan] {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 700;
   padding: 0.5rem 0.75rem;
   text-align: center;
-  border-bottom: 2px solid hsl(var(--border));
+  background: hsl(var(--foreground) / 0.06);
+  border-bottom: 2px solid hsl(var(--foreground) / 0.25);
+  border-left: 1px solid hsl(var(--foreground) / 0.15);
+  border-right: 1px solid hsl(var(--foreground) / 0.15);
 }
 
+/* Debit / Credit header row */
+.t-accounts-container table thead tr td.font-bold,
+.t-accounts-container table thead tr th.font-bold {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.35rem 0.75rem;
+  background: hsl(var(--foreground) / 0.03);
+  border-bottom: 1px solid hsl(var(--foreground) / 0.2);
+  color: hsl(var(--muted-foreground));
+}
+
+/* The vertical divider between Debit and Credit — thick center line */
+.t-accounts-container table td:first-child {
+  border-right: 2px solid hsl(var(--foreground) / 0.25) !important;
+}
+
+/* All cells */
 .t-accounts-container table td {
   padding: 0.4rem 0.75rem;
-  border: 1px solid hsl(var(--border));
+  border: none;
+  border-bottom: 1px solid hsl(var(--foreground) / 0.06);
   font-size: 0.8rem;
+  vertical-align: top;
 }
 
+/* Right-aligned amounts */
 .t-accounts-container table td.text-right {
   text-align: right;
   font-family: 'JetBrains Mono', monospace;
 }
 
+/* Totals row */
 .t-accounts-container table tr.font-bold.bg-muted {
-  background: hsl(var(--muted));
+  background: hsl(var(--foreground) / 0.04);
 }
 
+.t-accounts-container table tr.font-bold.bg-muted td {
+  font-weight: 700;
+  border-top: 2px solid hsl(var(--foreground) / 0.25);
+  border-bottom: 2px solid hsl(var(--foreground) / 0.25);
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+/* Non-T-account tables (calculation tables without Dr/Cr) */
 .t-accounts-container table tr.font-bold td {
   font-weight: 700;
-  border-top: 2px solid hsl(var(--foreground) / 0.3);
+}
+
+/* Bold amounts for key figures */
+.t-accounts-container table strong {
+  color: hsl(var(--primary));
+}
+
+/* Red text for losses */
+.t-accounts-container table .text-red-600 {
+  color: hsl(0, 62%, 50%);
 }
