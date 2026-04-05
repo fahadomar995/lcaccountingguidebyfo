@@ -44,7 +44,7 @@ export const LEARN_MODULES: LearnModule[] = [
     ]
   },
   {
-    id: 4, title: "Published Accounts", icon: "📊", color: "hsl(270, 60%, 50%)",
+    id: 4, title: "Published Accounts", icon: BarChart3, color: "hsl(270, 60%, 50%)",
     lessons: [
       { title: "Companies Act Requirements", steps: 3 },
       { title: "Published P&L", steps: 5 },
