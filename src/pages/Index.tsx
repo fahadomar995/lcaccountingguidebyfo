@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { RESULTS, SEC3_Q8_RESULTS, SEC3_Q9_RESULTS, tier } from "@/data/predictions";
 import { THEORY_BANK, THEORY_FLASHCARDS } from "@/data/theory";
-import { CLASSIFY_ITEMS } from "@/data/studyContent";
+import { CLASSIFY_ITEMS, LAYOUT_FORMATS } from "@/data/studyContent";
 import { useMemo } from "react";
 
 function useDashboardStats() {
