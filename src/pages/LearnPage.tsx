@@ -47,7 +47,7 @@ export default function LearnPage() {
           ← Back to Modules
         </Button>
         <div className="flex items-center gap-3 mb-6">
-          <span className="text-3xl">{mod.icon}</span>
+          <mod.icon className="h-7 w-7 shrink-0" style={{ color: mod.color }} />
           <div>
             <h1 className="font-display text-xl font-bold">{mod.title}</h1>
             <p className="text-xs text-muted-foreground">{mod.lessons.length} lessons · {mod.lessons.reduce((s, l) => s + l.steps, 0)} steps</p>

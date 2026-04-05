@@ -48,7 +48,7 @@ export default function StudyToolsPage() {
               >
                 <CardContent className="p-5">
                   <div className="flex items-center gap-3">
-                    <span className="text-2xl">{tool.icon}</span>
+                    <tool.icon className="h-5 w-5 text-primary shrink-0" />
                     <div className="flex-1">
                       <h3 className="font-display text-sm font-bold">{tool.title}</h3>
                       <p className="text-xs text-muted-foreground">{tool.desc}</p>
