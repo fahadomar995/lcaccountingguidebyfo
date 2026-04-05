@@ -33,7 +33,7 @@ export const LEARN_MODULES: LearnModule[] = [
     ]
   },
   {
-    id: 3, title: "Service Firm Accounts", icon: "💼", color: "hsl(217, 91%, 60%)",
+    id: 3, title: "Service Firm Accounts", icon: Briefcase, color: "hsl(217, 91%, 60%)",
     lessons: [
       { title: "Statement of Capital", steps: 3 },
       { title: "Fee Income & Expenses", steps: 4 },
