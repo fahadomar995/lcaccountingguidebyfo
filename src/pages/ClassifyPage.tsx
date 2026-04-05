@@ -27,16 +27,16 @@ const TOPIC_TABS: { key: TopicKey; label: string; categories: ClassifyCategory[]
 ];
 
 const CAT_COLORS: Record<ClassifyCategory, string> = {
-  "Trading Account": "bg-emerald-700/80 hover:bg-emerald-700",
-  "P&L (Administration)": "bg-slate-600/80 hover:bg-slate-600",
-  "P&L (Selling & Distribution)": "bg-indigo-700/80 hover:bg-indigo-700",
-  "BS Fixed Assets": "bg-amber-800/80 hover:bg-amber-800",
-  "BS Current Assets": "bg-teal-700/80 hover:bg-teal-700",
-  "BS Creditors < 1 Year": "bg-rose-800/80 hover:bg-rose-800",
-  "BS Creditors > 1 Year": "bg-red-900/80 hover:bg-red-900",
-  "BS Capital & Reserves": "bg-violet-800/80 hover:bg-violet-800",
-  "Manufacturing Account": "bg-amber-900/80 hover:bg-amber-900",
-  "NOT in any account": "bg-stone-600/80 hover:bg-stone-600",
+  "Trading Account": "bg-[hsl(150,15%,38%)] hover:bg-[hsl(150,15%,32%)]",
+  "P&L (Administration)": "bg-[hsl(220,12%,42%)] hover:bg-[hsl(220,12%,36%)]",
+  "P&L (Selling & Distribution)": "bg-[hsl(250,14%,44%)] hover:bg-[hsl(250,14%,38%)]",
+  "BS Fixed Assets": "bg-[hsl(30,20%,40%)] hover:bg-[hsl(30,20%,34%)]",
+  "BS Current Assets": "bg-[hsl(175,15%,38%)] hover:bg-[hsl(175,15%,32%)]",
+  "BS Creditors < 1 Year": "bg-[hsl(5,20%,42%)] hover:bg-[hsl(5,20%,36%)]",
+  "BS Creditors > 1 Year": "bg-[hsl(355,18%,38%)] hover:bg-[hsl(355,18%,32%)]",
+  "BS Capital & Reserves": "bg-[hsl(270,14%,42%)] hover:bg-[hsl(270,14%,36%)]",
+  "Manufacturing Account": "bg-[hsl(35,22%,38%)] hover:bg-[hsl(35,22%,32%)]",
+  "NOT in any account": "bg-[hsl(30,8%,45%)] hover:bg-[hsl(30,8%,39%)]",
 };
 
 const CAT_SHORT: Record<ClassifyCategory, string> = {

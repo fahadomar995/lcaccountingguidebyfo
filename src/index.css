@@ -140,80 +140,102 @@
 
 /* ═══ T-Account Styles ═══ */
 
-/* Account title row — centered bold header with bottom border */
+/* Outer table — no rounded corners, clean ledger look */
 .t-accounts-container table {
-  border: 2px solid hsl(var(--foreground) / 0.25);
+  border: none;
   border-radius: 0;
-  overflow: hidden;
-  margin-bottom: 1rem;
+  overflow: visible;
+  margin-bottom: 1.25rem;
   width: 100%;
   border-collapse: collapse;
 }
 
-/* Title bar — the account name */
+/* Title bar — account name, centered, underlined */
 .t-accounts-container table thead tr.bg-muted th,
 .t-accounts-container table thead tr.bg-muted th[colspan] {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 0.85rem;
   font-weight: 700;
-  padding: 0.5rem 0.75rem;
+  padding: 0.45rem 0.75rem;
   text-align: center;
-  background: hsl(var(--foreground) / 0.06);
-  border-bottom: 2px solid hsl(var(--foreground) / 0.25);
-  border-left: 1px solid hsl(var(--foreground) / 0.15);
-  border-right: 1px solid hsl(var(--foreground) / 0.15);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid hsl(var(--foreground) / 0.35);
 }
 
-/* Debit / Credit header row */
+/* Debit / Credit sub-header row */
 .t-accounts-container table thead tr td.font-bold,
 .t-accounts-container table thead tr th.font-bold {
   font-family: 'DM Sans', sans-serif;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 0.35rem 0.75rem;
-  background: hsl(var(--foreground) / 0.03);
+  letter-spacing: 0.1em;
+  padding: 0.3rem 0.75rem;
+  background: transparent;
+  border: none;
   border-bottom: 1px solid hsl(var(--foreground) / 0.2);
   color: hsl(var(--muted-foreground));
 }
 
-/* The vertical divider between Debit and Credit — thick center line */
-.t-accounts-container table td:first-child {
-  border-right: 2px solid hsl(var(--foreground) / 0.25) !important;
+/* The vertical divider between Debit and Credit — thick T-account center line */
+.t-accounts-container table td:first-child,
+.t-accounts-container table thead tr td:first-child,
+.t-accounts-container table thead tr th:first-child {
+  border-right: 2px solid hsl(var(--foreground) / 0.3) !important;
 }
 
-/* All cells */
+/* All body cells — minimal, no grid lines */
 .t-accounts-container table td {
-  padding: 0.4rem 0.75rem;
+  padding: 0.3rem 0.75rem;
   border: none;
-  border-bottom: 1px solid hsl(var(--foreground) / 0.06);
   font-size: 0.8rem;
   vertical-align: top;
+  line-height: 1.5;
 }
 
-/* Right-aligned amounts */
+/* Right-aligned amounts — monospaced */
 .t-accounts-container table td.text-right {
   text-align: right;
   font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
 }
 
-/* Totals row */
+/* Totals row — double underline effect like a real ledger */
 .t-accounts-container table tr.font-bold.bg-muted {
-  background: hsl(var(--foreground) / 0.04);
+  background: transparent;
 }
 
 .t-accounts-container table tr.font-bold.bg-muted td {
   font-weight: 700;
-  border-top: 2px solid hsl(var(--foreground) / 0.25);
-  border-bottom: 2px solid hsl(var(--foreground) / 0.25);
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+  border-top: 1px solid hsl(var(--foreground) / 0.3);
+  border-bottom: 3px double hsl(var(--foreground) / 0.4);
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
 }
 
-/* Non-T-account tables (calculation tables without Dr/Cr) */
-.t-accounts-container table tr.font-bold td {
+/* Non-T-account tables — calculation/journal tables */
+.t-accounts-container table thead tr.bg-muted th {
+  text-align: left;
+}
+
+/* Journal-style tables with Account/Debit/Credit columns */
+.t-accounts-container table thead tr.bg-muted th:not([colspan]) {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem;
   font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid hsl(var(--foreground) / 0.2);
+}
+
+/* Calculation table cells with borders */
+.t-accounts-container table td.border-border,
+.t-accounts-container table td.border {
+  border: 1px solid hsl(var(--foreground) / 0.1);
+  padding: 0.35rem 0.75rem;
 }
 
 /* Bold amounts for key figures */
@@ -223,5 +245,10 @@
 
 /* Red text for losses */
 .t-accounts-container table .text-red-600 {
-  color: hsl(0, 62%, 50%);
+  color: hsl(0, 55%, 45%);
+}
+
+/* Non-T-account bold rows */
+.t-accounts-container table tr.font-bold td {
+  font-weight: 700;
 }
