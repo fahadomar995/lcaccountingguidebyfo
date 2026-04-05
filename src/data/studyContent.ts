@@ -729,7 +729,7 @@ export const STUDY_TOOLS_DATA: StudyTool[] = [
   {
     title: "Study Planner",
     desc: "Suggested 6-week revision schedule",
-    icon: "📅",
+    icon: CalendarDays,
     content: [
       "Week 1: Q1 (Sole Trader + Company) — do 3 past papers timed",
       "Week 2: Q5 Ratios + Section 2 (Club, Service Firm)",
