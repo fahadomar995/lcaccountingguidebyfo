@@ -16,30 +16,12 @@ import FormulasPage from "./pages/FormulasPage";
 import Q1GuidePage from "./pages/Q1GuidePage";
 import RatiosPage from "./pages/RatiosPage";
 import StudyToolsPage from "./pages/StudyToolsPage";
-import WorkingsListPage from "./pages/WorkingsListPage";
 import { PredOverview, PredCharts, PredInterp, PredQ1, PredSection3, PredSimulate, PredModel, PredStats } from "./pages/PredictionPages";
 import { COSTING_ARCHETYPES, COSTING_CATEGORIES, BUDGETING_ARCHETYPES, BUDGETING_CATEGORIES } from "./data/archetypes";
+import { Q1_ARCHETYPES, Q1_CATEGORIES } from "./data/q1Workings";
+import { S2_ARCHETYPES, S2_CATEGORIES } from "./data/s2Workings";
 
 const queryClient = new QueryClient();
-
-const Q1_TOPICS = [
-  { name: "Closing Stock & Adjustments", count: 8, desc: "Year-end adjustments: closing stock, accruals, prepayments, bad debts." },
-  { name: "Depreciation", count: 6, desc: "Straight line and reducing balance methods." },
-  { name: "Provision for Bad Debts", count: 5, desc: "Creating, increasing, and decreasing provisions." },
-  { name: "Error Corrections in Q1", count: 4, desc: "Suspense account entries and correcting journal entries." },
-  { name: "Company Adjustments", count: 7, desc: "Corporation tax, dividends, transfers to reserves." },
-  { name: "Manufacturing Adjustments", count: 7, desc: "Factory overheads, WIP, cost of production." },
-];
-
-const S2_TOPICS = [
-  { name: "Club Accounts", count: 6, desc: "Subscriptions, accumulated fund, I&E account." },
-  { name: "Service Firm Accounts", count: 5, desc: "Statement of capital, fee income, I&E." },
-  { name: "Cash Flow Statements", count: 6, desc: "Operating activities, capital expenditure, reconciliation." },
-  { name: "Correction of Errors", count: 5, desc: "Suspense account, journal entries, corrected TB." },
-  { name: "Published Accounts", count: 6, desc: "Published P&L, balance sheet, notes." },
-  { name: "Tabular Statements", count: 4, desc: "Columnar format adjustments." },
-  { name: "Incomplete Records", count: 5, desc: "Opening capital, mark-up/margin calculations." },
-];
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -57,21 +39,23 @@ const App = () => (
             <Route path="/formulas" element={<FormulasPage />} />
             <Route path="/q1-guide" element={<Q1GuidePage />} />
             <Route path="/q1-workings" element={
-              <WorkingsListPage
+              <WorkingsPage
                 title="Q1 Step-by-Step Workings"
-                subtitle="37 workings with real SEC marking scheme data. Each working shows you exactly how to handle every Q1 adjustment."
+                subtitle="Every Q1 adjustment type, broken down with T-accounts. Based on the 2025 HL paper (M McConnell) with verified marking scheme workings."
                 sectionLabel="Section 1 — Question 1"
-                count={37}
-                topics={Q1_TOPICS}
+                accentColor="hsl(142, 72%, 29%)"
+                archetypes={Q1_ARCHETYPES}
+                categories={Q1_CATEGORIES}
               />
             } />
             <Route path="/s2-workings" element={
-              <WorkingsListPage
-                title="Section 2 Workings"
-                subtitle="37 topic workings covering every Section 2 question type with exam tips."
+              <WorkingsPage
+                title="Section 2 Step-by-Step Workings"
+                subtitle="Club Accounts, Service Firms, Cash Flow, Published Accounts, and Correction of Errors — all with real SEC data."
                 sectionLabel="Section 2 — Questions 2-7"
-                count={37}
-                topics={S2_TOPICS}
+                accentColor="hsl(0, 72%, 51%)"
+                archetypes={S2_ARCHETYPES}
+                categories={S2_CATEGORIES}
               />
             } />
             <Route path="/q8-costing" element={
