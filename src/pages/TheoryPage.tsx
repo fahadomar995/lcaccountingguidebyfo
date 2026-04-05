@@ -5,14 +5,16 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { THEORY_BANK, THEORY_FLASHCARDS, THEORY_TOPICS } from "@/data/theory";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { Eye, EyeOff, RotateCcw, Check, X, Minus, ChevronLeft, ChevronRight, BarChart3, Filter } from "lucide-react";
+import { Eye, EyeOff, RotateCcw, Check, X, Minus, ChevronLeft, ChevronRight, BarChart3 } from "lucide-react";
 
 type Score = "got" | "partial" | "missed";
+const PAGE_SIZE = 20;
 
 export default function TheoryPage() {
   const [topicFilter, setTopicFilter] = useState<string>("All");
   const [revealedIds, setRevealedIds] = useState<Set<number>>(new Set());
   const [scores, setScores] = useLocalStorage<Record<number, Score>>("lc-theory-scores", {});
+  const [page, setPage] = useState(0);
 
   // Flashcard state
   const [flashTopic, setFlashTopic] = useState<string>("All");
@@ -25,9 +27,11 @@ export default function TheoryPage() {
     return THEORY_BANK.filter(q => q.topic === topicFilter);
   }, [topicFilter]);
 
+  const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+  const paged = filtered.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+
   const flashFiltered = useMemo(() => {
-    const cards = flashTopic === "All" ? THEORY_FLASHCARDS : THEORY_FLASHCARDS.filter(f => f.topic === flashTopic);
-    return cards;
+    return flashTopic === "All" ? THEORY_FLASHCARDS : THEORY_FLASHCARDS.filter(f => f.topic === flashTopic);
   }, [flashTopic]);
 
   const toggleReveal = (i: number) => {
@@ -49,6 +53,9 @@ export default function TheoryPage() {
     return Object.entries(map).sort((a, b) => b[1] - a[1]);
   }, []);
 
+  const uniqueYears = useMemo(() => new Set(THEORY_BANK.map(q => q.year)).size, []);
+  const uniqueSubTopics = useMemo(() => new Set(THEORY_BANK.flatMap(q => q.tags)).size, []);
+
   const totalScored = Object.keys(scores).length;
   const gotCount = Object.values(scores).filter(s => s === "got").length;
 
@@ -59,16 +66,17 @@ export default function TheoryPage() {
         {THEORY_BANK.length} past exam theory questions with marking scheme answers. Filter by topic, practise, and track your progress.
       </p>
 
-      {totalScored > 0 && (
-        <Card className="mb-6 border-border">
-          <CardContent className="p-4 flex flex-wrap gap-6 items-center justify-center">
-            <Stat label="Attempted" value={`${totalScored}/${THEORY_BANK.length}`} />
-            <Stat label="Got It" value={String(gotCount)} />
-            <Stat label="Score" value={totalScored > 0 ? `${Math.round(gotCount / totalScored * 100)}%` : "—"} />
-            <Stat label="Flashcards Known" value={`${known.length}/${THEORY_FLASHCARDS.length}`} />
-          </CardContent>
-        </Card>
-      )}
+      {/* Stats banner */}
+      <Card className="mb-6 border-border">
+        <CardContent className="p-4 flex flex-wrap gap-6 items-center justify-center">
+          <Stat label="Questions" value={String(THEORY_BANK.length)} />
+          <Stat label="Topics" value={String(THEORY_TOPICS.length)} />
+          <Stat label="Exam Years" value={String(uniqueYears)} />
+          <Stat label="Sub-Topics" value={String(uniqueSubTopics)} />
+          <Stat label="Flashcards" value={String(THEORY_FLASHCARDS.length)} />
+          {totalScored > 0 && <Stat label="Score" value={`${Math.round(gotCount / totalScored * 100)}%`} />}
+        </CardContent>
+      </Card>
 
       <Tabs defaultValue="questions" className="w-full">
         <TabsList className="mb-6 w-full justify-start overflow-x-auto">
@@ -80,10 +88,15 @@ export default function TheoryPage() {
 
         {/* ALL QUESTIONS TAB */}
         <TabsContent value="questions">
-          <FilterBar topics={THEORY_TOPICS} active={topicFilter} onSelect={setTopicFilter} />
-          <p className="text-xs text-muted-foreground mb-4">{filtered.length} question{filtered.length !== 1 ? "s" : ""}</p>
+          <FilterBar topics={THEORY_TOPICS} active={topicFilter} onSelect={(t) => { setTopicFilter(t); setPage(0); }} />
+          <div className="flex items-center justify-between mb-4">
+            <p className="text-xs text-muted-foreground">{filtered.length} question{filtered.length !== 1 ? "s" : ""}</p>
+            {totalPages > 1 && (
+              <p className="text-xs text-muted-foreground font-mono">Page {page + 1} of {totalPages}</p>
+            )}
+          </div>
           <div className="space-y-4">
-            {filtered.map((q, i) => {
+            {paged.map((q) => {
               const globalIdx = THEORY_BANK.indexOf(q);
               const revealed = revealedIds.has(globalIdx);
               return (
@@ -99,14 +112,35 @@ export default function TheoryPage() {
               );
             })}
           </div>
+          {totalPages > 1 && (
+            <div className="flex items-center justify-center gap-2 mt-6">
+              <Button variant="outline" size="sm" className="text-xs" disabled={page === 0} onClick={() => setPage(page - 1)}>
+                <ChevronLeft className="h-3.5 w-3.5" /> Prev
+              </Button>
+              {Array.from({ length: totalPages }, (_, i) => (
+                <Button
+                  key={i}
+                  variant={page === i ? "default" : "outline"}
+                  size="sm"
+                  className="text-xs w-8 h-8 p-0"
+                  onClick={() => setPage(i)}
+                >
+                  {i + 1}
+                </Button>
+              ))}
+              <Button variant="outline" size="sm" className="text-xs" disabled={page === totalPages - 1} onClick={() => setPage(page + 1)}>
+                Next <ChevronRight className="h-3.5 w-3.5" />
+              </Button>
+            </div>
+          )}
         </TabsContent>
 
         {/* PRACTICE MODE */}
         <TabsContent value="practice">
-          <FilterBar topics={THEORY_TOPICS} active={topicFilter} onSelect={setTopicFilter} />
+          <FilterBar topics={THEORY_TOPICS} active={topicFilter} onSelect={(t) => { setTopicFilter(t); setPage(0); }} />
           <p className="text-xs text-muted-foreground mb-4">Read the question, try to answer, then reveal and score yourself.</p>
           <div className="space-y-4">
-            {filtered.map((q) => {
+            {paged.map((q) => {
               const globalIdx = THEORY_BANK.indexOf(q);
               const revealed = revealedIds.has(globalIdx);
               return (
@@ -122,6 +156,27 @@ export default function TheoryPage() {
               );
             })}
           </div>
+          {totalPages > 1 && (
+            <div className="flex items-center justify-center gap-2 mt-6">
+              <Button variant="outline" size="sm" className="text-xs" disabled={page === 0} onClick={() => setPage(page - 1)}>
+                <ChevronLeft className="h-3.5 w-3.5" /> Prev
+              </Button>
+              {Array.from({ length: totalPages }, (_, i) => (
+                <Button
+                  key={i}
+                  variant={page === i ? "default" : "outline"}
+                  size="sm"
+                  className="text-xs w-8 h-8 p-0"
+                  onClick={() => setPage(i)}
+                >
+                  {i + 1}
+                </Button>
+              ))}
+              <Button variant="outline" size="sm" className="text-xs" disabled={page === totalPages - 1} onClick={() => setPage(page + 1)}>
+                Next <ChevronRight className="h-3.5 w-3.5" />
+              </Button>
+            </div>
+          )}
         </TabsContent>
 
         {/* FLASHCARDS */}
@@ -133,7 +188,7 @@ export default function TheoryPage() {
                 {flashIndex + 1} of {flashFiltered.length} · {known.length} known
               </p>
               <div
-                className="relative cursor-pointer perspective-1000"
+                className="relative cursor-pointer"
                 style={{ minHeight: 220 }}
                 onClick={() => setFlipped(!flipped)}
               >
