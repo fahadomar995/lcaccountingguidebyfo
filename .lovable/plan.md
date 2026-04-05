@@ -1,144 +1,97 @@
 
 
-# LC Accounting 2026 — Full Rebuild Plan
+# Phase 1: Non-Prediction Pages Upgrade
 
-## Summary
-Rebuild the entire LC Accounting study platform as a React app in Lovable, porting all 21+ pages from static HTML into a modern component architecture with sidebar navigation, floating scratchpad overlay, and visual polish. Integrate costing and budgeting pages into the main navigation. Later phases add spaced repetition, accounts, and AI assistant.
-
----
-
-## Phase 1: Foundation & Layout Shell
-
-### 1a. Design System
-- Port the CSS custom properties from `shared.css` into Tailwind config and `index.css` (the warm earthy palette: sage green accent `#6b8f71`, cream backgrounds `#f2f0ed`, dark mode variants)
-- Add Google Fonts: Playfair Display (headings), DM Sans (body), JetBrains Mono (data/mono)
-- Define color-coded section tokens: Learn (sage), Practice (blue), Workings (rose), Tools (sand), Predictions (lavender)
-
-### 1b. Sidebar Navigation
-- Replace the 13-item horizontal nav with a collapsible sidebar using shadcn `Sidebar` component
-- Group into 5 sections:
-  - **Home**: Dashboard
-  - **Learn**: Theory, Learn Mode
-  - **Practice**: Classify, Layouts, Formulas
-  - **Workings**: Q1 Guide, Q1 Workings, S2 Workings, Q8 Costing, Q9 Budgeting
-  - **Tools**: Study Tools, Q5 Ratios
-- Predictions drawer accessible via a button in the header (matching the current `pred-drawer` pattern)
-- Dark mode toggle in sidebar footer
-- iPad: icon-rail in portrait, expanded in landscape. Mobile: offcanvas with hamburger trigger
-
-### 1c. App Layout Component
-- `AppLayout.tsx`: SidebarProvider + Sidebar + main content area + SidebarTrigger in header
-- All routes wrapped in this layout
-- Smooth page transitions via React Router
+Upgrading all study tool pages to match the original HTML platform. Prediction pages are excluded (done last).
 
 ---
 
-## Phase 2: Floating Scratchpad Overlay
+## What's Changing
 
-Port the scratchpad from `scratchpad.html` as a global React component:
-- **Floating Action Button** (FAB): fixed bottom-right pen icon, visible on all pages
-- **Overlay panel**: slides up from bottom, occupying ~60% of screen height (not full-screen), so the question/content behind remains visible
-- **Resizable/draggable** height handle so students can adjust how much of the page is covered
-- **Canvas drawing** with: pen tool, eraser, 4 colours, 3 thicknesses, undo/redo, grid/ruled toggle, save-as-image, clear
-- **Pressure-sensitive** Apple Pencil support via pointer events
-- **localStorage persistence**: drawing auto-saves, green dot indicator on FAB when content exists
-- **Keyboard shortcuts**: P=pen, E=eraser, G=grid, 1-4=colours, Ctrl+Z=undo, Esc=close
+### 1. Theory Bank — Expand Data (theory.ts)
+**Current**: ~40 questions, ~34 flashcards
+**Target**: 109+ questions, 75+ flashcards across all 11 topics
 
----
+Add missing questions for: Budgeting (remaining years), Costing (all missing years through 2023), Cash Flow (remaining), Correction of Errors (remaining), Club Accounts (remaining), Published Accounts (remaining), Service Firms (remaining), Depreciation, Manufacturing, Company Appropriation, Incomplete Records, Tabular Statements, Farm Accounts, Interpretation.
 
-## Phase 3: Core Data Layer
+Add missing flashcards for all topics to reach 75+.
 
-### 3a. Port shared.js Data
-- Create `src/data/` directory with TypeScript modules:
-  - `predictions.ts`: SEC2_HISTORY, TOPICS, SEC3 data, INTERP_PARTB, PEARSON correlations
-  - `algorithms.ts`: Markov chain, weighted frequency, gap scoring, Monte Carlo, backtest, Bayesian posterior, bootstrap, Brier scores, calibration, Shannon entropy, hazard rate functions
-  - `theory.ts`: THEORY_BANK (all 113+ questions), THEORY_FLASHCARDS, RATIO_THEORY
-  - `studyTools.ts`: study planner, exam timing data
+### 2. Classify Page — 10 Categories
+**Current**: Debit/Credit binary quiz
+**Target**: 10-category classification quiz matching original
 
-### 3b. Local State Management
-- Use localStorage hooks for progress tracking (same keys as current site for data migration compatibility):
-  - `lc-theory-scores`, `lc-flash-known`, `lc-classify-progress`, `lc-learn-progress`, `lc-theme`
+Categories: Trading Account, P&L (Administration), P&L (Selling & Distribution), BS Fixed Assets, BS Current Assets, BS Creditors < 1 Year, BS Creditors > 1 Year, BS Capital & Reserves, Manufacturing Account, Items NOT in any account.
 
----
+- Update `ClassifyItem` interface: change `answer` from `"debit"|"credit"` to the 10 category strings
+- Update `CLASSIFY_ITEMS` data in studyContent.ts with correct category for all 141 items
+- Rebuild ClassifyPage.tsx: show item name, 10 category buttons, track best score per category in `lc-classify-best`
 
-## Phase 4: Page Rebuilds (Priority Order)
+### 3. Layouts Page — 11 Templates + Practice Mode
+**Current**: 6 templates, reference-only mode
+**Target**: 11 templates with Reference + Practice modes
 
-### 4a. Homepage Dashboard (`/`)
-- Hero with "LC Accounting 2026" branding
-- Progress dashboard: Questions Done, Practice Score, Flashcards, Classify Best, Learn Modules (ring charts)
-- Tool cards grid (Theory, Study Tools, Q1 Guide, Q5 Ratios) with hover animations
-- Section 2 priority rankings with tier badges and probability circles
-- Section 3 (Q8/Q9) priority cards
-- Q1 pair predictions
-- Q5 guaranteed banner
-- Patch notes collapsible
-- "Coming Soon" section
+Add 5 missing templates:
+- Trading P&L (Sole Trader)
+- Balance Sheet (Sole Trader)
+- Balance Sheet (Company) — *already exists*
+- Manufacturing Account
+- Published Balance Sheet — *already exists*
+- Club I&E Account
+- Club Balance Sheet
+- Service Firm I&E
 
-### 4b. Theory Page (`/theory`)
-- Tab interface: All Topics, Practice Mode, Flashcards, Frequency Analysis
-- Question cards with reveal answers, marking scheme points
-- Practice mode with Got It / Partial / Missed scoring
-- Flashcard flip cards with Known/Unknown tracking
+Add Practice Mode: blank rows where students type item names from memory, check against correct answers.
 
-### 4c. Q8 Costing (`/q8-costing`) & Q9 Budgeting (`/q9-budgeting`)
-- Port the tabbed archetype-based structure from `costing.html` and `budgeting.html`
-- Costing: 6 tabs (Intro, Marginal, Absorption, Job Costing, Stock Valuation, Overhead Apportionment) with archetype cards expanding to step-by-step workings
-- Budgeting: similar tab structure (Intro, Cash Budget, Production Budget, Flexible Budget) with archetype cards
-- Both integrated into sidebar navigation under "Workings" group
+### 4. Study Tools Page — Interactive Tools
+**Current**: Static expandable cards with text content
+**Target**: 3 interactive tools
 
-### 4d. Remaining Pages
-- `/learn` — Module cards with lesson/step tracking
-- `/study-tools` — Study planner, exam timing, checklists
-- `/q1-guide` — Adjustment reference with account-type filters
-- `/q1-workings` — Step-by-step Q1 workings
-- `/s2-workings` — Section 2 workings
-- `/ratios` — Q5 Ratios Hub (practice papers, formula quiz, report guide)
-- `/formulas` — Formula cheat sheet with search
-- `/layouts` — Layout practice (11 formats)
-- `/classify` — "Where Does This Go?" quiz
-- `/predictions/*` — Prediction engine pages (overview, charts, Monte Carlo, model params, backtesting, etc.)
+- **Exam Timing Calculator**: Input marks per question → see time allocation (marks/400 × 175 + 5 min reading)
+- **Practice Tracker**: Grid of years (2015-2025) × questions (Q1-Q9), click cells to mark complete, saved to `lc-practice-tracker` in localStorage
+- Keep existing revision checklist and planner as expandable cards
+
+### 5. Dashboard (Index.tsx) — Connect Real Progress
+**Current**: All stats hardcoded to "0"
+**Target**: Live stats from localStorage
+
+Read from:
+- `lc-theory-scores` → count attempted/got-it
+- `lc-flash-known` → count known flashcards
+- `lc-classify-best` → best score percentage
+- `lc-learn-progress` → modules completed (count moduleIds with all steps done)
+- `lc-practice-tracker` → past papers completed count
+
+### 6. Scratchpad Enhancements
+**Current**: Basic drawing canvas
+**Target**: Add keyboard shortcuts, paper styles, pressure sensitivity
+
+- Keyboard shortcuts: P=pen, E=eraser, G=grid toggle, 1-4=colours, Ctrl+Z=undo, Esc=close
+- Paper styles toggle: Blank / Grid (24px) / Ruled (32px) drawn as CSS overlay
+- Pressure sensitivity via `event.pressure` mapping to line width
 
 ---
 
-## Phase 5: Visual Polish & iPad Optimization
+## Files Modified
 
-- Card hover lifts with subtle shadows
-- Smooth expand/collapse animations for workings steps
-- Progress bar fills with CSS transitions
-- Flashcard flip animations (CSS 3D transform)
-- Touch targets minimum 44px for iPad
-- Fluid grid layouts at iPad breakpoints (768px, 1024px, 1194px)
-- Sidebar icon-rail mode for iPad portrait
-- Swipe gestures for flashcard navigation
-
----
-
-## Phase 6: Spaced Repetition (Future)
-- SM-2 algorithm for flashcards and theory questions
-- "Due for review" queue on dashboard
-- Difficulty rating (Again/Hard/Good/Easy) after each card
-- Review calendar heatmap
-- Per-topic mastery scores
-
-## Phase 7: Student Accounts (Future — Supabase)
-- Email/password auth
-- Progress sync across devices
-- User profiles with study stats
-
-## Phase 8: AI Study Assistant (Future)
-- Floating chat widget (bottom-left, opposite scratchpad)
-- Context-aware (knows current page/topic)
-- Suggested prompts per section
+| File | Change |
+|------|--------|
+| `src/data/theory.ts` | Add ~70 theory questions + ~40 flashcards |
+| `src/data/studyContent.ts` | Expand ClassifyItem to 10 categories, add 5 layout templates, add interactive tool data |
+| `src/pages/ClassifyPage.tsx` | Rebuild for 10-category quiz |
+| `src/pages/LayoutsPage.tsx` | Add missing templates + Practice mode |
+| `src/pages/StudyToolsPage.tsx` | Add Exam Timing Calculator + Practice Tracker grid |
+| `src/pages/Index.tsx` | Connect dashboard stats to localStorage |
+| `src/components/Scratchpad.tsx` | Add keyboard shortcuts, paper styles, pressure sensitivity |
 
 ---
 
-## Technical Notes
+## Implementation Order
 
-- All prediction algorithms ported as pure TypeScript functions (no external dependencies)
-- Data constants as typed objects with interfaces
-- React hooks for localStorage state (`useLocalStorage`)
-- Scratchpad uses HTML Canvas API with pointer events for pressure sensitivity
-- Routes managed via React Router with lazy loading for larger pages
-- shadcn components used throughout: Sidebar, Card, Tabs, Accordion, Badge, Button, Sheet, Dialog, Tooltip
-- Existing `shared.js` localStorage keys preserved so returning users keep their progress
+1. **theory.ts** — Expand data (largest data-entry task)
+2. **studyContent.ts** — Update Classify items + add layouts
+3. **ClassifyPage.tsx** — Rebuild with 10 categories
+4. **LayoutsPage.tsx** — Add templates + practice mode
+5. **StudyToolsPage.tsx** — Interactive tools
+6. **Index.tsx** — Live dashboard stats
+7. **Scratchpad.tsx** — Enhanced drawing features
 
