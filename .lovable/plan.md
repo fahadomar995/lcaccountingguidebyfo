@@ -1,73 +1,87 @@
 
+# Rebuild Q5 Ratios Hub + Fix Layouts Page
 
-# Phase 1: Non-Prediction Pages Upgrade
-
-Upgrading all study tool pages to match the original HTML platform. Prediction pages are excluded (done last).
+## Overview
+Two major changes matching the original Netlify site blueprint:
+1. **Q5 Ratios Hub** — Complete rebuild with 6 tabs: Learn Ratios, Q5 Practice, Formula Quiz, Part (b) Guide, Sector Notes, Part (c)
+2. **Layouts Page** — Replace current system with original site's skeleton (11 tabs) plus keep MCS, Cash Budget, Job Cost (14 tabs total)
 
 ---
 
-## What's Changing
+## Part 1: Q5 Ratios Hub Rebuild
 
-### 1. Theory Bank — Expand Data (theory.ts)
-**Current**: ~40 questions, ~34 flashcards
-**Target**: 109+ questions, 75+ flashcards across all 11 topics
+### Data (studyContent.ts)
 
-Add missing questions for: Budgeting (remaining years), Costing (all missing years through 2023), Cash Flow (remaining), Correction of Errors (remaining), Club Accounts (remaining), Published Accounts (remaining), Service Firms (remaining), Depreciation, Manufacturing, Company Appropriation, Incomplete Records, Tabular Statements, Farm Accounts, Interpretation.
+**Add `RATIO_LEARN_DATA`** — 19 ratios with full 3-step content extracted from original site:
+- Categories: Profitability (6), Investment (6), Liquidity (5), Gearing (2)
+- Each ratio: name, category, step1 (Definition + Ideal + Marking scheme language), step2 (Formula + Components + Example), step3 (Interpretation)
+- All 19: ROCE, ROSF, GP Margin, NP Margin, Mark-Up, Total Expenses/Sales%, EPS, P/E, DPS, Dividend Cover, Dividend Yield, Period to Recoup, Current Ratio, Acid Test, Stock Turnover, Debtors Days, Creditors Days, Gearing Ratio, Interest Cover
 
-Add missing flashcards for all topics to reach 75+.
+**Add `Q5_PRACTICE_EXAMS`** — 7 past papers:
+- 2025 Technik plc, 2024 Kelly plc, 2023 O'Malley Ltd, 2022 Watson plc, 2022 Deferred Ash Ltd, 2025 Mock Murphy Ltd, 2023 Mock Adare plc
+- Each: company name, year, P&L data table, Balance Sheet data table, prior year ratios, ratio questions to calculate
 
-### 2. Classify Page — 10 Categories
-**Current**: Debit/Credit binary quiz
-**Target**: 10-category classification quiz matching original
+**Add `SECTOR_NOTES`** — 12 sectors:
+- Pharmaceuticals, Sportswear Retailer, Tourism, Health Food, Construction, Renewable Energy, Food Processing, Soft Drinks, Computer/Software, IT/Technology, Confectionery, Fast Food
+- Each: short-term and long-term analysis
 
-Categories: Trading Account, P&L (Administration), P&L (Selling & Distribution), BS Fixed Assets, BS Current Assets, BS Creditors < 1 Year, BS Creditors > 1 Year, BS Capital & Reserves, Manufacturing Account, Items NOT in any account.
+**Add `PART_C_QUESTIONS`** — 6+ past Part (c) questions with answers
 
-- Update `ClassifyItem` interface: change `answer` from `"debit"|"credit"` to the 10 category strings
-- Update `CLASSIFY_ITEMS` data in studyContent.ts with correct category for all 141 items
-- Rebuild ClassifyPage.tsx: show item name, 10 category buttons, track best score per category in `lc-classify-best`
+**Add `PART_B_GUIDE`** — Full LIPGLOSS guide with:
+- Report layout template (2 marks)
+- LIPGLOSS mnemonic breakdown
+- Stakeholder-specific guides (Shareholders, Debenture Holders, Bank Manager)
+- Mark allocations per section
+- Sample report paragraphs for each section
 
-### 3. Layouts Page — 11 Templates + Practice Mode
-**Current**: 6 templates, reference-only mode
-**Target**: 11 templates with Reference + Practice modes
+### UI (RatiosPage.tsx) — Complete rebuild
 
-Add 5 missing templates:
-- Trading P&L (Sole Trader)
-- Balance Sheet (Sole Trader)
-- Balance Sheet (Company) — *already exists*
-- Manufacturing Account
-- Published Balance Sheet — *already exists*
-- Club I&E Account
-- Club Balance Sheet
-- Service Firm I&E
+**6 tabs** matching original site:
 
-Add Practice Mode: blank rows where students type item names from memory, check against correct answers.
+1. **Learn Ratios** — Category filter pills (All 19, Profitability 6, Investment 6, Liquidity 5, Gearing 2). Left sidebar list of 19 ratios. Click a ratio → 3-step card on right with Back/Next navigation and progress bar.
 
-### 4. Study Tools Page — Interactive Tools
-**Current**: Static expandable cards with text content
-**Target**: 3 interactive tools
+2. **Q5 Practice** — Year selector pills (7 papers). Shows P&L and Balance Sheet tables. Prior year ratios listed. Ratio questions with input fields for self-checking.
 
-- **Exam Timing Calculator**: Input marks per question → see time allocation (marks/400 × 175 + 5 min reading)
-- **Practice Tracker**: Grid of years (2015-2025) × questions (Q1-Q9), click cells to mark complete, saved to `lc-practice-tracker` in localStorage
-- Keep existing revision checklist and planner as expandable cards
+3. **Formula Quiz** — Typing-based (not reveal). Shows ratio name + category, student types formula, Check button to verify, Show Me fallback. Score counter (correct/incorrect/total). Rough Work toggle.
 
-### 5. Dashboard (Index.tsx) — Connect Real Progress
-**Current**: All stats hardcoded to "0"
-**Target**: Live stats from localStorage
+4. **Part (b) Guide** — "40 marks" header. Report layout template. LIPGLOSS mnemonic. Three stakeholder sub-tabs (Shareholders, Debenture Holders, Bank Manager) with mark allocations and sample report paragraphs for each section (Profitability, Liquidity, Gearing, Investment, Other Info, Sector, Conclusion).
 
-Read from:
-- `lc-theory-scores` → count attempted/got-it
-- `lc-flash-known` → count known flashcards
-- `lc-classify-best` → best score percentage
-- `lc-learn-progress` → modules completed (count moduleIds with all steps done)
-- `lc-practice-tracker` → past papers completed count
+5. **Sector Notes** — "Worth 4-5 marks" instruction. Grid of 12 sector cards with short-term and long-term analysis.
 
-### 6. Scratchpad Enhancements
-**Current**: Basic drawing canvas
-**Target**: Add keyboard shortcuts, paper styles, pressure sensitivity
+6. **Part (c)** — "10 marks" instruction. Clickable question cards that expand to show answers.
 
-- Keyboard shortcuts: P=pen, E=eraser, G=grid toggle, 1-4=colours, Ctrl+Z=undo, Esc=close
-- Paper styles toggle: Blank / Grid (24px) / Ruled (32px) drawn as CSS overlay
-- Pressure sensitivity via `event.pressure` mapping to line width
+---
+
+## Part 2: Layouts Page Rebuild
+
+### Tabs (14 total)
+Keep original site's 11 tabs + user's requested 3:
+ST P&L, ST Bal Sheet, Co. Approp., Co. Bal Sheet, Mfg Account, Mfg Bal Sheet, Published, Cash Flow, Club, Service, Errors, **MCS**, **Cash Budget**, **Job Cost**
+
+### Table format — Match original site
+- Proper accounting table with label column, 2-3 value columns, and N-workings column (N1, N2, etc.)
+- CSS classes: `.l` (label), `.n` (number), `.nc` (note column), `.i` (indent), `.b` (bold), `.s` (subtotal), `.t` (total), `.bl` (blank row)
+- Section headers bold, subtotal rows with top border, total rows with double-underline
+- Caption with company name template
+
+### Practice mode — In-place (replace current flashcard system)
+- Same table layout but non-header labels become `<input>` fields
+- Section headings and totals stay visible as structure clues
+- Numbers remain visible
+- Student types item names into blank rows
+- Check button to verify all answers at once
+
+### Classification Reference — Bottom section
+- Cards for: Cost of Sales (Working A), Distribution Costs (Working B), Administration Expenses (Working C), Other Operating Income (Working D), Current Assets, Current Liabilities
+- Each with bullet list of items that belong there
+
+### Layout data
+Replace `LAYOUT_FORMATS` with new data matching original site. Each layout has:
+- id, badge, badgeText, title
+- Note/instruction text
+- Row data with: label, values array, flags (indent, bold, subtotal, total, blank)
+- N-workings references
+- Classification tip text at bottom
 
 ---
 
@@ -75,23 +89,13 @@ Read from:
 
 | File | Change |
 |------|--------|
-| `src/data/theory.ts` | Add ~70 theory questions + ~40 flashcards |
-| `src/data/studyContent.ts` | Expand ClassifyItem to 10 categories, add 5 layout templates, add interactive tool data |
-| `src/pages/ClassifyPage.tsx` | Rebuild for 10-category quiz |
-| `src/pages/LayoutsPage.tsx` | Add missing templates + Practice mode |
-| `src/pages/StudyToolsPage.tsx` | Add Exam Timing Calculator + Practice Tracker grid |
-| `src/pages/Index.tsx` | Connect dashboard stats to localStorage |
-| `src/components/Scratchpad.tsx` | Add keyboard shortcuts, paper styles, pressure sensitivity |
-
----
+| `src/data/studyContent.ts` | Add RATIO_LEARN_DATA (19 ratios × 3 steps), Q5_PRACTICE_EXAMS (7 papers), PART_B_GUIDE, SECTOR_NOTES (12), PART_C_QUESTIONS. Replace LAYOUT_FORMATS with 14 layout templates matching original site format. |
+| `src/pages/RatiosPage.tsx` | Complete rebuild with 6 tabs matching original site |
+| `src/pages/LayoutsPage.tsx` | Complete rebuild: 14 tabs, in-place practice mode, classification reference section |
+| `src/index.css` | Add `.acct` table styles for layout page accounting format |
 
 ## Implementation Order
-
-1. **theory.ts** — Expand data (largest data-entry task)
-2. **studyContent.ts** — Update Classify items + add layouts
-3. **ClassifyPage.tsx** — Rebuild with 10 categories
-4. **LayoutsPage.tsx** — Add templates + practice mode
-5. **StudyToolsPage.tsx** — Interactive tools
-6. **Index.tsx** — Live dashboard stats
-7. **Scratchpad.tsx** — Enhanced drawing features
-
+1. studyContent.ts — All new data arrays
+2. RatiosPage.tsx — 6-tab rebuild
+3. LayoutsPage.tsx — 14-tab rebuild with practice mode
+4. index.css — Accounting table styles
