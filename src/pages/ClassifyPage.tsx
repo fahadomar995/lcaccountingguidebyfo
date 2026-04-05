@@ -27,16 +27,16 @@ const TOPIC_TABS: { key: TopicKey; label: string; categories: ClassifyCategory[]
 ];
 
 const CAT_COLORS: Record<ClassifyCategory, string> = {
-  "Trading Account": "bg-emerald-600 hover:bg-emerald-700",
-  "P&L (Administration)": "bg-blue-600 hover:bg-blue-700",
-  "P&L (Selling & Distribution)": "bg-indigo-600 hover:bg-indigo-700",
-  "BS Fixed Assets": "bg-amber-700 hover:bg-amber-800",
-  "BS Current Assets": "bg-cyan-600 hover:bg-cyan-700",
-  "BS Creditors < 1 Year": "bg-rose-600 hover:bg-rose-700",
-  "BS Creditors > 1 Year": "bg-red-800 hover:bg-red-900",
-  "BS Capital & Reserves": "bg-purple-600 hover:bg-purple-700",
-  "Manufacturing Account": "bg-orange-600 hover:bg-orange-700",
-  "NOT in any account": "bg-gray-600 hover:bg-gray-700",
+  "Trading Account": "bg-emerald-700/80 hover:bg-emerald-700",
+  "P&L (Administration)": "bg-slate-600/80 hover:bg-slate-600",
+  "P&L (Selling & Distribution)": "bg-indigo-700/80 hover:bg-indigo-700",
+  "BS Fixed Assets": "bg-amber-800/80 hover:bg-amber-800",
+  "BS Current Assets": "bg-teal-700/80 hover:bg-teal-700",
+  "BS Creditors < 1 Year": "bg-rose-800/80 hover:bg-rose-800",
+  "BS Creditors > 1 Year": "bg-red-900/80 hover:bg-red-900",
+  "BS Capital & Reserves": "bg-violet-800/80 hover:bg-violet-800",
+  "Manufacturing Account": "bg-amber-900/80 hover:bg-amber-900",
+  "NOT in any account": "bg-stone-600/80 hover:bg-stone-600",
 };
 
 const CAT_SHORT: Record<ClassifyCategory, string> = {
