@@ -675,7 +675,7 @@ export const STUDY_TOOLS_DATA: StudyTool[] = [
   {
     title: "Exam Timing Guide",
     desc: "How to allocate your 2.5 hours across all sections",
-    icon: "⏱️",
+    icon: Clock,
     content: [
       "Section 1 — Q1 (120 marks): 45 minutes maximum",
       "Section 2 — Q2-Q7 pick 2 (100 marks each): 35 minutes each = 70 minutes",
