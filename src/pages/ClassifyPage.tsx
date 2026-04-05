@@ -3,8 +3,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { CLASSIFY_ITEMS } from "@/data/studyContent";
-import { Check, X, RotateCcw, Shuffle } from "lucide-react";
+import { CLASSIFY_ITEMS, CLASSIFY_CATEGORIES, type ClassifyCategory } from "@/data/studyContent";
+import { Check, X, RotateCcw } from "lucide-react";
 
 function shuffleArray<T>(arr: T[]): T[] {
   const a = [...arr];
@@ -15,20 +15,48 @@ function shuffleArray<T>(arr: T[]): T[] {
   return a;
 }
 
+const CAT_COLORS: Record<ClassifyCategory, string> = {
+  "Trading Account": "bg-emerald-600 hover:bg-emerald-700",
+  "P&L (Administration)": "bg-blue-600 hover:bg-blue-700",
+  "P&L (Selling & Distribution)": "bg-indigo-600 hover:bg-indigo-700",
+  "BS Fixed Assets": "bg-amber-700 hover:bg-amber-800",
+  "BS Current Assets": "bg-cyan-600 hover:bg-cyan-700",
+  "BS Creditors < 1 Year": "bg-rose-600 hover:bg-rose-700",
+  "BS Creditors > 1 Year": "bg-red-800 hover:bg-red-900",
+  "BS Capital & Reserves": "bg-purple-600 hover:bg-purple-700",
+  "Manufacturing Account": "bg-orange-600 hover:bg-orange-700",
+  "NOT in any account": "bg-gray-600 hover:bg-gray-700",
+};
+
+const CAT_SHORT: Record<ClassifyCategory, string> = {
+  "Trading Account": "Trading",
+  "P&L (Administration)": "P&L Admin",
+  "P&L (Selling & Distribution)": "P&L S&D",
+  "BS Fixed Assets": "Fixed Assets",
+  "BS Current Assets": "Current Assets",
+  "BS Creditors < 1 Year": "CL < 1yr",
+  "BS Creditors > 1 Year": "CL > 1yr",
+  "BS Capital & Reserves": "Capital",
+  "Manufacturing Account": "Mfg",
+  "NOT in any account": "None",
+};
+
 export default function ClassifyPage() {
   const [mode, setMode] = useState<"quiz" | "reference">("quiz");
   const [items, setItems] = useState(() => shuffleArray(CLASSIFY_ITEMS));
   const [current, setCurrent] = useState(0);
   const [answered, setAnswered] = useState<("correct" | "wrong" | null)[]>(() => new Array(CLASSIFY_ITEMS.length).fill(null));
   const [showResult, setShowResult] = useState(false);
+  const [lastAnswer, setLastAnswer] = useState<ClassifyCategory | null>(null);
   const [bestScore, setBestScore] = useLocalStorage("lc-classify-best", 0);
 
   const correctCount = answered.filter(a => a === "correct").length;
   const wrongCount = answered.filter(a => a === "wrong").length;
   const totalAnswered = correctCount + wrongCount;
 
-  const answer = (choice: "debit" | "credit") => {
+  const answer = (choice: ClassifyCategory) => {
     const isCorrect = choice === items[current].answer;
+    setLastAnswer(items[current].answer);
     setAnswered(prev => {
       const next = [...prev];
       next[current] = isCorrect ? "correct" : "wrong";
@@ -37,10 +65,11 @@ export default function ClassifyPage() {
     setShowResult(true);
     setTimeout(() => {
       setShowResult(false);
+      setLastAnswer(null);
       if (current < items.length - 1) {
         setCurrent(current + 1);
       }
-    }, 1200);
+    }, 1500);
   };
 
   const reset = () => {
@@ -50,13 +79,15 @@ export default function ClassifyPage() {
     setCurrent(0);
     setAnswered(new Array(CLASSIFY_ITEMS.length).fill(null));
     setShowResult(false);
+    setLastAnswer(null);
   };
 
   const categories = useMemo(() => {
     const cats: Record<string, typeof CLASSIFY_ITEMS> = {};
     CLASSIFY_ITEMS.forEach(item => {
-      if (!cats[item.category]) cats[item.category] = [];
-      cats[item.category].push(item);
+      const cat = item.answer;
+      if (!cats[cat]) cats[cat] = [];
+      cats[cat].push(item);
     });
     return cats;
   }, []);
@@ -73,11 +104,9 @@ export default function ClassifyPage() {
             <h2 className="font-display text-sm font-bold mb-2 pb-1 border-b border-border">{cat}</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {catItems.map(item => (
-                <div key={item.item} className={`text-xs p-2 rounded border ${item.answer === "debit" ? "bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800" : "bg-rose-50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-800"}`}>
+                <div key={item.item} className="text-xs p-2 rounded border bg-muted/50 border-border">
                   <span className="font-medium">{item.item}</span>
-                  <Badge variant="outline" className={`text-[8px] ml-1.5 ${item.answer === "debit" ? "text-blue-600 border-blue-300" : "text-rose-600 border-rose-300"}`}>
-                    {item.answer.toUpperCase()}
-                  </Badge>
+                  {item.hint && <p className="text-[10px] text-muted-foreground mt-0.5 italic">{item.hint}</p>}
                 </div>
               ))}
             </div>
@@ -91,11 +120,11 @@ export default function ClassifyPage() {
   const result = answered[current];
 
   return (
-    <div className="max-w-[600px] mx-auto px-4 sm:px-7 py-8 pb-16">
+    <div className="max-w-[700px] mx-auto px-4 sm:px-7 py-8 pb-16">
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="font-display text-2xl font-bold mb-1">Where Does This Go?</h1>
-          <p className="text-xs text-muted-foreground">{CLASSIFY_ITEMS.length} items · Debit or Credit?</p>
+          <p className="text-xs text-muted-foreground">{CLASSIFY_ITEMS.length} items · 10 categories</p>
         </div>
         <Button variant="outline" size="sm" className="text-xs" onClick={() => setMode("reference")}>Reference</Button>
       </div>
@@ -121,29 +150,31 @@ export default function ClassifyPage() {
       {/* Question card */}
       <Card className={`mb-6 border-2 transition-colors ${showResult && result === "correct" ? "border-green-500 bg-green-50 dark:bg-green-950/20" : showResult && result === "wrong" ? "border-red-500 bg-red-50 dark:bg-red-950/20" : "border-border"}`}>
         <CardContent className="p-8 text-center">
-          <Badge variant="outline" className="text-[9px] mb-3">{item.category}</Badge>
           <h2 className="font-display text-xl font-bold mb-2">{item.item}</h2>
           {item.hint && <p className="text-xs text-muted-foreground italic">{item.hint}</p>}
           {showResult && (
             <div className="mt-4 flex items-center justify-center gap-2">
               {result === "correct" ? <Check className="h-5 w-5 text-green-600" /> : <X className="h-5 w-5 text-red-500" />}
               <span className={`text-sm font-bold ${result === "correct" ? "text-green-600" : "text-red-500"}`}>
-                {result === "correct" ? "Correct!" : `Wrong — it's ${item.answer.toUpperCase()}`}
+                {result === "correct" ? "Correct!" : `Wrong — it's ${lastAnswer}`}
               </span>
             </div>
           )}
         </CardContent>
       </Card>
 
-      {/* Answer buttons */}
+      {/* Category buttons */}
       {!showResult && (
-        <div className="grid grid-cols-2 gap-4 mb-6">
-          <Button size="lg" className="h-14 text-lg font-bold bg-blue-600 hover:bg-blue-700" onClick={() => answer("debit")}>
-            DEBIT
-          </Button>
-          <Button size="lg" className="h-14 text-lg font-bold bg-rose-600 hover:bg-rose-700" onClick={() => answer("credit")}>
-            CREDIT
-          </Button>
+        <div className="grid grid-cols-2 gap-2 mb-6">
+          {CLASSIFY_CATEGORIES.map(cat => (
+            <Button
+              key={cat}
+              className={`h-10 text-xs font-bold text-white ${CAT_COLORS[cat]}`}
+              onClick={() => answer(cat)}
+            >
+              {CAT_SHORT[cat]}
+            </Button>
+          ))}
         </div>
       )}
 
