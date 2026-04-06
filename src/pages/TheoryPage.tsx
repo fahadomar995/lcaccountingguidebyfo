@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { THEORY_BANK, THEORY_FLASHCARDS, THEORY_TOPICS } from "@/data/theory";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { Eye, EyeOff, RotateCcw, Check, X, Minus, ChevronLeft, ChevronRight, BarChart3, Shuffle } from "lucide-react";
+import { Eye, EyeOff, RotateCcw, Check, X, Minus, ChevronLeft, ChevronRight, BarChart3, Shuffle, BookOpen } from "lucide-react";
+import TheoryLearnMode from "@/components/TheoryLearnMode";
 
 type Score = "got" | "partial" | "missed";
 const PAGE_SIZE = 20;
@@ -141,13 +142,19 @@ export default function TheoryPage() {
         </CardContent>
       </Card>
 
-      <Tabs defaultValue="questions" className="w-full">
+      <Tabs defaultValue="learn" className="w-full">
         <TabsList className="mb-6 w-full justify-start overflow-x-auto">
+          <TabsTrigger value="learn" className="gap-1"><BookOpen className="h-3.5 w-3.5" /> Learn</TabsTrigger>
           <TabsTrigger value="questions">All Questions</TabsTrigger>
           <TabsTrigger value="practice">Practice Mode</TabsTrigger>
           <TabsTrigger value="flashcards">Flashcards</TabsTrigger>
           <TabsTrigger value="frequency">Frequency</TabsTrigger>
         </TabsList>
+
+        {/* LEARN MODE TAB */}
+        <TabsContent value="learn">
+          <TheoryLearnMode />
+        </TabsContent>
 
         {/* ALL QUESTIONS TAB */}
         <TabsContent value="questions">
