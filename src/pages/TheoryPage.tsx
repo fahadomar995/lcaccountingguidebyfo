@@ -142,13 +142,19 @@ export default function TheoryPage() {
         </CardContent>
       </Card>
 
-      <Tabs defaultValue="questions" className="w-full">
+      <Tabs defaultValue="learn" className="w-full">
         <TabsList className="mb-6 w-full justify-start overflow-x-auto">
+          <TabsTrigger value="learn" className="gap-1"><BookOpen className="h-3.5 w-3.5" /> Learn</TabsTrigger>
           <TabsTrigger value="questions">All Questions</TabsTrigger>
           <TabsTrigger value="practice">Practice Mode</TabsTrigger>
           <TabsTrigger value="flashcards">Flashcards</TabsTrigger>
           <TabsTrigger value="frequency">Frequency</TabsTrigger>
         </TabsList>
+
+        {/* LEARN MODE TAB */}
+        <TabsContent value="learn">
+          <TheoryLearnMode />
+        </TabsContent>
 
         {/* ALL QUESTIONS TAB */}
         <TabsContent value="questions">
