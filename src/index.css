@@ -587,3 +587,21 @@ table.acct td.l.blank {
 @keyframes fadeSlide { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
 
 .src-legend { display: flex; gap: 10px; flex-wrap: wrap; margin: 10px 0; padding: 8px 12px; background: hsl(var(--muted)); border-radius: 6px; font-size: 10px; }
+
+/* ═══ THEORY LEARN MODE ═══ */
+.theory-learn-content { font-size: 14px; line-height: 1.7; color: hsl(var(--foreground)); }
+.theory-learn-content h4 { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700; margin: 18px 0 8px; color: hsl(var(--foreground)); }
+.theory-learn-content p { margin: 8px 0; font-weight: 300; }
+.theory-learn-content strong { font-weight: 600; }
+.theory-learn-content em { font-style: italic; }
+
+.theory-learn-content .learn-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 12px; }
+.theory-learn-content .learn-table th { background: hsl(var(--muted)); padding: 8px 12px; text-align: left; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.03em; border-bottom: 2px solid hsl(var(--border)); }
+.theory-learn-content .learn-table td { padding: 7px 12px; border-bottom: 1px solid hsl(var(--border)); font-weight: 400; }
+.theory-learn-content .learn-table .total-row td { border-top: 2px solid hsl(var(--primary)); font-weight: 700; }
+
+.theory-learn-content .statement-box { background: hsl(var(--card)); border: 1.5px solid hsl(var(--border)); border-radius: 0.75rem; padding: 16px 18px; margin: 14px 0; }
+.theory-learn-content .sb-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: hsl(var(--primary)); margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid hsl(var(--border)); }
+.theory-learn-content .sb-row { display: grid; grid-template-columns: 1fr auto auto; gap: 12px; padding: 3px 0; font-size: 12px; font-weight: 400; }
+.theory-learn-content .sb-row.indent { padding-left: 18px; }
+.theory-learn-content .sb-row.total { border-top: 2px solid hsl(var(--primary)); margin-top: 4px; padding-top: 6px; font-weight: 700; }
