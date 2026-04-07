@@ -11,10 +11,11 @@ interface WorkingsPageProps {
   title: string;
   subtitle: string;
   sectionLabel: string;
-  accentColor: string;
+  accentColor?: string;
   archetypes: Archetype[];
   categories: { key: string; label: string }[];
   categoryColors?: Record<string, string>;
+  embedded?: boolean;
 }
 
 const DEFAULT_CATEGORY_COLORS: Record<string, string> = {};
