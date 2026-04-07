@@ -20,7 +20,7 @@ interface WorkingsPageProps {
 
 const DEFAULT_CATEGORY_COLORS: Record<string, string> = {};
 
-export default function WorkingsPage({ title, subtitle, sectionLabel, accentColor, archetypes, categories, categoryColors = DEFAULT_CATEGORY_COLORS }: WorkingsPageProps) {
+export default function WorkingsPage({ title, subtitle, sectionLabel, accentColor = "hsl(217, 91%, 60%)", archetypes, categories, categoryColors = DEFAULT_CATEGORY_COLORS, embedded = false }: WorkingsPageProps) {
   const [filter, setFilter] = useState("all");
   const [activeArch, setActiveArch] = useState<Archetype | null>(null);
   const [currentStep, setCurrentStep] = useState(0);
