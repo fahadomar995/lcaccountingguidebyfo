@@ -18,7 +18,10 @@ import RatiosPage from "./pages/RatiosPage";
 import StudyToolsPage from "./pages/StudyToolsPage";
 import { PredOverview, PredCharts, PredInterp, PredQ1, PredSection3, PredSimulate, PredModel, PredStats } from "./pages/PredictionPages";
 import ContactPage from "./pages/ContactPage";
+import SectionPage from "./pages/SectionPage";
 import { COSTING_ARCHETYPES, COSTING_CATEGORIES, BUDGETING_ARCHETYPES, BUDGETING_CATEGORIES } from "./data/archetypes";
+import { COSTING_INTRO, COSTING_FORMULAS, COSTING_APPORTIONMENT_NOTE, COSTING_THEORY } from "./data/costingData";
+import { BUDGETING_INTRO, BUDGETING_FORMULAS, BUDGETING_THEORY } from "./data/budgetingData";
 import { Q1_ARCHETYPES, Q1_CATEGORIES } from "./data/q1Workings";
 import { S2_ARCHETYPES, S2_CATEGORIES } from "./data/s2Workings";
 
