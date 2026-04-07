@@ -12,7 +12,7 @@ export const LEARN_MODULES_DATA: LearnModuleDef[] = [
   {
     id: "errors",
     name: "Error Types & Suspense",
-    icon: "⚠",
+    icon: "AlertTriangle",
     lessons: [
       {
         t: "The 7 Error Types",
@@ -78,7 +78,7 @@ export const LEARN_MODULES_DATA: LearnModuleDef[] = [
   {
     id: "club",
     name: "Club Accounts",
-    icon: "⚽",
+    icon: "Users",
     lessons: [
       {
         t: "R&P vs I&E: The Key Difference",
@@ -138,7 +138,7 @@ export const LEARN_MODULES_DATA: LearnModuleDef[] = [
   {
     id: "service",
     name: "Service Firms",
-    icon: "🏥",
+    icon: "Briefcase",
     lessons: [
       {
         t: "Structure & Key Differences",
@@ -182,7 +182,7 @@ export const LEARN_MODULES_DATA: LearnModuleDef[] = [
   {
     id: "published",
     name: "Published Accounts",
-    icon: "📰",
+    icon: "FileText",
     lessons: [
       {
         t: "Annotating the Trial Balance",
@@ -237,7 +237,7 @@ export const LEARN_MODULES_DATA: LearnModuleDef[] = [
   {
     id: "cashflow",
     name: "Cash Flow Statements",
-    icon: "💰",
+    icon: "Banknote",
     lessons: [
       {
         t: "Why Accruals ≠ Cash",
