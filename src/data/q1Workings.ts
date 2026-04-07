@@ -987,34 +987,34 @@ export const Q1_ARCHETYPES: Archetype[] = [
     id: "q1-wages-backdated",
     type: "Manufacturing",
     name: "Wages Backdated (Pay Increase)",
-    year: 2023,
+    year: 2024,
     source: "ADJ (vi)",
-    totalMarks: 6,
+    totalMarks: 8,
     category: "manufacturing",
-    desc: "A pay increase backdated several months — calculate the arrears and split between factory and general.",
-    partSummary: ["Calculate arrears","Split factory/general","Record accrual"],
-    question: `<p>A pay increase of <strong>€2 per hour</strong> was backdated <strong>6 months</strong>. Total hours affected: <strong>Factory 1,200 hours</strong>, <strong>Office 400 hours</strong>. Not yet recorded.</p>`,
+    desc: "A wage increase backdated several months — calculate arrears and adjust factory wages, accounting for extension labour that already includes the increase.",
+    partSummary: ["Calculate backdated increase","Adjust for extension labour","Record entries & destinations"],
+    question: `<p><strong>Provide for a recent wage increase of 6%</strong> which has been agreed with the trade unions and is to be backdated to cover the four months from 01/09/2023.</p><p><em>From 2024 Mock (Dillon Manufacturing Ltd)</em><br>Direct factory wages per TB: €125,000. During 2023, an extension was added to the factory by the company's own employees. The cost of the labour was €24,000 (<strong>which includes the recent wage increase</strong>).</p>`,
     steps: [
       {
-        title: "Step 1 — Calculate Total Arrears",
-        marks: 2,
-        explain: "Factory: 1,200 × €2 = €2,400. Office: 400 × €2 = €800. Total = €3,200.",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border">Dept</th><th class="p-2 border border-border text-right">Hours</th><th class="p-2 border border-border text-right">Rate</th><th class="p-2 border border-border text-right">Total</th></tr></thead><tbody><tr><td class="p-2 border border-border">Factory</td><td class="p-2 border border-border text-right">1,200</td><td class="p-2 border border-border text-right">€2</td><td class="p-2 border border-border text-right font-mono">2,400</td></tr><tr><td class="p-2 border border-border">Office</td><td class="p-2 border border-border text-right">400</td><td class="p-2 border border-border text-right">€2</td><td class="p-2 border border-border text-right font-mono">800</td></tr><tr class="font-bold bg-muted"><td class="p-2 border border-border">Total</td><td class="p-2 border border-border"></td><td class="p-2 border border-border"></td><td class="p-2 border border-border text-right font-mono">3,200</td></tr></tbody></table>`,
-        mistakes: []
+        title: "Step 1 — Calculate the Backdated Increase",
+        marks: 3,
+        explain: "The TB wages (€125,000) are at the OLD rate for the full year. The 6% increase applies for 4 months (Sep–Dec). Backdated wages = 125,000 × 6% × 4/12 = €2,500.",
+        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Wages Backdated Calculation</th></tr></thead><tbody><tr><td class="p-2 border border-border">TB factory wages</td><td class="p-2 border border-border text-right font-mono">125,000</td></tr><tr><td class="p-2 border border-border">Increase: 125,000 × 6% × 4/12</td><td class="p-2 border border-border text-right font-mono font-bold text-green-700 dark:text-green-400">2,500</td></tr><tr class="font-bold bg-muted"><td class="p-2 border border-border">Adjusted factory wages → Mfg A/C</td><td class="p-2 border border-border text-right font-mono">127,500</td></tr></tbody></table>`,
+        mistakes: ["Using the wrong number of months — it's 4 months (Sep–Dec), not 6"]
       },
       {
-        title: "Step 2 — Record Entries",
-        marks: 2,
-        explain: "Factory wages (€2,400) → Manufacturing Account. Office wages (€800) → P&L Admin. Both accrued (CL).",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border">Account</th><th class="p-2 border border-border">Debit</th><th class="p-2 border border-border">Credit</th></tr></thead><tbody><tr><td class="p-2 border border-border">Factory Wages (Mfg A/C)</td><td class="p-2 border border-border text-right font-mono">2,400</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Office Wages (P&L — Admin)</td><td class="p-2 border border-border text-right font-mono">800</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Accruals (BS — CL)</td><td class="p-2 border border-border"></td><td class="p-2 border border-border text-right font-mono">3,200</td></tr></tbody></table>`,
-        mistakes: ["Putting all wages in P&L — factory wages go to Manufacturing Account"]
+        title: "Step 2 — Extension Labour Already Includes the Increase",
+        marks: 3,
+        explain: "The question says the €24,000 extension labour \"includes the recent wage increase.\" This means you do NOT add a backdated amount on top of the €24,000 — it's already at the new rate. Capitalise the full €24,000 to Buildings.",
+        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Factory Wages A/C</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border">TB wages: 125,000</td><td class="p-2 border border-border">Capitalised to Buildings (extension): <strong>24,000</strong></td></tr><tr><td class="p-2 border border-border font-bold text-green-700 dark:text-green-400">Backdated increase: 2,500</td><td class="p-2 border border-border">Manufacturing Account (balance): 103,500</td></tr><tr class="font-bold bg-muted"><td class="p-2 border border-border">127,500</td><td class="p-2 border border-border">127,500</td></tr></tbody></table>`,
+        mistakes: ["Adding a backdated amount on top of €24,000 extension labour — it already includes the increase", "Forgetting to capitalise the extension labour to Buildings"]
       },
       {
-        title: "Step 3 — Destinations",
+        title: "Step 3 — Destinations & Trap",
         marks: 2,
-        explain: "Factory wages → Manufacturing Account (increases Cost of Production). Office wages → P&L Admin (reduces NP). Accruals → BS Current Liabilities.",
-        content: `<p class="text-sm"><strong>Mfg A/C:</strong> Factory wages + €2,400</p><p class="text-sm"><strong>P&L Admin:</strong> Office wages + €800</p><p class="text-sm"><strong>BS — CL:</strong> Accrued wages = €3,200</p>`,
-        mistakes: []
+        explain: "Factory wages (125,000 + 2,500 − 24,000 = 103,500) → Manufacturing Account. Buildings cost increases by €24,000. Wages due (€2,500) → Current Liability on Balance Sheet.",
+        content: `<p class="text-sm"><strong>Mfg A/C:</strong> Factory wages = 125,000 + 2,500 − 24,000 = <strong>€103,500</strong></p><p class="text-sm"><strong>BS — Fixed Assets:</strong> Buildings cost increased by <strong>+€24,000</strong></p><p class="text-sm"><strong>BS — CL:</strong> Wages due (accrual) = <strong>€2,500</strong></p><p class="text-sm text-red-600 dark:text-red-400 mt-3 font-medium"><strong>TRAP:</strong> The backdated wages (€2,500) are owed but not yet paid = Current Liability. If the extension labour did NOT include the increase, you'd need to add 6% × 4/12 of the extension wages too. Read the question wording carefully — "which includes" vs "which does not include" changes the answer.</p>`,
+        mistakes: ["Forgetting to show wages due as a current liability on BS"]
       }
     ]
   },

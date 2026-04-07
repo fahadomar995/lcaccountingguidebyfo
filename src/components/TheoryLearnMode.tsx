@@ -4,7 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { THEORY_LEARN_TOPICS, type TheoryLearnTopic } from "@/data/theoryLearnContent";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { ArrowLeft, ChevronRight, Check, BookOpen } from "lucide-react";
+import { ArrowLeft, ChevronRight, Check, BookOpen, BarChart3, Landmark, CalendarDays, TrendingDown, Search, Ruler, Building2, FileSpreadsheet, Banknote, Users, ClipboardList, Calculator, TrendingUp, Factory } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+
+const ICON_MAP: Record<string, LucideIcon> = {
+  BookOpen, BarChart3, Landmark, CalendarDays, TrendingDown, Search, Ruler, Building2, FileSpreadsheet, Banknote, Users, ClipboardList, Calculator, TrendingUp, Factory,
+};
 
 export default function TheoryLearnMode() {
   const [activeTopic, setActiveTopic] = useState<string | null>(null);
@@ -68,7 +73,7 @@ export default function TheoryLearnMode() {
           {/* Section sidebar */}
           <div className="lg:w-52 shrink-0">
             <div className="flex items-center gap-2 mb-3">
-              <span className="text-xl">{topic.icon}</span>
+              {(() => { const Icon = ICON_MAP[topic.icon]; return Icon ? <Icon className="h-5 w-5 text-primary" /> : null; })()}
               <h3 className="text-sm font-bold">{topic.title}</h3>
             </div>
             <div className="space-y-1">
@@ -163,7 +168,7 @@ export default function TheoryLearnMode() {
             >
               <CardContent className="p-4">
                 <div className="flex items-start gap-3">
-                  <span className="text-2xl">{t.icon}</span>
+                  {(() => { const Icon = ICON_MAP[t.icon]; return Icon ? <Icon className="h-6 w-6 text-primary" /> : null; })()}
                   <div className="flex-1 min-w-0">
                     <h4 className="text-sm font-bold group-hover:text-primary transition-colors">{t.title}</h4>
                     <p className="text-[11px] text-muted-foreground font-light leading-relaxed mt-0.5">{t.description}</p>
