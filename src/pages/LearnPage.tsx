@@ -3,7 +3,12 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { LEARN_MODULES_DATA, type LearnModuleDef } from "@/data/learnContent";
-import { ArrowLeft, Check, ChevronRight } from "lucide-react";
+import { ArrowLeft, Check, ChevronRight, AlertTriangle, Users, Briefcase, FileText, Banknote } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+
+const ICON_MAP: Record<string, LucideIcon> = {
+  AlertTriangle, Users, Briefcase, FileText, Banknote,
+};
 
 export default function LearnPage() {
   const [progress, setProgress] = useLocalStorage<Record<string, number>>("lc-learn-progress-v2", {});
@@ -213,7 +218,7 @@ export default function LearnPage() {
               className={`mod-card${activeModule === i ? " active" : ""}${pct >= 100 ? " completed" : ""}`}
               onClick={() => { setActiveModule(i); setActiveLesson(0); setActiveStep(0); }}
             >
-              <span className="mod-icon">{m.icon}</span>
+              <span className="mod-icon">{(() => { const Icon = ICON_MAP[m.icon]; return Icon ? <Icon className="h-5 w-5" /> : null; })()}</span>
               <div className="mod-num">MODULE {i + 1}</div>
               <div className="mod-name">{m.name}</div>
               <div className="mod-meta">{m.lessons.length} lessons</div>
