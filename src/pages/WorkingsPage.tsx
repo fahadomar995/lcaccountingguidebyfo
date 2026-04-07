@@ -50,7 +50,7 @@ export default function WorkingsPage({ title, subtitle, sectionLabel, accentColo
     const archColor = getCatColor(activeArch.category);
 
     return (
-      <div className="max-w-[960px] mx-auto px-4 sm:px-7 py-6 pb-16">
+      <div className={embedded ? "" : "max-w-[960px] mx-auto px-4 sm:px-7 py-6 pb-16"}>
         {/* Header */}
         <div className="flex items-center gap-3 mb-4">
           <Button variant="outline" size="sm" className="text-xs gap-1" onClick={() => { setActiveArch(null); setCurrentStep(0); setRevealedInStep(0); }}>
@@ -179,10 +179,10 @@ export default function WorkingsPage({ title, subtitle, sectionLabel, accentColo
   }
 
   return (
-    <div className="max-w-[960px] mx-auto px-4 sm:px-7 py-8 pb-16">
-      <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1">{sectionLabel}</div>
-      <h1 className="font-display text-2xl sm:text-3xl font-bold mb-2">{title}</h1>
-      <p className="text-sm text-muted-foreground font-light leading-relaxed mb-6">{subtitle}</p>
+    <div className={embedded ? "" : "max-w-[960px] mx-auto px-4 sm:px-7 py-8 pb-16"}>
+      {!embedded && <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1">{sectionLabel}</div>}
+      {!embedded && <h1 className="font-display text-2xl sm:text-3xl font-bold mb-2">{title}</h1>}
+      {!embedded && <p className="text-sm text-muted-foreground font-light leading-relaxed mb-6">{subtitle}</p>}
 
       {/* Intro banner */}
       <Card className="mb-6 border-border" style={{ borderTopWidth: 4, borderTopColor: accentColor }}>
