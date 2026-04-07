@@ -18,7 +18,7 @@ export const THEORY_LEARN_TOPICS: TheoryLearnTopic[] = [
   {
     id: "double-entry",
     title: "Double-Entry Bookkeeping",
-    icon: "📒",
+    icon: "BookOpen",
     description: "The foundation of all accounting — every transaction has two sides.",
     sections: [
       {
@@ -125,7 +125,7 @@ export const THEORY_LEARN_TOPICS: TheoryLearnTopic[] = [
   {
     id: "profit-bs",
     title: "Profit & Balance Sheet",
-    icon: "📊",
+    icon: "BarChart3",
     description: "Trading Account, P&L, and Balance Sheet preparation from a Trial Balance.",
     sections: [
       {
@@ -215,7 +215,7 @@ export const THEORY_LEARN_TOPICS: TheoryLearnTopic[] = [
   {
     id: "vat",
     title: "VAT & Statutory Deductions",
-    icon: "🏛️",
+    icon: "Landmark",
     description: "Value Added Tax calculations, PAYE, PRSI, and USC deductions.",
     sections: [
       {
@@ -297,7 +297,7 @@ export const THEORY_LEARN_TOPICS: TheoryLearnTopic[] = [
   {
     id: "accruals",
     title: "Accruals & Bad Debts",
-    icon: "📅",
+    icon: "CalendarDays",
     description: "Accruals, prepayments, bad debts, provisions for bad debts, and provisions for discount.",
     sections: [
       {
@@ -381,7 +381,7 @@ export const THEORY_LEARN_TOPICS: TheoryLearnTopic[] = [
   {
     id: "depreciation",
     title: "Depreciation & Disposal",
-    icon: "📉",
+    icon: "TrendingDown",
     description: "Straight-line, reducing balance depreciation methods, and disposal of fixed assets.",
     sections: [
       {
@@ -465,7 +465,7 @@ export const THEORY_LEARN_TOPICS: TheoryLearnTopic[] = [
   {
     id: "errors",
     title: "Errors & Suspense Account",
-    icon: "🔍",
+    icon: "Search",
     description: "Types of errors, journal entries for correction, and the suspense account.",
     sections: [
       {
@@ -540,7 +540,7 @@ export const THEORY_LEARN_TOPICS: TheoryLearnTopic[] = [
   {
     id: "concepts",
     title: "Conceptual Framework",
-    icon: "📐",
+    icon: "Ruler",
     description: "Accounting concepts, bases, policies, and the principles that underpin financial reporting.",
     sections: [
       {
@@ -613,7 +613,7 @@ export const THEORY_LEARN_TOPICS: TheoryLearnTopic[] = [
   {
     id: "companies",
     title: "Limited Companies",
-    icon: "🏢",
+    icon: "Building2",
     description: "Share capital, reserves, dividends, debentures, and company final accounts.",
     sections: [
       {
@@ -696,7 +696,7 @@ export const THEORY_LEARN_TOPICS: TheoryLearnTopic[] = [
   {
     id: "published",
     title: "Published Accounts (HL)",
-    icon: "📑",
+    icon: "FileSpreadsheet",
     description: "Income Statement, Statement of Financial Position, and FRS 102 presentation for Higher Level.",
     sections: [
       {
@@ -770,7 +770,7 @@ export const THEORY_LEARN_TOPICS: TheoryLearnTopic[] = [
   {
     id: "cashflow",
     title: "Cash Flow Statements",
-    icon: "💰",
+    icon: "Banknote",
     description: "Preparing a Cash Flow Statement and understanding operating, investing, and financing activities.",
     sections: [
       {
@@ -837,7 +837,7 @@ export const THEORY_LEARN_TOPICS: TheoryLearnTopic[] = [
   {
     id: "clubs",
     title: "Club & Service Accounts",
-    icon: "⚽",
+    icon: "Users",
     description: "Income & Expenditure Accounts, Receipts & Payments, and Service Firm accounts.",
     sections: [
       {
@@ -907,7 +907,7 @@ export const THEORY_LEARN_TOPICS: TheoryLearnTopic[] = [
   {
     id: "budgeting",
     title: "Budgeting",
-    icon: "📋",
+    icon: "ClipboardList",
     description: "Cash budgets, flexible budgets, variances, and budgetary control.",
     sections: [
       {
@@ -977,7 +977,7 @@ export const THEORY_LEARN_TOPICS: TheoryLearnTopic[] = [
   {
     id: "costing",
     title: "Costing & Break-Even",
-    icon: "🔢",
+    icon: "Calculator",
     description: "Marginal vs absorption costing, break-even analysis, and cost classification.",
     sections: [
       {
@@ -1053,7 +1053,7 @@ export const THEORY_LEARN_TOPICS: TheoryLearnTopic[] = [
   {
     id: "ratios",
     title: "Ratio Analysis",
-    icon: "📈",
+    icon: "TrendingUp",
     description: "Profitability, liquidity, and efficiency ratios for interpreting financial statements.",
     sections: [
       {
@@ -1132,7 +1132,7 @@ export const THEORY_LEARN_TOPICS: TheoryLearnTopic[] = [
   {
     id: "manufacturing",
     title: "Manufacturing Accounts",
-    icon: "🏭",
+    icon: "Factory",
     description: "Prime cost, factory overheads, work-in-progress, and cost of production.",
     sections: [
       {
