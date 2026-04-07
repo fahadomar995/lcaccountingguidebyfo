@@ -4,7 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { THEORY_LEARN_TOPICS, type TheoryLearnTopic } from "@/data/theoryLearnContent";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { ArrowLeft, ChevronRight, Check, BookOpen } from "lucide-react";
+import { ArrowLeft, ChevronRight, Check, BookOpen, BarChart3, Landmark, CalendarDays, TrendingDown, Search, Ruler, Building2, FileSpreadsheet, Banknote, Users, ClipboardList, Calculator, TrendingUp, Factory } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+
+const ICON_MAP: Record<string, LucideIcon> = {
+  BookOpen, BarChart3, Landmark, CalendarDays, TrendingDown, Search, Ruler, Building2, FileSpreadsheet, Banknote, Users, ClipboardList, Calculator, TrendingUp, Factory,
+};
 
 export default function TheoryLearnMode() {
   const [activeTopic, setActiveTopic] = useState<string | null>(null);
