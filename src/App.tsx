@@ -22,6 +22,7 @@ import SectionPage from "./pages/SectionPage";
 import { COSTING_ARCHETYPES, COSTING_CATEGORIES, BUDGETING_ARCHETYPES, BUDGETING_CATEGORIES } from "./data/archetypes";
 import { COSTING_INTRO, COSTING_FORMULAS, COSTING_APPORTIONMENT_NOTE, COSTING_THEORY } from "./data/costingData";
 import { BUDGETING_INTRO, BUDGETING_FORMULAS, BUDGETING_THEORY } from "./data/budgetingData";
+import WorkingsListPage from "./pages/WorkingsListPage";
 import { Q1_ARCHETYPES, Q1_CATEGORIES } from "./data/q1Workings";
 import { S2_ARCHETYPES, S2_CATEGORIES } from "./data/s2Workings";
 
@@ -65,23 +66,30 @@ const App = () => (
               />
             } />
             <Route path="/q8-costing" element={
-              <WorkingsPage
-                title="Q8 Costing — Full Question Practice"
-                subtitle="Q8 is worth 80 marks and always chains multiple workings together. Walk through real past paper questions step by step."
+              <SectionPage
                 sectionLabel="Section 3 — Question 8"
-                accentColor="hsl(217, 91%, 60%)"
+                title="Q8 Costing"
+                subtitle="Q8 is worth 80 marks and always chains multiple workings together. Walk through real past paper questions step by step."
+                introBlocks={COSTING_INTRO}
+                formulaSections={COSTING_FORMULAS}
+                apportionmentNote={COSTING_APPORTIONMENT_NOTE}
+                theoryBank={COSTING_THEORY}
                 archetypes={COSTING_ARCHETYPES}
                 categories={COSTING_CATEGORIES}
+                accentColor="hsl(217, 91%, 60%)"
               />
             } />
             <Route path="/q9-budgeting" element={
-              <WorkingsPage
-                title="Q9 Budgeting — Full Question Practice"
-                subtitle="Q9 is worth 80 marks. Master Cash Budgets and Flexible Budgets with real SEC data."
+              <SectionPage
                 sectionLabel="Section 3 — Question 9"
-                accentColor="hsl(38, 92%, 50%)"
+                title="Q9 Budgeting"
+                subtitle="Q9 is worth 80 marks. Master Cash Budgets and Flexible Budgets with real SEC data."
+                introBlocks={BUDGETING_INTRO}
+                formulaSections={BUDGETING_FORMULAS}
+                theoryBank={BUDGETING_THEORY}
                 archetypes={BUDGETING_ARCHETYPES}
                 categories={BUDGETING_CATEGORIES}
+                accentColor="hsl(38, 92%, 50%)"
               />
             } />
             <Route path="/study-tools" element={<StudyToolsPage />} />
