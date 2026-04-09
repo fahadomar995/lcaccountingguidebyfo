@@ -23,8 +23,10 @@ import { COSTING_ARCHETYPES, COSTING_CATEGORIES, BUDGETING_ARCHETYPES, BUDGETING
 import { COSTING_INTRO, COSTING_FORMULAS, COSTING_APPORTIONMENT_NOTE, COSTING_THEORY } from "./data/costingData";
 import { BUDGETING_INTRO, BUDGETING_FORMULAS, BUDGETING_THEORY } from "./data/budgetingData";
 import WorkingsListPage from "./pages/WorkingsListPage";
+import WalkthroughMode from "./components/WalkthroughMode";
 import { Q1_ARCHETYPES, Q1_CATEGORIES } from "./data/q1Workings";
 import { S2_ARCHETYPES, S2_CATEGORIES } from "./data/s2Workings";
+import { WALKTHROUGHS } from "./data/walkthroughData";
 
 const queryClient = new QueryClient();
 
@@ -92,6 +94,7 @@ const App = () => (
                 accentColor="hsl(38, 92%, 50%)"
               />
             } />
+            <Route path="/walkthroughs" element={<WalkthroughMode walkthroughs={WALKTHROUGHS} />} />
             <Route path="/study-tools" element={<StudyToolsPage />} />
             <Route path="/ratios" element={<RatiosPage />} />
             <Route path="/contact" element={<ContactPage />} />

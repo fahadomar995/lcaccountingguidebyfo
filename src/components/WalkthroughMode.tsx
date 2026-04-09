@@ -34,17 +34,11 @@ export default function WalkthroughMode({ walkthroughs }: WalkthroughModeProps) 
         <p className="text-sm text-muted-foreground font-light leading-relaxed mb-6">
           Complete step-by-step walkthroughs through every adjustment, working, T-account, and final accounts entry for Q1.
         </p>
-
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {walkthroughs.map(w => {
             const color = TYPE_COLORS[w.type];
             return (
-              <Card
-                key={w.id}
-                className="cursor-pointer border-t-4 hover:shadow-md hover:-translate-y-0.5 transition-all"
-                style={{ borderTopColor: color }}
-                onClick={() => { setActive(w); setTab(0); }}
-              >
+              <Card key={w.id} className="cursor-pointer border-t-4 hover:shadow-md hover:-translate-y-0.5 transition-all" style={{ borderTopColor: color }} onClick={() => { setActive(w); setTab(0); }}>
                 <CardContent className="p-5">
                   <Badge className="text-[9px] mb-2 text-white" style={{ background: color }}>{TYPE_LABELS[w.type]}</Badge>
                   <h3 className="font-display text-sm font-bold mb-1">{w.title}</h3>
@@ -52,7 +46,6 @@ export default function WalkthroughMode({ walkthroughs }: WalkthroughModeProps) 
                   <div className="flex gap-1.5 mt-3 flex-wrap">
                     <span className="text-[9px] bg-muted rounded px-1.5 py-0.5 text-muted-foreground font-medium">120 marks</span>
                     <span className="text-[9px] bg-muted rounded px-1.5 py-0.5 text-muted-foreground font-medium">T-Accounts</span>
-                    <span className="text-[9px] bg-muted rounded px-1.5 py-0.5 text-muted-foreground font-medium">Step by Step</span>
                   </div>
                 </CardContent>
               </Card>
@@ -73,7 +66,6 @@ export default function WalkthroughMode({ walkthroughs }: WalkthroughModeProps) 
 
   return (
     <div className="max-w-[960px] mx-auto px-4 sm:px-7 py-6 pb-16">
-      {/* Header */}
       <div className="flex items-center gap-3 mb-4">
         <Button variant="outline" size="sm" className="text-xs gap-1" onClick={() => setActive(null)}>
           <ArrowLeft className="h-3.5 w-3.5" /> Back
@@ -87,27 +79,17 @@ export default function WalkthroughMode({ walkthroughs }: WalkthroughModeProps) 
         </div>
       </div>
 
-      {/* Tabs */}
       <div className="flex gap-1 mb-5 flex-wrap">
         {tabs.map((t, i) => {
           const Icon = t.icon;
           return (
-            <Button
-              key={i}
-              variant={tab === i ? "default" : "outline"}
-              size="sm"
-              className="text-xs gap-1.5 h-8"
-              style={tab === i ? { background: color } : {}}
-              onClick={() => setTab(i)}
-            >
-              <Icon className="h-3.5 w-3.5" />
-              {t.label}
+            <Button key={i} variant={tab === i ? "default" : "outline"} size="sm" className="text-xs gap-1.5 h-8" style={tab === i ? { background: color } : {}} onClick={() => setTab(i)}>
+              <Icon className="h-3.5 w-3.5" /> {t.label}
             </Button>
           );
         })}
       </div>
 
-      {/* Tab content */}
       {tab === 0 && <IntroTab introHtml={active.introHtml} />}
       {tab === 1 && <NotesTab notes={active.notes} color={color} />}
       {tab === 2 && <BuilderTab steps={active.tplSteps} marks={active.tplMarks} complete={active.tplComplete} color={color} label={active.tplTabLabel} />}
@@ -116,14 +98,10 @@ export default function WalkthroughMode({ walkthroughs }: WalkthroughModeProps) 
   );
 }
 
-// ─── Introduction Tab ───
 function IntroTab({ introHtml }: { introHtml: string }) {
-  return (
-    <div className="wt-intro-content" dangerouslySetInnerHTML={{ __html: introHtml }} />
-  );
+  return <div className="wt-intro-content" dangerouslySetInnerHTML={{ __html: introHtml }} />;
 }
 
-// ─── Notes & Workings Tab ───
 function NotesTab({ notes, color }: { notes: WalkthroughNote[]; color: string }) {
   const [expanded, setExpanded] = useState<number | null>(null);
 
@@ -133,16 +111,8 @@ function NotesTab({ notes, color }: { notes: WalkthroughNote[]; color: string })
         const isOpen = expanded === note.num;
         return (
           <Card key={note.num} className="border-border overflow-hidden">
-            <button
-              className="w-full text-left px-5 py-3 flex items-center gap-3 hover:bg-muted/50 transition-colors"
-              onClick={() => setExpanded(isOpen ? null : note.num)}
-            >
-              <span
-                className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0"
-                style={{ background: color }}
-              >
-                {note.num}
-              </span>
+            <button className="w-full text-left px-5 py-3 flex items-center gap-3 hover:bg-muted/50 transition-colors" onClick={() => setExpanded(isOpen ? null : note.num)}>
+              <span className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0" style={{ background: color }}>{note.num}</span>
               <div className="flex-1 min-w-0">
                 <div className="font-display text-sm font-bold">{note.title}</div>
                 <div className="text-[10px] text-muted-foreground">{note.marks} marks</div>
@@ -152,22 +122,18 @@ function NotesTab({ notes, color }: { notes: WalkthroughNote[]; color: string })
 
             {isOpen && (
               <CardContent className="px-5 pb-5 pt-0 space-y-4">
-                {/* Note text */}
                 <div className="bg-muted/50 rounded-lg p-3 text-sm leading-relaxed" dangerouslySetInnerHTML={{ __html: note.noteText }} />
 
-                {/* TB Look */}
                 <div>
                   <h5 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">📋 What to look for in the TB</h5>
                   <div className="text-sm leading-relaxed prose prose-sm max-w-none dark:prose-invert overflow-x-auto" dangerouslySetInnerHTML={{ __html: note.tbLook }} />
                 </div>
 
-                {/* Task */}
                 <div>
                   <h5 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">🎯 What to do</h5>
                   <div className="text-sm leading-relaxed prose prose-sm max-w-none dark:prose-invert" dangerouslySetInnerHTML={{ __html: note.task }} />
                 </div>
 
-                {/* Workings */}
                 <div>
                   <h5 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">🔧 Workings</h5>
                   <div className="space-y-3">
@@ -181,7 +147,6 @@ function NotesTab({ notes, color }: { notes: WalkthroughNote[]; color: string })
                   </div>
                 </div>
 
-                {/* T-Account Panel (formal ledger format) */}
                 {note.tAccountDefs && note.tAccountDefs.length > 0 && (
                   <div>
                     <h5 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">📊 T-Accounts</h5>
@@ -189,7 +154,6 @@ function NotesTab({ notes, color }: { notes: WalkthroughNote[]; color: string })
                   </div>
                 )}
 
-                {/* Destinations */}
                 <div>
                   <h5 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">📍 Where each figure goes</h5>
                   <div className="space-y-1.5">
@@ -204,12 +168,9 @@ function NotesTab({ notes, color }: { notes: WalkthroughNote[]; color: string })
                   </div>
                 </div>
 
-                {/* Tip */}
                 {note.tip && (
                   <div className="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg p-3 text-xs leading-relaxed" dangerouslySetInnerHTML={{ __html: note.tip }} />
                 )}
-
-                {/* Watch out */}
                 {note.watchOut && (
                   <div className="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800 rounded-lg p-3 text-xs leading-relaxed" dangerouslySetInnerHTML={{ __html: note.watchOut }} />
                 )}
@@ -222,9 +183,10 @@ function NotesTab({ notes, color }: { notes: WalkthroughNote[]; color: string })
   );
 }
 
-// ─── Builder Tab (TPL / BS) ───
 function BuilderTab({ steps, marks, complete, color, label }: { steps: BuilderStep[]; marks: string; complete: string; color: string; label: string }) {
   const [revealed, setRevealed] = useState(0);
+
+  const pct = steps.length === 0 ? 100 : (revealed / steps.length) * 100;
 
   return (
     <div className="space-y-4">
@@ -233,39 +195,22 @@ function BuilderTab({ steps, marks, complete, color, label }: { steps: BuilderSt
         <Badge variant="outline" className="text-xs font-mono" style={{ color, borderColor: color + '44' }}>{marks}</Badge>
       </div>
 
-      {/* Progress */}
       <div className="h-1 bg-muted rounded-full overflow-hidden">
-        <div className="h-full rounded-full transition-all duration-300" style={{ width: `${steps.length === 0 ? 100 : (revealed / steps.length) * 100}%`, background: color }} />
+        <div className="h-full rounded-full transition-all duration-300" style={{ width: `${pct}%`, background: color }} />
       </div>
 
-      {/* Revealed steps */}
-      <Card className="border-border overflow-hidden">
-        <CardContent className="p-0">
-          <table className="wt-builder-table w-full">
-            <tbody>
-              {steps.slice(0, revealed).map((step, i) => (
-                <tr key={i} className="wt-builder-rows" dangerouslySetInnerHTML={{ __html: step.rows.join('') }} />
-              )).flatMap((el, i) => {
-                const step = steps[i];
-                return [
-                  <tbody key={`rows-${i}`} dangerouslySetInnerHTML={{ __html: step.rows.join('') }} />,
-                ];
-              })}
-            </tbody>
-          </table>
-
-          {/* Actually render rows properly */}
-          <div className="wt-builder-content overflow-x-auto">
-            <table className="w-full text-sm">
+      {revealed > 0 && (
+        <Card className="border-border overflow-hidden">
+          <CardContent className="p-0 overflow-x-auto">
+            <table className="wt-builder-table w-full text-sm">
               {steps.slice(0, revealed).map((step, i) => (
                 <tbody key={i} dangerouslySetInnerHTML={{ __html: step.rows.join('') }} />
               ))}
             </table>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      )}
 
-      {/* Current step explanation */}
       {revealed < steps.length && (
         <Card className="border-border">
           <CardContent className="p-4">
@@ -273,28 +218,17 @@ function BuilderTab({ steps, marks, complete, color, label }: { steps: BuilderSt
               Step {revealed + 1}: {steps[revealed].title}
             </div>
             <div className="text-xs text-muted-foreground leading-relaxed mb-3" dangerouslySetInnerHTML={{ __html: steps[revealed].source }} />
-            {steps[revealed].reason && (
-              <div className="text-xs leading-relaxed mb-2" dangerouslySetInnerHTML={{ __html: steps[revealed].reason }} />
-            )}
+            {steps[revealed].reason && <div className="text-xs leading-relaxed mb-2" dangerouslySetInnerHTML={{ __html: steps[revealed].reason }} />}
             {steps[revealed].tip && (
               <div className="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg p-2 text-xs leading-relaxed mb-2" dangerouslySetInnerHTML={{ __html: steps[revealed].tip }} />
             )}
-            {steps[revealed].watch && (
-              <div className="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800 rounded-lg p-2 text-xs leading-relaxed mb-2" dangerouslySetInnerHTML={{ __html: steps[revealed].watch }} />
-            )}
-            <Button
-              size="sm"
-              className="text-xs gap-1 mt-1"
-              style={{ background: color }}
-              onClick={() => setRevealed(revealed + 1)}
-            >
+            <Button size="sm" className="text-xs gap-1 mt-1" style={{ background: color }} onClick={() => setRevealed(revealed + 1)}>
               Add to {label} <ChevronRight className="h-3 w-3" />
             </Button>
           </CardContent>
         </Card>
       )}
 
-      {/* All done */}
       {revealed >= steps.length && steps.length > 0 && (
         <div className="text-center py-4">
           <div className="text-sm font-bold" style={{ color }}>{complete}</div>
