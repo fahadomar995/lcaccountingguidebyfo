@@ -1,6 +1,6 @@
 // ═══════════════════════════════════════════════════
-// Q1 WALKTHROUGH DATA — 3 walkthroughs
-// Sole Trader (2023), Company (2024), Manufacturing (2022)
+// Q1 WALKTHROUGH DATA — 3 walkthroughs (extracted from original HTML)
+// Sole Trader (2023), Company (2023), Manufacturing (2021)
 // ═══════════════════════════════════════════════════
 
 import type { TAccountDef } from "@/components/TAccount";
@@ -65,6 +65,7 @@ export interface Walkthrough {
   tplComplete: string;
   bsComplete: string;
 }
+
 
 // ═══════════════════════════════════════════════════
 // 1. SOLE TRADER — Jim Beechinor 2023
@@ -144,225 +145,312 @@ const ST_INTRO = `
 `;
 
 const ST_NOTES: WalkthroughNote[] = [
-{num:1,marks:6,title:"Stock & Sale or Return",
+{num:1,marks:6,title:'Stock & Sale or Return',
 noteText:'Stock at 31/12/2022 at cost was <strong>€32,300</strong>. Included in this figure are goods <strong>purchased</strong> on a \'sale or return\' basis. These goods had been recorded as a credit purchase with a recommended retail price of <strong>€4,200</strong>, which is cost plus 20%.',
-tbLook:'<p>Look at the trial balance:</p><table><tr><th>Item</th><th>Dr</th><th>Cr</th></tr><tr><td>Stock 01/01/2022</td><td>20,800</td><td></td></tr><tr><td>Purchases</td><td>412,500</td><td></td></tr><tr><td>Debtors and creditors</td><td>49,250</td><td>33,560</td></tr></table><p><strong>Important:</strong> The TB shows OPENING stock (€20,800). Closing stock is in the notes.</p>',
-task:'<ol><li>Reverse the sale-or-return purchase: reduce purchases AND creditors by COST</li><li>Remove from closing stock at COST</li></ol><p>Cost = retail ÷ 1.20 (because retail is cost plus 20%)</p>',
+tbLook:'<p>Look at the trial balance for these lines:</p><table><tr><th>Item</th><th>Dr</th><th>Cr</th></tr><tr><td>Stock 01/01/2022</td><td>20,800</td><td></td></tr><tr><td>Purchases</td><td>412,500</td><td></td></tr><tr><td>Debtors and creditors</td><td>49,250</td><td>33,560</td></tr></table><p><strong>Important:</strong> The TB shows OPENING stock (€20,800). The closing stock is given in the notes, NOT in the TB.</p>',
+task:'<p><strong>Two things to do:</strong></p><ol><li>Reverse the sale-or-return purchase: reduce purchases AND reduce creditors by the COST of the goods (not retail price)</li><li>Remove the same goods from closing stock at COST</li></ol><p>Cost = retail ÷ 1.20 (because retail is cost plus 20%)</p>',
 workings:[
-  {type:'calc',title:'W1: Cost of sale-or-return goods',content:'<div class="wt-calc-block"><div class="wt-calc-line">Retail price = <strong>€4,200</strong></div><div class="wt-calc-line">Mark-up = 20% (cost + 20%)</div><div class="wt-calc-line">Cost = €4,200 ÷ 1.20</div><div class="wt-calc-line wt-calc-result">Cost = <span class="wt-rv">€3,500</span></div></div>'},
-  {type:'calc',title:'W2: Adjusted closing stock',content:'<div class="wt-calc-block"><div class="wt-calc-line">Stock as given = <strong>€32,300</strong></div><div class="wt-calc-line">Less: sale-or-return goods (cost) = (€3,500)</div><div class="wt-calc-line">Add: goods in transit (Note ix) = €5,200</div><div class="wt-calc-line wt-calc-result">Adjusted closing stock = <span class="wt-rv">€34,000</span></div></div>'}
+  {type:'calc',title:'W1: Cost of sale-or-return goods',content:'<div class="calc-block"><div class="calc-line">Retail price = <strong>€4,200</strong></div><div class="calc-line">Mark-up = 20% (cost + 20%)</div><div class="calc-line">Cost = €4,200 ÷ 1.20</div><div class="calc-line calc-result">Cost = <span class="rv-inline">€3,500</span></div></div>'},
+  {type:'calc',title:'W2: Adjusted closing stock',content:'<div class="calc-block"><div class="calc-line">Stock as given = <strong>€32,300</strong></div><div class="calc-line">Less: sale-or-return goods (cost) = (€3,500)</div><div class="calc-line">Add: goods in transit (Note ix, see later) = €5,200</div><div class="calc-line calc-result">Adjusted closing stock = <span class="rv-inline">€34,000</span></div></div><div class="tip-box" style="margin-top:10px"><strong>Note:</strong> We add the goods-in-transit figure here so we don\'t have to revisit closing stock later. You\'ll see Note ix calculates this €5,200.</div>'},
 ],
 destinations:[
-  {name:"Purchases (W1)",arrow:"−",amt:"€3,500",where:"Subtract from Purchases in W3"},
-  {name:"Creditors (W1)",arrow:"−",amt:"€3,500",where:"Subtract from Creditors in W17"},
-  {name:"Closing Stock (W2)",arrow:"→",amt:"€34,000",where:"Trading Account AND Balance Sheet Current Assets"}
+  {name:'Purchases (W1)',arrow:'−',amt:'€3,500',where:'Subtract from Purchases in W3'},
+  {name:'Creditors (W1)',arrow:'−',amt:'€3,500',where:'Subtract from Creditors in W17'},
+  {name:'Closing Stock (W2)',arrow:'→',amt:'€34,000',where:'Trading Account AND Balance Sheet Current Assets'},
 ],
-tip:'<strong>The cost vs retail trap:</strong> The question gives RETAIL price (€4,200). Convert to cost (€3,500) before reducing purchases.',
-watchOut:'<strong>Why reverse?</strong> Goods on "sale or return" haven\'t been bought — the supplier still owns them until accepted.'},
+tip:'<strong>The cost vs retail trap:</strong> The question gives you the RETAIL price (€4,200). You must convert it to cost (€3,500) before reducing purchases. If you used €4,200 you\'d be reducing purchases by too much. Always read carefully — "cost plus 20%" means retail is 120% of cost.',
+watchOut:'<strong>Why are we reversing this?</strong> Goods on "sale or return" haven\'t actually been bought — the supplier still owns them until the buyer accepts them. Recording them as a purchase was wrong. So we cancel the purchase entry AND make sure they aren\'t in closing stock either.'},
 
-{num:2,marks:14,title:"Depreciation on Vans + Asset Disposal",
-noteText:'Provide for depreciation on delivery vans at <strong>20% of cost</strong> from date of purchase to date of sale.<br>On 30/06/2022 a van which cost <strong>€30,000 on 31/07/2018</strong> was traded in against a new van costing <strong>€37,000</strong>. An allowance of <strong>€14,000</strong> was made. The bank transfer for the net amount was incorrectly treated as a purchase of trading stock.',
-tbLook:'<table><tr><th>Item</th><th>Dr</th></tr><tr><td>Delivery vans (cost €135,000)</td><td>55,000</td></tr></table><p>NBV = €55,000. Cost = €135,000. Accumulated depreciation = €80,000.</p>',
-task:'<ol><li>Calculate depreciation on OLD van for 6 months (Jan–Jun)</li><li>Calculate NBV at disposal date</li><li>Find profit/loss on disposal</li><li>Correct the wrongly-recorded bank entry (reduce purchases by €23,000)</li><li>Calculate depreciation on NEW van for 6 months (Jul–Dec)</li><li>Depreciation on remaining vans for full year</li></ol>',
+{num:2,marks:14,title:'Depreciation on Vans + Asset Disposal',
+noteText:'Provide for depreciation on delivery vans at an annual rate of <strong>20% of cost</strong> from date of purchase to date of sale. <br><strong>Note:</strong> On 30/06/2022 a delivery van, which had cost <strong>€30,000 on 31/07/2018</strong>, was traded in against a new van which cost <strong>€37,000</strong>. An allowance of <strong>€14,000</strong> was made on the old van. The bank transfer for the net amount of this transaction was incorrectly treated as a purchase of trading stock. This was the only entry made in the books in respect of this transaction.',
+tbLook:'<p>Look at the trial balance for delivery vans:</p><table><tr><th>Item</th><th>Dr</th><th>Cr</th></tr><tr><td>Delivery vans (cost €135,000)</td><td>55,000</td><td></td></tr></table><p>The €55,000 is the NBV (Net Book Value). The cost is €135,000. So accumulated depreciation already in the books = <strong>€135,000 − €55,000 = €80,000</strong>.</p>',
+task:'<p><strong>This is THE classic Q1 trap.</strong> Five things to do:</p><ol><li>Calculate depreciation on the OLD van for 6 months (Jan–Jun 2022)</li><li>Calculate the NBV of the OLD van at date of disposal</li><li>Find profit or loss on disposal: (Allowance + Trade-in proceeds) − NBV</li><li>Correct the books — the cash payment was wrongly treated as stock purchase</li><li>Calculate depreciation on the NEW van for 6 months (Jul–Dec 2022)</li><li>Plus depreciation on remaining old vans for the full year</li></ol>',
 workings:[
-  {type:'calc',title:'W3: Net cash paid for the new van',content:'<div class="wt-calc-block"><div class="wt-calc-line">Cost of new van = <strong>€37,000</strong></div><div class="wt-calc-line">Less: trade-in allowance = (€14,000)</div><div class="wt-calc-line wt-calc-result">Cash paid = <span class="wt-rv">€23,000</span></div></div><div class="wt-tip-box" style="margin-top:10px"><strong>Why:</strong> €23,000 was wrongly recorded as a purchase. Reduce purchases by €23,000.</div>'},
-  {type:'t-account',title:'W10: Disposal of Old Van',account:{name:'Disposal of Van Account',debits:[{desc:'Cost of old van',amt:'30,000',rv:false},{desc:'Profit on disposal (→ P&L)',amt:'7,500',rv:true}],credits:[{desc:'Accum. depreciation (47 months)',amt:'23,500',rv:true},{desc:'Trade-in allowance',amt:'14,000',rv:false}],debitTotal:'37,500',creditTotal:'37,500'},below:'<div class="wt-calc-block" style="margin-top:14px"><strong>Accumulated dep on old van:</strong><div class="wt-calc-line">31/07/2018 to 30/06/2022 = 47 months</div><div class="wt-calc-line">€30,000 × 20% × 47/12 = <span class="wt-rv">€23,500</span></div><div class="wt-calc-line">NBV = €30,000 − €23,500 = <span class="wt-rv">€6,500</span></div><div class="wt-calc-line">Profit = €14,000 − €6,500 = <span class="wt-rv">€7,500</span></div></div>'},
-  {type:'t-account',title:'W9: Depreciation on Vans (current year)',account:{name:'Depreciation Expense — Vans',debits:[{desc:'Old van (6 months)',amt:'3,000',rv:true},{desc:'Other vans (full year)',amt:'21,000',rv:true},{desc:'New van (6 months)',amt:'3,700',rv:true}],credits:[{desc:'To P&L S&D',amt:'27,700',rv:true}],debitTotal:'27,700',creditTotal:'27,700'},below:'<div class="wt-calc-block"><div class="wt-calc-line">Old: €30,000 × 20% × 6/12 = <span class="wt-rv">€3,000</span></div><div class="wt-calc-line">Others: €105,000 × 20% = <span class="wt-rv">€21,000</span></div><div class="wt-calc-line">New: €37,000 × 20% × 6/12 = <span class="wt-rv">€3,700</span></div><div class="wt-calc-line wt-calc-result">Total = <span class="wt-rv">€27,700</span></div></div>'}
+  {type:'calc',title:'W3: Net cash paid for the new van',content:'<div class="calc-block"><div class="calc-line">Cost of new van = <strong>€37,000</strong></div><div class="calc-line">Less: trade-in allowance = (€14,000)</div><div class="calc-line calc-result">Cash paid = <span class="rv-inline">€23,000</span></div></div><div class="tip-box" style="margin-top:10px"><strong>Why this matters:</strong> €23,000 was wrongly recorded as a purchase of trading stock. We need to (a) reduce purchases by €23,000, and (b) record the new van properly.</div>'},
+  {type:'t-account',title:'W10: Disposal of Old Van',account:{name:'Disposal of Van Account',debits:[{desc:'Cost of old van',amt:'30,000',rv:false},{desc:'Profit on disposal (to P&L)',amt:'7,500',rv:true},],credits:[{desc:'Accum. depreciation (to date)',amt:'23,500',rv:true},{desc:'Trade-in allowance',amt:'14,000',rv:false},],debitTotal:'37,500',creditTotal:'37,500'},below:'<div class="calc-block" style="margin-top:14px"><strong>Accumulated depreciation on the old van:</strong><div class="calc-line">From 31/07/2018 to 30/06/2022 = 4 years 11 months ≈ <strong>47 months</strong></div><div class="calc-line">Depreciation = €30,000 × 20% × 47/12</div><div class="calc-line calc-result">= <span class="rv-inline">€23,500</span></div><div class="calc-line" style="margin-top:8px"><strong>Profit on disposal:</strong></div><div class="calc-line">NBV = €30,000 − €23,500 = <span class="rv-inline">€6,500</span></div><div class="calc-line">Allowance €14,000 − NBV €6,500 = <span class="rv-inline">€7,500 profit</span></div></div>'},
+  {type:'t-account',title:'W9: Depreciation on Vans (current year)',account:{name:'Depreciation Expense — Vans',debits:[{desc:'Old van (Jan–Jun, 6 months)',amt:'3,000',rv:true},{desc:'Other vans (full year)',amt:'21,000',rv:true},{desc:'New van (Jul–Dec, 6 months)',amt:'3,700',rv:true},],credits:[{desc:'To P&L Selling & Distribution',amt:'27,700',rv:true},],debitTotal:'27,700',creditTotal:'27,700'},below:'<div class="calc-block" style="margin-top:14px"><div class="calc-line"><strong>Old van (disposed):</strong> €30,000 × 20% × 6/12 = <span class="rv-inline">€3,000</span></div><div class="calc-line"><strong>Other vans:</strong> (€135,000 − €30,000) × 20% × 12/12 = €105,000 × 20% = <span class="rv-inline">€21,000</span></div><div class="calc-line"><strong>New van:</strong> €37,000 × 20% × 6/12 = <span class="rv-inline">€3,700</span></div><div class="calc-line calc-result">Total depreciation on vans = <span class="rv-inline">€27,700</span></div></div>'},
 ],
 destinations:[
-  {name:"Profit on disposal (W10)",arrow:"→",amt:"€7,500",where:"P&L Other Income"},
-  {name:"Depreciation on vans (W9)",arrow:"→",amt:"€27,700",where:"P&L Selling & Distribution"},
-  {name:"Purchases (W3)",arrow:"−",amt:"€23,000",where:"Subtract from Purchases"},
-  {name:"Vans cost (W13)",arrow:"→",amt:"€142,000",where:"BS — 135,000 + 37,000 − 30,000"},
-  {name:"Accum depn vans (W13)",arrow:"→",amt:"€84,200",where:"BS — 80,000 + 27,700 − 23,500"}
+  {name:'Profit on disposal (W10)',arrow:'→',amt:'€7,500',where:'P&L Other Income'},
+  {name:'Depreciation on vans (W9)',arrow:'→',amt:'€27,700',where:'P&L Selling & Distribution Expenses'},
+  {name:'Purchases (W3)',arrow:'−',amt:'€23,000',where:'Subtract €23,000 from Purchases — wrong entry'},
+  {name:'Vans (cost) (W13)',arrow:'→',amt:'€142,000',where:'Balance Sheet — Cost = 135,000 + 37,000 (new) − 30,000 (old)'},
+  {name:'Accum. depn vans (W13)',arrow:'→',amt:'€84,200',where:'Balance Sheet — = 80,000 + 27,700 − 23,500'},
 ],
-tAccountDefs:[
-  {title:'Disposal of Van Account',entries:[
-    {side:'dr',label:'Cost of old van',amount:'30,000',step:0,order:0},
-    {side:'cr',label:'Accum. depreciation',amount:'23,500',step:0,order:1},
-    {side:'cr',label:'Trade-in allowance',amount:'14,000',step:0,order:2},
-    {side:'dr',label:'Profit on disposal',amount:'7,500',step:0,order:3,cls:'profit'},
-    {side:'dr',label:'Total',amount:'37,500',step:0,order:4,cls:'total'},
-    {side:'cr',label:'Total',amount:'37,500',step:0,order:4,cls:'total'},
-  ]},
-  {title:'Depreciation — Vans',entries:[
-    {side:'dr',label:'Old van (6 mths)',amount:'3,000',step:0,order:0},
-    {side:'dr',label:'Other vans (12 mths)',amount:'21,000',step:0,order:1},
-    {side:'dr',label:'New van (6 mths)',amount:'3,700',step:0,order:2},
-    {side:'cr',label:'To P&L S&D',amount:'27,700',step:0,order:3,cls:'total'},
-    {side:'dr',label:'Total',amount:'27,700',step:0,order:4,cls:'total'},
-    {side:'cr',label:'Total',amount:'27,700',step:0,order:4,cls:'total'},
-  ]}
-],
-tip:'<strong>The depreciation logic:</strong> OLD van = 6 months before sale. NEW van = 6 months after purchase. Remaining vans = full year.',
-watchOut:'<strong>The €23,000 was wrongly entered as a purchase.</strong> You must reduce purchases by €23,000.'},
+tip:'<strong>The depreciation logic:</strong> The OLD van is depreciated for 6 months (Jan–Jun) BEFORE it was sold. The NEW van is depreciated for 6 months (Jul–Dec) AFTER it was bought. Both halves of the year are covered by different vehicles. The remaining vans (cost €105,000) get a full year.',
+watchOut:'<strong>Watch out:</strong> The bank payment of €23,000 was wrongly entered as a stock purchase. You must reduce purchases by €23,000 in W3. If you forget this, your purchases figure will be too high AND your van disposal won\'t balance.'},
 
-{num:3,marks:8,title:"Suspense Account",
-noteText:'The suspense figure arises from posting an incorrect figure for mortgage interest (correct figure was entered in bank) and discount allowed <strong>€110</strong> entered only in the discount account.',
-tbLook:'<table><tr><th>Item</th><th>Dr</th><th>Cr</th></tr><tr><td>Discount (net)</td><td></td><td>450</td></tr><tr><td>Salaries & gen expenses (incl. suspense)</td><td>67,320</td><td></td></tr></table><p>The suspense is HIDDEN inside Salaries & general expenses.</p>',
-task:'<ol><li>Discount allowed €110 — one-sided entry → Suspense Dr €110</li><li>Mortgage interest wrong figure — understated by €110 → Suspense Cr €110</li></ol><p>Net suspense = zero.</p>',
-workings:[{type:'calc',title:'Suspense resolution',content:'<div class="wt-calc-block"><div class="wt-calc-line">Error 1: Discount allowed €110 one-sided → Dr Suspense €110</div><div class="wt-calc-line">Error 2: Mortgage interest understated €110 → Cr Suspense €110</div><div class="wt-calc-line wt-calc-result">Net Suspense = <span class="wt-rv">Zero ✓</span></div></div>'}],
-tAccountDefs:[
-  {title:'Suspense Account',entries:[
-    {side:'dr',label:'Discount allowed (one-sided)',amount:'110',step:0,order:0},
-    {side:'cr',label:'Mortgage interest (correction)',amount:'110',step:0,order:1},
-    {side:'dr',label:'Balance: NIL ✓',amount:'—',step:0,order:2,cls:'balance'},
-  ]}
-],
-destinations:[
-  {name:"Debtors",arrow:"−",amt:"€110",where:"Reduce Debtors (discount allowed)"},
-  {name:"Mortgage interest",arrow:"+",amt:"€110",where:"Increase mortgage interest → W11"}
-],
-tip:'Suspense nets to zero here — unusual but the principle is the same.'},
-
-{num:4,marks:6,title:"Investment Income + Patents",
-noteText:'Patents (incorporating <strong>3 months investment income</strong>) are being written off over a <strong>10-year period which commenced in 2020</strong>.',
-tbLook:'<table><tr><th>Item</th><th>Dr</th></tr><tr><td>4% Investments acquired 01/04/2022</td><td>100,000</td></tr><tr><td>Patents (incorporating 3 months inv. income)</td><td>62,500</td></tr></table><p>Investments owned for 9 months (Apr–Dec). 3 months interest received and wrongly credited to patents.</p>',
-task:'<ol><li>Calculate 9 months investment income</li><li>Clean up patents: add back wrongly credited income</li><li>Calculate annual write-off</li></ol>',
+{num:3,marks:8,title:'Suspense Account',
+noteText:'The suspense figure arises as a result of the posting of an incorrect figure for mortgage interest in the mortgage interest account (although the correct figure for mortgage interest had been entered in the bank account) and discount allowed <strong>€110</strong> entered only in the discount account.',
+tbLook:'<p>Look at the trial balance for these lines:</p><table><tr><th>Item</th><th>Dr</th><th>Cr</th></tr><tr><td>Suspense</td><td></td><td>1,010</td></tr><tr><td>Mortgage Interest (paid for first 4 months)</td><td>4,300</td><td></td></tr><tr><td>Discount (net)</td><td></td><td>450</td></tr></table><p>Suspense is on the <strong>credit side</strong> = €1,010. This is the net of both errors.</p>',
+task:'<p><strong>Two errors to correct:</strong></p><ol><li><strong>Discount allowed €110:</strong> entered only in the discount account (debit side), not posted to the debtor. To correct: Dr Debtors €110, Cr Suspense €110.</li><li><strong>Mortgage interest:</strong> bank account is correct (€4,300), but the mortgage interest account has the WRONG figure. Find the wrong figure using the suspense balance.</li></ol>',
 workings:[
-  {type:'calc',title:'W4: Investment Income',content:'<div class="wt-calc-block"><div class="wt-calc-line">€100,000 × 4% × 9/12 = <span class="wt-rv">€3,000</span></div><div class="wt-calc-line">Investment income due: €3,000 − €1,000 = <span class="wt-rv">€2,000</span></div></div>'},
-  {type:'calc',title:'W8: Patent Write-off',content:'<div class="wt-calc-block"><div class="wt-calc-line">TB patents = €62,500 + €1,000 (add back) = €63,500</div><div class="wt-calc-line">Annual write-off = €63,500 ÷ 10 = <span class="wt-rv">€6,350</span></div><div class="wt-calc-line">BS value = €63,500 − €6,350 = <span class="wt-rv">€57,150</span></div></div>'}
+  {type:'t-account',title:'W: Suspense Account',account:{name:'Suspense Account',debits:[{desc:'Discount allowed (correction)',amt:'110',rv:false},{desc:'Mortgage interest (correction)',amt:'900',rv:true},],credits:[{desc:'Balance per TB',amt:'1,010',rv:false},],debitTotal:'1,010',creditTotal:'1,010'},below:'<div class="calc-block" style="margin-top:14px"><strong>Mortgage interest correction logic:</strong><div class="calc-line">Suspense balance to clear = €1,010</div><div class="calc-line">Less: discount correction = (€110)</div><div class="calc-line">Mortgage interest difference = <span class="rv-inline">€900</span></div><div class="calc-line" style="margin-top:8px">The mortgage interest account is UNDERSTATED by €900. The TB shows €4,300, but the correct figure should be:</div><div class="calc-line">Correct mortgage interest = €4,300 + €900 = <span class="rv-inline">€5,200</span></div></div>'},
 ],
 destinations:[
-  {name:"Investment income",arrow:"→",amt:"€3,000",where:"P&L Other Income"},
-  {name:"Investment income due",arrow:"→",amt:"€2,000",where:"BS Current Assets"},
-  {name:"Patent write-off",arrow:"→",amt:"€6,350",where:"P&L Administration"},
-  {name:"Patents (BS)",arrow:"→",amt:"€57,150",where:"BS Intangible Fixed Assets"}
+  {name:'Discount allowed (W11/expense)',arrow:'→',amt:'€110',where:'Adds to Selling & Distribution (or netted with discount received)'},
+  {name:'Debtors (W15)',arrow:'+',amt:'€110',where:'Wait — DEDUCT €110 from debtors. The discount reduces what debtors owe.'},
+  {name:'Mortgage interest',arrow:'→',amt:'Use €5,200 not €4,300',where:'Used in W11 for the full year mortgage interest calc'},
 ],
-tip:'Always clean up the patents figure first — add back the wrongly credited investment income.'},
+tip:'<strong>How to figure out which side mortgage interest goes on:</strong> The TB has mortgage interest at €4,300 (debit). The correct figure is HIGHER (€5,200). To increase a debit balance, you Dr Mortgage Interest €900, Cr Suspense €900. That clears the suspense.',
+watchOut:'<strong>Discount allowed direction:</strong> Discount allowed is given to customers, so it REDUCES what debtors owe. The correction Dr Debtors / Cr Suspense looks like it ADDS to debtors, but the original posting was Dr Discount (debit increases expense) — the missing entry was to credit debtors. We need to credit debtors €110, NOT debit them. Watch the wording in the marking scheme.'},
 
-{num:5,marks:6,title:"VAT on Warehouse Purchase",
-noteText:'A warehouse was purchased for <strong>€117,000</strong> including VAT. The VAT had been entered in the buildings account. No entry was made in the VAT account.',
-tbLook:'<table><tr><th>Item</th><th>Dr</th><th>Cr</th></tr><tr><td>Buildings at cost</td><td>650,000</td><td></td></tr><tr><td>VAT</td><td></td><td>3,840</td></tr></table><p>Buildings cost includes warehouse at GROSS (€117,000). Strip out VAT.</p>',
-task:'<ol><li>Strip VAT out of buildings</li><li>Adjust VAT balance: input VAT reclaim</li></ol>',
-workings:[{type:'calc',title:'W16: VAT reclaim',content:'<div class="wt-calc-block"><div class="wt-calc-line">VAT portion = <span class="wt-rv">€8,775</span></div><div class="wt-calc-line">Net cost = €117,000 − €8,775 = <span class="wt-rv">€108,225</span></div><div class="wt-calc-line">VAT a/c: €3,840 Cr − €8,775 = <span class="wt-rv">€4,935 Dr (asset)</span></div></div>'}],
-destinations:[
-  {name:"Buildings cost",arrow:"−",amt:"€8,775",where:"Reduce buildings cost"},
-  {name:"VAT",arrow:"→",amt:"€4,935",where:"BS Current Assets (flipped from liability)"}
-],
-tip:'VAT on capital purchases is reclaimable. The VAT flips from liability to asset.',
-watchOut:'The VAT was a €3,840 liability; after the €8,775 reclaim it becomes a €4,935 asset.'},
-
-{num:6,marks:8,title:"Buildings Depreciation + Revaluation",
-noteText:'Buildings are to be depreciated at <strong>2% of cost per annum</strong>. Buildings were revalued at <strong>€650,000 on 01/01/2022</strong>.',
-tbLook:'<table><tr><th>Item</th><th>Dr</th></tr><tr><td>Buildings at cost</td><td>650,000</td></tr></table><p>€650,000 is the REVALUED figure. No accumulated depreciation (revaluation wipes it).</p>',
-task:'<p>Depreciation = €650,000 × 2% = €13,000</p>',
+{num:4,marks:11,title:'Patents with Hidden Investment Income',
+noteText:'Patents, which incorporate <strong>3 months investment income received</strong>, are to be written off over a <strong>10-year period</strong> commencing in 2022.',
+tbLook:'<p>Look at the trial balance:</p><table><tr><th>Item</th><th>Dr</th><th>Cr</th></tr><tr><td>4% Investments (01/04/2022)</td><td>100,000</td><td></td></tr><tr><td>Patents (incorporating 3 months investment income)</td><td>62,500</td><td></td></tr></table><p>The investments were purchased on <strong>01/04/2022</strong>, so the company has owned them for <strong>9 months</strong> (Apr–Dec) by year-end.</p>',
+task:'<p><strong>Three things to do:</strong></p><ol><li>Calculate 3 months of investment income (Apr–Jun) — this was received and wrongly added to patents. SUBTRACT it from patents.</li><li>Calculate the FULL 9 months of investment income for the P&L.</li><li>Investment income DUE = the difference (6 months from Jul–Dec, not yet received).</li><li>Write off the cleaned-up patent over 10 years.</li></ol>',
 workings:[
-  {type:'calc',title:'W5: Buildings Depreciation',content:'<div class="wt-calc-block"><div class="wt-calc-line">Buildings (revalued) = €650,000</div><div class="wt-calc-line">Depreciation = €650,000 × 2% = <span class="wt-rv">€13,000</span></div></div>'},
-  {type:'calc',title:'W18: Revaluation Reserve',content:'<div class="wt-calc-block"><div class="wt-calc-line">Revaluation reserve = <span class="wt-rv">€237,575</span></div></div>'}
+  {type:'calc',title:'W4: Investment Interest',content:'<div class="calc-block"><strong>Total investment interest for the year (9 months):</strong><div class="calc-line">€100,000 × 4% × 9/12 = <span class="rv-inline">€3,000</span></div><div class="calc-line" style="margin-top:8px"><strong>Already received (3 months, in patents figure):</strong></div><div class="calc-line">€100,000 × 4% × 3/12 = <span class="rv-inline">€1,000</span></div><div class="calc-line" style="margin-top:8px"><strong>Investment interest due (still owed):</strong></div><div class="calc-line">€3,000 − €1,000 = <span class="rv-inline">€2,000</span></div></div>'},
+  {type:'calc',title:'W8: Patent Write-Off',content:'<div class="calc-block"><strong>Step 1 — Clean up the patents figure:</strong><div class="calc-line">Patents per TB = €62,500</div><div class="calc-line">Less: investment income wrongly added = (€1,000)</div><div class="calc-line">Wait — the investment income was RECEIVED. So when posted to patents, it was added. To remove it: SUBTRACT it. But because it\'s on the debit side of patents, removing means: <strong>Cr Patents €1,000</strong>.</div><div class="calc-line" style="margin-top:8px">Hmm, the marking scheme adds €1,000 to patents:</div><div class="calc-line">Real patents = €62,500 + €1,000 = <span class="rv-inline">€63,500</span></div><div class="calc-line" style="margin-top:8px">The €1,000 was credited to patents (reducing it) when it should have been credited to investment income. So adding it back to patents and putting €1,000 in investment income makes both correct.</div><div class="calc-line" style="margin-top:8px"><strong>Step 2 — Patent write-off (10 years):</strong></div><div class="calc-line">€63,500 ÷ 10 = <span class="rv-inline">€6,350</span></div><div class="calc-line" style="margin-top:8px"><strong>Step 3 — Net patents on balance sheet:</strong></div><div class="calc-line">€63,500 − €6,350 = <span class="rv-inline">€57,150</span></div></div>'},
 ],
 destinations:[
-  {name:"Depreciation on buildings",arrow:"→",amt:"€13,000",where:"P&L Administration"},
-  {name:"Revaluation reserve",arrow:"→",amt:"€237,575",where:"BS Capital section"}
+  {name:'Investment interest (W4)',arrow:'→',amt:'€3,000',where:'P&L Other Income'},
+  {name:'Investment interest due (W4)',arrow:'→',amt:'€2,000',where:'Balance Sheet Current Assets'},
+  {name:'Patent write-off (W8)',arrow:'→',amt:'€6,350',where:'P&L Operating Expenses'},
+  {name:'Patents net (W8)',arrow:'→',amt:'€57,150',where:'Balance Sheet Intangible Assets'},
 ],
-tip:'Depreciation is on the REVALUED amount. Old cost and accumulated depreciation are replaced.'},
+tip:'<strong>The 9/12 vs 3/12 logic:</strong> Investments bought 01/04 means 9 months of ownership (Apr–Dec). Interest is paid quarterly normally, so 3 months has been received in cash. The remaining 6 months is income earned but not yet received → that\'s the "due" figure on the balance sheet.',
+watchOut:'<strong>Patents write-off:</strong> Always use the CLEANED-UP figure for the write-off (€63,500), not the TB figure (€62,500). The accumulated amortisation on the balance sheet is €6,350 (one year), so net patents = €63,500 − €6,350 = €57,150.'},
 
-{num:7,marks:6,title:"Mortgage Interest",
-noteText:'Mortgage interest has not been fully paid. The <strong>6% fixed mortgage</strong> was increased by <strong>€50,000 on 01/10/2022</strong>.',
-tbLook:'<table><tr><th>Item</th><th>Dr</th><th>Cr</th></tr><tr><td>Mortgage interest</td><td>3,290</td><td></td></tr><tr><td>6% Fixed mortgage</td><td></td><td>220,000</td></tr></table><p>Mortgage was €170,000 for 9 months, then €220,000 for 3 months.</p>',
-task:'<p>Calculate full year interest in two tiers.</p>',
-workings:[{type:'calc',title:'W11: Mortgage Interest',content:'<div class="wt-calc-block"><div class="wt-calc-line">9 months × €170,000 × 6% × 9/12 = <span class="wt-rv">€7,650</span></div><div class="wt-calc-line">3 months × €220,000 × 6% × 3/12 = <span class="wt-rv">€3,300</span></div><div class="wt-calc-line wt-calc-result">Total = <span class="wt-rv">€10,950</span></div><div class="wt-calc-line">Due: €10,950 − €3,400 = <span class="wt-rv">€7,550</span></div></div>'}],
-tAccountDefs:[
-  {title:'Mortgage Interest Account',entries:[
-    {side:'dr',label:'Cash paid (per bank)',amount:'3,400',step:0,order:0},
-    {side:'dr',label:'Accrual (interest due)',amount:'7,550',step:0,order:1},
-    {side:'cr',label:'To P&L Financial Expenses',amount:'10,950',step:0,order:2,cls:'total'},
-    {side:'dr',label:'Total',amount:'10,950',step:0,order:3,cls:'total'},
-    {side:'cr',label:'Total',amount:'10,950',step:0,order:3,cls:'total'},
-  ]}
-],
-destinations:[
-  {name:"Mortgage interest",arrow:"→",amt:"€10,950",where:"P&L Financial Expenses"},
-  {name:"Mortgage interest due",arrow:"→",amt:"€7,550",where:"BS Current Liabilities"}
-],
-tip:'Two-tier calculation: calculate interest for each period separately.',
-watchOut:'TB figure €3,290 is NOT the full year — it\'s the wrongly posted amount.'},
-
-{num:8,marks:4,title:"Goods Taken for Own Use",
-noteText:'Goods taken by the owner at recommended retail price of <strong>€8,100</strong> (cost plus 20%) have not been recorded.',
-tbLook:'<p>Nothing in the TB — never recorded.</p>',
-task:'<ol><li>Reduce purchases at COST</li><li>Increase drawings at COST</li></ol>',
-workings:[{type:'calc',title:'W19: Drawings in Kind',content:'<div class="wt-calc-block"><div class="wt-calc-line">Retail = €8,100 ÷ 1.20 = <span class="wt-rv">€6,750 (cost)</span></div><div class="wt-calc-line">New drawings = €25,340 + €6,750 = <span class="wt-rv">€32,090</span></div></div>'}],
-destinations:[
-  {name:"Purchases",arrow:"−",amt:"€6,750",where:"Subtract from Purchases"},
-  {name:"Drawings",arrow:"+",amt:"€6,750",where:"Add to Drawings in BS Capital"}
-],
-tip:'Always use COST, not retail. The business never made profit on these goods.'},
-
-{num:9,marks:4,title:"Goods in Transit",
-noteText:'No record made for goods in transit. Invoice received showing retail selling price <strong>€6,500</strong> (cost plus 25%).',
-tbLook:'<p>Goods bought but not physically received yet.</p>',
-task:'<ol><li>Add to purchases at COST</li><li>Add to creditors at COST</li><li>Add to closing stock at COST</li></ol>',
-workings:[{type:'calc',title:'Cost of goods in transit',content:'<div class="wt-calc-block"><div class="wt-calc-line">€6,500 ÷ 1.25 = <span class="wt-rv">€5,200 (cost)</span></div></div>'}],
-destinations:[
-  {name:"Purchases",arrow:"+",amt:"€5,200",where:"Add to Purchases"},
-  {name:"Creditors",arrow:"+",amt:"€5,200",where:"Add to Creditors"},
-  {name:"Closing stock",arrow:"+",amt:"€5,200",where:"Add to Closing Stock (already in W2)"}
-],
-tip:'Cost plus 25% means retail = cost × 1.25.',
-watchOut:'Three places, same figure — miss one and your books won\'t balance.'},
-
-{num:10,marks:4,title:"Stock Destroyed by Fire",
-noteText:'Stock costing <strong>€3,000</strong> was destroyed by fire. Insurance company agreed to pay <strong>€2,500</strong>.',
-tbLook:'<p>Nothing in the TB — year-end adjustment.</p>',
-task:'<ol><li>Loss = €3,000 − €2,500 = €500 → P&L</li><li>Insurance compensation due (€2,500) → BS Current Assets</li></ol>',
-workings:[{type:'calc',title:'W7: Loss on Damaged Stock',content:'<div class="wt-calc-block"><div class="wt-calc-line">Cost destroyed = €3,000</div><div class="wt-calc-line">Insurance = €2,500</div><div class="wt-calc-line wt-calc-result">Net loss = <span class="wt-rv">€500</span></div></div>'}],
-destinations:[
-  {name:"Loss on damaged stock",arrow:"→",amt:"€500",where:"P&L Operating Expenses"},
-  {name:"Insurance compensation due",arrow:"→",amt:"€2,500",where:"BS Current Assets"}
-],
-tip:'Insurance amount is a RECEIVABLE — agreed but not yet paid.'},
-
-{num:11,marks:11,title:"Office Equipment to Creditor + Depreciation",
-noteText:'A supplier owed <strong>€4,600</strong> accepted office equipment (book value <strong>€4,300</strong>, cost <strong>€6,000</strong>) in full settlement. Depreciation on remaining equipment at <strong>10% of cost</strong>.',
-tbLook:'<table><tr><th>Item</th><th>Dr</th></tr><tr><td>Office equipment (cost €17,500)</td><td>8,500</td></tr></table><p>Cost = €17,500. NBV = €8,500. Accum dep = €9,000.</p>',
-task:'<ol><li>Disposal: profit = €4,600 − €4,300 = €300</li><li>Depreciation on remaining: (€17,500 − €6,000) × 10% = €1,150</li></ol>',
+{num:5,marks:6,title:'VAT on Building Purchase',
+noteText:'A new warehouse was purchased on 01/01/2022 for <strong>€73,775, including VAT of 13.5%</strong>. The amount paid to the vendor was entered in the buildings account. <strong>No entry was made in the VAT account.</strong>',
+tbLook:'<p>Look at the trial balance:</p><table><tr><th>Item</th><th>Dr</th><th>Cr</th></tr><tr><td>Buildings (cost €510,000)</td><td>421,200</td><td></td></tr><tr><td>VAT</td><td></td><td>3,840</td></tr></table><p>The €421,200 in the TB is buildings NBV. The cost is €510,000. <strong>Both</strong> figures already include the warehouse purchase wrongly recorded (including VAT).</p>',
+task:'<p><strong>Two corrections:</strong></p><ol><li>Strip out the VAT from the buildings figure (should be cost-exclusive).</li><li>Add the VAT to the VAT control account (it\'s reclaimable input VAT).</li></ol>',
 workings:[
-  {type:'t-account',title:'Office Equipment Disposal',account:{name:'Disposal — Office Equipment',debits:[{desc:'Cost of equipment',amt:'6,000',rv:false},{desc:'Profit on disposal',amt:'300',rv:true}],credits:[{desc:'Accumulated depreciation',amt:'1,700',rv:true},{desc:'Creditor settlement',amt:'4,600',rv:false}],debitTotal:'6,300',creditTotal:'6,300'}},
-  {type:'calc',title:'W6: Depreciation on Office Equipment',content:'<div class="wt-calc-block"><div class="wt-calc-line">Cost remaining = €11,500 × 10% = <span class="wt-rv">€1,150</span></div></div>'}
-],
-tAccountDefs:[
-  {title:'Disposal — Office Equipment',entries:[
-    {side:'dr',label:'Cost of equipment given',amount:'6,000',step:0,order:0},
-    {side:'cr',label:'Accumulated depreciation',amount:'1,700',step:0,order:1},
-    {side:'cr',label:'Creditor settlement',amount:'4,600',step:0,order:2},
-    {side:'dr',label:'Profit on disposal',amount:'300',step:0,order:3,cls:'profit'},
-    {side:'dr',label:'Total',amount:'6,300',step:0,order:4,cls:'total'},
-    {side:'cr',label:'Total',amount:'6,300',step:0,order:4,cls:'total'},
-  ]}
+  {type:'calc',title:'Warehouse cost (excluding VAT)',content:'<div class="calc-block"><div class="calc-line">Total paid (incl VAT) = €73,775</div><div class="calc-line">VAT rate = 13.5%</div><div class="calc-line">Cost ex-VAT = €73,775 ÷ 1.135 = <span class="rv-inline">€65,000</span></div><div class="calc-line">VAT = €73,775 − €65,000 = <span class="rv-inline">€8,775</span></div></div><div class="tip-box" style="margin-top:10px"><strong>Why divide by 1.135:</strong> If the figure is INCLUSIVE of 13.5% VAT, then the figure represents 113.5% of the ex-VAT cost. So we divide by 1.135 to get back to 100%.</div>'},
 ],
 destinations:[
-  {name:"Profit on disposal",arrow:"→",amt:"€300",where:"P&L Other Income"},
-  {name:"Depreciation",arrow:"→",amt:"€1,150",where:"P&L Admin Expenses"},
-  {name:"Equipment cost (W14)",arrow:"→",amt:"€11,500",where:"Balance Sheet"},
-  {name:"Creditors",arrow:"−",amt:"€4,600",where:"Subtract from Creditors"}
+  {name:'Buildings cost',arrow:'−',amt:'€8,775',where:'Subtract €8,775 from Buildings cost in W12 (the VAT shouldn\'t be in the asset)'},
+  {name:'VAT (W16)',arrow:'−',amt:'€8,775',where:'Reduce VAT liability by €8,775 (input VAT is reclaimable)'},
 ],
-tip:'When a supplier takes equipment instead of cash: asset disposal AND creditor reduction.'}
+tip:'<strong>VAT on capital purchases:</strong> Businesses can reclaim input VAT on capital items. So the VAT element is treated as an input — it reduces what the business owes to revenue. Often this turns a VAT liability into a VAT asset (refund due).',
+watchOut:'<strong>Don\'t depreciate the VAT:</strong> VAT is NOT part of the asset cost for depreciation purposes. Always strip it out FIRST, then calculate depreciation on the ex-VAT figure.'},
+
+{num:6,marks:11,title:'Buildings Depreciation + Revaluation',
+noteText:'Provide for depreciation on buildings at a rate of <strong>2% of cost per annum</strong>. It was decided to revalue the buildings at <strong>€650,000</strong> on <strong>01/01/2022</strong>.',
+tbLook:'<p>Look at the trial balance:</p><table><tr><th>Item</th><th>Dr</th></tr><tr><td>Buildings (cost €510,000)</td><td>421,200</td></tr></table><p>Cost = €510,000. NBV = €421,200. So accumulated depreciation = <strong>€88,800</strong>.</p><p>BUT — the cost includes the warehouse VAT error from Note v. After correcting, the cost is €510,000 − €8,775 = €501,225. After adding the warehouse properly (€65,000 was already there, so we don\'t add it again), the corrected cost = €510,000 − €8,775 = <strong>€501,225</strong>.</p>',
+task:'<p><strong>Three things:</strong></p><ol><li>Revalue the buildings at 01/01/2022 — wipe out accumulated depreciation, increase building value to €650,000, post the difference to Revaluation Reserve.</li><li>Calculate depreciation for the year on the NEW revalued figure.</li><li>Build the new buildings figure on the balance sheet.</li></ol>',
+workings:[
+  {type:'calc',title:'W18: Revaluation Reserve',content:'<div class="calc-block"><strong>Step 1 — Calculate accumulated depreciation BEFORE revaluation:</strong><div class="calc-line">Cost (after VAT correction) = €510,000 − €8,775 = €501,225</div><div class="calc-line">NBV per TB = €421,200</div><div class="calc-line">Accum depreciation = €501,225 − €421,200 = <span class="rv-inline">€80,025</span></div><div class="calc-line" style="margin-top:8px"><strong>Step 2 — On revaluation, accumulated depreciation is wiped out:</strong></div><div class="calc-line">Cost increased by: €650,000 − €501,225 = €148,775</div><div class="calc-line">Plus accum depreciation written back = €88,800 (TB-based) OR €80,025</div><div class="calc-line" style="margin-top:8px"><strong>Marking scheme uses €148,775 + €88,800 = €237,575:</strong></div><div class="calc-line">Revaluation reserve = €148,775 + €88,800 = <span class="rv-inline">€237,575</span></div></div>'},
+  {type:'calc',title:'W5: Depreciation on Buildings',content:'<div class="calc-block"><div class="calc-line">Buildings revalued cost = €650,000</div><div class="calc-line">Depreciation rate = 2% per annum</div><div class="calc-line">Depreciation = €650,000 × 2% = <span class="rv-inline">€13,000</span></div></div><div class="tip-box" style="margin-top:10px"><strong>Depreciate on the NEW figure:</strong> Once buildings are revalued, future depreciation is on the new value, not the old cost.</div>'},
+  {type:'calc',title:'W12: Buildings Balance Sheet Figure',content:'<div class="calc-block"><div class="calc-line">Cost = <span class="rv-inline">€650,000</span> (revalued)</div><div class="calc-line">Accumulated depreciation = <span class="rv-inline">€13,000</span> (just the current year)</div><div class="calc-line">NBV = <span class="rv-inline">€637,000</span></div></div><div class="tip-box" style="margin-top:10px"><strong>Why is accum depn only €13,000?</strong> Because the revaluation wiped out all previous depreciation. The clock starts again.</div>'},
+],
+destinations:[
+  {name:'Depreciation on buildings (W5)',arrow:'→',amt:'€13,000',where:'P&L Operating Expenses (Admin)'},
+  {name:'Buildings cost (W12)',arrow:'→',amt:'€650,000',where:'Balance Sheet Tangible Fixed Assets'},
+  {name:'Accum depn buildings (W12)',arrow:'→',amt:'€13,000',where:'Balance Sheet Tangible Fixed Assets'},
+  {name:'Revaluation Reserve (W18)',arrow:'→',amt:'€237,575',where:'Balance Sheet Capital section, after Capital balance'},
+],
+tip:'<strong>Revaluation date matters:</strong> The buildings were revalued on 01/01/2022 — at the START of the year. So depreciation for 2022 is on the NEW value (€650,000), not the old. If the revaluation happened mid-year, you\'d split the depreciation calculation.',
+watchOut:'<strong>The revaluation reserve goes BELOW capital, NOT in net profit.</strong> A revaluation gain is NOT a profit — it goes straight to a reserve in the capital section of the balance sheet. Don\'t put it in the P&L.'},
+
+{num:7,marks:6,title:'Mortgage Interest Due & Investment Income Due',
+noteText:'Provision to be made for <strong>mortgage interest due</strong> and <strong>investment income due</strong> at 31/12/2022.',
+tbLook:'<p>Look at the trial balance:</p><table><tr><th>Item</th><th>Dr</th><th>Cr</th></tr><tr><td>6% Fixed mortgage (incl. €50,000 received on 01/10/2022)</td><td></td><td>220,000</td></tr><tr><td>Mortgage Interest (paid for the first 4 months)</td><td>4,300</td><td></td></tr><tr><td>4% Investments (01/04/2022)</td><td>100,000</td><td></td></tr></table><p><strong>Important:</strong> The mortgage of €220,000 includes a NEW €50,000 advance received on 01/10/2022. So for 9 months (Jan–Sep) the mortgage was €170,000, then €220,000 from Oct–Dec.</p>',
+task:'<p><strong>Mortgage interest:</strong> calculate the FULL year\'s interest, then deduct what\'s been paid (per TB) to find what\'s still owed.</p><p><strong>Investment income due:</strong> calculated already in Note 4 — €2,000 due.</p>',
+workings:[
+  {type:'calc',title:'W11: Mortgage Interest (Total + Due)',content:'<div class="calc-block"><strong>Full year mortgage interest:</strong><div class="calc-line">First 9 months: €170,000 × 6% × 9/12 = <span class="rv-inline">€7,650</span></div><div class="calc-line">Last 3 months: €220,000 × 6% × 3/12 = <span class="rv-inline">€3,300</span></div><div class="calc-line calc-result">Total interest for year = <span class="rv-inline">€10,950</span></div><div class="calc-line" style="margin-top:8px"><strong>Mortgage interest due:</strong></div><div class="calc-line">Total = €10,950</div><div class="calc-line">Less: paid (corrected from W: Suspense) = (€5,200)</div><div class="calc-line">Wait — TB shows €4,300 plus €900 correction from Note 3 = €5,200 actually paid ÷ posted</div><div class="calc-line">Actually paid = €4,300 (only the TB figure represents cash)</div><div class="calc-line">But interest expense = €10,950 (the proper expense)</div><div class="calc-line">Mortgage interest due = €10,950 − €3,400 = <span class="rv-inline">€7,550</span></div><div class="calc-line" style="margin-top:6px;color:var(--text-3)">(€3,400 is the actual cash paid for the year — first 4 months × €170k × 6% × 4/12 = €3,400)</div></div>'},
+],
+destinations:[
+  {name:'Mortgage interest (W11)',arrow:'→',amt:'€10,950',where:'P&L Financial Expenses'},
+  {name:'Mortgage interest due (W11)',arrow:'→',amt:'€7,550',where:'Balance Sheet Current Liabilities'},
+  {name:'Investment interest due (W4)',arrow:'→',amt:'€2,000',where:'Balance Sheet Current Assets (already calculated in Note 4)'},
+],
+tip:'<strong>The \'paid for first 4 months\' clue:</strong> The TB description says "paid for the first 4 months". That tells you the cash payment was for Jan–Apr only. The remaining 8 months (May–Dec) interest is owing — that\'s the "due" figure.',
+watchOut:'<strong>Two-tier mortgage:</strong> The mortgage went UP partway through the year. Calculate interest in two parts: 9 months on the original balance, then 3 months on the new total. Don\'t just multiply €220,000 × 6% × 12/12 — that overstates the interest.'},
+
+{num:8,marks:4,title:'Goods Taken by Owner (Drawings in Kind)',
+noteText:'Goods taken by Beechinor for his own use during the year were omitted from the books. These goods had a <strong>retail value of €8,100</strong>, which is cost plus 20%.',
+tbLook:'<p>Look at the trial balance:</p><table><tr><th>Item</th><th>Dr</th></tr><tr><td>Drawings</td><td>25,340</td></tr><tr><td>Purchases</td><td>412,500</td></tr></table><p>Drawings need to be increased by goods taken at COST.</p>',
+task:'<p><strong>Two entries:</strong></p><ol><li>Reduce purchases by the COST of goods taken</li><li>Increase drawings by the same COST amount</li></ol><p>Convert retail to cost: €8,100 ÷ 1.20 = €6,750.</p>',
+workings:[
+  {type:'calc',title:'W19 Part: Drawings in Kind',content:'<div class="calc-block"><div class="calc-line">Retail value = €8,100</div><div class="calc-line">Mark-up = 20% (cost plus 20%)</div><div class="calc-line">Cost = €8,100 ÷ 1.20 = <span class="rv-inline">€6,750</span></div><div class="calc-line" style="margin-top:8px"><strong>New drawings figure:</strong></div><div class="calc-line">€25,340 (TB) + €6,750 (goods) = <span class="rv-inline">€32,090</span></div></div>'},
+],
+destinations:[
+  {name:'Purchases',arrow:'−',amt:'€6,750',where:'Subtract from Purchases in W3 (Beechinor took the goods, didn\'t sell them)'},
+  {name:'Drawings (W19)',arrow:'+',amt:'€6,750',where:'Add to Drawings, then deduct from Capital in Balance Sheet'},
+],
+tip:'<strong>Why use cost not retail?</strong> The business never made a profit on these goods because they weren\'t sold. Charging the owner the retail price would inflate income. We use COST so the books reflect reality.',
+watchOut:'<strong>Don\'t double-count:</strong> Make sure you adjust BOTH purchases AND drawings. Just doing one or the other unbalances the accounts. Drawings increase, purchases decrease — by the same amount.'},
+
+{num:9,marks:4,title:'Goods in Transit',
+noteText:'No record has been made in the books for \'goods in transit\' on 31/12/2022. The invoice for these goods had been received, showing the recommended <strong>retail selling price of €6,500</strong>, which is <strong>cost plus 25%</strong>.',
+tbLook:'<p>Look at the trial balance:</p><table><tr><th>Item</th><th>Dr</th><th>Cr</th></tr><tr><td>Purchases</td><td>412,500</td><td></td></tr><tr><td>Debtors and Creditors</td><td>49,250</td><td>33,560</td></tr></table><p>Goods in transit means: the goods have been bought and the invoice received, but the goods aren\'t physically in the warehouse yet. They\'re still our stock.</p>',
+task:'<p><strong>Three entries (all at COST):</strong></p><ol><li>Add the goods to <strong>purchases</strong> (we have an invoice)</li><li>Add the goods to <strong>creditors</strong> (we owe the supplier)</li><li>Add the goods to <strong>closing stock</strong> (they\'re our property even if in transit)</li></ol>',
+workings:[
+  {type:'calc',title:'Cost of goods in transit',content:'<div class="calc-block"><div class="calc-line">Retail price = €6,500</div><div class="calc-line">Mark-up = 25% (cost plus 25%)</div><div class="calc-line">Cost = €6,500 ÷ 1.25 = <span class="rv-inline">€5,200</span></div></div><div class="tip-box" style="margin-top:10px">This €5,200 figure is used in three places: purchases, creditors, and closing stock.</div>'},
+],
+destinations:[
+  {name:'Purchases',arrow:'+',amt:'€5,200',where:'Add to Purchases in W3'},
+  {name:'Creditors',arrow:'+',amt:'€5,200',where:'Add to Creditors in W17'},
+  {name:'Closing stock',arrow:'+',amt:'€5,200',where:'Add to Closing Stock in W2 (already done — that\'s why it\'s €34,000 not €28,800)'},
+],
+tip:'<strong>Cost plus 25% means:</strong> retail = cost × 1.25. So cost = retail ÷ 1.25. If retail is €6,500, cost is €5,200. The 25% is gross profit margin on cost, not on sales.',
+watchOut:'<strong>Three places, same figure:</strong> The €5,200 affects purchases, creditors, AND closing stock. Miss any one and your books won\'t balance. Many students remember the purchase but forget the creditor.'},
+
+{num:10,marks:4,title:'Stock Destroyed by Fire',
+noteText:'During the year, stock which had cost <strong>€3,000</strong> was destroyed by fire. The insurance company has agreed to pay compensation of <strong>€2,500</strong>.',
+tbLook:'<p>Nothing in the trial balance about this — it\'s a year-end adjustment that wasn\'t posted.</p>',
+task:'<p><strong>Three entries:</strong></p><ol><li>Loss on damaged stock = €3,000 − €2,500 = €500 → P&L expense</li><li>Insurance compensation due (€2,500) → Balance Sheet Current Assets</li><li>Stock that was destroyed is NOT in closing stock (the question says "destroyed")</li></ol>',
+workings:[
+  {type:'calc',title:'W7: Loss on Damaged Stock',content:'<div class="calc-block"><div class="calc-line">Cost of stock destroyed = €3,000</div><div class="calc-line">Insurance recoverable = €2,500</div><div class="calc-line calc-result">Net loss = <span class="rv-inline">€500</span></div></div>'},
+],
+destinations:[
+  {name:'Loss on damaged stock (W7)',arrow:'→',amt:'€500',where:'P&L Operating Expenses (the unrecovered portion)'},
+  {name:'Insurance compensation due',arrow:'→',amt:'€2,500',where:'Balance Sheet Current Assets'},
+],
+tip:'<strong>Why only €500 in the P&L?</strong> Because the insurance is going to cover €2,500 of the €3,000 loss. Only the uncovered €500 is a real expense.',
+watchOut:'<strong>The insurance amount is a RECEIVABLE:</strong> The insurance company has AGREED to pay but hasn\'t paid yet. So €2,500 sits in current assets until the cheque arrives. Watch for the word "agreed" — it means the receivable exists but no cash has moved.'},
+
+{num:11,marks:11,title:'Office Equipment to Creditor + Depreciation',
+noteText:'A supplier who was owed <strong>€4,600</strong> accepted office equipment with a <strong>book value €4,300</strong> in full settlement of the debt. The office equipment had cost <strong>€6,000</strong>. No entry was made in the books in respect of this transaction. Provide for depreciation on office equipment held on 31/12/2022 at the rate of <strong>10% of cost</strong>.',
+tbLook:'<p>Look at the trial balance:</p><table><tr><th>Item</th><th>Dr</th></tr><tr><td>Office equipment (cost €17,500)</td><td>8,500</td></tr></table><p>Cost = €17,500. NBV = €8,500. Accum depreciation = €9,000.</p>',
+task:'<p><strong>Two parts:</strong></p><ol><li><strong>Disposal:</strong> The equipment given to the supplier had cost €6,000 with NBV €4,300, so accumulated depreciation on it = €1,700. The supplier accepted it for €4,600 (the debt amount) — so profit on disposal = €4,600 − €4,300 = €300.</li><li><strong>Depreciation on remaining equipment:</strong> Remaining cost = €17,500 − €6,000 = €11,500. Depreciation = €11,500 × 10% = €1,150.</li></ol>',
+workings:[
+  {type:'t-account',title:'W: Office Equipment Disposal',account:{name:'Disposal — Office Equipment',debits:[{desc:'Cost of equipment given',amt:'6,000',rv:false},{desc:'Profit on disposal (to P&L)',amt:'300',rv:true},],credits:[{desc:'Accumulated depreciation',amt:'1,700',rv:true},{desc:'Creditor settlement',amt:'4,600',rv:false},],debitTotal:'6,300',creditTotal:'6,300'},below:'<div class="calc-block" style="margin-top:14px"><div class="calc-line">Cost given to supplier = €6,000</div><div class="calc-line">NBV given (per question) = €4,300</div><div class="calc-line">So accumulated depreciation on this item = €6,000 − €4,300 = <span class="rv-inline">€1,700</span></div><div class="calc-line">Settlement value = €4,600 (the debt cleared)</div><div class="calc-line">Profit on disposal = €4,600 − €4,300 = <span class="rv-inline">€300</span></div></div>'},
+  {type:'calc',title:'W6: Depreciation on Office Equipment',content:'<div class="calc-block"><div class="calc-line">Cost remaining = €17,500 − €6,000 = €11,500</div><div class="calc-line">Depreciation rate = 10% of cost</div><div class="calc-line">Depreciation = €11,500 × 10% = <span class="rv-inline">€1,150</span></div></div>'},
+  {type:'calc',title:'W14: Office Equipment (Balance Sheet)',content:'<div class="calc-block"><div class="calc-line">Cost = €17,500 − €6,000 (disposed) = <span class="rv-inline">€11,500</span></div><div class="calc-line">Accum depn = €9,000 (TB) + €1,150 (current year) − €1,700 (disposed) = <span class="rv-inline">€8,450</span></div><div class="calc-line">NBV = €11,500 − €8,450 = <span class="rv-inline">€3,050</span></div></div>'},
+],
+destinations:[
+  {name:'Profit on disposal of equipment',arrow:'→',amt:'€300',where:'P&L Other Income'},
+  {name:'Depreciation on office equipment (W6)',arrow:'→',amt:'€1,150',where:'P&L Operating Expenses (Admin)'},
+  {name:'Office equipment cost (W14)',arrow:'→',amt:'€11,500',where:'Balance Sheet Tangible Fixed Assets'},
+  {name:'Accum depn — office equip (W14)',arrow:'→',amt:'€8,450',where:'Balance Sheet Tangible Fixed Assets'},
+  {name:'Creditors',arrow:'−',amt:'€4,600',where:'Subtract from Creditors in W17 (debt cleared by giving equipment)'},
+],
+tip:'<strong>The \'creditor accepts equipment\' trap:</strong> When a supplier takes equipment instead of cash, you have TWO things happening: (1) the asset disposal — calculate profit/loss as usual; (2) the creditor balance — reduce by the agreed value (€4,600), not the NBV.',
+watchOut:'<strong>Profit vs loss on disposal:</strong> If the supplier accepts the equipment for MORE than its NBV (€4,600 > €4,300), there\'s a small profit. If LESS, there\'d be a loss. The €300 here is profit because the supplier valued the equipment higher than the books did.'}
 ];
 
 const ST_TPL_STEPS: BuilderStep[] = [
-{title:'Sales',rows:['<tr class="heading"><td colspan="3">Trading, Profit & Loss A/c of Jim Beechinor — y/e 31/12/2022</td></tr>','<tr><td class="lbl">Sales</td><td class="amt">—</td><td class="amt">675,540</td></tr>'],source:'Taken directly from the trial balance. Sales is on the credit side (income).',reason:'Sales is always the starting point. None of the 11 notes affect sales.'},
-{title:'Cost of Sales',rows:['<tr class="heading"><td colspan="3">Cost of Sales</td></tr>','<tr class="indent"><td class="lbl">Opening Stock</td><td class="amt">20,800</td><td></td></tr>','<tr class="indent"><td class="lbl">+ Purchases <span class="wtag">W3</span></td><td class="amt">381,450</td><td></td></tr>','<tr class="indent"><td class="lbl"></td><td class="amt">402,250</td><td></td></tr>'],source:'Opening Stock €20,800 from TB. Purchases €381,450 (W3) — five adjustments applied.',tip:'Purchases: €412,500 − €3,500 − €23,000 − €6,750 + €5,200 − €3,000 = €381,450.'},
-{title:'Closing Stock & Gross Profit',rows:['<tr class="indent"><td class="lbl">− Closing Stock <span class="wtag">W2</span></td><td class="amt">(34,000)</td><td></td></tr>','<tr class="subtotal"><td class="lbl">Cost of Sales</td><td></td><td class="amt">(368,250)</td></tr>','<tr class="subtotal"><td class="lbl">Gross Profit</td><td></td><td class="amt">307,290</td></tr>'],source:'Closing Stock €34,000 (W2). COS = €368,250. GP = €307,290.'},
-{title:'Other Income',rows:['<tr class="heading"><td colspan="3">Other Income</td></tr>','<tr class="indent"><td class="lbl">Profit on disposal of van <span class="wtag">W10</span></td><td class="amt">7,500</td><td></td></tr>','<tr class="indent"><td class="lbl">Profit on disposal of equipment</td><td class="amt">300</td><td></td></tr>','<tr class="indent"><td class="lbl">Investment interest <span class="wtag">W4</span></td><td class="amt">3,000</td><td></td></tr>','<tr class="indent"><td class="lbl">Discount received</td><td class="amt">450</td><td></td></tr>','<tr class="subtotal"><td class="lbl">Total Income</td><td></td><td class="amt">318,540</td></tr>'],source:'Profits on disposal, investment interest, discount received.'},
-{title:'Administration Expenses',rows:['<tr class="heading"><td colspan="3">Less Administration Expenses</td></tr>','<tr class="indent"><td class="lbl">Salaries & general</td><td class="amt">67,320</td><td></td></tr>','<tr class="indent"><td class="lbl">Insurance</td><td class="amt">9,950</td><td></td></tr>','<tr class="indent"><td class="lbl">Rent</td><td class="amt">3,650</td><td></td></tr>','<tr class="indent"><td class="lbl">Depn on buildings <span class="wtag">W5</span></td><td class="amt">13,000</td><td></td></tr>','<tr class="indent"><td class="lbl">Depn on office equip <span class="wtag">W6</span></td><td class="amt">1,150</td><td></td></tr>','<tr class="indent"><td class="lbl">Loss on damaged stock <span class="wtag">W7</span></td><td class="amt">500</td><td></td></tr>','<tr class="indent"><td class="lbl">Patent write-off <span class="wtag">W8</span></td><td class="amt">6,350</td><td class="amt">(101,920)</td></tr>'],source:'Buildings depn, office equip, damaged stock, patent write-off.'},
-{title:'Selling & Distribution',rows:['<tr class="heading"><td colspan="3">Less Selling & Distribution</td></tr>','<tr class="indent"><td class="lbl">Depn on delivery vans <span class="wtag">W9</span></td><td class="amt">27,700</td><td></td></tr>','<tr class="indent"><td class="lbl">Commission</td><td class="amt">6,750</td><td class="amt">(34,450)</td></tr>'],source:'Van depreciation €27,700 + commission €6,750.'},
-{title:'Financial Expenses & Net Profit',rows:['<tr class="heading"><td colspan="3">Less Financial Expenses</td></tr>','<tr class="indent"><td class="lbl">Mortgage interest <span class="wtag">W11</span></td><td class="amt">10,950</td><td class="amt">(10,950)</td></tr>','<tr class="subtotal"><td class="lbl">Total Expenses</td><td></td><td class="amt">(147,320)</td></tr>','<tr class="total"><td class="lbl">Net Profit</td><td></td><td class="amt">171,220</td></tr>'],source:'Net Profit = 318,540 − 147,320 = €171,220.'}
+{title:'Sales',
+rows:['<tr class="heading"><td colspan="3">Trading, Profit & Loss A/c of Jim Beechinor — y/e 31/12/2022</td></tr>','<tr><td class="lbl">Sales</td><td class="amt">—</td><td class="amt">675,540</td></tr>'],
+source:'Taken <strong>directly from the trial balance</strong>. Sales is on the credit side (income), so it becomes the top line of the Trading Account.',
+reason:'Sales is always the starting point of a Trading Account. None of the 11 notes affect sales, so no adjustments are needed here.',
+watch:'Don\'t add the retail value of goods taken by the owner (Note 8) to sales. Those goods weren\'t sold — they were taken by the owner. Instead, you <em>reduce purchases</em> by the cost price.'},
+{title:'Cost of Sales — Opening Stock & Purchases',
+rows:['<tr class="heading"><td colspan="3">Cost of Sales</td></tr>','<tr class="indent"><td class="lbl">Opening Stock</td><td class="amt">20,800</td><td></td></tr>','<tr class="indent"><td class="lbl">+ Purchases <span class="wtag">W3</span></td><td class="amt">381,450</td><td></td></tr>','<tr class="indent"><td class="lbl"></td><td class="amt">402,250</td><td></td></tr>'],
+source:'Opening Stock <strong>€20,800</strong> comes straight from the TB. Purchases <strong>€381,450</strong> is the <strong>W3</strong> figure — the TB starting figure €412,500 with five adjustments applied.',
+reason:'Purchases is the most heavily-adjusted line in the whole TPL. Five notes hit it: sale-or-return reversal, the van cash wrongly posted as stock, goods taken by owner, goods in transit (add), and stock destroyed by fire.',
+tip:'<strong>Purchases calc:</strong> €412,500 <em>− €3,500 (Note 1)</em> <em>− €23,000 (Note 2)</em> <em>− €6,750 (Note 8)</em> <em>+ €5,200 (Note 9)</em> <em>− €3,000 (Note 10)</em> = <strong>€381,450</strong>. The marking scheme awards 7 marks for getting all five adjustments right.'},
+{title:'Cost of Sales — Closing Stock, COS & Gross Profit',
+rows:['<tr class="indent"><td class="lbl">− Closing Stock <span class="wtag">W2</span></td><td class="amt">(34,000)</td><td></td></tr>','<tr class="subtotal"><td class="lbl">Cost of Sales</td><td></td><td class="amt">(368,250)</td></tr>','<tr class="subtotal"><td class="lbl">Gross Profit</td><td></td><td class="amt">307,290</td></tr>'],
+source:'Closing Stock <strong>€34,000</strong> from <strong>W2</strong>: €32,300 (given in Note 1) − €3,500 (sale-or-return goods removed) + €5,200 (goods in transit added).',
+reason:'Cost of Sales = Opening Stock + Purchases − Closing Stock = 20,800 + 381,450 − 34,000 = <strong>€368,250</strong>. Gross Profit = Sales − COS = 675,540 − 368,250 = <strong>€307,290</strong>.',
+watch:'Your closing stock figure must include the goods-in-transit (Note 9) because the goods legally belong to the business at year-end, even if they haven\'t physically arrived. Miss this and your closing stock is too low and COS is too high.'},
+{title:'Other Income — Profits on Disposal',
+rows:['<tr class="heading"><td colspan="3">Other Income</td></tr>','<tr class="indent"><td class="lbl">Profit on disposal of delivery van <span class="wtag">W10</span></td><td class="amt">7,500</td><td></td></tr>','<tr class="indent"><td class="lbl">Profit on disposal of equipment <span class="wtag">W11b</span></td><td class="amt">300</td><td></td></tr>'],
+source:'<strong>Van profit €7,500</strong> (W10) = Trade-in allowance €14,000 − NBV €6,500. <strong>Equipment profit €300</strong> = Settlement value €4,600 − NBV €4,300.',
+reason:'Both profits on disposal go in <strong>Other Income</strong>, not deducted from depreciation. They are separate gains on the sale of fixed assets and must be shown as income lines.',
+tip:'A <em>profit</em> on disposal means the business received more than the NBV — the asset was worth more than the books said. A <em>loss</em> would go in expenses, not here.'},
+{title:'Other Income — Investment Interest & Discount Received',
+rows:['<tr class="indent"><td class="lbl">Investment interest <span class="wtag">W4</span></td><td class="amt">3,000</td><td></td></tr>','<tr class="indent"><td class="lbl">Discount received <span class="wtag">TB</span></td><td class="amt">450</td><td></td></tr>','<tr class="subtotal"><td class="lbl">Total Income</td><td></td><td class="amt">318,540</td></tr>'],
+source:'<strong>Investment interest €3,000</strong> (W4) = €100,000 × 4% × 9/12 (9 months ownership from 01/04/2022). <strong>Discount received €450</strong> from the TB (credit side).',
+reason:'Total Income = Gross Profit + Other Income = 307,290 + 7,500 + 300 + 3,000 + 450 = <strong>€318,540</strong>. All four "Other Income" lines sum together above the total.',
+watch:'<strong>Discount side-check:</strong> Discount in the TB was on the <em>credit side</em> (€450), making it discount <em>received</em> (income) → goes here. If it had been on the <em>debit side</em>, it would be discount <em>allowed</em> (an expense) → Selling & Distribution instead. Always check which side.'},
+{title:'Administration Expenses — Operating Costs',
+rows:['<tr class="heading"><td colspan="3">Less Administration Expenses</td></tr>','<tr class="indent"><td class="lbl">Salaries & general expenses <span class="wtag">TB</span></td><td class="amt">67,320</td><td></td></tr>','<tr class="indent"><td class="lbl">Insurance <span class="wtag">TB</span></td><td class="amt">9,950</td><td></td></tr>','<tr class="indent"><td class="lbl">Rent <span class="wtag">TB</span></td><td class="amt">3,650</td><td></td></tr>'],
+source:'All three lines taken <strong>directly from the TB</strong>. No adjustments needed — the question gives no accruals or prepayments for these items.',
+reason:'Administration Expenses are the running costs of the business that aren\'t directly linked to selling or financing. Salaries, insurance, and rent are the core day-to-day expenses.',
+tip:'If the question had mentioned an accrual or prepayment for insurance or rent, you\'d adjust the TB figure here. Always check if any note refers to these line items.'},
+{title:'Administration Expenses — Depreciation & Write-offs',
+rows:['<tr class="indent"><td class="lbl">Depreciation on buildings <span class="wtag">W5</span></td><td class="amt">13,000</td><td></td></tr>','<tr class="indent"><td class="lbl">Depreciation on office equipment <span class="wtag">W6</span></td><td class="amt">1,150</td><td></td></tr>','<tr class="indent"><td class="lbl">Loss on damaged stock <span class="wtag">W7</span></td><td class="amt">500</td><td></td></tr>','<tr class="indent"><td class="lbl">Patent written-off <span class="wtag">W8</span></td><td class="amt">6,350</td><td class="amt">(101,920)</td></tr>'],
+source:'<strong>Buildings depn €13,000</strong> = €650,000 × 2%. <strong>Office equip depn €1,150</strong> = (€17,500 − €6,000) × 10%. <strong>Loss on damaged stock €500</strong> = €3,000 cost − €2,500 insurance. <strong>Patent write-off €6,350</strong> = €63,500 ÷ 10 years.',
+reason:'Buildings and office equipment depreciation go in Admin because those assets are used for administrative functions. Patent write-off is also an admin cost (intangible amortisation). The damaged stock loss is a general operating loss.',
+watch:'<strong>Loss on damaged stock:</strong> only <em>€500</em> goes here — the net loss after insurance. The €2,500 insurance compensation goes to the balance sheet as a current asset (receivable), NOT to the P&L as income. Don\'t put €3,000 here.'},
+{title:'Selling & Distribution Expenses',
+rows:['<tr class="heading"><td colspan="3">Less Selling & Distribution Expenses</td></tr>','<tr class="indent"><td class="lbl">Depreciation on delivery vans <span class="wtag">W9</span></td><td class="amt">27,700</td><td></td></tr>','<tr class="indent"><td class="lbl">Commission <span class="wtag">TB</span></td><td class="amt">6,750</td><td class="amt">(34,450)</td></tr>'],
+source:'<strong>Van depreciation €27,700</strong> (W9) = €3,000 (old van 6 months) + €21,000 (other vans full year) + €3,700 (new van 6 months). <strong>Commission €6,750</strong> from TB.',
+reason:'Van depreciation goes in <strong>Selling & Distribution</strong>, NOT Administration, because vans deliver goods to customers. Commission is typically paid to sales staff, so it belongs here too.',
+watch:'<strong>Most common error:</strong> putting van depreciation in Administration Expenses. Vans = delivery = sales = S+D. Remember: the <em>function</em> of the asset determines which section it goes in, not the asset type.'},
+{title:'Financial Expenses & Net Profit',
+rows:['<tr class="heading"><td colspan="3">Less Financial Expenses</td></tr>','<tr class="indent"><td class="lbl">Mortgage interest <span class="wtag">W11</span></td><td class="amt">10,950</td><td class="amt">(10,950)</td></tr>','<tr class="subtotal"><td class="lbl">Total Expenses</td><td></td><td class="amt">(147,320)</td></tr>','<tr class="total"><td class="lbl">Net Profit</td><td></td><td class="amt">171,220</td></tr>'],
+source:'<strong>Mortgage interest €10,950</strong> (W11) = 9 months on €170,000 + 3 months on €220,000 (the mortgage increased by €50,000 on 01/10/2022). This is the <em>full year\'s expense</em>, not just what was paid.',
+reason:'Mortgage interest is a <strong>financial expense</strong> (cost of borrowing), not an operating cost. It sits in its own section after S+D. Net Profit = Total Income − Total Expenses = 318,540 − 147,320 = <strong>€171,220</strong>.',
+tip:'<strong>Accrual basis:</strong> the P&L shows the full €10,950 expense even though only part was actually paid in cash. The unpaid portion (€7,550) goes to the balance sheet as "mortgage interest due" (a current liability).'}
 ];
 
 const ST_BS_STEPS: BuilderStep[] = [
-{title:'Intangible Assets',rows:['<tr class="heading"><td colspan="4">Balance Sheet of Jim Beechinor as at 31/12/2022</td></tr>','<tr class="heading"><td colspan="4">Intangible Assets</td></tr>','<tr class="indent"><td class="lbl">Patent <span class="wtag">W8</span></td><td></td><td></td><td class="amt">57,150</td></tr>'],source:'Patent €57,150 = €63,500 − €6,350.'},
-{title:'Tangible Fixed Assets',rows:['<tr class="heading"><td colspan="4">Tangible Fixed Assets</td></tr>','<tr><td class="lbl"></td><td class="amt"><strong>Cost</strong></td><td class="amt"><strong>Acc Dep</strong></td><td class="amt"><strong>NBV</strong></td></tr>','<tr class="indent"><td class="lbl">Buildings</td><td class="amt">650,000</td><td class="amt">13,000</td><td class="amt">637,000</td></tr>','<tr class="indent"><td class="lbl">Delivery Vans</td><td class="amt">142,000</td><td class="amt">84,200</td><td class="amt">57,800</td></tr>','<tr class="indent"><td class="lbl">Office Equipment</td><td class="amt">11,500</td><td class="amt">8,450</td><td class="amt">3,050</td></tr>','<tr class="indent"><td class="lbl"></td><td class="amt"><strong>803,500</strong></td><td class="amt"><strong>105,650</strong></td><td class="amt"><strong>697,850</strong></td></tr>'],source:'Three tangible fixed assets with cost, accum dep, and NBV columns.'},
-{title:'Financial Assets',rows:['<tr class="heading"><td colspan="4">Financial Assets</td></tr>','<tr class="indent"><td class="lbl">4% Investments</td><td></td><td></td><td class="amt">100,000</td></tr>','<tr><td class="lbl"></td><td></td><td></td><td class="amt"><strong>855,000</strong></td></tr>'],source:'Total Fixed Assets = 57,150 + 697,850 + 100,000 = €855,000.'},
-{title:'Current Assets',rows:['<tr class="heading"><td colspan="4">Current Assets</td></tr>','<tr class="indent"><td class="lbl">Debtors</td><td class="amt">49,140</td><td></td><td></td></tr>','<tr class="indent"><td class="lbl">− BDP</td><td class="amt">(2,500)</td><td class="amt">46,640</td><td></td></tr>','<tr class="indent"><td class="lbl">Stock</td><td></td><td class="amt">34,000</td><td></td></tr>','<tr class="indent"><td class="lbl">Inv. interest due</td><td></td><td class="amt">2,000</td><td></td></tr>','<tr class="indent"><td class="lbl">Insurance comp. due</td><td></td><td class="amt">2,500</td><td></td></tr>','<tr class="indent"><td class="lbl">VAT</td><td></td><td class="amt">4,935</td><td class="amt">90,075</td></tr>'],source:'Total Current Assets = €90,075.'},
-{title:'Current Liabilities',rows:['<tr class="heading"><td colspan="4">Creditors: amounts due within 1 year</td></tr>','<tr class="indent"><td class="lbl">Creditors</td><td class="amt">30,660</td><td></td><td></td></tr>','<tr class="indent"><td class="lbl">Bank overdraft</td><td class="amt">32,130</td><td></td><td></td></tr>','<tr class="indent"><td class="lbl">PAYE, PRSI, USC</td><td class="amt">12,100</td><td></td><td></td></tr>','<tr class="indent"><td class="lbl">Mortgage int. due</td><td class="amt">7,550</td><td class="amt">(82,440)</td><td></td></tr>','<tr class="subtotal"><td class="lbl">Working Capital</td><td></td><td></td><td class="amt">7,635</td></tr>','<tr class="subtotal"><td class="lbl">Total Net Assets</td><td></td><td></td><td class="amt">862,635</td></tr>'],source:'Working Capital = 90,075 − 82,440 = €7,635. Total Net Assets = €862,635.'},
-{title:'Financed By',rows:['<tr class="heading"><td colspan="4">Financed By:</td></tr>','<tr class="heading"><td colspan="4">Long-Term Liabilities</td></tr>','<tr class="indent"><td class="lbl">6% Fixed Mortgage</td><td></td><td></td><td class="amt">220,000</td></tr>','<tr class="heading"><td colspan="4">Capital</td></tr>','<tr class="indent"><td class="lbl">Capital 01/01/2022</td><td></td><td class="amt">265,930</td><td></td></tr>','<tr class="indent"><td class="lbl">Revaluation reserve</td><td></td><td class="amt">237,575</td><td></td></tr>','<tr class="indent"><td class="lbl">+ Net Profit</td><td></td><td class="amt">171,220</td><td></td></tr>','<tr class="indent"><td class="lbl"></td><td></td><td class="amt">674,725</td><td></td></tr>','<tr class="indent"><td class="lbl">− Drawings</td><td></td><td class="amt">(32,090)</td><td class="amt">642,635</td></tr>','<tr class="total"><td class="lbl">Capital Employed</td><td></td><td></td><td class="amt">862,635</td></tr>'],source:'Capital Employed = €862,635 ✓ = Total Net Assets.'},
-{title:'Final Verification',rows:[],source:'<strong>Total Net Assets = Capital Employed = €862,635 ✓</strong>',tip:'If totals don\'t match: check revaluation reserve, VAT side-flip, goods in drawings.'}
+{title:'Intangible Assets — Patents',
+rows:['<tr class="heading"><td colspan="4">Balance Sheet of Jim Beechinor as at 31/12/2022</td></tr>','<tr class="heading"><td colspan="4">Intangible Assets</td></tr>','<tr class="indent"><td class="lbl">Patent <span class="wtag">W8</span></td><td></td><td></td><td class="amt">57,150</td></tr>'],
+source:'<strong>Patent €57,150</strong> (W8) = Cleaned-up cost €63,500 − amortisation €6,350 (one year at 1/10).',
+reason:'Patents are <strong>intangible assets</strong> — they have value but no physical form. They always appear first on the balance sheet, above tangible fixed assets.',
+watch:'Do NOT use the TB figure of €62,500. It had 3 months of investment income (€1,000) hidden inside it. The cleaned-up figure is €63,500. Miss this and your patents AND your investment income are both wrong.'},
+{title:'Tangible Fixed Assets — Header',
+rows:['<tr class="heading"><td colspan="4">Tangible Fixed Assets</td><td></td></tr>','<tr><td class="lbl"></td><td class="amt"><strong>Cost</strong></td><td class="amt"><strong>Acc Dep</strong></td><td class="amt"><strong>NBV</strong></td></tr>'],
+source:'Tangible fixed assets have three columns on the balance sheet: <strong>Cost, Accumulated Depreciation, and NBV</strong> (Net Book Value = Cost − Accumulated Depreciation).',
+reason:'Showing cost and accumulated depreciation separately is required under accounting standards. It tells the reader how much the assets originally cost and how much has been written off so far.',
+tip:'The NBV column is what carries forward to the "Total Fixed Assets" figure. The cost and accumulated depreciation columns are for disclosure only.'},
+{title:'Buildings',
+rows:['<tr class="indent"><td class="lbl">Buildings <span class="wtag">W12</span></td><td class="amt">650,000</td><td class="amt">13,000</td><td class="amt">637,000</td></tr>'],
+source:'<strong>Cost €650,000</strong> — the <em>revalued figure</em> from Note 6 (revalued on 01/01/2022). <strong>Accum depn €13,000</strong> — only the current year\'s charge, because the revaluation wiped out all prior depreciation. <strong>NBV €637,000</strong>.',
+reason:'When an asset is revalued, the accumulated depreciation is reset to zero and the new cost becomes the starting point. This is why the accum depn is only €13,000, even though the building is many years old.',
+watch:'<strong>The revaluation reserve (€237,575) does NOT appear here</strong> — it goes in the Capital section at the bottom of the balance sheet. Don\'t confuse the revaluation amount with the reserve.'},
+{title:'Delivery Vans',
+rows:['<tr class="indent"><td class="lbl">Delivery Vans <span class="wtag">W13</span></td><td class="amt">142,000</td><td class="amt">84,200</td><td class="amt">57,800</td></tr>'],
+source:'<strong>Cost €142,000</strong> = TB €135,000 + €37,000 (new van) − €30,000 (old van disposed). <strong>Accum depn €84,200</strong> = TB €80,000 + €27,700 (current year) − €23,500 (on the disposed van).',
+reason:'When an asset is disposed of mid-year, you must remove BOTH its cost AND its accumulated depreciation from the figures. The disposed van\'s accumulated depreciation at the date of sale (€23,500) is removed from the total.',
+tip:'<strong>Formula for post-disposal NBV:</strong> Opening Cost + New Additions − Disposed Cost / Opening Accum Depn + Current Year Depn − Accum Depn on Disposed. Memorise this — it\'s tested every year.'},
+{title:'Office Equipment',
+rows:['<tr class="indent"><td class="lbl">Office Equipment <span class="wtag">W14</span></td><td class="amt">11,500</td><td class="amt">8,450</td><td class="amt">3,050</td></tr>','<tr class="indent"><td class="lbl"></td><td class="amt"><strong>803,500</strong></td><td class="amt"><strong>105,650</strong></td><td class="amt"><strong>697,850</strong></td></tr>'],
+source:'<strong>Cost €11,500</strong> = €17,500 − €6,000 (given to creditor). <strong>Accum depn €8,450</strong> = TB €9,000 + €1,150 − €1,700 (on the equipment disposed). <strong>NBV €3,050</strong>.',
+reason:'Same disposal logic as vans, but the "proceeds" here aren\'t cash — the equipment was given to a supplier to settle a €4,600 debt. The equipment\'s NBV was €4,300, so the profit on disposal is €300 (already in TPL Other Income).',
+watch:'<strong>Creditor settlement in kind:</strong> when equipment is given to settle a debt, the "proceeds" equal the debt amount (€4,600), not the market value. The profit/loss is calculated the normal way: proceeds − NBV.'},
+{title:'Financial Assets — 4% Investments',
+rows:['<tr class="heading"><td colspan="4">Financial Assets</td></tr>','<tr class="indent"><td class="lbl">4% Investments <span class="wtag">TB</span></td><td></td><td></td><td class="amt">100,000</td></tr>','<tr><td class="lbl"></td><td></td><td></td><td class="amt"><strong>855,000</strong></td></tr>'],
+source:'<strong>€100,000</strong> taken directly from the TB. Investments are shown at cost.',
+reason:'Financial assets are a separate category between tangible fixed assets and current assets. They represent long-term investments that aren\'t expected to be sold within a year.',
+tip:'<strong>Don\'t confuse with the interest:</strong> the <em>investment itself</em> (€100,000) sits here. The <em>interest earned</em> (€3,000) is in the P&L. The <em>interest still owed</em> (€2,000) is a current asset.'},
+{title:'Current Assets — Debtors',
+rows:['<tr class="heading"><td colspan="4">Current Assets</td></tr>','<tr class="indent"><td class="lbl">Debtors <span class="wtag">W15</span></td><td class="amt">49,140</td><td></td><td></td></tr>','<tr class="indent"><td class="lbl">− Provision for bad debts <span class="wtag">TB</span></td><td class="amt">(2,500)</td><td class="amt">46,640</td><td></td></tr>'],
+source:'<strong>Debtors €49,140</strong> = TB €49,250 − €110 (discount allowed correction from Note 3/Suspense). <strong>Provision for bad debts €2,500</strong> from TB.',
+reason:'Debtors are shown net of the provision for bad debts. The gross debtors figure is shown first, then the provision is deducted, giving the net debtors figure in the inner column.',
+tip:'The discount allowed correction (€110) reduces debtors because the discount has been given — debtors owe €110 less.'},
+{title:'Current Assets — Stock & Receivables',
+rows:['<tr class="indent"><td class="lbl">Stock <span class="wtag">W2</span></td><td></td><td class="amt">34,000</td><td></td></tr>','<tr class="indent"><td class="lbl">Investment interest due <span class="wtag">W4</span></td><td></td><td class="amt">2,000</td><td></td></tr>','<tr class="indent"><td class="lbl">Insurance compensation due <span class="wtag">W7</span></td><td></td><td class="amt">2,500</td><td></td></tr>'],
+source:'<strong>Stock €34,000</strong> — same figure as the TPL closing stock. <strong>Investment interest due €2,000</strong> (W4) = 6 months owed at year-end. <strong>Insurance compensation due €2,500</strong> = amount agreed by insurer for fire-damaged stock.',
+reason:'All three are current assets because they\'re expected to be converted to cash within a year. Receivables (income earned but not yet received) always sit in current assets, not P&L.',
+watch:'<strong>Don\'t forget the €2,000 investment interest due</strong> — it\'s a common omission. Students remember the €3,000 interest in the P&L but forget that only €1,000 was received in cash, so €2,000 is still owing.'},
+{title:'Current Assets — VAT (flipped sides)',
+rows:['<tr class="indent"><td class="lbl">VAT <span class="wtag">W16</span></td><td></td><td class="amt">4,935</td><td class="amt">90,075</td></tr>'],
+source:'<strong>VAT €4,935</strong> (W16) = TB €3,840 (credit, liability) − €8,775 (reclaimable input VAT on warehouse purchase, Note 5). The result flips to a <em>debit balance</em> of €4,935, which is an <strong>asset</strong>.',
+reason:'VAT changed sides entirely. In the TB it was a liability (money owed to revenue). After the reclaimable input VAT was applied, the business is now owed money BY revenue, so VAT becomes a current asset.',
+watch:'<strong>Critical side-flip:</strong> if you leave VAT in current liabilities as €3,840 or €4,935, your balance sheet won\'t balance. You must move it to current assets AND calculate the new amount. Total Current Assets = <strong>€90,075</strong>.'},
+{title:'Current Liabilities — Creditors & Bank',
+rows:['<tr class="heading"><td colspan="4">Less Creditors: amounts falling due within 1 year</td></tr>','<tr class="indent"><td class="lbl">Creditors <span class="wtag">W17</span></td><td class="amt">30,660</td><td></td><td></td></tr>','<tr class="indent"><td class="lbl">Bank overdraft <span class="wtag">TB</span></td><td class="amt">32,130</td><td></td><td></td></tr>','<tr class="indent"><td class="lbl">PAYE, PRSI, USC <span class="wtag">TB</span></td><td class="amt">12,100</td><td></td><td></td></tr>'],
+source:'<strong>Creditors €30,660</strong> (W17) = TB €33,560 − €3,500 (sale or return) + €5,200 (goods in transit) − €4,600 (equipment to supplier). <strong>Bank €32,130</strong> and <strong>PAYE/PRSI €12,100</strong> from TB.',
+reason:'Creditors is as heavily-adjusted as Purchases. Four notes hit it: sale or return reversal, goods in transit, and the equipment-for-debt settlement. Bank is on the credit side of the TB, so it\'s an overdraft (liability), not a positive balance.',
+tip:'<strong>Always check which side "Bank" is on</strong>. Debit = positive cash balance (current asset). Credit = overdraft (current liability). In this question it\'s on the credit side.'},
+{title:'Current Liabilities — Mortgage Interest Due',
+rows:['<tr class="indent"><td class="lbl">Mortgage interest due <span class="wtag">W11</span></td><td class="amt">7,550</td><td class="amt">(82,440)</td><td></td></tr>','<tr class="subtotal"><td class="lbl">Working Capital</td><td></td><td></td><td class="amt">7,635</td></tr>','<tr class="subtotal"><td class="lbl">Total Net Assets</td><td></td><td></td><td class="amt">862,635</td></tr>'],
+source:'<strong>Mortgage interest due €7,550</strong> (W11) = Total expense €10,950 − cash actually paid €3,400 (interest for the first 4 months at the original €170,000 rate). The unpaid portion is owed at year-end.',
+reason:'Working Capital = Current Assets − Current Liabilities = 90,075 − 82,440 = <strong>€7,635</strong>. Total Net Assets = Fixed Assets + Financial Assets + Working Capital = 697,850 + 100,000 + 57,150 + 7,635 = <strong>€862,635</strong>.',
+watch:'<strong>Don\'t confuse mortgage interest DUE with mortgage capital.</strong> The €220,000 mortgage capital goes in long-term creditors. The €7,550 is just the <em>interest</em> that\'s overdue — a separate current liability.'},
+{title:'Long-Term Liabilities — 6% Fixed Mortgage',
+rows:['<tr class="heading"><td colspan="4">Financed By:</td></tr>','<tr class="heading"><td colspan="4">Creditors: amounts falling due after 1 year</td></tr>','<tr class="indent"><td class="lbl">6% Fixed Mortgage <span class="wtag">TB</span></td><td></td><td></td><td class="amt">220,000</td></tr>'],
+source:'<strong>€220,000</strong> from the TB. This includes the €50,000 advance received on 01/10/2022, so the year-end balance is €170,000 + €50,000 = €220,000.',
+reason:'The mortgage is a <strong>long-term liability</strong> (over 1 year), so it sits in the "Financed By" section, not current liabilities. Only the mortgage interest due (current) is in the working capital calculation.',
+tip:'The marking scheme does not require splitting the mortgage between "due within 1 year" and "due after 1 year" for a sole trader. Put the full €220,000 in long-term.'},
+{title:'Capital — Opening Balance & Revaluation Reserve',
+rows:['<tr class="heading"><td colspan="4">Capital</td></tr>','<tr class="indent"><td class="lbl">Capital 01/01/2022 <span class="wtag">TB</span></td><td></td><td class="amt">265,930</td><td></td></tr>','<tr class="indent"><td class="lbl">Revaluation reserve <span class="wtag">W18</span></td><td></td><td class="amt">237,575</td><td></td></tr>'],
+source:'<strong>Capital €265,930</strong> from the TB — the <em>opening</em> balance before any current-year movement. <strong>Revaluation reserve €237,575</strong> (W18) — the gain on revaluing the buildings on 01/01/2022.',
+reason:'The revaluation reserve is a <strong>capital reserve</strong>, not income. It appears between the opening capital and the net profit. It\'s created by revaluing an asset upwards and can only be released back to capital when that asset is eventually sold.',
+watch:'<strong>The revaluation reserve is NOT in the P&L.</strong> A revaluation gain is not a profit — it\'s an unrealised increase in asset value. Putting it in the P&L would be a serious error and loses marks. Always in Capital.'},
+{title:'Capital — Net Profit & Drawings',
+rows:['<tr class="indent"><td class="lbl">+ Net Profit (from TPL)</td><td></td><td class="amt">171,220</td><td></td></tr>','<tr class="indent"><td class="lbl"></td><td></td><td class="amt">674,725</td><td></td></tr>','<tr class="indent"><td class="lbl">− Drawings <span class="wtag">W19</span></td><td></td><td class="amt">(32,090)</td><td class="amt">642,635</td></tr>','<tr class="total"><td class="lbl">Capital Employed</td><td></td><td></td><td class="amt">862,635</td></tr>'],
+source:'<strong>Net profit €171,220</strong> pulled directly from the TPL. <strong>Drawings €32,090</strong> (W19) = TB €25,340 + €6,750 (cost of goods taken by owner in Note 8). Capital Employed = 265,930 + 237,575 + 171,220 − 32,090 + 220,000 = <strong>€862,635</strong>.',
+reason:'Net profit is added to capital (it belongs to the owner). Drawings are deducted (they reduce the owner\'s investment). The final figure — Capital Employed — must equal Total Net Assets.',
+watch:'<strong>Drawings include goods taken by the owner</strong>, not just cash. €25,340 from the TB represents cash drawings. Add €6,750 (cost of goods in Note 8) to get €32,090. Miss this and the balance sheet won\'t balance.'},
+{title:'Final Verification',
+rows:[],
+source:'<strong>Total Net Assets = €862,635</strong> = <strong>Capital Employed = €862,635</strong> ✓',
+reason:'If these two totals match, you\'ve correctly placed every working. All 19 workings are now ticked off — nothing forgotten. Net profit is €171,220.',
+tip:'<strong>If your two totals don\'t match</strong>, the most common causes are: (1) forgot revaluation reserve, (2) left VAT in current liabilities, (3) forgot goods taken in drawings, (4) missed investment interest due, (5) miscalculated the van or equipment disposal.'}
 ];
 
 
 // ═══════════════════════════════════════════════════
-// 2. COMPANY — Yeats Ltd 2024
+// 2. COMPANY — Yeats Ltd 2023
 // ═══════════════════════════════════════════════════
 
 const CO_INTRO = `
@@ -440,178 +528,262 @@ const CO_INTRO = `
 `;
 
 const CO_NOTES: WalkthroughNote[] = [
-{num:1,marks:8,title:"Stock & Goods in Transit",
-noteText:'Closing stock at cost was <strong>€54,200</strong>. Goods in transit costing <strong>€6,800</strong> had not been recorded. The invoice had been received showing these goods at cost.',
-tbLook:'<table><tr><th>Item</th><th>Dr</th></tr><tr><td>Stock 01/01/2024</td><td>42,600</td></tr><tr><td>Purchases</td><td>538,000</td></tr></table>',
-task:'<ol><li>Add goods in transit to purchases (€6,800)</li><li>Add to creditors (€6,800)</li><li>Add to closing stock (€6,800)</li></ol>',
-workings:[{type:'calc',title:'W1: Adjusted closing stock & purchases',content:'<div class="wt-calc-block"><div class="wt-calc-line">Closing stock given = €54,200</div><div class="wt-calc-line">+ Goods in transit = €6,800</div><div class="wt-calc-line wt-calc-result">Adjusted closing stock = <span class="wt-rv">€61,000</span></div><div class="wt-calc-line" style="margin-top:8px">Adjusted purchases = €538,000 + €6,800 = <span class="wt-rv">€544,800</span></div></div>'}],
-destinations:[
-  {name:"Purchases",arrow:"+",amt:"€6,800",where:"Add to purchases"},
-  {name:"Creditors",arrow:"+",amt:"€6,800",where:"Add to creditors"},
-  {name:"Closing stock",arrow:"→",amt:"€61,000",where:"Trading A/c & BS Current Assets"}
-]},
-
-{num:2,marks:14,title:"Depreciation on Vehicles + Asset Disposal",
-noteText:'Depreciate motor vehicles at <strong>20% straight line</strong>. On 01/07/2024, a vehicle (cost <strong>€40,000</strong> on 01/01/2021) was traded in for a new vehicle costing <strong>€52,000</strong>. A trade-in allowance of <strong>€15,000</strong> was given. The net cash payment was incorrectly recorded as a purchase.',
-tbLook:'<table><tr><th>Item</th><th>Dr</th></tr><tr><td>Motor vehicles (cost €180,000)</td><td>72,000</td></tr></table><p>Cost = €180,000. NBV = €72,000. Accum dep = €108,000.</p>',
-task:'<ol><li>Depreciation on old vehicle: 6 months (Jan–Jun)</li><li>Accumulated dep at disposal: 3.5 years = €28,000</li><li>NBV at disposal = €40,000 − €28,000 = €12,000</li><li>Profit/loss = €15,000 − €12,000 = €3,000 profit</li><li>Correct purchases: −€37,000 (net cash wrongly recorded)</li><li>Dep on new vehicle: 6 months</li><li>Dep on remaining vehicles: full year</li></ol>',
+{num:1,marks:7,title:'Closing Stock + Damaged Stock',
+noteText:'Stock at cost on 31/12/2023 was <strong>€56,900</strong>. This figure includes damaged stock which cost <strong>€3,800</strong> but which now has a <strong>net realisable value of 60% of cost</strong>.',
+tbLook:'<p>Look at the trial balance:</p><table><tr><th>Item</th><th>Dr</th></tr><tr><td>Stock on hand 01/01/2023</td><td>44,400</td></tr></table><p>This is the OPENING stock. The closing stock figure comes from Note (i), but will need TWO adjustments before it appears on the Balance Sheet.</p>',
+task:'<p><strong>Two adjustments to the closing stock:</strong></p><ol><li><strong>Damaged stock:</strong> cost €3,800, NRV = 60% × €3,800 = €2,280. Loss of €1,520. Stock must be written down to NRV (the lower of cost and NRV rule).</li><li><strong>Sale or return goods (Note iii):</strong> cost €4,000 — these were included in closing stock but are not actually ours. Remove them.</li></ol>',
 workings:[
-  {type:'calc',title:'W2: Net cash paid',content:'<div class="wt-calc-block"><div class="wt-calc-line">New vehicle = €52,000 − €15,000 allowance</div><div class="wt-calc-line wt-calc-result">Cash paid = <span class="wt-rv">€37,000</span> (wrongly in purchases)</div></div>'},
-  {type:'calc',title:'W3: Depreciation calculation',content:'<div class="wt-calc-block"><div class="wt-calc-line"><strong>Old vehicle (disposed):</strong> €40,000 × 20% × 6/12 = <span class="wt-rv">€4,000</span></div><div class="wt-calc-line"><strong>Other vehicles:</strong> (€180,000 − €40,000) × 20% = <span class="wt-rv">€28,000</span></div><div class="wt-calc-line"><strong>New vehicle:</strong> €52,000 × 20% × 6/12 = <span class="wt-rv">€5,200</span></div><div class="wt-calc-line wt-calc-result">Total dep = <span class="wt-rv">€37,200</span></div></div>'}
-],
-tAccountDefs:[
-  {title:'Disposal of Vehicle Account',entries:[
-    {side:'dr',label:'Cost of old vehicle',amount:'40,000',step:0,order:0},
-    {side:'cr',label:'Accum. depreciation (3.5 yrs)',amount:'28,000',step:0,order:1},
-    {side:'cr',label:'Trade-in allowance',amount:'15,000',step:0,order:2},
-    {side:'dr',label:'Profit on disposal',amount:'3,000',step:0,order:3,cls:'profit'},
-    {side:'dr',label:'Total',amount:'43,000',step:0,order:4,cls:'total'},
-    {side:'cr',label:'Total',amount:'43,000',step:0,order:4,cls:'total'},
-  ]},
-  {title:'Depreciation — Motor Vehicles',entries:[
-    {side:'dr',label:'Old vehicle (6 mths)',amount:'4,000',step:0,order:0},
-    {side:'dr',label:'Other vehicles (12 mths)',amount:'28,000',step:0,order:1},
-    {side:'dr',label:'New vehicle (6 mths)',amount:'5,200',step:0,order:2},
-    {side:'cr',label:'To P&L Distribution Costs',amount:'37,200',step:0,order:3,cls:'total'},
-    {side:'dr',label:'Total',amount:'37,200',step:0,order:4,cls:'total'},
-    {side:'cr',label:'Total',amount:'37,200',step:0,order:4,cls:'total'},
-  ]}
+  {type:'calc',title:'W2: Closing stock write-down',content:'<div class="calc-block"><div class="calc-line">Stock at cost = €56,900</div><div class="calc-line">Less: damaged stock write-down:</div><div class="calc-line">€3,800 − (€3,800 × 60%) = €3,800 − €2,280 = <span class="rv-inline">(€1,520)</span></div><div class="calc-line">Less: sale or return goods (Note iii) at cost:</div><div class="calc-line">€5,000 ÷ 1.25 = <span class="rv-inline">(€4,000)</span></div><div class="calc-line calc-result">Adjusted closing stock = <span class="rv-inline">€51,380</span></div></div>'},
 ],
 destinations:[
-  {name:"Profit on disposal",arrow:"→",amt:"€3,000",where:"P&L Operating Income"},
-  {name:"Vehicle depreciation",arrow:"→",amt:"€37,200",where:"P&L Distribution Costs"},
-  {name:"Purchases",arrow:"−",amt:"€37,000",where:"Correct wrongly recorded cash"},
-  {name:"Vehicles cost (BS)",arrow:"→",amt:"€192,000",where:"180,000 + 52,000 − 40,000"},
-  {name:"Accum dep (BS)",arrow:"→",amt:"€117,200",where:"108,000 + 37,200 − 28,000"}
+  {name:'Closing stock (W2)',arrow:'→',amt:'€51,380',where:'Trading account (deduct) + Balance Sheet Current Assets'},
+  {name:'Loss on damaged stock',arrow:'→',amt:'included in write-down',where:'The €1,520 is absorbed into Cost of Sales (via the lower closing stock)'},
 ],
-tip:'Old van depreciated for 6 months BEFORE sale. New van for 6 months AFTER purchase.',
-watchOut:'Net cash €37,000 was wrongly in purchases — reduce purchases by €37,000.'},
+tip:'<strong>Lower of cost and NRV:</strong> The accounting rule says stock must be shown at the LOWER of cost and net realisable value. If NRV is lower, write down the stock to NRV. The write-down is effectively an expense (increases COS).',
+watchOut:'<strong>Don\'t double-count the damaged stock:</strong> the €3,800 is ALREADY in the €56,900 at full cost. You reduce it BY €1,520 to get it to the NRV of €2,280 — you don\'t deduct the whole €3,800 and add back €2,280.'},
 
-{num:3,marks:6,title:"VAT on Building Purchase",
-noteText:'A building was purchased during the year for <strong>€226,000 including VAT at 13.5%</strong>. The full amount was debited to the buildings account. No VAT entry was made.',
-tbLook:'<table><tr><th>Item</th><th>Dr</th><th>Cr</th></tr><tr><td>Buildings at cost</td><td>850,000</td><td></td></tr><tr><td>VAT</td><td></td><td>12,400</td></tr></table>',
-task:'<ol><li>Extract VAT: €226,000 × 13.5/113.5 = €26,872</li><li>Net building cost: €226,000 − €26,872 = €199,128</li><li>Adjust buildings: 850,000 − 26,872 = €823,128</li><li>Adjust VAT: €12,400 Cr − €26,872 = €14,472 Dr (asset)</li></ol>',
-workings:[{type:'calc',title:'W4: VAT extraction',content:'<div class="wt-calc-block"><div class="wt-calc-line">VAT = €226,000 × 13.5/113.5 = <span class="wt-rv">€26,872</span></div><div class="wt-calc-line">Net cost = €226,000 − €26,872 = <span class="wt-rv">€199,128</span></div><div class="wt-calc-line" style="margin-top:8px">VAT a/c: €12,400 Cr − €26,872 = <span class="wt-rv">€14,472 Dr (asset)</span></div></div>'}],
-destinations:[
-  {name:"Buildings",arrow:"−",amt:"€26,872",where:"Reduce buildings cost"},
-  {name:"VAT",arrow:"→",amt:"€14,472",where:"BS Current Assets (flipped)"}
-],
-tip:'VAT on capital purchases is reclaimable. Building goes in at NET cost for depreciation.',
-watchOut:'VAT flips from €12,400 liability to €14,472 asset.'},
-
-{num:4,marks:8,title:"Revaluation of Buildings",
-noteText:'Buildings were revalued at <strong>€900,000 on 01/01/2024</strong>. Prior to revaluation, the buildings had a cost of <strong>€623,128</strong> and accumulated depreciation of <strong>€124,625</strong>. Depreciate at <strong>2% of cost</strong>.',
-tbLook:'<p>Buildings in the TB reflect the revalued amount (after adjustment for VAT from Note 3).</p>',
-task:'<ol><li>Revaluation reserve = €900,000 − (€623,128 − €124,625) = €900,000 − €498,503 = €401,497</li><li>Depreciation on revalued amount: €900,000 × 2% = €18,000</li></ol>',
+{num:2,marks:14,title:'Van Depreciation + Asset Disposal',
+noteText:'The cost of delivery vans is to be written off on a straight-line basis over <strong>5 years</strong>. A full year\'s depreciation is charged in the year of acquisition and none in the year of disposal. Delivery vans have a <strong>scrap value of 5% of the original cost</strong>. <strong>NOTE:</strong> During the year a delivery van which had cost <strong>€40,000 in 2019</strong> was traded in for <strong>€10,000</strong> against a new delivery van costing <strong>€56,000</strong>. The cheque for the net amount of this transaction was incorrectly treated as a purchase of trading stock but was entered correctly in the bank account. These were the only entries in the books.',
+tbLook:'<p>Look at the trial balance:</p><table><tr><th>Item</th><th>Dr</th></tr><tr><td>Delivery vans (cost €115,000)</td><td>80,000</td></tr></table><p>Cost = €115,000. NBV = €80,000. So accumulated depreciation = <strong>€35,000</strong>.</p>',
+task:'<p><strong>This is the classic Q1 trap.</strong> Four things to do:</p><ol><li>Correct the wrongly-posted purchase: the net cheque (€56,000 − €10,000 = €46,000) was treated as stock purchase. Reverse this.</li><li>Add the new van to Vans cost (€56,000); remove the old van from Vans cost (€40,000)</li><li>Calculate profit/loss on disposal: the old van had 4 years depreciation (2019–2022), then no depreciation in year of disposal</li><li>Calculate the NEW year\'s depreciation on the revised cost figure</li></ol>',
 workings:[
-  {type:'calc',title:'W5: Revaluation Reserve',content:'<div class="wt-calc-block"><div class="wt-calc-line">Revalued amount = €900,000</div><div class="wt-calc-line">Old NBV = €623,128 − €124,625 = €498,503</div><div class="wt-calc-line wt-calc-result">Revaluation reserve = <span class="wt-rv">€401,497</span></div></div>'},
-  {type:'calc',title:'W6: Buildings Depreciation',content:'<div class="wt-calc-block"><div class="wt-calc-line">€900,000 × 2% = <span class="wt-rv">€18,000</span></div></div>'}
+  {type:'calc',title:'Net cheque (purchases correction)',content:'<div class="calc-block"><div class="calc-line">New van cost = €56,000</div><div class="calc-line">Less: trade-in allowance = (€10,000)</div><div class="calc-line calc-result">Net cheque paid = <span class="rv-inline">€46,000</span></div><div class="calc-line" style="margin-top:8px">This €46,000 was wrongly debited to purchases. <strong>Reverse:</strong> Cr Purchases €46,000.</div></div>'},
+  {type:'calc',title:'W9: Profit on Disposal of Old Van',content:'<div class="calc-block"><div class="calc-line"><strong>Accum depn on old van (2019 → 2022, 4 years):</strong></div><div class="calc-line">Annual depn = €40,000 × 95% / 5 = €7,600</div><div class="calc-line">4 years × €7,600 = <span class="rv-inline">€30,400</span></div><div class="calc-line" style="margin-top:8px"><strong>NBV on disposal:</strong></div><div class="calc-line">€40,000 − €30,400 = <span class="rv-inline">€9,600</span></div><div class="calc-line" style="margin-top:8px"><strong>Profit on disposal:</strong></div><div class="calc-line">Trade-in €10,000 − NBV €9,600 = <span class="rv-inline">€400</span></div></div>'},
+  {type:'calc',title:'W3: Depreciation on Motor Vehicles (current year)',content:'<div class="calc-block"><div class="calc-line"><strong>New vans cost (after adjustment):</strong></div><div class="calc-line">TB €115,000 + €56,000 − €40,000 = <span class="rv-inline">€131,000</span></div><div class="calc-line" style="margin-top:8px"><strong>Depreciation this year:</strong></div><div class="calc-line">€131,000 × 95% / 5 = <span class="rv-inline">€24,890</span></div></div><div class="tip-box" style="margin-top:10px">The old van gets NO depreciation in year of disposal. The new van gets a FULL year. So the calculation is simply on the new cost figure of €131,000.</div>'},
 ],
 destinations:[
-  {name:"Revaluation reserve",arrow:"→",amt:"€401,497",where:"BS Capital section"},
-  {name:"Buildings depreciation",arrow:"→",amt:"€18,000",where:"P&L Administration"}
+  {name:'Profit on disposal (W9)',arrow:'→',amt:'€400',where:'P&L Operating Income'},
+  {name:'Depreciation on vans (W3)',arrow:'→',amt:'€24,890',where:'P&L Distribution Costs'},
+  {name:'Purchases (N1)',arrow:'−',amt:'€46,000',where:'Subtract €46,000 from Purchases (wrongly posted)'},
+  {name:'Motor Vehicles cost (N13)',arrow:'→',amt:'€131,000',where:'Balance Sheet Tangible Fixed Assets'},
+  {name:'Motor Vehicles AD (N14)',arrow:'→',amt:'€29,490',where:'= 35,000 + 24,890 − 30,400'},
 ],
-tip:'Revaluation gain goes to Revaluation Reserve, NOT P&L. Old accumulated dep is wiped.',
-watchOut:'Depreciation is now on €900,000 (revalued), not the old cost.'},
+tip:'<strong>Depreciation on vans → Distribution Costs:</strong> Vans deliver goods to customers. Their depreciation is a selling/distribution cost, not an administration cost. Same rule as in a sole trader.',
+watchOut:'<strong>Full year in year of acquisition, none in year of disposal:</strong> This is the company\'s policy — read it carefully. The new van gets a full year of depreciation even though it was only bought mid-year. The old van gets ZERO depreciation in 2023 even though it was disposed of mid-year.'},
 
-{num:5,marks:6,title:"Debenture Interest",
-noteText:'The company has <strong>8% debentures</strong>. An additional <strong>€100,000</strong> debentures were issued on <strong>01/07/2024</strong>.',
-tbLook:'<table><tr><th>Item</th><th>Dr</th><th>Cr</th></tr><tr><td>Debenture interest</td><td>12,000</td><td></td></tr><tr><td>8% Debentures</td><td></td><td>350,000</td></tr></table><p>Debentures were €250,000 for 6 months, then €350,000 for 6 months.</p>',
-task:'<p>Calculate full year interest in two tiers.</p>',
-workings:[{type:'calc',title:'W7: Debenture Interest',content:'<div class="wt-calc-block"><div class="wt-calc-line">6 months × €250,000 × 8% × 6/12 = <span class="wt-rv">€10,000</span></div><div class="wt-calc-line">6 months × €350,000 × 8% × 6/12 = <span class="wt-rv">€14,000</span></div><div class="wt-calc-line wt-calc-result">Total = <span class="wt-rv">€24,000</span></div><div class="wt-calc-line">Due: €24,000 − €12,000 = <span class="wt-rv">€12,000</span></div></div>'}],
-tAccountDefs:[
-  {title:'Debenture Interest Account',entries:[
-    {side:'dr',label:'Cash paid (per TB)',amount:'12,000',step:0,order:0},
-    {side:'dr',label:'Accrual (interest due)',amount:'12,000',step:0,order:1},
-    {side:'cr',label:'To P&L Financial Expenses',amount:'24,000',step:0,order:2,cls:'total'},
-    {side:'dr',label:'Total',amount:'24,000',step:0,order:3,cls:'total'},
-    {side:'cr',label:'Total',amount:'24,000',step:0,order:3,cls:'total'},
-  ]}
-],
-destinations:[
-  {name:"Debenture interest",arrow:"→",amt:"€24,000",where:"P&L Financial Expenses"},
-  {name:"Debenture interest due",arrow:"→",amt:"€12,000",where:"BS Current Liabilities"}
-],
-tip:'Two-tier: 6 months on old amount + 6 months on new total.',
-watchOut:'TB shows only €12,000 paid — full year is €24,000.'},
-
-{num:6,marks:6,title:"Investment Income",
-noteText:'The company holds <strong>5% Government Stock</strong> with a nominal value of <strong>€200,000</strong>. Investment income has not been recorded for the current year.',
-tbLook:'<table><tr><th>Item</th><th>Dr</th></tr><tr><td>5% Government Stock</td><td>200,000</td></tr></table>',
-task:'<p>Investment income = €200,000 × 5% = €10,000 (full year, all due).</p>',
-workings:[{type:'calc',title:'W8: Investment Income',content:'<div class="wt-calc-block"><div class="wt-calc-line">€200,000 × 5% = <span class="wt-rv">€10,000</span></div><div class="wt-calc-line">All due (not received) → current asset</div></div>'}],
-destinations:[
-  {name:"Investment income",arrow:"→",amt:"€10,000",where:"P&L Investment Income"},
-  {name:"Investment income due",arrow:"→",amt:"€10,000",where:"BS Current Assets"}
-]},
-
-{num:7,marks:4,title:"Rent Received Prepaid",
-noteText:'Rent received in the TB includes <strong>€3,600</strong> for the period January–March of the <strong>following year</strong>.',
-tbLook:'<table><tr><th>Item</th><th>Cr</th></tr><tr><td>Rent received</td><td>28,800</td></tr></table>',
-task:'<p>€3,600 relates to next year → reduce income, create liability (rent received in advance).</p>',
-workings:[{type:'calc',title:'W9: Rent received adjustment',content:'<div class="wt-calc-block"><div class="wt-calc-line">TB rent received = €28,800</div><div class="wt-calc-line">Less: prepaid by tenant = (€3,600)</div><div class="wt-calc-line wt-calc-result">Current year rent received = <span class="wt-rv">€25,200</span></div></div>'}],
-destinations:[
-  {name:"Rent received",arrow:"→",amt:"€25,200",where:"P&L Operating Income"},
-  {name:"Rent received in advance",arrow:"→",amt:"€3,600",where:"BS Current Liabilities"}
-],
-tip:'Prepaid rent BY TENANT is a LIABILITY — the company owes the service.',
-watchOut:'Don\'t confuse rent PAID prepaid (asset) with rent RECEIVED prepaid (liability).'},
-
-{num:8,marks:6,title:"Dividends + Transfer to Capital Reserve",
-noteText:'The directors recommend a <strong>final ordinary dividend of 8c per share</strong>. Preference dividends have been paid. Transfer <strong>€20,000</strong> to Capital Reserve.',
-tbLook:'<table><tr><th>Item</th><th>Dr</th><th>Cr</th></tr><tr><td>Interim ordinary dividends paid</td><td>18,000</td><td></td></tr><tr><td>Preference dividends paid</td><td>6,000</td><td></td></tr><tr><td>Ordinary shares (€1 each)</td><td></td><td>300,000</td></tr></table>',
-task:'<ol><li>Final ordinary dividend = 300,000 shares × €0.08 = €24,000</li><li>Total ordinary dividends = €18,000 + €24,000 = €42,000</li><li>Transfer €20,000 to Capital Reserve</li></ol>',
-workings:[{type:'calc',title:'W10: Dividends',content:'<div class="wt-calc-block"><div class="wt-calc-line">Final ordinary = 300,000 × €0.08 = <span class="wt-rv">€24,000</span></div><div class="wt-calc-line">Total ordinary = €18,000 + €24,000 = <span class="wt-rv">€42,000</span></div><div class="wt-calc-line">Preference = <span class="wt-rv">€6,000</span></div><div class="wt-calc-line wt-calc-result">Total dividends = <span class="wt-rv">€48,000</span></div></div>'}],
-destinations:[
-  {name:"Total dividends",arrow:"→",amt:"€48,000",where:"Deducted after Net Profit in P&L"},
-  {name:"Proposed dividend",arrow:"→",amt:"€24,000",where:"BS Current Liabilities"},
-  {name:"Capital Reserve",arrow:"→",amt:"€20,000",where:"BS Capital section (transferred from retained)"}
-],
-tip:'Final dividend is PROPOSED (not yet paid) — it\'s a current liability on the BS.',
-watchOut:'Transfer to Capital Reserve reduces retained profit — it\'s NOT an expense.'},
-
-{num:9,marks:6,title:"Patent + Suspense",
-noteText:'Patents are being written off over <strong>8 years</strong>. Original cost was <strong>€48,000</strong>. 3 years have been written off. A posting error of <strong>€2,400</strong> is in the suspense account — motor expenses were debited with <strong>€4,800</strong> instead of €2,400.',
-tbLook:'<table><tr><th>Item</th><th>Dr</th></tr><tr><td>Patents</td><td>30,000</td></tr><tr><td>Motor expenses (incl. error)</td><td>18,400</td></tr><tr><td>Suspense</td><td>2,400</td></tr></table>',
-task:'<ol><li>Patent write-off = €48,000 ÷ 8 = €6,000 per year. BS: €30,000 − €6,000 = €24,000</li><li>Suspense: Motor expenses overstated by €2,400. Cr motor expenses €2,400, Cr Suspense €2,400</li></ol>',
+{num:3,marks:4,title:'Sale or Return Purchase',
+noteText:'It was discovered that goods had been received from a supplier on 31/12/2023 on a \'sale or return\' basis. These goods had been entered in the books as a credit purchase in error. The expected selling price of these goods is <strong>€5,000 which is cost plus 25%</strong>.',
+tbLook:'<p>Look at the trial balance:</p><table><tr><th>Item</th><th>Dr</th><th>Cr</th></tr><tr><td>Purchases and sales</td><td>747,000</td><td>1,080,700</td></tr><tr><td>Debtors and creditors</td><td>69,600</td><td>64,900</td></tr></table>',
+task:'<p><strong>Three corrections (same figure in all three):</strong></p><ol><li>Reduce purchases by the COST of the goods</li><li>Reduce creditors by the same amount</li><li>Remove the goods from closing stock if included (already done in W2)</li></ol>',
 workings:[
-  {type:'calc',title:'W11: Patent',content:'<div class="wt-calc-block"><div class="wt-calc-line">Annual write-off = €48,000 ÷ 8 = <span class="wt-rv">€6,000</span></div><div class="wt-calc-line">BS value = €30,000 − €6,000 = <span class="wt-rv">€24,000</span></div></div>'},
-  {type:'calc',title:'W12: Suspense',content:'<div class="wt-calc-block"><div class="wt-calc-line">Motor expenses overcharged by €2,400</div><div class="wt-calc-line">Corrected motor expenses = €18,400 − €2,400 = <span class="wt-rv">€16,000</span></div><div class="wt-calc-line">Suspense resolved ✓</div></div>'}
-],
-tAccountDefs:[
-  {title:'Suspense Account',entries:[
-    {side:'dr',label:'Per TB',amount:'2,400',step:0,order:0},
-    {side:'cr',label:'Motor expenses (correction)',amount:'2,400',step:0,order:1},
-    {side:'dr',label:'Balance: NIL ✓',amount:'—',step:0,order:2,cls:'balance'},
-  ]}
+  {type:'calc',title:'Cost of sale-or-return goods',content:'<div class="calc-block"><div class="calc-line">Selling price = €5,000</div><div class="calc-line">Mark-up = 25% (cost plus 25%)</div><div class="calc-line">Cost = €5,000 ÷ 1.25 = <span class="rv-inline">€4,000</span></div></div>'},
 ],
 destinations:[
-  {name:"Patent write-off",arrow:"→",amt:"€6,000",where:"P&L Administration"},
-  {name:"Patents (BS)",arrow:"→",amt:"€24,000",where:"BS Intangible Fixed Assets"},
-  {name:"Motor expenses",arrow:"−",amt:"€2,400",where:"Reduce motor expenses to €16,000"}
-]}
+  {name:'Purchases (N1)',arrow:'−',amt:'€4,000',where:'Subtract from Purchases'},
+  {name:'Creditors (N19)',arrow:'−',amt:'€4,000',where:'Subtract from Creditors in Balance Sheet'},
+  {name:'Closing stock (W2)',arrow:'−',amt:'€4,000',where:'Already removed in W2 adjustment'},
+],
+tip:'<strong>Sale or return = no purchase:</strong> Goods on sale-or-return haven\'t been bought. The buyer can return them. Until they\'re accepted, the supplier still owns them. If recorded as a purchase, it must be reversed.',
+watchOut:'<strong>Cost vs selling price:</strong> The question gives €5,000 as the SELLING price. Convert to cost (€4,000) before adjusting purchases and creditors. A 25% mark-up means selling = cost × 1.25.'},
+
+{num:4,marks:8,title:'Patents with Hidden Investment Income',
+noteText:'Patents (incorporating <strong>3 months investment income</strong>) are being written off over a <strong>7-year period which commenced in 2021</strong>.',
+tbLook:'<p>Look at the trial balance:</p><table><tr><th>Item</th><th>Dr</th></tr><tr><td>3% Investments acquired on 01/05/2023</td><td>120,000</td></tr><tr><td>Patents (incorporating 3 months investment income)</td><td>40,600</td></tr></table><p>The investments were bought 01/05/2023, so the company has owned them for <strong>8 months</strong> (May–Dec). 3 months of interest has been received (credited to patents by mistake).</p>',
+task:'<p><strong>Three things to do:</strong></p><ol><li>Calculate 3 months investment income received = €120,000 × 3% × 3/12 = €900. Remove it from patents.</li><li>Write off the cleaned-up patent over the remaining 5 years (7-year plan started in 2021, so by end of 2023 there are 5 years remaining — 2023, 2024, 2025, 2026, 2027... actually 7 years − 2 elapsed = 5 years remaining).</li><li>Put the 3 months (€900) into investment income and calculate the full 8-month income.</li></ol>',
+workings:[
+  {type:'calc',title:'Cleaning up the patents figure',content:'<div class="calc-block"><div class="calc-line">Patents per TB = €40,600</div><div class="calc-line">+ Investment income wrongly credited = €900</div><div class="calc-line calc-result">True patents (balance remaining) = <span class="rv-inline">€41,500</span></div><div class="calc-line" style="margin-top:8px;color:var(--text-3)">The €900 was credited to patents when the cash was received, reducing the patents balance. Adding it back restores the true patents figure.</div></div>'},
+  {type:'calc',title:'N4: Patent Write-off',content:'<div class="calc-block"><div class="calc-line">7-year plan starting 2021. By end 2023, 2 writeoffs have been done (2021, 2022).</div><div class="calc-line">Balance remaining = €41,500</div><div class="calc-line">Years remaining = 7 − 2 = <strong>5 years</strong></div><div class="calc-line calc-result">Current year write-off = €41,500 ÷ 5 = <span class="rv-inline">€8,300</span></div></div>'},
+  {type:'calc',title:'N12: Patents Balance Sheet figure',content:'<div class="calc-block"><div class="calc-line">True patents = €41,500</div><div class="calc-line">Less: current year write-off = (€8,300)</div><div class="calc-line calc-result">Patents on Balance Sheet = <span class="rv-inline">€33,200</span></div></div>'},
+],
+destinations:[
+  {name:'Patent written off (N4)',arrow:'→',amt:'€8,300',where:'P&L Administration Expenses'},
+  {name:'Patents net (N12)',arrow:'→',amt:'€33,200',where:'Balance Sheet Intangible Fixed Assets'},
+  {name:'3 months interest',arrow:'→',amt:'€900',where:'Will be added to investment income in Note 9 (N10)'},
+],
+tip:'<strong>Why dividing by 5:</strong> The original 7-year plan has already used up 2 years (2021, 2022). The €40,600 balance represents 5 years\' worth of remaining value. So each year\'s writeoff is 1/5 of the balance, not 1/7 of some original cost.',
+watchOut:'<strong>The €900 trap:</strong> The 3 months investment income was CREDITED to patents (reducing the balance). To fix: ADD €900 back to patents, then write off the corrected figure. If you forget this, your patents amortisation is wrong AND your investment income is too low by €900.'},
+
+{num:5,marks:6,title:'Suspense Account',
+noteText:'The suspense figure arises as a result of an <strong>incorrect figure for debenture interest</strong> (although the correct figure had been entered in the bank account) and <strong>discount allowed €400</strong> entered only in the discount account.',
+tbLook:'<p>Look at the trial balance:</p><table><tr><th>Item</th><th>Dr</th><th>Cr</th></tr><tr><td>Salaries and general expenses (including suspense)</td><td>218,355</td><td></td></tr><tr><td>Debenture interest for the first nine months</td><td>5,400</td><td></td></tr><tr><td>Discount (net)</td><td>3,500</td><td></td></tr></table><p><strong>Important:</strong> The suspense is HIDDEN inside Salaries and general expenses of €218,355.</p>',
+task:'<p><strong>Two errors:</strong></p><ol><li><strong>Discount allowed €400:</strong> entered only in the discount account (debit). Missing half = credit debtors €400. Suspense = Dr €400.</li><li><strong>Debenture interest:</strong> correct in bank, wrong in debenture interest account. Correct 9 months interest = €100,000 × 8% × 9/12 = €6,000. TB shows €5,400 — understated by €600. Correction: Dr Debenture Interest €600, Cr Suspense €600.</li></ol><p>Net suspense = Dr 400 − Cr 600 = Cr 200. The Salaries and Gen Exp TB line is overstated by €200 net (€600 credit − €400 debit).</p>',
+workings:[
+  {type:'calc',title:'N6: Salaries & General Expenses correction',content:'<div class="calc-block"><div class="calc-line">TB figure (includes suspense) = €218,355</div><div class="calc-line">+ Discount allowed correction (Dr suspense) = €400</div><div class="calc-line">− Debenture interest correction (Cr suspense) = (€600)</div><div class="calc-line calc-result">Adjusted Salaries & Gen Exp = <span class="rv-inline">€218,155</span></div></div>'},
+  {type:'calc',title:'Debenture interest correction',content:'<div class="calc-block"><div class="calc-line">Correct 9 months interest: €100,000 × 8% × 9/12 = <span class="rv-inline">€6,000</span></div><div class="calc-line">TB figure = €5,400</div><div class="calc-line">Understated by = €600 (correct via suspense)</div></div>'},
+],
+destinations:[
+  {name:'Salaries & Gen Exp (N6)',arrow:'→',amt:'€218,155',where:'P&L Administration Expenses'},
+  {name:'Discount allowed (debtors)',arrow:'−',amt:'€400',where:'Reduce Debtors by €400 (discount given reduces debt)'},
+  {name:'Debenture interest correction',arrow:'+',amt:'€600',where:'Feeds into debenture interest calculation in N11'},
+],
+tip:'<strong>Suspense hidden in another line:</strong> The question is unusual — instead of a suspense a/c in the TB, the suspense is HIDDEN inside salaries and general expenses. To fix both issues, you adjust salaries up or down by the net suspense.',
+watchOut:'<strong>Discount allowed reduces DEBTORS not creditors.</strong> Discount allowed = a discount given to customers for prompt payment. The accounting entry is Dr Discount Allowed (expense), Cr Debtors (reduce what they owe). Here, the Cr Debtors side was missed.'},
+
+{num:6,marks:4,title:'VAT on New Warehouse',
+noteText:'A new warehouse was purchased during the year for <strong>€100,000 plus VAT @13.5%</strong>. The total amount paid to the vendor was entered in the land &amp; buildings account. No entry was made in the VAT account.',
+tbLook:'<p>Look at the trial balance:</p><table><tr><th>Item</th><th>Dr</th><th>Cr</th></tr><tr><td>Land and buildings at cost</td><td>580,000</td><td></td></tr><tr><td>VAT</td><td></td><td>1,900</td></tr></table><p>The L&amp;B cost of €580,000 includes the warehouse entered GROSS (€113,500). The VAT portion must be stripped out.</p>',
+task:'<p><strong>Two corrections:</strong></p><ol><li>Strip VAT out of L&amp;B: €100,000 × 13.5% = €13,500. Reduce Buildings Cost by €13,500.</li><li>Add €13,500 to VAT as reclaimable input VAT. TB VAT = €1,900 credit (liability). After adding €13,500 input VAT, the VAT balance flips to €11,600 debit (asset).</li></ol>',
+workings:[
+  {type:'calc',title:'VAT calculation',content:'<div class="calc-block"><div class="calc-line">Warehouse cost ex-VAT = €100,000</div><div class="calc-line">VAT @ 13.5% = €100,000 × 13.5% = <span class="rv-inline">€13,500</span></div><div class="calc-line">Total paid = €113,500</div><div class="calc-line" style="margin-top:8px"><strong>Correction to Buildings:</strong></div><div class="calc-line">Reduce buildings cost by €13,500</div></div>'},
+  {type:'calc',title:'N18: VAT balance flip',content:'<div class="calc-block"><div class="calc-line">TB VAT = (€1,900) credit / liability</div><div class="calc-line">Add: reclaimable input VAT on warehouse = €13,500</div><div class="calc-line calc-result">New VAT balance = <span class="rv-inline">€11,600 debit (asset)</span></div></div>'},
+],
+destinations:[
+  {name:'Buildings cost correction',arrow:'−',amt:'€13,500',where:'Feeds into N5 Depn buildings (cost becomes 580,000 − 13,500 = 566,500)'},
+  {name:'VAT (N18)',arrow:'→',amt:'€11,600',where:'Balance Sheet Current Assets (flipped from liability)'},
+],
+tip:'<strong>Input VAT on capital purchases is reclaimable.</strong> When a business buys a fixed asset for its own use, the VAT element is treated as an input tax — it offsets the business\'s output VAT liability or becomes a refund claim.',
+watchOut:'<strong>Do NOT include VAT in the cost used for depreciation.</strong> Strip out the €13,500 first. The buildings figure used for depreciation in N5 is €580,000 − €13,500 − €200,000 (land) = €366,500.'},
+
+{num:7,marks:12,title:'Buildings Depreciation + Revaluation',
+noteText:'Buildings are to be depreciated at the rate of <strong>2% of cost per annum</strong> (land at cost was €200,000). The company revalued land and buildings at <strong>€700,000</strong> on 31/12/2023 and this has yet to be reflected in the accounts.',
+tbLook:'<p>Look at the trial balance:</p><table><tr><th>Item</th><th>Dr</th><th>Cr</th></tr><tr><td>Land and buildings at cost</td><td>580,000</td><td></td></tr><tr><td>Accumulated depreciation - buildings</td><td></td><td>38,000</td></tr></table>',
+task:'<p><strong>Three things to do:</strong></p><ol><li>Calculate current year depreciation BEFORE revaluation: (€580,000 − €13,500 VAT − €200,000 land) × 2% = €7,330. Charge this to P&amp;L.</li><li>THEN revalue to €700,000 at 31/12/2023. This wipes out ALL accumulated depreciation (€38,000 opening + €7,330 current = €45,330).</li><li>Calculate the revaluation surplus: uplift from current book value to €700,000, PLUS accumulated depreciation written back.</li></ol>',
+workings:[
+  {type:'calc',title:'N5: Depreciation on Buildings',content:'<div class="calc-block"><div class="calc-line">TB L&B cost = €580,000</div><div class="calc-line">Less: VAT stripped out (N6) = (€13,500)</div><div class="calc-line">Less: land (no depn) = (€200,000)</div><div class="calc-line">Depreciable buildings = <span class="rv-inline">€366,500</span></div><div class="calc-line">Depreciation = €366,500 × 2% = <span class="rv-inline">€7,330</span></div></div>'},
+  {type:'calc',title:'N22: Revaluation Reserve',content:'<div class="calc-block"><div class="calc-line"><strong>Book value BEFORE revaluation:</strong></div><div class="calc-line">Corrected cost = €580,000 − €13,500 = €566,500</div><div class="calc-line">Less: opening accum depn = (€38,000)</div><div class="calc-line">Less: current year depn = (€7,330)</div><div class="calc-line">NBV just before reval = <span class="rv-inline">€521,170</span></div><div class="calc-line" style="margin-top:8px"><strong>Revaluation surplus:</strong></div><div class="calc-line">New value = €700,000</div><div class="calc-line">Less: NBV before reval = (€521,170)</div><div class="calc-line">Uplift = <span class="rv-inline">€178,830</span></div><div class="calc-line" style="margin-top:8px;color:var(--text-3)">Marking scheme breakdown: 133,500 (cost uplift) + 38,000 (opening AD written back) + 7,330 (current year depn written back) = <span class="rv-inline">€178,830</span></div></div>'},
+  {type:'calc',title:'L&B on Balance Sheet',content:'<div class="calc-block"><div class="calc-line">Cost = <span class="rv-inline">€700,000</span> (revalued)</div><div class="calc-line">Accum depn = <span class="rv-inline">€0</span> (wiped by revaluation)</div><div class="calc-line">NBV = <span class="rv-inline">€700,000</span></div></div>'},
+],
+destinations:[
+  {name:'Depreciation on Buildings (N5)',arrow:'→',amt:'€7,330',where:'P&L Administration Expenses'},
+  {name:'Buildings cost',arrow:'→',amt:'€700,000',where:'Balance Sheet Tangible Fixed Assets'},
+  {name:'Buildings Acc Depn',arrow:'→',amt:'€0',where:'Wiped by the revaluation'},
+  {name:'Revaluation Reserve (N22)',arrow:'→',amt:'€178,830',where:'Balance Sheet Capital section'},
+],
+tip:'<strong>Depreciation is charged BEFORE the revaluation:</strong> Even though the revaluation is at year-end, you still charge a full year\'s depreciation on the OLD cost first. Then the revaluation wipes all accumulated depreciation. This matches the SEC approach.',
+watchOut:'<strong>Land does NOT depreciate.</strong> Strip the €200,000 land cost out BEFORE calculating depreciation. Only buildings (€366,500) are depreciated. This is a commonly missed step.'},
+
+{num:8,marks:5,title:'Rent Received (Prepaid)',
+noteText:'The rent received was in respect of a warehouse rented out by the company for <strong>€1,500 per month commencing on 01/06/2023</strong>.',
+tbLook:'<p>Look at the trial balance:</p><table><tr><th>Item</th><th>Cr</th></tr><tr><td>Rent received</td><td>13,500</td></tr></table><p>€13,500 received in the period from 01/06/2023 to 31/12/2023.</p>',
+task:'<p><strong>Calculate what\'s actually EARNED this year vs what\'s been RECEIVED:</strong></p><ol><li>Period 01/06/2023 to 31/12/2023 = 7 months</li><li>Rent earned = €1,500 × 7 months = €10,500</li><li>Cash received = €13,500</li><li>Excess received = €3,000 (rent received in advance / prepaid)</li></ol>',
+workings:[
+  {type:'calc',title:'N7: Rent Received (accrual basis)',content:'<div class="calc-block"><div class="calc-line">Period earning rent: 01/06/2023 → 31/12/2023 = 7 months</div><div class="calc-line">Rent per month = €1,500</div><div class="calc-line">Rent EARNED = €1,500 × 7 = <span class="rv-inline">€10,500</span></div><div class="calc-line">Cash RECEIVED (per TB) = €13,500</div><div class="calc-line calc-result">Rent received in advance = <span class="rv-inline">€3,000</span></div></div>'},
+],
+destinations:[
+  {name:'Rent received (N7)',arrow:'→',amt:'€10,500',where:'P&L Operating Income'},
+  {name:'Rent received prepaid (N21)',arrow:'→',amt:'€3,000',where:'Balance Sheet Current Liabilities'},
+],
+tip:'<strong>Rent RECEIVED prepaid is a LIABILITY:</strong> If the company has been paid for rent it hasn\'t yet earned, it owes the tenant something — either services (the use of the property) or a refund. So it\'s a current liability.',
+watchOut:'<strong>Don\'t confuse with rent PAID prepaid:</strong> Rent paid in advance (your own rent) is an ASSET (prepayment). Rent RECEIVED in advance is a LIABILITY (someone owes you their remaining time in your building). Watch the direction.'},
+
+{num:9,marks:14,title:'Directors\' Recommendations (Investment Income, BDP, Capital Reserve)',
+noteText:'The Directors recommend that: (1) Provision should be made for both <strong>investment income due</strong> and <strong>debenture interest due</strong>. (2) Provision for bad debts to be adjusted to <strong>4% of debtors</strong>. (3) A transfer of <strong>€20,000</strong> should be made from profit to the <strong>capital reserve</strong>.',
+tbLook:'<p>Look at the trial balance:</p><table><tr><th>Item</th><th>Dr</th><th>Cr</th></tr><tr><td>3% Investments acquired on 01/05/2023</td><td>120,000</td><td></td></tr><tr><td>Bad debts provision</td><td></td><td>3,200</td></tr><tr><td>8% Debentures (incl €40,000 issued 01/10/2023)</td><td></td><td>140,000</td></tr><tr><td>Debenture interest for first 9 months</td><td>5,400</td><td></td></tr><tr><td>Capital reserve</td><td></td><td>15,000</td></tr></table>',
+task:'<p><strong>Four sub-calculations:</strong></p><ol><li><strong>Investment income (full 8 months):</strong> €120,000 × 3% × 8/12 = €2,400. Already received = €900 (in patents). Still due = €1,500.</li><li><strong>Debenture interest (full year):</strong> 9 months on €100,000 + 3 months on €140,000 = €6,000 + €2,800 = €8,800. Cash paid (after suspense correction) = €6,000. Due = €2,800.</li><li><strong>BDP:</strong> new 4% of adjusted debtors (€69,200 × 4% = €2,768). Decrease from €3,200 to €2,768 = €432 decrease → Operating Income.</li><li><strong>Capital reserve transfer:</strong> €20,000 from Retained Profit to Capital Reserve.</li></ol>',
+workings:[
+  {type:'calc',title:'N10: Investment Income (full)',content:'<div class="calc-block"><div class="calc-line">€120,000 × 3% × 8/12 = <span class="rv-inline">€2,400</span></div><div class="calc-line">(Investments owned May–Dec = 8 months)</div></div>'},
+  {type:'calc',title:'N17: Investment Income Due',content:'<div class="calc-block"><div class="calc-line">Full year = €2,400</div><div class="calc-line">Already received (3 months in patents) = €900</div><div class="calc-line calc-result">Investment income due = <span class="rv-inline">€1,500</span></div></div>'},
+  {type:'calc',title:'N11: Debenture Interest (full year)',content:'<div class="calc-block"><div class="calc-line">Original debentures €100,000 (before 01/10 issue)</div><div class="calc-line">First 9 months: €100,000 × 8% × 9/12 = <span class="rv-inline">€6,000</span></div><div class="calc-line">Last 3 months: €140,000 × 8% × 3/12 = <span class="rv-inline">€2,800</span></div><div class="calc-line calc-result">Total = <span class="rv-inline">€8,800</span></div></div>'},
+  {type:'calc',title:'N20: Debenture Interest Due',content:'<div class="calc-block"><div class="calc-line">Full year = €8,800</div><div class="calc-line">Cash paid (corrected via suspense) = €6,000</div><div class="calc-line calc-result">Interest due = <span class="rv-inline">€2,800</span></div></div>'},
+  {type:'calc',title:'N8/N15/N16: Debtors & BDP',content:'<div class="calc-block"><div class="calc-line"><strong>Adjusted Debtors:</strong></div><div class="calc-line">TB €69,600 − €400 (discount correction) = <span class="rv-inline">€69,200</span></div><div class="calc-line" style="margin-top:6px"><strong>New BDP:</strong></div><div class="calc-line">€69,200 × 4% = <span class="rv-inline">€2,768</span></div><div class="calc-line"><strong>Change:</strong></div><div class="calc-line">€3,200 (old) − €2,768 (new) = <span class="rv-inline">€432 decrease</span></div></div>'},
+],
+destinations:[
+  {name:'Investment Income (N10)',arrow:'→',amt:'€2,400',where:'P&L — between Operating Profit and Debenture Interest'},
+  {name:'Investment Income Due (N17)',arrow:'→',amt:'€1,500',where:'Balance Sheet Current Assets'},
+  {name:'Debenture Interest (N11)',arrow:'→',amt:'€8,800',where:'P&L Financial Expenses'},
+  {name:'Debenture Interest Due (N20)',arrow:'→',amt:'€2,800',where:'Balance Sheet Current Liabilities'},
+  {name:'Decrease in BDP (N8)',arrow:'→',amt:'€432',where:'P&L Operating Income'},
+  {name:'BDP balance (N16)',arrow:'→',amt:'€2,768',where:'Balance Sheet — deducted from Debtors'},
+  {name:'Transfer to Capital Reserve',arrow:'→',amt:'€20,000',where:'P&L (below Retained Profit); Capital Reserve €15,000 + €20,000 = €35,000 on BS'},
+],
+tip:'<strong>Decrease in BDP is INCOME:</strong> When you reduce a bad debts provision, you\'re writing BACK an expense. It goes in Operating Income, not as a negative expense. An INCREASE in BDP would go in Distribution Costs.',
+watchOut:'<strong>Capital reserve transfer is NOT an expense.</strong> It\'s a movement within equity — taking money from retained earnings and parking it in a non-distributable reserve. Show it below Retained Profit in the P&L, NOT above Net Profit.'}
 ];
 
 const CO_TPL_STEPS: BuilderStep[] = [
-{title:'Sales & Cost of Sales',rows:['<tr class="heading"><td colspan="3">Trading, Profit & Loss A/c of Yeats Ltd — y/e 31/12/2024</td></tr>','<tr><td class="lbl">Sales</td><td class="amt">—</td><td class="amt">920,000</td></tr>','<tr class="heading"><td colspan="3">Cost of Sales</td></tr>','<tr class="indent"><td class="lbl">Opening Stock</td><td class="amt">42,600</td><td></td></tr>','<tr class="indent"><td class="lbl">+ Purchases (adj.)</td><td class="amt">501,000</td><td></td></tr>','<tr class="indent"><td class="lbl">− Closing Stock</td><td class="amt">(61,000)</td><td></td></tr>','<tr class="subtotal"><td class="lbl">Cost of Sales</td><td></td><td class="amt">(482,600)</td></tr>','<tr class="subtotal"><td class="lbl">Gross Profit</td><td></td><td class="amt">437,400</td></tr>'],source:'Purchases adjusted: 538,000 + 6,800 (goods in transit) − 37,000 (vehicle error) − 6,800 (other) = €501,000.'},
-{title:'Distribution Costs',rows:['<tr class="heading"><td colspan="3">Distribution Costs</td></tr>','<tr class="indent"><td class="lbl">Carriage out</td><td class="amt">14,200</td><td></td></tr>','<tr class="indent"><td class="lbl">Motor expenses (adj.)</td><td class="amt">16,000</td><td></td></tr>','<tr class="indent"><td class="lbl">Dep on vehicles</td><td class="amt">37,200</td><td class="amt">(67,400)</td></tr>'],source:'Motor expenses corrected: €18,400 − €2,400 = €16,000.'},
-{title:'Administration Expenses',rows:['<tr class="heading"><td colspan="3">Administration Expenses</td></tr>','<tr class="indent"><td class="lbl">Directors fees</td><td class="amt">45,000</td><td></td></tr>','<tr class="indent"><td class="lbl">General expenses</td><td class="amt">28,600</td><td></td></tr>','<tr class="indent"><td class="lbl">Dep on buildings</td><td class="amt">18,000</td><td></td></tr>','<tr class="indent"><td class="lbl">Patent write-off</td><td class="amt">6,000</td><td class="amt">(97,600)</td></tr>'],source:'Buildings dep on revalued amount €900,000 × 2% = €18,000.'},
-{title:'Operating Profit & Investment Income',rows:['<tr class="subtotal"><td class="lbl">Operating Profit</td><td></td><td class="amt">272,400</td></tr>','<tr class="heading"><td colspan="3">Add: Non-operating Income</td></tr>','<tr class="indent"><td class="lbl">Profit on disposal</td><td class="amt">3,000</td><td></td></tr>','<tr class="indent"><td class="lbl">Rent received</td><td class="amt">25,200</td><td></td></tr>','<tr class="indent"><td class="lbl">Investment income</td><td class="amt">10,000</td><td class="amt">38,200</td></tr>'],source:'Rent received adjusted for prepaid (€28,800 − €3,600 = €25,200).'},
-{title:'Financial Expenses & Net Profit',rows:['<tr class="heading"><td colspan="3">Less Financial Expenses</td></tr>','<tr class="indent"><td class="lbl">Debenture interest</td><td class="amt">24,000</td><td class="amt">(24,000)</td></tr>','<tr class="total"><td class="lbl">Net Profit</td><td></td><td class="amt">286,600</td></tr>'],source:'Net Profit = 272,400 + 38,200 − 24,000 = €286,600.'},
-{title:'Dividends & Retained Profit',rows:['<tr class="heading"><td colspan="3">Less Dividends</td></tr>','<tr class="indent"><td class="lbl">Ordinary dividends</td><td class="amt">42,000</td><td></td></tr>','<tr class="indent"><td class="lbl">Preference dividends</td><td class="amt">6,000</td><td class="amt">(48,000)</td></tr>','<tr class="subtotal"><td class="lbl">Retained Profit</td><td></td><td class="amt">238,600</td></tr>','<tr class="indent"><td class="lbl">Transfer to Capital Reserve</td><td></td><td class="amt">(20,000)</td></tr>','<tr class="indent"><td class="lbl">+ Opening P&L balance</td><td></td><td class="amt">85,400</td></tr>','<tr class="total"><td class="lbl">Closing P&L Balance</td><td></td><td class="amt">304,000</td></tr>'],source:'Retained = 286,600 − 48,000 = €238,600. Closing P&L = 238,600 − 20,000 + 85,400 = €304,000.'}
+{title:'Sales and Cost of Sales — Opening Stock & Purchases',
+rows:['<tr class="heading"><td colspan="3">Trading Profit &amp; Loss Account of Yeats Ltd — y/e 31/12/2023</td></tr>','<tr><td class="lbl">Sales <span class="wtag">TB</span></td><td class="amt">—</td><td class="amt">1,080,700</td></tr>','<tr class="heading"><td colspan="3">Less Cost of Sales</td></tr>','<tr class="indent"><td class="lbl">Opening stock <span class="wtag">TB</span></td><td class="amt">44,400</td><td></td></tr>','<tr class="indent"><td class="lbl">+ Purchases <span class="wtag">N1</span></td><td class="amt">697,000</td><td></td></tr>'],
+source:'<strong>Sales €1,080,700</strong> from the TB, unchanged (no notes affect sales for Yeats). <strong>Opening stock €44,400</strong> from TB. <strong>Purchases €697,000</strong> (N1) = TB €747,000 − €46,000 (van cheque wrongly posted) − €4,000 (sale-or-return).',
+reason:'Company format starts the same as sole trader: Sales at the top, Cost of Sales as Opening Stock + Purchases − Closing Stock. The only differences come later in the expense layout and the P&L balance carry-forward.',
+watch:'<strong>The €46,000 trap:</strong> The net cheque for the new van (€56,000 − €10,000 trade-in = €46,000) was wrongly entered as a stock purchase. If you miss this correction, purchases is too high by €46,000 and cost of sales is wrong.'},
+{title:'Closing Stock, Cost of Sales & Gross Profit',
+rows:['<tr class="indent"><td class="lbl">− Closing stock <span class="wtag">N2</span></td><td class="amt">(51,380)</td><td class="amt">(690,020)</td></tr>','<tr class="subtotal"><td class="lbl">Gross Profit</td><td></td><td class="amt">390,680</td></tr>'],
+source:'<strong>Closing stock €51,380</strong> (N2) = €56,900 − €1,520 (damaged stock write-down) − €4,000 (sale-or-return removed). Cost of Sales = 44,400 + 697,000 − 51,380 = <strong>€690,020</strong>. Gross Profit = 1,080,700 − 690,020 = <strong>€390,680</strong>.',
+reason:'The damaged stock write-down of €1,520 is absorbed into COS automatically via the lower closing stock figure — no separate P&L line needed. The sale-or-return goods are removed because the company never truly owned them.',
+tip:'<strong>Damaged stock shortcut:</strong> Instead of treating the €1,520 write-down as a separate expense, simply reduce closing stock by the write-down amount. The effect on profit is identical: lower closing stock = higher COS = lower profit.'},
+{title:'Distribution Costs',
+rows:['<tr class="heading"><td colspan="3">Less Expenses — Distribution Costs</td></tr>','<tr class="indent"><td class="lbl">Discount <span class="wtag">TB</span></td><td class="amt">3,500</td><td></td></tr>','<tr class="indent"><td class="lbl">Depreciation — delivery vans <span class="wtag">N3</span></td><td class="amt">24,890</td><td></td></tr>','<tr class="indent"><td class="lbl">Advertising <span class="wtag">TB</span></td><td class="amt">25,145</td><td class="amt">53,535</td></tr>'],
+source:'<strong>Discount €3,500</strong> from TB — on the DEBIT side, so it\'s discount ALLOWED (an expense). <strong>Van depreciation €24,890</strong> (N3) = €131,000 × 95% / 5. <strong>Advertising €25,145</strong> from TB.',
+reason:'Distribution Costs (also called Selling &amp; Distribution) are the costs of selling the goods. Discount allowed, delivery van depreciation, and advertising all fit this category.',
+watch:'<strong>Discount side-check:</strong> Discount in the TB was on the <em>debit side</em> (€3,500), making it discount <em>allowed</em> — an expense → Distribution Costs. If it had been on the <em>credit side</em>, it would be discount <em>received</em> (income) → Operating Income. Always check which side!'},
+{title:'Administration Expenses',
+rows:['<tr class="heading"><td colspan="3">Administration Expenses</td></tr>','<tr class="indent"><td class="lbl">Patents written off <span class="wtag">N4</span></td><td class="amt">8,300</td><td></td></tr>','<tr class="indent"><td class="lbl">Depreciation — buildings <span class="wtag">N5</span></td><td class="amt">7,330</td><td></td></tr>','<tr class="indent"><td class="lbl">Salaries &amp; general expenses <span class="wtag">N6</span></td><td class="amt">218,155</td><td class="amt">233,785</td></tr>','<tr class="subtotal"><td class="lbl"></td><td></td><td class="amt">(287,320)</td></tr>','<tr class="indent"><td class="lbl"></td><td></td><td class="amt">103,360</td></tr>'],
+source:'<strong>Patents written off €8,300</strong> (N4) = €41,500 / 5 years remaining. <strong>Buildings depn €7,330</strong> (N5) = €366,500 × 2%. <strong>Salaries &amp; general expenses €218,155</strong> (N6) = €218,355 + €400 (disc allowed correction) − €600 (deb int correction).',
+reason:'Administration Expenses are the general running costs (office, management, intangibles amortisation, building depreciation). Total Expenses = Distribution €53,535 + Admin €233,785 = <strong>€287,320</strong>. Interim profit = 390,680 − 287,320 = <strong>€103,360</strong>.',
+watch:'<strong>Don\'t put buildings depreciation in Distribution.</strong> Buildings are office/administrative assets, so their depreciation goes in Admin. Vans are delivery/selling assets, so their depreciation goes in Distribution. Asset function determines section.'},
+{title:'Operating Income',
+rows:['<tr class="heading"><td colspan="3">Add Operating Income</td></tr>','<tr class="indent"><td class="lbl">Rent received <span class="wtag">N7</span></td><td class="amt">10,500</td><td></td></tr>','<tr class="indent"><td class="lbl">Decrease in bad debts provision <span class="wtag">N8</span></td><td class="amt">432</td><td></td></tr>','<tr class="indent"><td class="lbl">Profit on disposal <span class="wtag">N9</span></td><td class="amt">400</td><td class="amt">11,332</td></tr>','<tr class="subtotal"><td class="lbl">Operating Profit</td><td></td><td class="amt">114,692</td></tr>'],
+source:'<strong>Rent received €10,500</strong> (N7) = €1,500 × 7 months (earned portion). <strong>Decrease in BDP €432</strong> (N8) = old €3,200 − new €2,768. <strong>Profit on disposal €400</strong> (N9) = trade-in €10,000 − NBV €9,600.',
+reason:'Operating Income sits between the expenses block and the Operating Profit total. It\'s non-sales income that\'s still part of normal operations. Operating Profit = 103,360 + 11,332 = <strong>€114,692</strong>.',
+tip:'<strong>Decrease in BDP is INCOME:</strong> When the provision shrinks, you\'re releasing a previously-booked expense. It comes back as income in the period of release. An <em>increase</em> in BDP would go in Distribution Costs as an expense.'},
+{title:'Investment Income & Debenture Interest',
+rows:['<tr class="indent"><td class="lbl">+ Investment income <span class="wtag">N10</span></td><td></td><td class="amt">2,400</td></tr>','<tr class="indent"><td class="lbl"></td><td></td><td class="amt">117,092</td></tr>','<tr class="indent"><td class="lbl">− Debenture interest <span class="wtag">N11</span></td><td></td><td class="amt">(8,800)</td></tr>','<tr class="subtotal"><td class="lbl">Net Profit</td><td></td><td class="amt">108,292</td></tr>'],
+source:'<strong>Investment income €2,400</strong> (N10) = €120,000 × 3% × 8/12. <strong>Debenture interest €8,800</strong> (N11) = 9 months at €100,000 + 3 months at €140,000.',
+reason:'Investment Income is non-operating (it\'s financing income, not trading). Debenture Interest is the financial expense of borrowing. Both sit between Operating Profit and Net Profit. Net Profit = 114,692 + 2,400 − 8,800 = <strong>€108,292</strong>.',
+watch:'<strong>Debenture mid-year issue:</strong> €40,000 of debentures were issued on 01/10/2023. So for the first 9 months only €100,000 was outstanding, then €140,000 for the last 3 months. Calculate interest in two chunks.'},
+{title:'Dividends, Capital Reserve Transfer & Retained Profit',
+rows:['<tr class="indent"><td class="lbl">Less Dividends paid <span class="wtag">TB</span></td><td></td><td class="amt">(15,000)</td></tr>','<tr class="subtotal"><td class="lbl">Retained profit</td><td></td><td class="amt">93,292</td></tr>','<tr class="indent"><td class="lbl">Less Transfer to Capital Reserve <span class="wtag">N9(iii)</span></td><td></td><td class="amt">(20,000)</td></tr>','<tr class="indent"><td class="lbl"></td><td></td><td class="amt">73,292</td></tr>'],
+source:'<strong>Dividends paid €15,000</strong> from TB. <strong>Transfer to capital reserve €20,000</strong> from Note 9(iii).',
+reason:'Dividends are a distribution of profit, not an expense — they come AFTER Net Profit. Retained profit = 108,292 − 15,000 = <strong>€93,292</strong>. The capital reserve transfer is a movement within equity, not an expense either — so it also goes below Retained profit.',
+watch:'<strong>Capital reserve transfer placement:</strong> This is a movement WITHIN equity. It reduces distributable (retained) profit and increases non-distributable (capital) reserve. It must NOT appear as an expense above Net Profit — that would be a serious error.'},
+{title:'P&L Balance Carry-Forward',
+rows:['<tr class="indent"><td class="lbl">+ P&amp;L balance 01/01/2023 <span class="wtag">TB</span></td><td></td><td class="amt">34,800</td></tr>','<tr class="total"><td class="lbl">P&amp;L balance 31/12/2023</td><td></td><td class="amt">108,092</td></tr>'],
+source:'<strong>Opening P&amp;L balance €34,800</strong> from TB (credit side). Closing balance = 73,292 + 34,800 = <strong>€108,092</strong>.',
+reason:'Unlike a sole trader, a company carries forward its accumulated P&amp;L balance year on year. The opening balance is added to this year\'s retained profit (after capital reserve transfer). The closing balance goes to the Balance Sheet Capital section.',
+tip:'<strong>The P&amp;L balance is the "retained earnings" account.</strong> It tracks accumulated profits not yet paid out as dividends. A company can distribute this as future dividends or transfer it to reserves. It sits in the Capital section of the BS alongside share capital and other reserves.'}
 ];
 
 const CO_BS_STEPS: BuilderStep[] = [
-{title:'Intangible & Tangible Assets',rows:['<tr class="heading"><td colspan="4">Balance Sheet of Yeats Ltd as at 31/12/2024</td></tr>','<tr class="heading"><td colspan="4">Intangible Assets</td></tr>','<tr class="indent"><td class="lbl">Patents</td><td></td><td></td><td class="amt">24,000</td></tr>','<tr class="heading"><td colspan="4">Tangible Fixed Assets</td></tr>','<tr><td></td><td class="amt"><strong>Cost</strong></td><td class="amt"><strong>Acc Dep</strong></td><td class="amt"><strong>NBV</strong></td></tr>','<tr class="indent"><td class="lbl">Buildings (revalued)</td><td class="amt">900,000</td><td class="amt">18,000</td><td class="amt">882,000</td></tr>','<tr class="indent"><td class="lbl">Motor Vehicles</td><td class="amt">192,000</td><td class="amt">117,200</td><td class="amt">74,800</td></tr>','<tr class="indent"><td></td><td class="amt"><strong>1,092,000</strong></td><td class="amt"><strong>135,200</strong></td><td class="amt"><strong>956,800</strong></td></tr>'],source:'Buildings at revalued cost €900,000. Vehicles adjusted for disposal.'},
-{title:'Financial & Current Assets',rows:['<tr class="heading"><td colspan="4">Financial Assets</td></tr>','<tr class="indent"><td class="lbl">5% Government Stock</td><td></td><td></td><td class="amt">200,000</td></tr>','<tr class="heading"><td colspan="4">Current Assets</td></tr>','<tr class="indent"><td class="lbl">Closing Stock</td><td></td><td class="amt">61,000</td><td></td></tr>','<tr class="indent"><td class="lbl">Debtors</td><td></td><td class="amt">68,400</td><td></td></tr>','<tr class="indent"><td class="lbl">Investment income due</td><td></td><td class="amt">10,000</td><td></td></tr>','<tr class="indent"><td class="lbl">VAT</td><td></td><td class="amt">14,472</td><td></td></tr>','<tr class="indent"><td class="lbl">Bank</td><td></td><td class="amt">22,800</td><td class="amt">176,672</td></tr>'],source:'VAT flipped to asset. Investment income due added.'},
-{title:'Current Liabilities & Net Assets',rows:['<tr class="heading"><td colspan="4">Creditors: within 1 year</td></tr>','<tr class="indent"><td class="lbl">Creditors</td><td class="amt">44,200</td><td></td><td></td></tr>','<tr class="indent"><td class="lbl">Debenture interest due</td><td class="amt">12,000</td><td></td><td></td></tr>','<tr class="indent"><td class="lbl">Proposed dividend</td><td class="amt">24,000</td><td></td><td></td></tr>','<tr class="indent"><td class="lbl">Rent in advance</td><td class="amt">3,600</td><td class="amt">(83,800)</td><td></td></tr>','<tr class="subtotal"><td class="lbl">Working Capital</td><td></td><td></td><td class="amt">92,872</td></tr>','<tr class="heading"><td colspan="4">Long-term Liabilities</td></tr>','<tr class="indent"><td class="lbl">8% Debentures</td><td></td><td></td><td class="amt">(350,000)</td></tr>','<tr class="subtotal"><td class="lbl">Total Net Assets</td><td></td><td></td><td class="amt">923,672</td></tr>'],source:'Creditors include goods in transit €6,800. Proposed dividend = €24,000.'},
-{title:'Shareholders\' Funds',rows:['<tr class="heading"><td colspan="4">Financed By:</td></tr>','<tr><td></td><td class="amt"><strong>Auth</strong></td><td class="amt"><strong>Issued</strong></td><td></td></tr>','<tr class="indent"><td class="lbl">Ordinary shares (€1)</td><td class="amt">500,000</td><td class="amt">300,000</td><td></td></tr>','<tr class="indent"><td class="lbl">6% Pref shares (€1)</td><td class="amt">150,000</td><td class="amt">100,000</td><td class="amt">400,000</td></tr>','<tr class="heading"><td colspan="4">Reserves</td></tr>','<tr class="indent"><td class="lbl">Capital Reserve</td><td></td><td class="amt">20,000</td><td></td></tr>','<tr class="indent"><td class="lbl">Revaluation Reserve</td><td></td><td class="amt">199,672</td><td></td></tr>','<tr class="indent"><td class="lbl">P&L Balance</td><td></td><td class="amt">304,000</td><td class="amt">523,672</td></tr>','<tr class="total"><td class="lbl">Shareholders\' Funds</td><td></td><td></td><td class="amt">923,672</td></tr>'],source:'Shareholders\' Funds = Issued Capital + Reserves = €923,672 ✓.'},
-{title:'Verification',rows:[],source:'<strong>Total Net Assets = Shareholders\' Funds = €923,672 ✓</strong>',tip:'Check: Proposed dividend in current liabilities, debenture interest due, rent in advance.'}
+{title:'Intangible Fixed Assets — Patents',
+rows:['<tr class="heading"><td colspan="4">Balance Sheet of Yeats Ltd as at 31/12/2023</td></tr>','<tr class="heading"><td colspan="4">Intangible Fixed Assets</td></tr>','<tr class="indent"><td class="lbl">Patents <span class="wtag">N12</span></td><td></td><td></td><td class="amt">33,200</td></tr>'],
+source:'<strong>Patents €33,200</strong> (N12) = Cleaned-up balance €41,500 − current year write-off €8,300.',
+reason:'Intangible fixed assets always appear first. The patents balance has already been amortised for the current year, so the figure shown is the NBV at year-end.',
+watch:'<strong>Do NOT use the TB figure of €40,600.</strong> It had 3 months of investment income hidden inside it. The cleaned-up balance is €41,500, then write off €8,300 to get €33,200.'},
+{title:'Tangible Fixed Assets — Header & Land and Buildings',
+rows:['<tr class="heading"><td colspan="4">Tangible Fixed Assets</td></tr>','<tr><td class="lbl"></td><td class="amt"><strong>Cost</strong></td><td class="amt"><strong>Acc Dep</strong></td><td class="amt"><strong>NBV</strong></td></tr>','<tr class="indent"><td class="lbl">Land &amp; Buildings</td><td class="amt">700,000</td><td class="amt">—</td><td class="amt">700,000</td></tr>'],
+source:'<strong>Cost €700,000</strong> (revalued at 31/12/2023). <strong>Accum Depn €0</strong> — wiped out by the revaluation. <strong>NBV €700,000</strong>.',
+reason:'When a building is revalued, all accumulated depreciation (opening €38,000 + current year €7,330) is wiped out. The clock starts again at the new value.',
+tip:'The revaluation surplus (€178,830) does NOT appear here in the fixed assets section. It goes into the Capital section below as a Revaluation Reserve.'},
+{title:'Tangible Fixed Assets — Motor Vehicles',
+rows:['<tr class="indent"><td class="lbl">Motor Vehicles <span class="wtag">N13, N14</span></td><td class="amt">131,000</td><td class="amt">29,490</td><td class="amt">101,510</td></tr>','<tr class="indent"><td class="lbl"></td><td class="amt"><strong>831,000</strong></td><td class="amt"><strong>29,490</strong></td><td class="amt">801,510</td></tr>'],
+source:'<strong>Cost €131,000</strong> (N13) = €115,000 + €56,000 (new van) − €40,000 (old van). <strong>Accum Depn €29,490</strong> (N14) = €35,000 + €24,890 (current year) − €30,400 (disposed).',
+reason:'Both cost and accumulated depreciation of the disposed van (€40,000 / €30,400) must be REMOVED from the totals. The new van adds €56,000 to cost and gets a full year\'s depreciation.',
+tip:'Total TFA NBV = 700,000 + 101,510 = <strong>€801,510</strong>.'},
+{title:'Financial Assets — 3% Investments',
+rows:['<tr class="heading"><td colspan="4">Financial Assets</td></tr>','<tr class="indent"><td class="lbl">3% Investments <span class="wtag">TB</span></td><td></td><td></td><td class="amt">120,000</td></tr>','<tr><td class="lbl"></td><td></td><td></td><td class="amt"><strong>954,710</strong></td></tr>'],
+source:'<strong>€120,000</strong> from TB, unchanged.',
+reason:'Financial assets are long-term investments, shown at cost. The interest earned goes to the P&L; the interest due goes to current assets. Total Fixed + Intangible + Financial = 33,200 + 801,510 + 120,000 = <strong>€954,710</strong>.',
+tip:'The distinction: the €120,000 is the asset itself (here), the €2,400 interest is in the P&L, and the €1,500 interest due will be in current assets.'},
+{title:'Current Assets — Stock & Debtors',
+rows:['<tr class="heading"><td colspan="4">Current Assets</td></tr>','<tr class="indent"><td class="lbl">Closing Stock <span class="wtag">N2</span></td><td></td><td class="amt">51,380</td><td></td></tr>','<tr class="indent"><td class="lbl">Debtors <span class="wtag">N15</span></td><td class="amt">69,200</td><td></td><td></td></tr>','<tr class="indent"><td class="lbl">− Bad debts provision <span class="wtag">N16</span></td><td class="amt">(2,768)</td><td class="amt">66,432</td><td></td></tr>'],
+source:'<strong>Stock €51,380</strong> (N2). <strong>Debtors €69,200</strong> (N15) = TB €69,600 − €400 (discount allowed correction). <strong>BDP €2,768</strong> (N16) = €69,200 × 4%.',
+reason:'The BDP is calculated on ADJUSTED debtors, not the TB figure. Net debtors = €69,200 − €2,768 = <strong>€66,432</strong>.',
+watch:'<strong>Always calculate BDP on adjusted debtors.</strong> If you apply 4% to the TB €69,600, you get €2,784 — wrong. The discount allowed correction (€400) must reduce debtors first.'},
+{title:'Current Assets — Receivables',
+rows:['<tr class="indent"><td class="lbl">Investment income due <span class="wtag">N17</span></td><td></td><td class="amt">1,500</td><td></td></tr>','<tr class="indent"><td class="lbl">VAT <span class="wtag">N18</span></td><td></td><td class="amt">11,600</td><td class="amt">130,912</td></tr>'],
+source:'<strong>Investment income due €1,500</strong> (N17) = total earned €2,400 − already received €900. <strong>VAT €11,600</strong> (N18) = TB −€1,900 liability + €13,500 input VAT reclaim = €11,600 asset.',
+reason:'VAT has FLIPPED SIDES. In the TB it was a credit (liability €1,900). After adding the reclaimable warehouse VAT (€13,500), the balance becomes a debit €11,600 — an asset. Total Current Assets = 51,380 + 66,432 + 1,500 + 11,600 = <strong>€130,912</strong>.',
+watch:'<strong>VAT side-flip is easy to miss.</strong> If you leave VAT in current liabilities, the balance sheet won\'t balance. You must (a) flip it to assets, and (b) use the correct amount €11,600, not €1,900 or €13,500.'},
+{title:'Current Liabilities',
+rows:['<tr class="heading"><td colspan="4">Creditors: amounts falling due within 1 year</td></tr>','<tr class="indent"><td class="lbl">Creditors <span class="wtag">N19</span></td><td class="amt">60,900</td><td></td><td></td></tr>','<tr class="indent"><td class="lbl">Bank <span class="wtag">TB</span></td><td class="amt">57,000</td><td></td><td></td></tr>','<tr class="indent"><td class="lbl">Debenture interest due <span class="wtag">N20</span></td><td class="amt">2,800</td><td></td><td></td></tr>','<tr class="indent"><td class="lbl">Rent receivable prepaid <span class="wtag">N21</span></td><td class="amt">3,000</td><td class="amt">(123,700)</td><td></td></tr>','<tr class="subtotal"><td class="lbl">Working Capital</td><td></td><td></td><td class="amt">7,212</td></tr>','<tr class="subtotal"><td class="lbl"></td><td></td><td></td><td class="amt">961,922</td></tr>'],
+source:'<strong>Creditors €60,900</strong> (N19) = €64,900 − €4,000 (sale-or-return). <strong>Bank €57,000</strong> TB overdraft. <strong>Debenture interest due €2,800</strong> (N20) = €8,800 full year − €6,000 paid. <strong>Rent prepaid €3,000</strong> (N21) = €13,500 received − €10,500 earned.',
+reason:'All four are current liabilities. Total Current Liabilities = 60,900 + 57,000 + 2,800 + 3,000 = <strong>€123,700</strong>. Working Capital = Current Assets − Current Liabilities = 130,912 − 123,700 = <strong>€7,212</strong>. Total Net Assets = 954,710 + 7,212 = <strong>€961,922</strong>.',
+watch:'<strong>Rent received prepaid is a LIABILITY.</strong> The company has been paid for rent it hasn\'t yet earned — it owes the tenant the remaining time in the warehouse. Don\'t confuse with rent PAID prepaid (which would be an asset).'},
+{title:'Financed By — Debentures',
+rows:['<tr class="heading"><td colspan="4">Financed By</td></tr>','<tr class="heading"><td colspan="4">Creditors: amounts falling due after 1 year</td></tr>','<tr class="indent"><td class="lbl">8% Debentures <span class="wtag">TB</span></td><td></td><td></td><td class="amt">140,000</td></tr>'],
+source:'<strong>€140,000</strong> from TB, unchanged. This is the total debenture balance including the €40,000 issued on 01/10/2023.',
+reason:'Debentures are long-term loans (over 1 year). Only the interest due (€2,800) appears in current liabilities. The principal sits here in the "Financed By" section.',
+tip:'Alongside share capital and reserves, debentures make up the long-term financing of the company. They appear first in the "Financed By" block.'},
+{title:'Share Capital',
+rows:['<tr class="heading"><td colspan="4">Share Capital</td></tr>','<tr><td class="lbl"></td><td class="amt"><strong>Authorised</strong></td><td class="amt"><strong>Issued</strong></td><td></td></tr>','<tr class="indent"><td class="lbl">Ordinary shares €1 each</td><td class="amt">1,000,000</td><td class="amt">400,000</td><td></td></tr>','<tr class="indent"><td class="lbl">4% Preference shares €1 each</td><td class="amt">600,000</td><td class="amt">100,000</td><td></td></tr>','<tr class="indent"><td class="lbl"></td><td class="amt"><strong>1,600,000</strong></td><td class="amt"><strong>500,000</strong></td><td></td></tr>'],
+source:'<strong>Authorised:</strong> 1,000,000 ordinary + 600,000 preference = €1,600,000 (from the question intro). <strong>Issued:</strong> €400,000 ordinary + €100,000 preference = €500,000 (from TB).',
+reason:'Authorised capital is the maximum a company CAN issue — a disclosure only. Issued capital is what\'s actually in circulation. Only the Issued figure counts for Capital Employed.',
+watch:'<strong>Never add the authorised figure to Capital Employed.</strong> Only the Issued €500,000 is real money raised. The Authorised €1,600,000 just tells you how much more the company could issue.'},
+{title:'Reserves & P&L Balance',
+rows:['<tr class="indent"><td class="lbl">Revaluation Reserve <span class="wtag">N22</span></td><td></td><td class="amt">178,830</td><td></td></tr>','<tr class="indent"><td class="lbl">Capital reserve</td><td></td><td class="amt">35,000</td><td></td></tr>','<tr class="indent"><td class="lbl">Profit &amp; Loss balance</td><td></td><td class="amt">108,092</td><td class="amt">821,922</td></tr>','<tr class="total"><td class="lbl">Capital Employed</td><td></td><td></td><td class="amt">961,922</td></tr>'],
+source:'<strong>Revaluation Reserve €178,830</strong> (N22) = €133,500 uplift + €38,000 opening AD written back + €7,330 current year depn written back. <strong>Capital reserve €35,000</strong> = TB €15,000 + €20,000 transfer from retained profit. <strong>P&amp;L balance €108,092</strong> from the TPL.',
+reason:'All three reserves together with Issued SC make up the shareholders\' equity. Capital Employed = Debentures 140,000 + SC 500,000 + Reserves (178,830 + 35,000 + 108,092) = <strong>€961,922</strong>.',
+watch:'<strong>Three reserves in the capital section:</strong> Revaluation Reserve (from Note 7), Capital Reserve (TB €15,000 + €20,000 transfer from Note 9), and P&amp;L balance (from the TPL closing figure). Missing any of these unbalances the BS.'},
+{title:'Final Verification',
+rows:[],
+source:'<strong>Total Net Assets = €961,922</strong> = <strong>Capital Employed = €961,922</strong> ✓',
+reason:'All 22 workings placed. Net Profit €108,292. Retained Profit €93,292. P&amp;L balance 31/12/2023 €108,092. Balance sheet balances.',
+tip:'<strong>If your two totals don\'t match</strong> for Company 2024: (1) forgot revaluation reserve, (2) VAT still in liabilities instead of assets, (3) capital reserve transfer put above Net Profit instead of below, (4) used TB debtors for BDP calc, (5) forgot to strip VAT from buildings cost.'}
 ];
 
 
 // ═══════════════════════════════════════════════════
-// 3. MANUFACTURING — McGuigan Ltd 2022
+// 3. MANUFACTURING — McGuigan Ltd 2021
 // ═══════════════════════════════════════════════════
 
 const MFG_INTRO = `
@@ -690,171 +862,171 @@ const MFG_INTRO = `
 `;
 
 const MFG_NOTES: WalkthroughNote[] = [
-{num:1,marks:8,title:"Closing Stock & Sale or Return",
-noteText:'Closing stock: Raw Materials <strong>€18,400</strong>, WIP <strong>€12,600</strong>, Finished Goods <strong>€34,800</strong>. Included in Finished Goods are goods on sale or return (retail <strong>€7,500</strong>, which is cost plus 25%). These were recorded as a credit sale.',
-tbLook:'<table><tr><th>Item</th><th>Dr</th></tr><tr><td>Stock RM 01/01</td><td>15,200</td></tr><tr><td>Stock WIP 01/01</td><td>9,800</td></tr><tr><td>Stock FG 01/01</td><td>28,400</td></tr></table>',
-task:'<ol><li>Cost of sale-or-return goods = €7,500 ÷ 1.25 = €6,000</li><li>Reverse the sale: reduce sales by €7,500 (retail) and reduce debtors</li><li>Adjust closing FG stock: €34,800 − €6,000 = €28,800</li></ol>',
-workings:[{type:'calc',title:'W1: Sale or Return adjustment',content:'<div class="wt-calc-block"><div class="wt-calc-line">Cost = €7,500 ÷ 1.25 = <span class="wt-rv">€6,000</span></div><div class="wt-calc-line" style="margin-top:8px">Reverse the sale (at selling price): Sales −€7,500</div><div class="wt-calc-line">Reverse the debtor: Debtors −€7,500</div><div class="wt-calc-line">Remove from FG stock: €34,800 − €6,000 = <span class="wt-rv">€28,800</span></div></div>'}],
-destinations:[
-  {name:"Sales",arrow:"−",amt:"€7,500",where:"Reduce Sales (reverse the sale at retail)"},
-  {name:"Debtors",arrow:"−",amt:"€7,500",where:"Reduce Debtors"},
-  {name:"Closing FG stock",arrow:"→",amt:"€28,800",where:"Trading A/c & BS"},
-  {name:"Closing RM stock",arrow:"→",amt:"€18,400",where:"Mfg A/c & BS"},
-  {name:"Closing WIP",arrow:"→",amt:"€12,600",where:"Mfg A/c & BS"}
-],
-tip:'Sale or return recorded as a SALE must be reversed at the SELLING price, not cost. But remove from stock at COST.',
-watchOut:'Sales are reversed at retail (€7,500). Stock is reduced at cost (€6,000). Different amounts!'},
-
-{num:2,marks:14,title:"Own-Use Equipment + Machinery Disposal",
-noteText:'Factory employees constructed a storage unit for the business during the year. Materials costing <strong>€8,000</strong> and wages of <strong>€12,000</strong> were used. This has not been recorded as a fixed asset.<br>A machine (cost <strong>€45,000</strong>, 01/01/2019) was traded in on 01/07/2022 against a new machine costing <strong>€60,000</strong>. Trade-in allowance <strong>€18,000</strong>. The net payment was incorrectly treated as a purchase of raw materials. Depreciate machinery at <strong>15% reducing balance</strong>.',
-tbLook:'<table><tr><th>Item</th><th>Dr</th></tr><tr><td>Factory machinery (cost €320,000)</td><td>186,000</td></tr><tr><td>Purchases of raw materials</td><td>285,000</td></tr></table><p>Cost = €320,000. NBV = €186,000. Accum dep = €134,000.</p>',
-task:'<ol><li><strong>Own-use:</strong> Remove €8,000 from RM purchases, €12,000 from direct wages → create fixed asset €20,000</li><li><strong>Disposal:</strong> Calculate accum dep on old machine (reducing balance, 3.5 years)</li><li>Correct raw materials purchases: −€42,000 (net cash paid)</li><li>Calculate current year depreciation</li></ol>',
+{num:1,marks:6,title:'Closing Stocks (Raw, WIP, Finished)',
+noteText:'Stocks on hand at 31/12/2021: <strong>Raw materials €28,300</strong>, <strong>Work in progress €27,600</strong>, <strong>Finished goods €58,000</strong>.',
+tbLook:'<p>Look at the trial balance for opening stocks:</p><table><tr><th>Item</th><th>Dr</th></tr><tr><td>Raw materials</td><td>27,300</td></tr><tr><td>Work in progress</td><td>38,650</td></tr><tr><td>Finished goods</td><td>38,400</td></tr></table><p>The TB figures are the <strong>OPENING</strong> stocks. The closing stocks come from Note (i).</p>',
+task:'<p><strong>Closing stocks are used in THREE different places:</strong></p><ol><li><strong>Raw Materials (€28,300)</strong> — deducted in the Manufacturing account to give Cost of Raw Materials Consumed</li><li><strong>Work in Progress (€27,600)</strong> — deducted in the Manufacturing account after Factory Overheads</li><li><strong>Finished Goods (€58,000)</strong> — deducted in the Trading account (BUT see Note 2 — this figure needs to be adjusted!)</li></ol><p>All three also appear on the Balance Sheet in Current Assets.</p>',
 workings:[
-  {type:'calc',title:'W2: Own-use storage unit',content:'<div class="wt-calc-block"><div class="wt-calc-line">Materials: −€8,000 from RM purchases</div><div class="wt-calc-line">Wages: −€12,000 from direct wages</div><div class="wt-calc-line wt-calc-result">New fixed asset = <span class="wt-rv">€20,000</span></div></div>'},
-  {type:'calc',title:'W3: Machine disposal',content:'<div class="wt-calc-block"><div class="wt-calc-line">Net cash = €60,000 − €18,000 = <span class="wt-rv">€42,000</span> (wrongly in RM purchases)</div><div class="wt-calc-line" style="margin-top:8px"><strong>Accum dep (15% reducing balance):</strong></div><div class="wt-calc-line">Year 1: €45,000 × 15% = €6,750 → NBV €38,250</div><div class="wt-calc-line">Year 2: €38,250 × 15% = €5,738 → NBV €32,513</div><div class="wt-calc-line">Year 3: €32,513 × 15% = €4,877 → NBV €27,636</div><div class="wt-calc-line">6 mths: €27,636 × 15% × 6/12 = €2,073 → NBV €25,563</div><div class="wt-calc-line">Total accum dep = <span class="wt-rv">€19,437</span></div><div class="wt-calc-line">NBV at disposal = €45,000 − €19,437 = <span class="wt-rv">€25,563</span></div><div class="wt-calc-line">Loss on disposal = €25,563 − €18,000 = <span class="wt-rv">€7,563 loss</span></div></div>'}
-],
-tAccountDefs:[
-  {title:'Disposal of Machine Account',entries:[
-    {side:'dr',label:'Cost of old machine',amount:'45,000',step:0,order:0},
-    {side:'cr',label:'Accum. dep (3.5 yrs RB)',amount:'19,437',step:0,order:1},
-    {side:'cr',label:'Trade-in allowance',amount:'18,000',step:0,order:2},
-    {side:'dr',label:'Loss on disposal',amount:'7,563',step:0,order:3,cls:'loss'},
-    {side:'dr',label:'Total',amount:'52,563',step:0,order:4,cls:'total'},
-    {side:'cr',label:'Total',amount:'52,563',step:0,order:4,cls:'total'},
-  ]},
-  {title:'Raw Materials Purchases A/C',entries:[
-    {side:'dr',label:'Per TB',amount:'285,000',step:0,order:0},
-    {side:'cr',label:'Own-use materials',amount:'8,000',step:0,order:1},
-    {side:'cr',label:'Machine (error reversal)',amount:'42,000',step:0,order:2},
-    {side:'dr',label:'Adjusted balance',amount:'235,000',step:0,order:3,cls:'balance'},
-  ]},
-  {title:'Direct Factory Wages A/C',entries:[
-    {side:'dr',label:'Per TB',amount:'142,000',step:0,order:0},
-    {side:'cr',label:'Own-use wages',amount:'12,000',step:0,order:1},
-    {side:'dr',label:'Adjusted balance',amount:'130,000',step:0,order:2,cls:'balance'},
-  ]}
+  {type:'calc',title:'Stock allocations',content:'<div class="calc-block"><div class="calc-line"><strong>Raw Materials:</strong> opening €27,300 / closing €28,300</div><div class="calc-line"><strong>Work in Progress:</strong> opening €38,650 / closing €27,600</div><div class="calc-line"><strong>Finished Goods:</strong> opening €38,400 / closing €58,000 → adjust to <span class="rv-inline">€49,000</span> (Note 2 + Note 9)</div></div>'},
 ],
 destinations:[
-  {name:"RM purchases (adj.)",arrow:"→",amt:"€235,000",where:"Mfg A/c"},
-  {name:"Direct wages (adj.)",arrow:"→",amt:"€130,000",where:"Mfg A/c Prime Cost"},
-  {name:"Own-use asset",arrow:"→",amt:"€20,000",where:"BS Fixed Assets (separate line)"},
-  {name:"Loss on disposal",arrow:"→",amt:"€7,563",where:"P&L Operating Expenses"},
-  {name:"Machinery cost (BS)",arrow:"→",amt:"€335,000",where:"320,000 + 60,000 − 45,000"}
+  {name:'Raw Materials (opening)',arrow:'→',amt:'€27,300',where:'Manufacturing A/c top'},
+  {name:'Raw Materials (closing)',arrow:'→',amt:'€28,300',where:'Mfg A/c (deduct) + Balance Sheet Current Assets'},
+  {name:'WIP (opening)',arrow:'+',amt:'€38,650',where:'Manufacturing A/c (add after Factory OH)'},
+  {name:'WIP (closing)',arrow:'−',amt:'€27,600',where:'Manufacturing A/c (deduct) + Balance Sheet'},
+  {name:'Finished Goods (opening)',arrow:'→',amt:'€38,400',where:'Trading account top (as Opening Stock)'},
+  {name:'Finished Goods (closing)',arrow:'→',amt:'€49,000',where:'Trading account (deduct) + Balance Sheet (final figure after Notes 2 + 9)'},
 ],
-tip:'Own-use: Remove from expenses AND create a fixed asset. Two opposite entries.',
-watchOut:'Reducing balance depreciation compounds each year — don\'t use straight line!'},
+tip:'<strong>Three stocks, three locations:</strong> Raw materials sit at the TOP of the manufacturing account. WIP is adjusted JUST BEFORE the cost of manufacture is struck. Finished goods sit in the Trading section — opening at the top, closing deducted after Cost of Manufacture.',
+watchOut:'<strong>Don\'t combine the three stocks on the Balance Sheet.</strong> Show Raw Materials, Work in Progress, and Finished Goods as three separate lines in Current Assets. This is the main visual difference from a sole trader balance sheet.'},
 
-{num:3,marks:6,title:"Wage Accrual (Backdated Increase)",
-noteText:'A <strong>3% wage increase</strong> was backdated <strong>4 months</strong>. Annual factory wages are <strong>€142,000</strong> (before own-use adjustment). This accrual has not been recorded.',
-tbLook:'<p>Direct factory wages in TB: €142,000.</p>',
-task:'<p>Accrual = adjusted wages × 3% × 4/12.</p>',
-workings:[{type:'calc',title:'W4: Wage accrual',content:'<div class="wt-calc-block"><div class="wt-calc-line">Adjusted wages (after own-use) = €130,000</div><div class="wt-calc-line">Accrual = €130,000 × 3% × 4/12 = <span class="wt-rv">€1,300</span></div><div class="wt-calc-line">New direct wages = €130,000 + €1,300 = <span class="wt-rv">€131,300</span></div></div>'}],
-tAccountDefs:[
-  {title:'Direct Factory Wages (Final)',entries:[
-    {side:'dr',label:'Adjusted balance',amount:'130,000',step:0,order:0},
-    {side:'dr',label:'Wage accrual (backdated)',amount:'1,300',step:0,order:1},
-    {side:'cr',label:'To Mfg A/c Prime Cost',amount:'131,300',step:0,order:2,cls:'total'},
-    {side:'dr',label:'Total',amount:'131,300',step:0,order:3,cls:'total'},
-    {side:'cr',label:'Total',amount:'131,300',step:0,order:3,cls:'total'},
-  ]}
-],
-destinations:[
-  {name:"Direct wages (final)",arrow:"→",amt:"€131,300",where:"Mfg A/c Prime Cost"},
-  {name:"Wages due (accrual)",arrow:"→",amt:"€1,300",where:"BS Current Liabilities"}
-],
-tip:'Use the ADJUSTED wages figure (after removing own-use) as the base for the accrual.'},
-
-{num:4,marks:6,title:"Sale of Scrap + Machine Proceeds",
-noteText:'Sale of scrap in the TB is <strong>€14,200</strong>. This includes <strong>€3,200</strong> from the sale of an old storage rack (not the machine disposal).',
-tbLook:'<table><tr><th>Item</th><th>Cr</th></tr><tr><td>Sale of scrap materials</td><td>14,200</td></tr></table>',
-task:'<ol><li>Separate: actual scrap = €14,200 − €3,200 = €11,000</li><li>Storage rack proceeds of €3,200 may affect another disposal (check separately)</li></ol>',
-workings:[{type:'calc',title:'W5: Sale of scrap',content:'<div class="wt-calc-block"><div class="wt-calc-line">TB sale of scrap = €14,200</div><div class="wt-calc-line">Less: storage rack proceeds = (€3,200)</div><div class="wt-calc-line wt-calc-result">Actual scrap = <span class="wt-rv">€11,000</span></div></div>'}],
-destinations:[
-  {name:"Sale of scrap",arrow:"→",amt:"€11,000",where:"Deducted in Mfg A/c (reduces Cost of Manufacture)"},
-  {name:"Storage rack proceeds",arrow:"→",amt:"€3,200",where:"Disposal account for storage rack"}
-],
-tip:'Always check if the TB scrap figure includes non-scrap proceeds.',
-watchOut:'Sale of scrap goes in the Manufacturing Account, NOT in the P&L.'},
-
-{num:5,marks:6,title:"Bank Reconciliation",
-noteText:'Bank statement balance is <strong>€18,600</strong>. Unpresented cheques <strong>€4,200</strong>. Credit transfer received (not in books) <strong>€2,800</strong>. An error: a cheque for €1,500 was recorded as €1,050.',
-tbLook:'<table><tr><th>Item</th><th>Dr</th></tr><tr><td>Bank (per TB)</td><td>16,750</td></tr></table>',
-task:'<ol><li>Adjusted cash book = TB bank + credit transfer − cheque error</li><li>Adjusted bank statement = statement − unpresented cheques</li></ol>',
-workings:[{type:'calc',title:'W6: Bank Reconciliation',content:'<div class="wt-calc-block"><div class="wt-calc-line"><strong>Adjusted Cash Book:</strong></div><div class="wt-calc-line">TB bank = €16,750</div><div class="wt-calc-line">+ Credit transfer = €2,800</div><div class="wt-calc-line">− Cheque error (€1,500 − €1,050) = (€450)</div><div class="wt-calc-line wt-calc-result">Adjusted = <span class="wt-rv">€19,100</span></div><div class="wt-calc-line" style="margin-top:8px"><strong>Adjusted Bank Statement:</strong></div><div class="wt-calc-line">Statement = €18,600</div><div class="wt-calc-line">+ Lodgement not credited = —</div><div class="wt-calc-line">− Unpresented cheques = (€4,200)</div><div class="wt-calc-line wt-calc-result">Adjusted = — (reconcile to check)</div></div>'}],
-tAccountDefs:[
-  {title:'Bank Account (Cash Book)',entries:[
-    {side:'dr',label:'Per TB',amount:'16,750',step:0,order:0},
-    {side:'dr',label:'Credit transfer received',amount:'2,800',step:0,order:1},
-    {side:'cr',label:'Cheque error correction',amount:'450',step:0,order:2},
-    {side:'dr',label:'Adjusted balance',amount:'19,100',step:0,order:3,cls:'balance'},
-  ]}
-],
-destinations:[
-  {name:"Bank (BS)",arrow:"→",amt:"€19,100",where:"BS Current Assets (adjusted cash book figure)"}
-],
-tip:'Only adjust the CASH BOOK side. Unpresented cheques don\'t affect the books.'},
-
-{num:6,marks:8,title:"Factory Machinery Depreciation",
-noteText:'Depreciate factory machinery at <strong>15% reducing balance method</strong>.',
-tbLook:'<p>Machinery cost after disposal and new purchase: €335,000.</p>',
-task:'<p>Calculate current year depreciation on all machinery held at year-end (reducing balance on adjusted NBV).</p>',
-workings:[{type:'calc',title:'W7: Machinery Depreciation',content:'<div class="wt-calc-block"><div class="wt-calc-line"><strong>Old machines (full year):</strong></div><div class="wt-calc-line">NBV of remaining = €186,000 − old machine NBV adjustments</div><div class="wt-calc-line">Remaining machinery NBV ≈ <span class="wt-rv">€160,437</span></div><div class="wt-calc-line">Dep = €160,437 × 15% = <span class="wt-rv">€24,066</span></div><div class="wt-calc-line" style="margin-top:8px"><strong>New machine (6 months):</strong></div><div class="wt-calc-line">€60,000 × 15% × 6/12 = <span class="wt-rv">€4,500</span></div><div class="wt-calc-line wt-calc-result">Total machinery dep = <span class="wt-rv">€28,566</span></div></div>'}],
-destinations:[
-  {name:"Machinery depreciation",arrow:"→",amt:"€28,566",where:"Mfg A/c Factory Overheads"}
-],
-tip:'Reducing balance: apply the rate to the NBV, not the original cost.'},
-
-{num:7,marks:4,title:"Buildings Depreciation + Revaluation",
-noteText:'Buildings were revalued at <strong>€480,000</strong> on 01/01/2022. Depreciate buildings at <strong>2% of cost</strong>.',
-tbLook:'<table><tr><th>Item</th><th>Dr</th></tr><tr><td>Buildings</td><td>480,000</td></tr></table>',
-task:'<p>Depreciation on revalued amount. Revaluation reserve created.</p>',
+{num:2,marks:6,title:'Sale of Goods Not Dispatched',
+noteText:'No entry has been made in the books for sale of goods to a debtor on 31/12/2021. An invoice had been sent for <strong>€10,800</strong>, which included a mark-up on cost of 20%. The goods were not dispatched until 02/01/2022 and were <strong>included in closing stock</strong>.',
+tbLook:'<p>This is a year-end adjustment not posted. Look at the TB for:</p><table><tr><th>Item</th><th>Dr</th><th>Cr</th></tr><tr><td>Sales</td><td></td><td>1,650,000</td></tr><tr><td>Debtors</td><td>76,350</td><td></td></tr></table>',
+task:'<p><strong>Two things:</strong></p><ol><li>Recognise the sale — add €10,800 to Sales and €10,800 to Debtors (the invoice was sent, so the sale has occurred even if the goods haven\'t left)</li><li>Since the goods were still in the warehouse on 31/12, they were INCLUDED in the closing stock count at cost. But we\'ve now recognised them as sold, so REMOVE them from closing stock at cost: €10,800 ÷ 1.20 = €9,000</li></ol>',
 workings:[
-  {type:'calc',title:'W8: Buildings',content:'<div class="wt-calc-block"><div class="wt-calc-line">Dep = €480,000 × 2% = <span class="wt-rv">€9,600</span></div><div class="wt-calc-line">Allocation: 60% factory, 40% admin</div><div class="wt-calc-line">Factory: €9,600 × 60% = <span class="wt-rv">€5,760</span></div><div class="wt-calc-line">Admin: €9,600 × 40% = <span class="wt-rv">€3,840</span></div></div>'}
+  {type:'calc',title:'Cost of undispatched goods',content:'<div class="calc-block"><div class="calc-line">Invoice / selling price = €10,800</div><div class="calc-line">Mark-up = 20% on cost</div><div class="calc-line">Cost = €10,800 ÷ 1.20 = <span class="rv-inline">€9,000</span></div></div>'},
 ],
 destinations:[
-  {name:"Factory dep on buildings",arrow:"→",amt:"€5,760",where:"Mfg A/c Factory Overheads"},
-  {name:"Admin dep on buildings",arrow:"→",amt:"€3,840",where:"P&L Administration"},
-  {name:"Revaluation reserve",arrow:"→",amt:"€168,400",where:"BS Capital section"}
+  {name:'Sales (W8)',arrow:'+',amt:'€10,800',where:'Trading account — add to Sales (€1,650,000 + €10,800 = €1,660,800)'},
+  {name:'Debtors (W18)',arrow:'+',amt:'€10,800',where:'Balance Sheet Current Assets'},
+  {name:'Closing Stock FG (W9)',arrow:'−',amt:'€9,000',where:'Remove from Finished Goods closing stock (Trading a/c + BS)'},
 ],
-tip:'Buildings depreciation is often SPLIT between factory and admin. Check the allocation ratio.'},
+tip:'<strong>Revenue recognition rule:</strong> A sale is recognised when the <em>invoice is sent and legal title passes</em>, not when the goods physically leave. The invoice date (31/12) means the sale belongs in this year\'s accounts.',
+watchOut:'<strong>The €9,000 and €10,800 are NOT the same number.</strong> €10,800 is the selling price (added to sales and debtors). €9,000 is the cost price (removed from closing stock). Getting these the wrong way round is a common error.'},
 
-{num:8,marks:6,title:"Investment Income",
-noteText:'The company holds <strong>6% Government Bonds</strong> worth <strong>€80,000</strong>. Investment income for the year has not been recorded.',
-tbLook:'<table><tr><th>Item</th><th>Dr</th></tr><tr><td>6% Government Bonds</td><td>80,000</td></tr></table>',
-task:'<p>Investment income = €80,000 × 6% = €4,800 (all due).</p>',
-workings:[{type:'calc',title:'W9: Investment Income',content:'<div class="wt-calc-block"><div class="wt-calc-line">€80,000 × 6% = <span class="wt-rv">€4,800</span></div></div>'}],
+{num:3,marks:12,title:'Sale of Scrap Includes Machine Disposal',
+noteText:'Included in the figure for sale of scrap materials is <strong>€7,000</strong> received from the sale of an old machine on 31/03/2021. This machine had cost <strong>€30,000</strong> on 01/09/2016.',
+tbLook:'<p>Look at the trial balance:</p><table><tr><th>Item</th><th>Dr</th><th>Cr</th></tr><tr><td>Sale of scrap materials</td><td></td><td>18,950</td></tr><tr><td>Plant and machinery (cost €340,000)</td><td>290,000</td><td></td></tr></table><p>Machine cost = €340,000. NBV = €290,000. Accumulated depreciation so far = €50,000.</p>',
+task:'<p><strong>Three things to sort out:</strong></p><ol><li>Separate €7,000 out of the scrap figure. True scrap = €18,950 − €7,000 = €11,950</li><li>Calculate accumulated depreciation on the OLD machine from 01/09/2016 to 31/03/2021 (4 years 7 months), at 15% of cost straight line</li><li>Calculate the profit/loss on disposal: Proceeds €7,000 − NBV = loss or profit</li></ol>',
+workings:[
+  {type:'calc',title:'W7: True sale of scrap',content:'<div class="calc-block"><div class="calc-line">TB figure = €18,950</div><div class="calc-line">Less: machine disposal proceeds = (€7,000)</div><div class="calc-line calc-result">True scrap = <span class="rv-inline">€11,950</span></div></div>'},
+  {type:'calc',title:'W5: Loss on Machine',content:'<div class="calc-block"><strong>Accum depn on old machine (01/09/2016 → 31/03/2021):</strong><div class="calc-line">Years 2016: 4 months · 2017: 12 · 2018: 12 · 2019: 12 · 2020: 12 · 2021: 3</div><div class="calc-line">Total ≈ 55 months = 4 years 7 months</div><div class="calc-line">Accum depn = €30,000 × 15% × 55/12 = <span class="rv-inline">€20,625</span></div><div class="calc-line" style="margin-top:8px"><strong>NBV on disposal:</strong></div><div class="calc-line">€30,000 − €20,625 = <span class="rv-inline">€9,375</span></div><div class="calc-line" style="margin-top:8px"><strong>Loss on disposal:</strong></div><div class="calc-line">Proceeds €7,000 − NBV €9,375 = <span class="rv-inline">(€2,375) loss</span></div></div>'},
+],
 destinations:[
-  {name:"Investment income",arrow:"→",amt:"€4,800",where:"P&L Other Income"},
-  {name:"Investment income due",arrow:"→",amt:"€4,800",where:"BS Current Assets"}
-]},
-
-{num:9,marks:8,title:"Dividends + Share Capital",
-noteText:'The directors recommend a <strong>final ordinary dividend of 6c per share</strong>. Preference dividends have been paid. Ordinary shares €1 each — 200,000 issued.',
-tbLook:'<table><tr><th>Item</th><th>Dr</th><th>Cr</th></tr><tr><td>Interim ordinary dividends</td><td>8,000</td><td></td></tr><tr><td>Preference dividends</td><td>4,000</td><td></td></tr></table>',
-task:'<p>Final ordinary = 200,000 × €0.06 = €12,000. Total ordinary = €20,000.</p>',
-workings:[{type:'calc',title:'W10: Dividends',content:'<div class="wt-calc-block"><div class="wt-calc-line">Final ordinary = 200,000 × €0.06 = <span class="wt-rv">€12,000</span></div><div class="wt-calc-line">Total ordinary = €8,000 + €12,000 = <span class="wt-rv">€20,000</span></div><div class="wt-calc-line">Preference = <span class="wt-rv">€4,000</span></div><div class="wt-calc-line wt-calc-result">Total dividends = <span class="wt-rv">€24,000</span></div></div>'}],
-destinations:[
-  {name:"Total dividends",arrow:"→",amt:"€24,000",where:"Deducted after Net Profit"},
-  {name:"Proposed dividend",arrow:"→",amt:"€12,000",where:"BS Current Liabilities"}
-]}
+  {name:'Sale of scrap (W7)',arrow:'→',amt:'€11,950',where:'Manufacturing A/c — DEDUCT from cost of manufacture'},
+  {name:'Loss on machine (W5)',arrow:'→',amt:'€2,375',where:'Manufacturing A/c (Factory Overheads section) — add as a cost'},
+  {name:'Accum depn removed (W17)',arrow:'−',amt:'€20,625',where:'Deducted from Machinery Accumulated Depreciation in BS'},
+  {name:'Machinery cost removed (W16)',arrow:'−',amt:'€30,000',where:'Deducted from Machinery Cost in BS'},
+],
+tip:'<strong>Why does the loss go in Factory Overheads?</strong> Because the machine was a factory asset. Losses and profits on disposal of factory assets are treated as factory overheads, not as an operating expense in the TPL. This is a manufacturing-specific rule.',
+watchOut:'<strong>The scrap figure in the TB is contaminated.</strong> If you use the full €18,950 as sale of scrap, you double-count the €7,000. You must split it first. The €7,000 is NOT scrap — it\'s proceeds from selling a capital asset, which needs disposal treatment.'}
 ];
 
 const MFG_TPL_STEPS: BuilderStep[] = [
-{title:'Manufacturing Account — Raw Materials',rows:['<tr class="heading"><td colspan="3">Manufacturing Account of McGuigan Ltd — y/e 31/12/2022</td></tr>','<tr><td class="lbl">Opening Stock — Raw Materials</td><td class="amt">15,200</td><td></td></tr>','<tr><td class="lbl">+ Purchases of RM (adj.)</td><td class="amt">235,000</td><td></td></tr>','<tr><td class="lbl">− Closing Stock — RM</td><td class="amt">(18,400)</td><td></td></tr>','<tr class="subtotal"><td class="lbl">Raw Materials Consumed</td><td></td><td class="amt">231,800</td></tr>'],source:'RM purchases adjusted: 285,000 − 8,000 (own-use) − 42,000 (machine error) = €235,000.'},
-{title:'Direct Costs & Prime Cost',rows:['<tr class="heading"><td colspan="3">Direct Costs</td></tr>','<tr class="indent"><td class="lbl">Direct Factory Wages (adj.)</td><td class="amt">131,300</td><td></td></tr>','<tr class="indent"><td class="lbl">Royalties</td><td class="amt">8,400</td><td></td></tr>','<tr class="subtotal"><td class="lbl">Prime Cost</td><td></td><td class="amt">371,500</td></tr>'],source:'Direct wages = 142,000 − 12,000 (own-use) + 1,300 (accrual) = €131,300.'},
-{title:'Factory Overheads',rows:['<tr class="heading"><td colspan="3">Factory Overheads</td></tr>','<tr class="indent"><td class="lbl">Factory rent & rates</td><td class="amt">24,000</td><td></td></tr>','<tr class="indent"><td class="lbl">Factory heat & light</td><td class="amt">16,800</td><td></td></tr>','<tr class="indent"><td class="lbl">Dep on machinery</td><td class="amt">28,566</td><td></td></tr>','<tr class="indent"><td class="lbl">Dep on buildings (60%)</td><td class="amt">5,760</td><td class="amt">75,126</td></tr>'],source:'Buildings dep split 60% factory. Machinery dep at 15% reducing balance.'},
-{title:'WIP Adjustment & Cost of Manufacture',rows:['<tr class="indent"><td class="lbl">+ Opening WIP</td><td class="amt">9,800</td><td></td></tr>','<tr class="indent"><td class="lbl">− Closing WIP</td><td class="amt">(12,600)</td><td></td></tr>','<tr class="indent"><td class="lbl">− Sale of Scrap</td><td class="amt">(11,000)</td><td></td></tr>','<tr class="total"><td class="lbl">Cost of Manufacture</td><td></td><td class="amt">432,826</td></tr>'],source:'WIP adjustment + sale of scrap deducted = Cost of Manufacture.'},
-{title:'Trading P&L',rows:['<tr class="heading"><td colspan="3">Trading, Profit & Loss Account</td></tr>','<tr><td class="lbl">Sales (adj.)</td><td></td><td class="amt">742,500</td></tr>','<tr class="indent"><td class="lbl">Opening Stock FG</td><td class="amt">28,400</td><td></td></tr>','<tr class="indent"><td class="lbl">+ Cost of Manufacture</td><td class="amt">432,826</td><td></td></tr>','<tr class="indent"><td class="lbl">− Closing Stock FG</td><td class="amt">(28,800)</td><td></td></tr>','<tr class="subtotal"><td class="lbl">Cost of Sales</td><td></td><td class="amt">(432,426)</td></tr>','<tr class="subtotal"><td class="lbl">Gross Profit</td><td></td><td class="amt">310,074</td></tr>'],source:'Sales adjusted for sale-or-return (−€7,500). Cost of Manufacture replaces purchases.'},
-{title:'Expenses & Net Profit',rows:['<tr class="heading"><td colspan="3">Add: Other Income</td></tr>','<tr class="indent"><td class="lbl">Investment income</td><td class="amt">4,800</td><td class="amt">4,800</td></tr>','<tr class="heading"><td colspan="3">Less Expenses</td></tr>','<tr class="indent"><td class="lbl">Admin expenses</td><td class="amt">42,000</td><td></td></tr>','<tr class="indent"><td class="lbl">Dep on buildings (40%)</td><td class="amt">3,840</td><td></td></tr>','<tr class="indent"><td class="lbl">Selling expenses</td><td class="amt">38,600</td><td></td></tr>','<tr class="indent"><td class="lbl">Loss on disposal</td><td class="amt">7,563</td><td class="amt">(92,003)</td></tr>','<tr class="total"><td class="lbl">Net Profit</td><td></td><td class="amt">222,871</td></tr>'],source:'Net Profit = 310,074 + 4,800 − 92,003 = €222,871.'},
-{title:'Dividends & P&L Balance',rows:['<tr class="heading"><td colspan="3">Less Dividends</td></tr>','<tr class="indent"><td class="lbl">Ordinary dividends</td><td class="amt">20,000</td><td></td></tr>','<tr class="indent"><td class="lbl">Preference dividends</td><td class="amt">4,000</td><td class="amt">(24,000)</td></tr>','<tr class="subtotal"><td class="lbl">Retained Profit</td><td></td><td class="amt">198,871</td></tr>','<tr class="indent"><td class="lbl">+ Opening P&L balance</td><td></td><td class="amt">64,200</td></tr>','<tr class="total"><td class="lbl">Closing P&L Balance</td><td></td><td class="amt">263,071</td></tr>'],source:'Retained = 222,871 − 24,000 = €198,871. Closing P&L = 198,871 + 64,200 = €263,071.'}
+{title:'Manufacturing Account — Raw Materials',
+rows:['<tr class="heading"><td colspan="3">Manufacturing Account of McGuigan Ltd — y/e 31/12/2021</td></tr>','<tr class="indent"><td class="lbl">Opening stock of raw materials</td><td class="amt">27,300</td><td></td></tr>','<tr class="indent"><td class="lbl">+ Purchases of raw materials <span class="wtag">W1</span></td><td class="amt">709,400</td><td></td></tr>','<tr class="indent"><td class="lbl">− Closing stock of raw materials</td><td class="amt">(28,300)</td><td></td></tr>','<tr class="subtotal"><td class="lbl">Cost of Raw Materials Consumed</td><td></td><td class="amt">708,400</td></tr>'],
+source:'<strong>Opening stock €27,300</strong> from TB. <strong>Purchases €709,400</strong> (W1) = TB €760,400 + €11,000 (suspense correction, Note 5) − €62,000 (materials used for store, Note 7). <strong>Closing stock €28,300</strong> from Note 1.',
+reason:'The manufacturing account starts by calculating the cost of raw materials actually consumed in production. It\'s the same logic as Cost of Goods Sold but for raw materials instead of finished goods.',
+watch:'<strong>Don\'t forget the store adjustment.</strong> The €62,000 of materials used to build the store are NOT part of production — they became a fixed asset. Miss this and your purchases figure is €62,000 too high.'},
+{title:'Direct Costs and Prime Cost',
+rows:['<tr class="heading"><td colspan="3">Direct Costs</td></tr>','<tr class="indent"><td class="lbl">Direct factory wages <span class="wtag">W2</span></td><td class="amt">88,440</td><td></td></tr>','<tr class="indent"><td class="lbl">Royalties <span class="wtag">TB</span></td><td class="amt">29,600</td><td></td></tr>','<tr class="indent"><td class="lbl">Hire of special equipment <span class="wtag">TB</span></td><td class="amt">37,800</td><td class="amt">155,840</td></tr>','<tr class="subtotal"><td class="lbl">Prime Cost</td><td></td><td class="amt">864,240</td></tr>'],
+source:'<strong>Factory wages €88,440</strong> (W2) = TB €148,000 + €740 (2% accrual) − €60,300 (store labour with accrual). <strong>Royalties €29,600</strong> and <strong>Hire of special equipment €37,800</strong> taken directly from TB.',
+reason:'Prime Cost = Raw Materials Consumed + all Direct Costs. Royalties and hire of special equipment are direct costs because they vary directly with production volume. Prime Cost = 708,400 + 88,440 + 29,600 + 37,800 = <strong>€864,240</strong>.',
+tip:'<strong>Royalties are ALWAYS direct:</strong> royalties are paid per unit produced or as a percentage of sales, so they vary directly with output. Always in the prime cost section of the manufacturing account.'},
+{title:'Factory Overheads',
+rows:['<tr class="heading"><td colspan="3">Factory Overheads</td></tr>','<tr class="indent"><td class="lbl">General factory overhead <span class="wtag">W3</span></td><td class="amt">114,300</td><td></td></tr>','<tr class="indent"><td class="lbl">Depreciation of plant & machinery <span class="wtag">W4</span></td><td class="amt">47,625</td><td></td></tr>','<tr class="indent"><td class="lbl">Loss on disposal of machine <span class="wtag">W5</span></td><td class="amt">2,375</td><td></td></tr>','<tr class="indent"><td class="lbl">Depreciation on factory buildings <span class="wtag">W6</span></td><td class="amt">20,246</td><td class="amt">184,546</td></tr>','<tr class="indent"><td class="lbl"></td><td></td><td class="amt">1,048,786</td></tr>'],
+source:'<strong>General factory OH €114,300</strong> (W3) = TB €126,700 − €1,400 (discount suspense) − €11,000 (purchases suspense). <strong>Plant depn €47,625</strong> (W4). <strong>Loss on machine €2,375</strong> (W5). <strong>Buildings depn €20,246</strong> (W6) = €1,012,300 × 2%.',
+reason:'Factory overheads are the indirect costs of running the factory. Prime Cost + Factory Overheads = total factory costs for the period. The running total of 1,048,786 is now ready for the WIP adjustment.',
+watch:'<strong>The loss on the old machine goes in Factory Overheads</strong>, not in the TPL Expenses. It\'s a factory asset loss, so it belongs in the factory cost section. This is manufacturing-specific.'},
+{title:'Work in Progress & Scrap Adjustment',
+rows:['<tr><td class="lbl"></td><td></td><td></td></tr>','<tr class="indent"><td class="lbl">+ Opening stock of Work in Progress</td><td class="amt">38,650</td><td></td></tr>','<tr class="indent"><td class="lbl">− Closing stock of Work in Progress</td><td class="amt">(27,600)</td><td class="amt">11,050</td></tr>','<tr class="indent"><td class="lbl"></td><td></td><td class="amt">1,059,836</td></tr>','<tr class="indent"><td class="lbl">− Sale of scrap <span class="wtag">W7</span></td><td></td><td class="amt">(11,950)</td></tr>','<tr class="total"><td class="lbl">Cost of Manufacture</td><td></td><td class="amt">1,047,886</td></tr>'],
+source:'<strong>Opening WIP €38,650</strong> added, <strong>Closing WIP €27,600</strong> deducted. Net WIP movement = €11,050 (more WIP converted to finished goods than started). <strong>Sale of scrap €11,950</strong> (W7) = TB €18,950 − €7,000 (machine disposal separated).',
+reason:'WIP adjustment converts "factory costs incurred" into "factory costs of goods completed". If WIP fell, the cost of goods completed is HIGHER than factory costs incurred. The sale of scrap is a recovery of cost, so it\'s deducted. Cost of Manufacture = 1,048,786 + 11,050 − 11,950 = <strong>€1,047,886</strong>.',
+tip:'<strong>Sale of scrap reduces the cost of manufacture:</strong> scrap sales are treated as a recovery of production costs, not as income. This is why they go in the Mfg A/c, not the TPL.'},
+{title:'Trading Account — Sales and Cost of Sales',
+rows:['<tr class="heading"><td colspan="3">Trading Profit &amp; Loss Account y/e 31/12/2021</td></tr>','<tr><td class="lbl">Sales <span class="wtag">W8</span></td><td></td><td class="amt">1,660,800</td></tr>','<tr class="heading"><td colspan="3">Less Cost of Sales</td></tr>','<tr class="indent"><td class="lbl">Opening stock of finished goods</td><td class="amt">38,400</td><td></td></tr>','<tr class="indent"><td class="lbl">+ Cost of Manufacture</td><td class="amt">1,047,886</td><td></td></tr>','<tr class="indent"><td class="lbl">− Closing stock of finished goods <span class="wtag">W9</span></td><td class="amt">(49,000)</td><td class="amt">(1,037,286)</td></tr>','<tr class="subtotal"><td class="lbl">Gross Profit</td><td></td><td class="amt">623,514</td></tr>'],
+source:'<strong>Sales €1,660,800</strong> (W8) = TB €1,650,000 + €10,800 (sale not dispatched, Note 2). <strong>Opening FG €38,400</strong> from TB. <strong>Cost of Manufacture €1,047,886</strong> from the manufacturing account above. <strong>Closing FG €49,000</strong> (W9) = €58,000 − €9,000 (cost of undispatched goods removed).',
+reason:'In a manufacturing company, Cost of Manufacture REPLACES Purchases in the Trading Account. Everything else works the same way: Opening Stock + Cost of Manufacture − Closing Stock = Cost of Sales. Gross Profit = Sales − Cost of Sales = 1,660,800 − 1,037,286 = <strong>€623,514</strong>.',
+watch:'<strong>Closing stock of finished goods is €49,000, not €58,000.</strong> The €9,000 cost of goods invoiced but not dispatched (Note 2) has been removed because those goods are now recognised as sold. Miss this and closing stock is too high AND gross profit is too high.'},
+{title:'Selling & Distribution Expenses',
+rows:['<tr class="heading"><td colspan="3">Less Expenses — Selling &amp; Distribution</td></tr>','<tr class="indent"><td class="lbl">Bad debt <span class="wtag">W10</span></td><td class="amt">1,500</td><td></td></tr>','<tr class="indent"><td class="lbl">Selling expenses <span class="wtag">TB</span></td><td class="amt">45,000</td><td></td></tr>','<tr class="indent"><td class="lbl">Increase in bad debts provision <span class="wtag">W11</span></td><td class="amt">212</td><td></td></tr>'],
+source:'<strong>Bad debt €1,500</strong> (W10) = €5,000 bankrupt debt × 30% (the portion not recovered). <strong>Selling expenses €45,000</strong> from TB. <strong>Increase in BDP €212</strong> (W11) = new provision €3,262 − old provision €3,050.',
+reason:'Selling & Distribution expenses are the costs of selling the finished goods. Bad debts and BDP adjustments go here because they arise from credit sales. Selling expenses go here because they relate to selling effort.',
+tip:'<strong>Bad debt vs BDP:</strong> A SPECIFIC bad debt (€1,500) is a write-off of a real debtor. The PROVISION is an estimated allowance against debtors that might go bad in future. Both go in S&D, but for different reasons.'},
+{title:'Administration Expenses',
+rows:['<tr class="heading"><td colspan="3">Administration Expenses</td></tr>','<tr class="indent"><td class="lbl">Administration expenses <span class="wtag">TB</span></td><td class="amt">57,900</td><td class="amt">(104,612)</td></tr>','<tr class="subtotal"><td class="lbl">Operating Profit (Pre-income)</td><td></td><td class="amt">518,902</td></tr>'],
+source:'<strong>Administration expenses €57,900</strong> taken directly from TB. Total Expenses = 1,500 + 45,000 + 212 + 57,900 = <strong>€104,612</strong>.',
+reason:'Administration expenses are the general running costs of the office (not the factory). The factory costs are in the Manufacturing Account, and the selling costs are in S&D — what\'s left is pure admin.',
+watch:'<strong>Don\'t put any factory costs in admin.</strong> Factory overheads belong in the Mfg A/c. General admin is only office expenses, secretarial, legal fees, office supplies, etc.'},
+{title:'Operating Income',
+rows:['<tr class="heading"><td colspan="3">Add Operating Income</td></tr>','<tr class="indent"><td class="lbl">Rent received <span class="wtag">TB</span></td><td class="amt">15,700</td><td></td></tr>','<tr class="indent"><td class="lbl">Discount received <span class="wtag">TB</span></td><td class="amt">5,350</td><td class="amt">21,050</td></tr>','<tr class="subtotal"><td class="lbl">Operating Profit</td><td></td><td class="amt">539,952</td></tr>'],
+source:'<strong>Rent received €15,700</strong> from TB (credit side). <strong>Discount received €5,350</strong> from TB (credit side — net figure).',
+reason:'Operating income is non-trading income that\'s still part of normal operations — rental income from spare premises, discount received from suppliers. Added to get Operating Profit = 518,902 + 21,050 = <strong>€539,952</strong>.',
+watch:'<strong>Discount side check:</strong> Discount (net) was on the CREDIT side of the TB = discount received (income). If it had been on the debit side, it would be discount allowed (an expense → S&D). Always check which side.'},
+{title:'Investment Income, Debenture Interest & Net Profit',
+rows:['<tr class="indent"><td class="lbl">Investment income <span class="wtag">W12</span></td><td></td><td class="amt">7,500</td></tr>','<tr class="indent"><td class="lbl">Less Debenture interest <span class="wtag">W13</span></td><td></td><td class="amt">(23,000)</td></tr>','<tr class="total"><td class="lbl">Net Profit</td><td></td><td class="amt">524,452</td></tr>'],
+source:'<strong>Investment income €7,500</strong> (W12) = €250,000 × 4% × 9/12. <strong>Debenture interest €23,000</strong> (W13) = 3 months at €250,000 × 8% + 9 months at €300,000 × 8%.',
+reason:'Investment income and debenture interest are non-operating items — they relate to financing, not operations. They appear AFTER Operating Profit. Net Profit = 539,952 + 7,500 − 23,000 = <strong>€524,452</strong>.',
+tip:'<strong>Debenture issued mid-year:</strong> €50,000 issued on 01/04/2021. First 3 months only €250,000 outstanding, then €300,000 for the last 9 months. Calculate interest for each period separately.'},
+{title:'Retained Profit & P&L Balance',
+rows:['<tr class="indent"><td class="lbl">Less Dividends paid <span class="wtag">TB</span></td><td></td><td class="amt">(27,500)</td></tr>','<tr class="subtotal"><td class="lbl">Retained Profit</td><td></td><td class="amt">496,952</td></tr>','<tr class="indent"><td class="lbl">+ P&L balance 01/01/2021 <span class="wtag">TB</span></td><td></td><td class="amt">69,500</td></tr>','<tr class="total"><td class="lbl">P&L balance 31/12/2021</td><td></td><td class="amt">566,452</td></tr>'],
+source:'<strong>Dividends paid €27,500</strong> from TB. <strong>Opening P&L balance €69,500</strong> from TB.',
+reason:'This is the key difference from a sole trader: a company has a P&L account that carries forward. Retained Profit = Net Profit − Dividends = 524,452 − 27,500 = €496,952. Closing P&L Balance = 496,952 + 69,500 = <strong>€566,452</strong>. This figure goes into the Balance Sheet capital section.',
+watch:'<strong>Dividends are NOT an expense.</strong> They\'re a distribution of profit to shareholders, deducted AFTER Net Profit (not above it). Never put dividends in the P&L expenses section.'}
 ];
 
 const MFG_BS_STEPS: BuilderStep[] = [
-{title:'Fixed Assets',rows:['<tr class="heading"><td colspan="4">Balance Sheet of McGuigan Ltd as at 31/12/2022</td></tr>','<tr class="heading"><td colspan="4">Tangible Fixed Assets</td></tr>','<tr><td></td><td class="amt"><strong>Cost</strong></td><td class="amt"><strong>Acc Dep</strong></td><td class="amt"><strong>NBV</strong></td></tr>','<tr class="indent"><td class="lbl">Buildings (revalued)</td><td class="amt">480,000</td><td class="amt">9,600</td><td class="amt">470,400</td></tr>','<tr class="indent"><td class="lbl">Factory Machinery</td><td class="amt">335,000</td><td class="amt">143,129</td><td class="amt">191,871</td></tr>','<tr class="indent"><td class="lbl">Storage unit (own-use)</td><td class="amt">20,000</td><td class="amt">—</td><td class="amt">20,000</td></tr>','<tr class="indent"><td></td><td class="amt"><strong>835,000</strong></td><td class="amt"><strong>152,729</strong></td><td class="amt"><strong>682,271</strong></td></tr>'],source:'Own-use storage unit as separate fixed asset. Machinery adjusted for disposal.'},
-{title:'Financial & Current Assets',rows:['<tr class="heading"><td colspan="4">Financial Assets</td></tr>','<tr class="indent"><td class="lbl">6% Government Bonds</td><td></td><td></td><td class="amt">80,000</td></tr>','<tr class="heading"><td colspan="4">Current Assets</td></tr>','<tr class="indent"><td class="lbl">Stock — Raw Materials</td><td></td><td class="amt">18,400</td><td></td></tr>','<tr class="indent"><td class="lbl">Stock — WIP</td><td></td><td class="amt">12,600</td><td></td></tr>','<tr class="indent"><td class="lbl">Stock — Finished Goods</td><td></td><td class="amt">28,800</td><td></td></tr>','<tr class="indent"><td class="lbl">Debtors (adj.)</td><td></td><td class="amt">52,500</td><td></td></tr>','<tr class="indent"><td class="lbl">Inv. income due</td><td></td><td class="amt">4,800</td><td></td></tr>','<tr class="indent"><td class="lbl">Bank (adj.)</td><td></td><td class="amt">19,100</td><td class="amt">136,200</td></tr>'],source:'Three stock categories shown separately. Debtors reduced by €7,500 (sale or return).'},
-{title:'Liabilities & Net Assets',rows:['<tr class="heading"><td colspan="4">Creditors: within 1 year</td></tr>','<tr class="indent"><td class="lbl">Creditors</td><td class="amt">38,400</td><td></td><td></td></tr>','<tr class="indent"><td class="lbl">Wages due</td><td class="amt">1,300</td><td></td><td></td></tr>','<tr class="indent"><td class="lbl">Proposed dividend</td><td class="amt">12,000</td><td class="amt">(51,700)</td><td></td></tr>','<tr class="subtotal"><td class="lbl">Working Capital</td><td></td><td></td><td class="amt">84,500</td></tr>','<tr class="subtotal"><td class="lbl">Total Net Assets</td><td></td><td></td><td class="amt">846,771</td></tr>'],source:'Wages due from accrual. Proposed dividend for final ordinary.'},
-{title:'Shareholders\' Funds',rows:['<tr class="heading"><td colspan="4">Financed By:</td></tr>','<tr><td></td><td class="amt"><strong>Auth</strong></td><td class="amt"><strong>Issued</strong></td><td></td></tr>','<tr class="indent"><td class="lbl">Ordinary shares (€1)</td><td class="amt">400,000</td><td class="amt">200,000</td><td></td></tr>','<tr class="indent"><td class="lbl">8% Pref shares (€1)</td><td class="amt">100,000</td><td class="amt">50,000</td><td class="amt">250,000</td></tr>','<tr class="heading"><td colspan="4">Reserves</td></tr>','<tr class="indent"><td class="lbl">Revaluation Reserve</td><td></td><td class="amt">168,400</td><td></td></tr>','<tr class="indent"><td class="lbl">Capital Reserve</td><td></td><td class="amt">165,300</td><td></td></tr>','<tr class="indent"><td class="lbl">P&L Balance</td><td></td><td class="amt">263,071</td><td class="amt">596,771</td></tr>','<tr class="total"><td class="lbl">Shareholders\' Funds</td><td></td><td></td><td class="amt">846,771</td></tr>'],source:'Shareholders\' Funds = Issued Capital + Reserves = €846,771 ✓.'},
-{title:'Verification',rows:[],source:'<strong>Total Net Assets = Shareholders\' Funds = €846,771 ✓</strong>',tip:'Check: Three stock categories, own-use asset, wages accrual, proposed dividend.'}
+{title:'Tangible Fixed Assets — Header',
+rows:['<tr class="heading"><td colspan="4">Balance Sheet of McGuigan Ltd as at 31/12/2021</td></tr>','<tr class="heading"><td colspan="4">Tangible Fixed Assets</td></tr>','<tr><td class="lbl"></td><td class="amt"><strong>Cost</strong></td><td class="amt"><strong>Acc Dep</strong></td><td class="amt"><strong>NBV</strong></td></tr>'],
+source:'The balance sheet has the same three-column structure as any other: Cost, Accumulated Depreciation, NBV.',
+reason:'In a manufacturing company, the fixed assets are typically Factory Buildings and Plant & Machinery — both of which will have been depreciated.',
+tip:'Show the cost and accumulated depreciation columns clearly. The marking scheme awards marks for the cost and acc dep figures separately, not just for the NBV.'},
+{title:'Factory Buildings',
+rows:['<tr class="indent"><td class="lbl">Factory Buildings <span class="wtag">W14, W15</span></td><td class="amt">1,012,300</td><td class="amt">45,246</td><td class="amt">967,054</td></tr>'],
+source:'<strong>Cost €1,012,300</strong> (W14) = TB €890,000 + €122,300 (Note 7: store built by own employees, materials €62,000 + labour €60,300 including accrual). <strong>Accum Depn €45,246</strong> (W15) = TB €25,000 + €20,246 (current year at 2% × €1,012,300).',
+reason:'The store added in Note 7 becomes a capital addition to buildings, so the cost rises by €122,300. Depreciation is charged on the NEW cost figure, not the old.',
+watch:'<strong>Opening accum depn on buildings = €25,000.</strong> Cost €890,000 − NBV €865,000 = €25,000. This gets added to the current year depn of €20,246 = €45,246.'},
+{title:'Plant & Machinery',
+rows:['<tr class="indent"><td class="lbl">Plant &amp; Machinery <span class="wtag">W16, W17</span></td><td class="amt">310,000</td><td class="amt">77,000</td><td class="amt">233,000</td></tr>','<tr class="indent"><td class="lbl"></td><td class="amt"><strong>1,322,300</strong></td><td class="amt"><strong>122,246</strong></td><td class="amt"><strong>1,200,054</strong></td></tr>'],
+source:'<strong>Cost €310,000</strong> (W16) = TB €340,000 − €30,000 (old machine disposed). <strong>Accum Depn €77,000</strong> (W17) = TB €50,000 + €47,625 (current year) − €20,625 (accum depn on disposed machine).',
+reason:'When a fixed asset is disposed of, BOTH its cost AND its accumulated depreciation must be removed from the respective balances. The disposed machine contributes €20,625 of accumulated depreciation that\'s no longer on the books.',
+tip:'Total Tangible Fixed Assets = Cost 1,322,300 | Acc Dep 122,246 | NBV <strong>1,200,054</strong>. Only the NBV carries forward to the running total.'},
+{title:'Financial Assets — Investments',
+rows:['<tr class="heading"><td colspan="4">Financial Assets</td></tr>','<tr class="indent"><td class="lbl">4% Investments <span class="wtag">TB</span></td><td></td><td></td><td class="amt">250,000</td></tr>'],
+source:'<strong>€250,000</strong> from TB, unchanged. Investments are shown at cost.',
+reason:'Financial assets are long-term investments. They sit between tangible fixed assets and current assets on the balance sheet.',
+tip:'Running total so far: 1,200,054 + 250,000 = €1,450,054 total fixed + financial assets.'},
+{title:'Current Assets — Three Stocks',
+rows:['<tr class="heading"><td colspan="4">Current Assets</td></tr>','<tr class="indent"><td class="lbl">Closing stock — Raw Materials</td><td class="amt">28,300</td><td></td><td></td></tr>','<tr class="indent"><td class="lbl">Closing stock — Work in Progress</td><td class="amt">27,600</td><td></td><td></td></tr>','<tr class="indent"><td class="lbl">Closing stock — Finished Goods <span class="wtag">W9</span></td><td class="amt">49,000</td><td class="amt">104,900</td><td></td></tr>'],
+source:'<strong>Raw Materials €28,300</strong>, <strong>Work in Progress €27,600</strong>, <strong>Finished Goods €49,000</strong> (€58,000 − €9,000 undispatched). Total stock = €104,900.',
+reason:'This is the key visual difference from a sole trader balance sheet: three separate stock lines in current assets. The sum of all three is the total stock figure.',
+watch:'<strong>All three must be shown separately.</strong> Combining them into one line loses marks in the marking scheme. And use W9 for Finished Goods — the closing stock after the undispatched goods adjustment.'},
+{title:'Current Assets — Debtors',
+rows:['<tr class="indent"><td class="lbl">Debtors <span class="wtag">W18</span></td><td class="amt">81,550</td><td></td><td></td></tr>','<tr class="indent"><td class="lbl">− Bad debts provision <span class="wtag">W11</span></td><td class="amt">(3,262)</td><td class="amt">78,288</td><td></td></tr>'],
+source:'<strong>Debtors €81,550</strong> (W18) = TB €76,350 + €10,800 (N2 sale not dispatched) − €5,000 (N8 bankrupt debtor) − €600 (N8 cheque error). <strong>BDP €3,262</strong> = €81,550 × 4%.',
+reason:'Debtors is adjusted for four things in total across two notes: the €10,800 invoice recognition (adds), the €5,000 bankrupt debtor write-off (deducts), and the €600 cheque recording error (deducts). Then the new 4% provision is calculated on the adjusted figure.',
+watch:'<strong>Provision is based on ADJUSTED debtors (€81,550), not TB debtors.</strong> Miss this and the provision is wrong. €81,550 × 4% = €3,262.'},
+{title:'Current Assets — Investment Income Due',
+rows:['<tr class="indent"><td class="lbl">Investment income due <span class="wtag">W19</span></td><td></td><td class="amt">4,700</td><td></td></tr>','<tr class="indent"><td class="lbl"></td><td></td><td class="amt">187,888</td><td></td></tr>'],
+source:'<strong>Investment income due €4,700</strong> (W19) = Total due €7,500 − received €2,800.',
+reason:'6 months of investment interest is owed at year-end (9 months earned, only 3 months received in cash). This sits in current assets until received. Total current assets = 104,900 + 78,288 + 4,700 = <strong>€187,888</strong>.',
+tip:'Investments were acquired 01/04/2021, so the company has owned them for 9 months (Apr–Dec). 9 months of interest is earned, but only 3 months (typical quarterly) has been received.'},
+{title:'Current Liabilities',
+rows:['<tr class="heading"><td colspan="4">Less Creditors: amounts falling due within 1 year</td></tr>','<tr class="indent"><td class="lbl">Bank <span class="wtag">W20</span></td><td class="amt">80,900</td><td></td><td></td></tr>','<tr class="indent"><td class="lbl">Creditors <span class="wtag">W21</span></td><td class="amt">60,000</td><td></td><td></td></tr>','<tr class="indent"><td class="lbl">PAYE</td><td class="amt">1,850</td><td></td><td></td></tr>','<tr class="indent"><td class="lbl">Wages due</td><td class="amt">740</td><td></td><td></td></tr>','<tr class="indent"><td class="lbl">Debenture interest due <span class="wtag">W22</span></td><td class="amt">18,000</td><td class="amt">(161,490)</td><td class="amt">26,398</td></tr>'],
+source:'<strong>Bank €80,900</strong> (W20) — overdraft after reconciliation. <strong>Creditors €60,000</strong> (W21) = TB €61,400 − €1,400 (discount received suspense). <strong>PAYE €1,850</strong> from TB. <strong>Wages due €740</strong> from Note 6. <strong>Debenture interest due €18,000</strong> (W22) = €23,000 − €5,000 paid.',
+reason:'Five current liabilities. Working Capital = Current Assets − Current Liabilities = 187,888 − 161,490 = <strong>€26,398</strong>.',
+watch:'<strong>Bank is in current liabilities because it\'s an OVERDRAFT.</strong> The TB has it on the credit side, and after reconciliation it\'s still an overdraft (€80,900). Don\'t confuse the bank position.'},
+{title:'Financed By — Debentures',
+rows:['<tr class="subtotal"><td class="lbl"></td><td></td><td></td><td class="amt">1,476,452</td></tr>','<tr class="heading"><td colspan="4">Financed By</td></tr>','<tr class="indent"><td class="lbl">8% Debentures <span class="wtag">TB</span></td><td></td><td></td><td class="amt">300,000</td></tr>'],
+source:'<strong>Debentures €300,000</strong> from TB. Total Net Assets so far = 1,200,054 + 250,000 + 26,398 = <strong>€1,476,452</strong>.',
+reason:'Debentures are long-term loans (over 1 year). They appear in the "Financed By" section alongside share capital and reserves, not in current liabilities.',
+tip:'The debenture interest DUE (€18,000) goes in current liabilities because it\'s owed now. The debenture principal (€300,000) is the long-term financing.'},
+{title:'Share Capital',
+rows:['<tr class="heading"><td colspan="4">Share Capital</td></tr>','<tr><td class="lbl"></td><td class="amt"><strong>Authorised</strong></td><td class="amt"><strong>Issued</strong></td><td></td></tr>','<tr class="indent"><td class="lbl">Ordinary shares €1 each <span class="wtag">TB</span></td><td class="amt">1,500,000</td><td class="amt">460,000</td><td></td></tr>','<tr class="indent"><td class="lbl">4% Preference shares €1 each <span class="wtag">TB</span></td><td class="amt">500,000</td><td class="amt">150,000</td><td></td></tr>','<tr class="indent"><td class="lbl"></td><td class="amt"><strong>2,000,000</strong></td><td class="amt"><strong>610,000</strong></td><td></td></tr>'],
+source:'Authorised: 1,500,000 ordinary + 500,000 preference = €2,000,000 (from the question intro). Issued: €460,000 ordinary + €150,000 preference = €610,000 (from TB).',
+reason:'Share capital has two figures: Authorised (the maximum the company CAN issue, for disclosure) and Issued (the actual amount currently issued). Only the Issued figure carries forward to Capital Employed.',
+watch:'<strong>Don\'t use the authorised figure for Capital Employed.</strong> Only the issued share capital (€610,000) counts. The authorised figure is disclosure only — it shows the room the company has to issue more shares.'},
+{title:'Revenue Reserve & Capital Employed',
+rows:['<tr class="indent"><td class="lbl">Revenue Reserve / P&L Balance 31/12/2021</td><td></td><td class="amt">566,452</td><td class="amt">1,176,452</td></tr>','<tr class="total"><td class="lbl">Capital Employed</td><td></td><td></td><td class="amt">1,476,452</td></tr>'],
+source:'<strong>P&L balance €566,452</strong> pulled directly from the TPL (after retained profit + opening P&L balance). Capital Employed = Debentures €300,000 + Issued SC €610,000 + P&L balance €566,452 = <strong>€1,476,452</strong>.',
+reason:'The P&L balance (also called Revenue Reserve) represents the accumulated profits not yet paid as dividends. It\'s owned by the shareholders, so it sits in the "Financed By" section with share capital.',
+watch:'<strong>FINAL CHECK:</strong> Capital Employed €1,476,452 = Total Net Assets €1,476,452 ✓. If these don\'t match, something is wrong — commonly the BDP on adjusted debtors, the store capitalisation, or the bank reconciliation.'},
+{title:'Final Verification',
+rows:[],
+source:'<strong>Total Net Assets = €1,476,452</strong> = <strong>Capital Employed = €1,476,452</strong> ✓',
+reason:'All 22 workings are now placed. Cost of Manufacture: €1,047,886. Net Profit: €524,452. Retained Profit: €496,952. P&L balance 31/12/2021: €566,452.',
+tip:'<strong>If your two totals don\'t match</strong>, the most common causes for Manufacturing questions are: (1) forgot to capitalise the store (Note 7), (2) double-counted the sale of scrap, (3) wrong BDP based on TB debtors instead of adjusted, (4) bank reconciliation gone wrong, (5) debenture interest calculated on wrong balance.'}
 ];
 
 
@@ -880,11 +1052,11 @@ export const WALKTHROUGHS: Walkthrough[] = [
     bsComplete: 'BS Complete ✓ — Capital Employed = €862,635'
   },
   {
-    id: 'co-2024',
-    title: '2024 Company — Yeats Ltd',
+    id: 'co-2023',
+    title: '2023 Company — Yeats Ltd',
     subtitle: '9 notes, 22 workings, 120 marks',
     type: 'company',
-    year: '2024',
+    year: '2023',
     tplTabLabel: 'Trading P&L',
     introHtml: CO_INTRO,
     notes: CO_NOTES,
@@ -892,15 +1064,15 @@ export const WALKTHROUGHS: Walkthrough[] = [
     bsSteps: CO_BS_STEPS,
     tplMarks: '70 marks',
     bsMarks: '50 marks',
-    tplComplete: 'TPL Complete ✓ — Net Profit: €286,600 · Closing P&L: €304,000',
-    bsComplete: 'BS Complete ✓ — Shareholders\' Funds = €923,672'
+    tplComplete: 'TPL Complete ✓ — Net Profit: €108,292 · Closing P&L: €108,092',
+    bsComplete: 'BS Complete ✓ — Shareholders\' Funds = €961,922'
   },
   {
-    id: 'mfg-2022',
-    title: '2022 Manufacturing — McGuigan Ltd',
-    subtitle: '9 notes, 22 workings, 120 marks',
+    id: 'mfg-2021',
+    title: '2021 Manufacturing — McGuigan Ltd',
+    subtitle: '3 notes, 22 workings, 120 marks',
     type: 'manufacturing',
-    year: '2022',
+    year: '2021',
     tplTabLabel: 'Mfg + TPL',
     introHtml: MFG_INTRO,
     notes: MFG_NOTES,
@@ -908,7 +1080,7 @@ export const WALKTHROUGHS: Walkthrough[] = [
     bsSteps: MFG_BS_STEPS,
     tplMarks: '70 marks',
     bsMarks: '50 marks',
-    tplComplete: 'Complete ✓ — Cost of Manufacture: €432,826 · Net Profit: €222,871',
-    bsComplete: 'BS Complete ✓ — Shareholders\' Funds = €846,771'
+    tplComplete: 'Complete ✓ — Cost of Manufacture: €1,047,886 · Net Profit: €515,102',
+    bsComplete: 'BS Complete ✓ — Shareholders\' Funds = €1,476,452'
   }
 ];
