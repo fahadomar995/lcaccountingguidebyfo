@@ -2,8 +2,7 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, ChevronDown, ChevronRight, ChevronUp, BookOpen, Wrench, FileText, Columns } from "lucide-react";
-import { TAccountPanel } from "@/components/TAccount";
+import { ArrowLeft, ChevronDown, ChevronRight, ChevronLeft, ChevronUp, BookOpen, Wrench, FileText, Columns, AlertTriangle, Lightbulb, Eye } from "lucide-react";
 import type { Walkthrough, WalkthroughNote, BuilderStep } from "@/data/walkthroughData";
 
 const TYPE_COLORS: Record<string, string> = {
@@ -125,17 +124,17 @@ function NotesTab({ notes, color }: { notes: WalkthroughNote[]; color: string })
                 <div className="bg-muted/50 rounded-lg p-3 text-sm leading-relaxed" dangerouslySetInnerHTML={{ __html: note.noteText }} />
 
                 <div>
-                  <h5 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">📋 What to look for in the TB</h5>
+                  <h5 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1.5"><Eye className="h-3.5 w-3.5" /> What to look for in the TB</h5>
                   <div className="text-sm leading-relaxed prose prose-sm max-w-none dark:prose-invert overflow-x-auto" dangerouslySetInnerHTML={{ __html: note.tbLook }} />
                 </div>
 
                 <div>
-                  <h5 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">🎯 What to do</h5>
+                  <h5 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1.5"><ClipboardList className="h-3.5 w-3.5" /> What to do</h5>
                   <div className="text-sm leading-relaxed prose prose-sm max-w-none dark:prose-invert" dangerouslySetInnerHTML={{ __html: note.task }} />
                 </div>
 
                 <div>
-                  <h5 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">🔧 Workings</h5>
+                  <h5 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1.5"><Wrench className="h-3.5 w-3.5" /> Workings</h5>
                   <div className="space-y-3">
                     {note.workings.map((w, i) => (
                       <div key={i} className="bg-card border border-border rounded-lg p-3">
@@ -147,15 +146,8 @@ function NotesTab({ notes, color }: { notes: WalkthroughNote[]; color: string })
                   </div>
                 </div>
 
-                {note.tAccountDefs && note.tAccountDefs.length > 0 && (
-                  <div>
-                    <h5 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">📊 T-Accounts</h5>
-                    <TAccountPanel accounts={note.tAccountDefs} currentStep={0} revealedInStep={999} />
-                  </div>
-                )}
-
                 <div>
-                  <h5 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">📍 Where each figure goes</h5>
+                  <h5 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1.5"><FileText className="h-3.5 w-3.5" /> Where each figure goes</h5>
                   <div className="space-y-1.5">
                     {note.destinations.map((d, i) => (
                       <div key={i} className="flex items-start gap-2 text-xs">
@@ -169,10 +161,16 @@ function NotesTab({ notes, color }: { notes: WalkthroughNote[]; color: string })
                 </div>
 
                 {note.tip && (
-                  <div className="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg p-3 text-xs leading-relaxed" dangerouslySetInnerHTML={{ __html: note.tip }} />
+                  <div className="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg p-3 text-xs leading-relaxed flex gap-2">
+                    <Lightbulb className="h-3.5 w-3.5 text-amber-600 shrink-0 mt-0.5" />
+                    <div dangerouslySetInnerHTML={{ __html: note.tip }} />
+                  </div>
                 )}
                 {note.watchOut && (
-                  <div className="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800 rounded-lg p-3 text-xs leading-relaxed" dangerouslySetInnerHTML={{ __html: note.watchOut }} />
+                  <div className="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800 rounded-lg p-3 text-xs leading-relaxed flex gap-2">
+                    <AlertTriangle className="h-3.5 w-3.5 text-red-600 shrink-0 mt-0.5" />
+                    <div dangerouslySetInnerHTML={{ __html: note.watchOut }} />
+                  </div>
                 )}
               </CardContent>
             )}
@@ -183,10 +181,17 @@ function NotesTab({ notes, color }: { notes: WalkthroughNote[]; color: string })
   );
 }
 
-function BuilderTab({ steps, marks, complete, color, label }: { steps: BuilderStep[]; marks: string; complete: string; color: string; label: string }) {
-  const [revealed, setRevealed] = useState(0);
+// Missing import used inline
+import { ClipboardList } from "lucide-react";
 
-  const pct = steps.length === 0 ? 100 : (revealed / steps.length) * 100;
+function BuilderTab({ steps, marks, complete, color, label }: { steps: BuilderStep[]; marks: string; complete: string; color: string; label: string }) {
+  const [currentStep, setCurrentStep] = useState(0);
+
+  if (steps.length === 0) return null;
+
+  const step = steps[currentStep];
+  const pct = ((currentStep + 1) / steps.length) * 100;
+  const isLast = currentStep === steps.length - 1;
 
   return (
     <div className="space-y-4">
@@ -195,46 +200,90 @@ function BuilderTab({ steps, marks, complete, color, label }: { steps: BuilderSt
         <Badge variant="outline" className="text-xs font-mono" style={{ color, borderColor: color + '44' }}>{marks}</Badge>
       </div>
 
-      <div className="h-1 bg-muted rounded-full overflow-hidden">
-        <div className="h-full rounded-full transition-all duration-300" style={{ width: `${pct}%`, background: color }} />
+      {/* Progress bar */}
+      <div className="flex items-center gap-3 mb-1">
+        <div className="h-1.5 flex-1 bg-muted rounded-full overflow-hidden">
+          <div className="h-full rounded-full transition-all duration-300" style={{ width: `${pct}%`, background: color }} />
+        </div>
+        <span className="text-[10px] font-mono text-muted-foreground whitespace-nowrap">Step {currentStep + 1} / {steps.length}</span>
       </div>
 
-      {revealed > 0 && (
-        <Card className="border-border overflow-hidden">
+      {/* Two-column layout: document + reasoning */}
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+        {/* LEFT: Building document */}
+        <Card className="lg:col-span-3 border-border overflow-hidden">
           <CardContent className="p-0 overflow-x-auto">
             <table className="wt-builder-table w-full text-sm">
-              {steps.slice(0, revealed).map((step, i) => (
-                <tbody key={i} dangerouslySetInnerHTML={{ __html: step.rows.join('') }} />
+              {steps.slice(0, currentStep + 1).map((s, i) => (
+                <tbody key={i} className={i === currentStep ? 'wt-current-step' : ''} dangerouslySetInnerHTML={{ __html: s.rows.join('') }} />
               ))}
             </table>
           </CardContent>
         </Card>
-      )}
 
-      {revealed < steps.length && (
-        <Card className="border-border">
-          <CardContent className="p-4">
-            <div className="font-display text-sm font-bold mb-2" style={{ color }}>
-              Step {revealed + 1}: {steps[revealed].title}
+        {/* RIGHT: Reasoning card */}
+        <div className="lg:col-span-2 space-y-3">
+          <Card className="border-border">
+            <CardContent className="p-4 space-y-3">
+              <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Step {currentStep + 1} of {steps.length}</div>
+              <div className="font-display text-sm font-bold" style={{ color }}>{step.title}</div>
+
+              {/* Source */}
+              <div className="text-xs leading-relaxed">
+                <span className="font-bold text-muted-foreground">Source: </span>
+                <span dangerouslySetInnerHTML={{ __html: step.source }} />
+              </div>
+
+              {/* Reason */}
+              {step.reason && (
+                <div className="text-xs leading-relaxed">
+                  <span className="font-bold text-muted-foreground">Why this section: </span>
+                  <span dangerouslySetInnerHTML={{ __html: step.reason }} />
+                </div>
+              )}
+
+              {/* Watch out */}
+              {step.watch && (
+                <div className="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800 rounded-lg p-2.5 text-xs leading-relaxed flex gap-2">
+                  <AlertTriangle className="h-3.5 w-3.5 text-red-600 shrink-0 mt-0.5" />
+                  <div dangerouslySetInnerHTML={{ __html: step.watch }} />
+                </div>
+              )}
+
+              {/* Tip */}
+              {step.tip && (
+                <div className="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg p-2.5 text-xs leading-relaxed flex gap-2">
+                  <Lightbulb className="h-3.5 w-3.5 text-amber-600 shrink-0 mt-0.5" />
+                  <div dangerouslySetInnerHTML={{ __html: step.tip }} />
+                </div>
+              )}
+
+              {/* Navigation */}
+              <div className="flex items-center gap-2 pt-2">
+                <Button variant="outline" size="sm" className="text-xs gap-1 h-7" disabled={currentStep === 0} onClick={() => setCurrentStep(currentStep - 1)}>
+                  <ChevronLeft className="h-3 w-3" /> Prev
+                </Button>
+                {!isLast ? (
+                  <Button size="sm" className="text-xs gap-1 h-7 flex-1" style={{ background: color }} onClick={() => setCurrentStep(currentStep + 1)}>
+                    Next Line <ChevronRight className="h-3 w-3" />
+                  </Button>
+                ) : (
+                  <Button variant="outline" size="sm" className="text-xs gap-1 h-7 flex-1" onClick={() => setCurrentStep(0)}>
+                    Reset
+                  </Button>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Completion banner */}
+          {isLast && (
+            <div className="text-center py-3 rounded-lg border" style={{ borderColor: color + '44', background: color + '0a' }}>
+              <div className="text-sm font-bold" style={{ color }}>{complete}</div>
             </div>
-            <div className="text-xs text-muted-foreground leading-relaxed mb-3" dangerouslySetInnerHTML={{ __html: steps[revealed].source }} />
-            {steps[revealed].reason && <div className="text-xs leading-relaxed mb-2" dangerouslySetInnerHTML={{ __html: steps[revealed].reason }} />}
-            {steps[revealed].tip && (
-              <div className="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg p-2 text-xs leading-relaxed mb-2" dangerouslySetInnerHTML={{ __html: steps[revealed].tip }} />
-            )}
-            <Button size="sm" className="text-xs gap-1 mt-1" style={{ background: color }} onClick={() => setRevealed(revealed + 1)}>
-              Add to {label} <ChevronRight className="h-3 w-3" />
-            </Button>
-          </CardContent>
-        </Card>
-      )}
-
-      {revealed >= steps.length && steps.length > 0 && (
-        <div className="text-center py-4">
-          <div className="text-sm font-bold" style={{ color }}>{complete}</div>
-          <Button variant="outline" size="sm" className="text-xs mt-2" onClick={() => setRevealed(0)}>Reset</Button>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 }
