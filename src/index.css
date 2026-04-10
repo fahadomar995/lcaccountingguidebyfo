@@ -651,3 +651,4 @@ table.acct td.l.blank {
 .wt-builder-table .subtotal td { font-weight: 700; border-top: 1px solid hsl(var(--foreground) / 0.3); }
 .wt-builder-table .total td { font-weight: 700; border-top: 2px solid hsl(var(--foreground)); border-bottom: 3px double hsl(var(--foreground)); }
 .wt-builder-table .wtag { font-size: 9px; font-weight: 700; padding: 1px 5px; border-radius: 3px; background: hsl(var(--primary) / 0.12); color: hsl(var(--primary)); margin-left: 4px; }
+.wt-current-step td { background: hsl(var(--primary) / 0.06); }
