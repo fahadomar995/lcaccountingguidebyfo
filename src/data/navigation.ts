@@ -42,7 +42,6 @@ export const NAV_SECTIONS: NavSection[] = [
     label: "Workings",
     items: [
       { title: "Q1 Guide", url: "/q1-guide", icon: ClipboardList },
-      { title: "Q1 Walkthroughs", url: "/walkthroughs", icon: GraduationCap },
       { title: "Q1 Workings", url: "/q1-workings", icon: PenTool },
       { title: "S2 Workings", url: "/s2-workings", icon: Grid3X3 },
       { title: "Q8 Costing", url: "/q8-costing", icon: Factory },
