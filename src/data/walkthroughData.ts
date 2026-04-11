@@ -368,8 +368,8 @@ steps:[
    trap:'<strong>When a supplier accepts equipment for a debt:</strong> the "proceeds" equal the DEBT amount (€4,600), not the NBV (€4,300). Profit/loss is proceeds − NBV the normal way.'}
 ]}
 ];
-watchOut:'<strong>Profit vs loss on disposal:</strong> If the supplier accepts the equipment for MORE than its NBV (€4,600 > €4,300), there\'s a small profit. If LESS, there\'d be a loss. The €300 here is profit because the supplier valued the equipment higher than the books did.'}
-];
+
+
 
 const ST_TPL_STEPS: BuilderStep[] = [
 {title:'Sales',
