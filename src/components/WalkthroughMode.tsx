@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, ChevronDown, ChevronRight, ChevronLeft, ChevronUp, BookOpen, Wrench, FileText, Columns, AlertTriangle, Lightbulb, Eye } from "lucide-react";
-import type { Walkthrough, WalkthroughNote, BuilderStep } from "@/data/walkthroughData";
+import { ArrowLeft, ChevronDown, ChevronRight, ChevronLeft, ChevronUp, BookOpen, Wrench, FileText, Columns, AlertTriangle, Lightbulb, Eye, ClipboardList } from "lucide-react";
+import type { Walkthrough, NoteStep, NoteStepAccount } from "@/data/walkthroughData";
 
 const TYPE_COLORS: Record<string, string> = {
   'sole-trader': 'hsl(142, 72%, 29%)',
@@ -101,13 +101,123 @@ function IntroTab({ introHtml }: { introHtml: string }) {
   return <div className="wt-intro-content" dangerouslySetInnerHTML={{ __html: introHtml }} />;
 }
 
-function NotesTab({ notes, color }: { notes: WalkthroughNote[]; color: string }) {
+// ── EXPLANATION TYPE STYLES ──
+const EXPL_STYLES: Record<string, string> = {
+  info: 'bg-blue-50 dark:bg-blue-950/20 border-l-[3px] border-l-blue-500',
+  warning: 'bg-amber-50 dark:bg-amber-950/20 border-l-[3px] border-l-amber-500',
+  danger: 'bg-red-50 dark:bg-red-950/20 border-l-[3px] border-l-red-500',
+  success: 'bg-green-50 dark:bg-green-950/20 border-l-[3px] border-l-green-500',
+};
+
+const DEST_STYLES: Record<string, { bg: string; label: string }> = {
+  trading: { bg: 'bg-green-50 dark:bg-green-950/20', label: 'bg-green-600' },
+  pnl: { bg: 'bg-blue-50 dark:bg-blue-950/20', label: 'bg-blue-600' },
+  bs: { bg: 'bg-amber-50 dark:bg-amber-950/20', label: 'bg-amber-600' },
+};
+
+const HL_COLORS: Record<string, string> = {
+  g: 'text-green-600 dark:text-green-400',
+  r: 'text-red-600 dark:text-red-400',
+  a: 'text-amber-600 dark:text-amber-400',
+  b: 'text-blue-600 dark:text-blue-400',
+};
+
+// ── T-ACCOUNT RENDERER ──
+function WkTAccount({ acct }: { acct: NoteStepAccount }) {
+  return (
+    <div className="border border-border rounded-lg overflow-hidden bg-card">
+      <div className="font-mono text-[11px] font-bold text-center py-1.5 px-3 bg-muted border-b border-border tracking-wide">
+        {acct.n}
+      </div>
+      <div className="grid grid-cols-2 min-h-[36px]">
+        <div className="p-2 border-r border-border">
+          <div className="text-[8px] font-bold uppercase tracking-widest text-muted-foreground mb-1">Debit</div>
+          {(acct.d || []).map((e, i) => (
+            <div key={i} className={`flex justify-between items-baseline py-0.5 text-[11px] gap-1.5 ${e.tot ? 'border-t border-border pt-1 mt-1' : ''} ${e.h ? HL_COLORS[e.h] || '' : ''}`}>
+              <span className={`flex-1 ${e.tot ? 'font-bold' : 'font-normal'}`}>{e.x || ''}</span>
+              <span className={`font-mono ${e.tot ? 'font-bold' : 'font-semibold'} text-right ml-1`}>{e.v || ''}</span>
+            </div>
+          ))}
+        </div>
+        <div className="p-2">
+          <div className="text-[8px] font-bold uppercase tracking-widest text-muted-foreground mb-1">Credit</div>
+          {(acct.c || []).map((e, i) => (
+            <div key={i} className={`flex justify-between items-baseline py-0.5 text-[11px] gap-1.5 ${e.tot ? 'border-t border-border pt-1 mt-1' : ''} ${e.h ? HL_COLORS[e.h] || '' : ''}`}>
+              <span className={`flex-1 ${e.tot ? 'font-bold' : 'font-normal'}`}>{e.x || ''}</span>
+              <span className={`font-mono ${e.tot ? 'font-bold' : 'font-semibold'} text-right ml-1`}>{e.v || ''}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── STEP RENDERER ──
+function StepContent({ step }: { step: NoteStep }) {
+  return (
+    <div className="space-y-3">
+      {/* Explanation */}
+      {step.expl && (
+        <div className={`rounded-lg p-3 text-[13px] leading-relaxed ${EXPL_STYLES[step.expl.t] || EXPL_STYLES.info}`}>
+          <span dangerouslySetInnerHTML={{ __html: step.expl.tx }} />
+        </div>
+      )}
+
+      {/* T-Accounts */}
+      {step.accts && step.accts.length > 0 && (
+        <div className={`grid gap-3 ${step.accts.length >= 2 ? 'sm:grid-cols-2' : 'grid-cols-1'}`}>
+          {step.accts.map((a, i) => <WkTAccount key={i} acct={a} />)}
+        </div>
+      )}
+
+      {/* Destinations */}
+      {step.dests && step.dests.length > 0 && (
+        <div className="space-y-1.5">
+          {step.dests.map((d, i) => {
+            const ds = DEST_STYLES[d.t] || DEST_STYLES.pnl;
+            return (
+              <div key={i} className={`flex items-center gap-2 p-2.5 rounded-lg text-xs flex-wrap ${ds.bg}`}>
+                <span className={`text-[8px] font-bold uppercase tracking-widest px-2 py-0.5 rounded text-white whitespace-nowrap ${ds.label}`}>{d.l}</span>
+                <span className="font-medium flex-1 min-w-[140px]">{d.x}</span>
+                <span className="font-mono font-bold ml-auto">€{d.v}</span>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* N-Workings */}
+      {step.nw && step.nw.length > 0 && (
+        <div className="bg-muted border border-border rounded-lg p-3 font-mono text-[11px] leading-relaxed space-y-0.5">
+          <div className="text-[10px] font-bold uppercase tracking-widest text-primary mb-1 font-sans">N-Workings</div>
+          {step.nw.map((line, i) => <div key={i}>{line}</div>)}
+        </div>
+      )}
+
+      {/* Trap */}
+      {step.trap && (
+        <div className="bg-red-50 dark:bg-red-950/20 border-l-[3px] border-l-red-500 rounded-lg p-3 text-xs leading-relaxed">
+          <span dangerouslySetInnerHTML={{ __html: step.trap }} />
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── NOTES TAB ──
+function NotesTab({ notes, color }: { notes: import("@/data/walkthroughData").WalkthroughNote[]; color: string }) {
   const [expanded, setExpanded] = useState<number | null>(null);
+  const [stepIndex, setStepIndex] = useState<Record<number, number>>({});
 
   return (
     <div className="space-y-3">
       {notes.map(note => {
         const isOpen = expanded === note.num;
+        const curStep = stepIndex[note.num] || 0;
+        const totalSteps = note.steps?.length || 0;
+        const pct = totalSteps > 0 ? Math.round(((curStep + 1) / totalSteps) * 100) : 0;
+
         return (
           <Card key={note.num} className="border-border overflow-hidden">
             <button className="w-full text-left px-5 py-3 flex items-center gap-3 hover:bg-muted/50 transition-colors" onClick={() => setExpanded(isOpen ? null : note.num)}>
@@ -121,52 +231,101 @@ function NotesTab({ notes, color }: { notes: WalkthroughNote[]; color: string })
 
             {isOpen && (
               <CardContent className="px-5 pb-5 pt-0 space-y-4">
-                <div className="bg-muted/50 rounded-lg p-3 text-sm leading-relaxed" dangerouslySetInnerHTML={{ __html: note.noteText }} />
-
+                {/* Lead-in sections */}
                 <div>
-                  <h5 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1.5"><Eye className="h-3.5 w-3.5" /> What to look for in the TB</h5>
-                  <div className="text-sm leading-relaxed prose prose-sm max-w-none dark:prose-invert overflow-x-auto" dangerouslySetInnerHTML={{ __html: note.tbLook }} />
+                  <h5 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                    <span className="w-5 h-5 rounded flex items-center justify-center text-[10px] bg-gray-500 text-white font-bold">N</span>
+                    The note (from the exam paper)
+                  </h5>
+                  <div className="bg-muted/50 rounded-lg p-3 text-sm leading-relaxed italic" dangerouslySetInnerHTML={{ __html: note.noteText }} />
                 </div>
 
                 <div>
-                  <h5 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1.5"><ClipboardList className="h-3.5 w-3.5" /> What to do</h5>
-                  <div className="text-sm leading-relaxed prose prose-sm max-w-none dark:prose-invert" dangerouslySetInnerHTML={{ __html: note.task }} />
+                  <h5 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                    <Eye className="h-3.5 w-3.5" /> What to look for in the TB
+                  </h5>
+                  <div className="text-sm leading-relaxed prose prose-sm max-w-none dark:prose-invert overflow-x-auto wt-tb-look" dangerouslySetInnerHTML={{ __html: note.tbLook }} />
                 </div>
 
                 <div>
-                  <h5 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1.5"><Wrench className="h-3.5 w-3.5" /> Workings</h5>
-                  <div className="space-y-3">
-                    {note.workings.map((w, i) => (
-                      <div key={i} className="bg-card border border-border rounded-lg p-3">
-                        <div className="font-mono text-xs font-bold mb-2" style={{ color }}>{w.title}</div>
-                        {w.content && <div className="text-sm leading-relaxed" dangerouslySetInnerHTML={{ __html: w.content }} />}
-                        {w.below && <div className="text-sm leading-relaxed mt-2" dangerouslySetInnerHTML={{ __html: w.below }} />}
+                  <h5 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                    <ClipboardList className="h-3.5 w-3.5" /> What to do
+                  </h5>
+                  <div className="text-sm leading-relaxed prose prose-sm max-w-none dark:prose-invert wt-task-box" dangerouslySetInnerHTML={{ __html: note.task }} />
+                </div>
+
+                {/* Step-based T-account engine */}
+                {totalSteps > 0 && (
+                  <div>
+                    <h5 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                      <Wrench className="h-3.5 w-3.5" /> Step-by-step T-account working
+                    </h5>
+
+                    <StepContent step={note.steps![curStep]} />
+
+                    {/* Stepper nav */}
+                    <div className="flex items-center gap-3 mt-4 pt-3 border-t border-border flex-wrap">
+                      <div className="flex gap-1.5">
+                        <Button variant="outline" size="sm" className="text-xs h-7 gap-1" disabled={curStep === 0}
+                          onClick={() => setStepIndex(prev => ({ ...prev, [note.num]: curStep - 1 }))}>
+                          <ChevronLeft className="h-3 w-3" /> Back
+                        </Button>
+                        <Button size="sm" className="text-xs h-7 gap-1" style={{ background: color }}
+                          disabled={curStep >= totalSteps - 1}
+                          onClick={() => setStepIndex(prev => ({ ...prev, [note.num]: curStep + 1 }))}>
+                          Next Step <ChevronRight className="h-3 w-3" />
+                        </Button>
                       </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <h5 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1.5"><FileText className="h-3.5 w-3.5" /> Where each figure goes</h5>
-                  <div className="space-y-1.5">
-                    {note.destinations.map((d, i) => (
-                      <div key={i} className="flex items-start gap-2 text-xs">
-                        <span className="font-bold shrink-0 mt-0.5" style={{ color }}>{d.arrow}</span>
-                        <span className="font-bold">{d.name}</span>
-                        <span className="font-mono font-bold">{d.amt}</span>
-                        <span className="text-muted-foreground">→ {d.where}</span>
+                      <span className="text-[10px] font-mono text-muted-foreground whitespace-nowrap">
+                        Step {curStep + 1} / {totalSteps}
+                      </span>
+                      <div className="flex-1 h-1 bg-muted rounded-full overflow-hidden min-w-[60px]">
+                        <div className="h-full rounded-full transition-all duration-300" style={{ width: `${pct}%`, background: color }} />
                       </div>
-                    ))}
+                    </div>
                   </div>
-                </div>
+                )}
 
-                {note.tip && (
+                {/* Legacy workings fallback (if no steps) */}
+                {totalSteps === 0 && note.workings && note.workings.length > 0 && (
+                  <div>
+                    <h5 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1.5"><Wrench className="h-3.5 w-3.5" /> Workings</h5>
+                    <div className="space-y-3">
+                      {note.workings.map((w, i) => (
+                        <div key={i} className="bg-card border border-border rounded-lg p-3">
+                          <div className="font-mono text-xs font-bold mb-2" style={{ color }}>{w.title}</div>
+                          {w.content && <div className="text-sm leading-relaxed" dangerouslySetInnerHTML={{ __html: w.content }} />}
+                          {w.below && <div className="text-sm leading-relaxed mt-2" dangerouslySetInnerHTML={{ __html: w.below }} />}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Destinations (legacy, shown if no steps) */}
+                {totalSteps === 0 && note.destinations && note.destinations.length > 0 && (
+                  <div>
+                    <h5 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1.5"><FileText className="h-3.5 w-3.5" /> Where each figure goes</h5>
+                    <div className="space-y-1.5">
+                      {note.destinations.map((d, i) => (
+                        <div key={i} className="flex items-start gap-2 text-xs">
+                          <span className="font-bold shrink-0 mt-0.5" style={{ color }}>{d.arrow}</span>
+                          <span className="font-bold">{d.name}</span>
+                          <span className="font-mono font-bold">{d.amt}</span>
+                          <span className="text-muted-foreground">→ {d.where}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {totalSteps === 0 && note.tip && (
                   <div className="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg p-3 text-xs leading-relaxed flex gap-2">
                     <Lightbulb className="h-3.5 w-3.5 text-amber-600 shrink-0 mt-0.5" />
                     <div dangerouslySetInnerHTML={{ __html: note.tip }} />
                   </div>
                 )}
-                {note.watchOut && (
+                {totalSteps === 0 && note.watchOut && (
                   <div className="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800 rounded-lg p-3 text-xs leading-relaxed flex gap-2">
                     <AlertTriangle className="h-3.5 w-3.5 text-red-600 shrink-0 mt-0.5" />
                     <div dangerouslySetInnerHTML={{ __html: note.watchOut }} />
@@ -181,10 +340,8 @@ function NotesTab({ notes, color }: { notes: WalkthroughNote[]; color: string })
   );
 }
 
-// Missing import used inline
-import { ClipboardList } from "lucide-react";
-
-function BuilderTab({ steps, marks, complete, color, label }: { steps: BuilderStep[]; marks: string; complete: string; color: string; label: string }) {
+// ── BUILDER TAB (TPL / BS) ──
+function BuilderTab({ steps, marks, complete, color, label }: { steps: import("@/data/walkthroughData").BuilderStep[]; marks: string; complete: string; color: string; label: string }) {
   const [currentStep, setCurrentStep] = useState(0);
 
   if (steps.length === 0) return null;
@@ -200,7 +357,6 @@ function BuilderTab({ steps, marks, complete, color, label }: { steps: BuilderSt
         <Badge variant="outline" className="text-xs font-mono" style={{ color, borderColor: color + '44' }}>{marks}</Badge>
       </div>
 
-      {/* Progress bar */}
       <div className="flex items-center gap-3 mb-1">
         <div className="h-1.5 flex-1 bg-muted rounded-full overflow-hidden">
           <div className="h-full rounded-full transition-all duration-300" style={{ width: `${pct}%`, background: color }} />
@@ -208,9 +364,7 @@ function BuilderTab({ steps, marks, complete, color, label }: { steps: BuilderSt
         <span className="text-[10px] font-mono text-muted-foreground whitespace-nowrap">Step {currentStep + 1} / {steps.length}</span>
       </div>
 
-      {/* Two-column layout: document + reasoning */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
-        {/* LEFT: Building document */}
         <Card className="lg:col-span-3 border-border overflow-hidden">
           <CardContent className="p-0 overflow-x-auto">
             <table className="wt-builder-table w-full text-sm">
@@ -221,20 +375,17 @@ function BuilderTab({ steps, marks, complete, color, label }: { steps: BuilderSt
           </CardContent>
         </Card>
 
-        {/* RIGHT: Reasoning card */}
         <div className="lg:col-span-2 space-y-3">
           <Card className="border-border">
             <CardContent className="p-4 space-y-3">
               <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Step {currentStep + 1} of {steps.length}</div>
               <div className="font-display text-sm font-bold" style={{ color }}>{step.title}</div>
 
-              {/* Source */}
               <div className="text-xs leading-relaxed">
                 <span className="font-bold text-muted-foreground">Source: </span>
                 <span dangerouslySetInnerHTML={{ __html: step.source }} />
               </div>
 
-              {/* Reason */}
               {step.reason && (
                 <div className="text-xs leading-relaxed">
                   <span className="font-bold text-muted-foreground">Why this section: </span>
@@ -242,7 +393,6 @@ function BuilderTab({ steps, marks, complete, color, label }: { steps: BuilderSt
                 </div>
               )}
 
-              {/* Watch out */}
               {step.watch && (
                 <div className="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800 rounded-lg p-2.5 text-xs leading-relaxed flex gap-2">
                   <AlertTriangle className="h-3.5 w-3.5 text-red-600 shrink-0 mt-0.5" />
@@ -250,7 +400,6 @@ function BuilderTab({ steps, marks, complete, color, label }: { steps: BuilderSt
                 </div>
               )}
 
-              {/* Tip */}
               {step.tip && (
                 <div className="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg p-2.5 text-xs leading-relaxed flex gap-2">
                   <Lightbulb className="h-3.5 w-3.5 text-amber-600 shrink-0 mt-0.5" />
@@ -258,7 +407,6 @@ function BuilderTab({ steps, marks, complete, color, label }: { steps: BuilderSt
                 </div>
               )}
 
-              {/* Navigation */}
               <div className="flex items-center gap-2 pt-2">
                 <Button variant="outline" size="sm" className="text-xs gap-1 h-7" disabled={currentStep === 0} onClick={() => setCurrentStep(currentStep - 1)}>
                   <ChevronLeft className="h-3 w-3" /> Prev
@@ -276,7 +424,6 @@ function BuilderTab({ steps, marks, complete, color, label }: { steps: BuilderSt
             </CardContent>
           </Card>
 
-          {/* Completion banner */}
           {isLast && (
             <div className="text-center py-3 rounded-lg border" style={{ borderColor: color + '44', background: color + '0a' }}>
               <div className="text-sm font-bold" style={{ color }}>{complete}</div>
