@@ -5,6 +5,36 @@
 
 import type { TAccountDef } from "@/components/TAccount";
 
+// ── Step-based T-account engine types ──
+export interface NoteStepEntry {
+  x: string;       // description
+  v: string;       // value/amount
+  h?: 'g' | 'r' | 'a' | 'b';  // highlight color
+  tot?: number;     // 1 = total row (border-top)
+}
+
+export interface NoteStepAccount {
+  n: string;        // account name
+  d: NoteStepEntry[];  // debit entries
+  c: NoteStepEntry[];  // credit entries
+  s: 'd' | 'c' | 'a';  // show side: d=debit only, c=credit only, a=both
+}
+
+export interface NoteStepDest {
+  t: 'trading' | 'pnl' | 'bs';  // destination type
+  l: string;       // label (Trading, P&L, Bal Sheet)
+  x: string;       // description
+  v: string;       // amount
+}
+
+export interface NoteStep {
+  expl?: { t: 'info' | 'warning' | 'danger' | 'success'; tx: string };
+  accts?: NoteStepAccount[];
+  dests?: NoteStepDest[];
+  nw?: string[];
+  trap?: string;
+}
+
 export interface WalkthroughNote {
   num: number;
   marks: number;
@@ -12,8 +42,10 @@ export interface WalkthroughNote {
   noteText: string;
   tbLook: string;
   task: string;
-  workings: WalkthroughWorking[];
-  destinations: WalkthroughDestination[];
+  steps?: NoteStep[];
+  // Legacy fields (kept for backwards compat)
+  workings?: WalkthroughWorking[];
+  destinations?: WalkthroughDestination[];
   tip?: string;
   watchOut?: string;
   tAccountDefs?: TAccountDef[];
