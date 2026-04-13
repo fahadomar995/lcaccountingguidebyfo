@@ -137,24 +137,22 @@ export default function TheoryLearnMode({ onReadingStateChange }: Props) {
                         className="border-border cursor-pointer hover:border-primary/40 transition-all group"
                         onClick={() => openChapter(ch.id)}
                       >
-                        <CardContent className="p-4">
-                          <div className="flex items-start gap-3">
-                            <span className="w-7 h-7 rounded-full bg-primary/10 text-primary text-[10px] font-mono font-bold flex items-center justify-center shrink-0">
+                        <CardContent className="p-3">
+                          <div className="flex items-start gap-2">
+                            <span className="w-6 h-6 rounded-full bg-primary/10 text-primary text-[10px] font-mono font-bold flex items-center justify-center shrink-0 mt-0.5">
                               {String(ch.id).padStart(2, '0')}
                             </span>
                             <div className="flex-1 min-w-0">
-                              <h4 className="text-xs font-bold group-hover:text-primary transition-colors font-display">{ch.title}</h4>
-                              <p className="text-[10px] text-muted-foreground font-light leading-relaxed mt-0.5 line-clamp-2">{ch.description}</p>
-                              <div className="flex items-center gap-2 mt-2">
-                                <BookOpen className="h-3 w-3 text-muted-foreground" />
-                                <span className="text-[10px] text-muted-foreground">{ch.sections.length} sections</span>
+                              <h4 className="text-xs font-bold group-hover:text-primary transition-colors font-display leading-tight">{ch.title}</h4>
+                              <div className="flex items-center gap-2 mt-1.5">
+                                <span className="text-[10px] text-muted-foreground">{ch.sections.length}s</span>
                                 {prog.pct > 0 && (
-                                  <Badge variant={prog.pct >= 100 ? "default" : "outline"} className="text-[9px] ml-auto">
-                                    {prog.pct >= 100 ? 'Complete' : `${prog.pct}%`}
+                                  <Badge variant={prog.pct >= 100 ? "default" : "outline"} className="text-[9px] px-1 py-0">
+                                    {prog.pct >= 100 ? '✓' : `${prog.pct}%`}
                                   </Badge>
                                 )}
                               </div>
-                              <div className="h-1 bg-muted rounded-full mt-2 overflow-hidden">
+                              <div className="h-1 bg-muted rounded-full mt-1.5 overflow-hidden">
                                 <div className="h-full bg-primary rounded-full transition-all" style={{ width: `${prog.pct}%` }} />
                               </div>
                             </div>
