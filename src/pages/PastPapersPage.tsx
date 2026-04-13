@@ -3,9 +3,13 @@ import { FileText, Download, ExternalLink } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { PAST_PAPERS, type PaperEntry } from "@/data/pastPapers";
+import { PAST_PAPERS, type PaperEntry, type PaperDocument } from "@/data/pastPapers";
 
 type FilterType = "all" | "sec" | "mock";
+
+function getDocHref(doc: PaperDocument) {
+  return doc.externalUrl ?? `/papers/${doc.filename}`;
+}
 
 export default function PastPapersPage() {
   const [typeFilter, setTypeFilter] = useState<FilterType>("all");
@@ -87,42 +91,50 @@ export default function PastPapersPage() {
       )}
 
       <p className="text-[11px] text-muted-foreground mt-8 font-body">
-        SEC papers sourced from examinations.ie. Mock papers provided for study purposes only.
+        SEC papers linked from examinations.ie. Mock papers provided for study purposes only.
       </p>
     </div>
   );
 }
 
 function PaperCard({ paper }: { paper: PaperEntry }) {
+  const displayTitle = `${paper.year} ${paper.source}`;
+  const isExternal = paper.documents.some((d) => d.externalUrl);
+
   return (
     <Card className="hover:shadow-md transition-shadow">
       <CardContent className="p-4 flex flex-col gap-3">
         <div className="flex items-baseline justify-between">
-          <span className="font-display text-xl font-bold text-foreground">{paper.year}</span>
+          <span className="font-display text-xl font-bold text-foreground">{displayTitle}</span>
           <Badge variant={paper.type === "sec" ? "default" : "secondary"} className="text-[10px] uppercase">
-            {paper.source}
+            {paper.type === "sec" ? "SEC" : "Mock"}
           </Badge>
         </div>
         <div className="flex flex-col gap-1.5">
-          {paper.documents.map((doc) => (
-            <div key={doc.label} className="flex items-center justify-between gap-2">
-              <span className="text-sm text-muted-foreground font-body truncate">{doc.label}</span>
-              <div className="flex gap-1 shrink-0">
-                <Button size="sm" variant="ghost" className="h-7 px-2 text-xs" asChild>
-                  <a href={`/papers/${doc.filename}`} target="_blank" rel="noopener noreferrer">
-                    <ExternalLink className="h-3 w-3 mr-1" />
-                    View
-                  </a>
-                </Button>
-                <Button size="sm" variant="ghost" className="h-7 px-2 text-xs" asChild>
-                  <a href={`/papers/${doc.filename}`} download>
-                    <Download className="h-3 w-3 mr-1" />
-                    Save
-                  </a>
-                </Button>
+          {paper.documents.map((doc) => {
+            const href = getDocHref(doc);
+            return (
+              <div key={doc.label} className="flex items-center justify-between gap-2">
+                <span className="text-sm text-muted-foreground font-body truncate">{doc.label}</span>
+                <div className="flex gap-1 shrink-0">
+                  <Button size="sm" variant="ghost" className="h-7 px-2 text-xs" asChild>
+                    <a href={href} target="_blank" rel="noopener noreferrer">
+                      <ExternalLink className="h-3 w-3 mr-1" />
+                      View
+                    </a>
+                  </Button>
+                  {!isExternal && (
+                    <Button size="sm" variant="ghost" className="h-7 px-2 text-xs" asChild>
+                      <a href={href} download>
+                        <Download className="h-3 w-3 mr-1" />
+                        Save
+                      </a>
+                    </Button>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </CardContent>
     </Card>
