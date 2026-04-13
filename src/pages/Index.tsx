@@ -208,6 +208,8 @@ export default function Index() {
       <SectionHeader title="Patch Notes" sub="Recent updates and improvements to the study guide." />
       <div className="space-y-3 mb-8">
         {[
+          { version: "v2.6", date: "13 Apr 2026", items: ["Past Papers page added — SEC papers (2005–2025) linked from examinations.ie, 7 mock papers + marking schemes hosted locally", "Theory chapter cards compacted into 2-column grid to reduce scrolling on iPad", "Keyboard navigation (← →) added to chapter reading view"] },
+          { version: "v2.5", date: "10 Apr 2026", items: ["Chapter Review quiz system added at end of each theory chapter", "iPad/tablet layout optimisation across all pages", "Walkthrough notes now display in 2-column grid on tablet"] },
           { version: "v2.4", date: "5 Apr 2026", items: ["Rebuilt Learn Mode with original 5-module layout, interactive quizzes, fill-in practice", "Added sequential T-account reveal to all Workings pages", "Theory Practice Mode revamped with self-scoring quiz flow"] },
           { version: "v2.3", date: "28 Mar 2026", items: ["Q8 Costing & Q9 Budgeting full question walkthroughs added", "Section 2 Workings expanded to 37 archetypes", "Prediction engine updated with 2025 paper data"] },
           { version: "v2.2", date: "15 Mar 2026", items: ["Q1 Adjustment Guide with filterable categories", "Classify game for BS/P&L item classification", "Formula cheat sheet with all key formulas"] },
@@ -232,11 +234,18 @@ export default function Index() {
         ))}
       </div>
 
+      {/* Updates Paused Notice */}
+      <Card className="mb-8 border-border bg-muted/30">
+        <CardContent className="p-4 text-center">
+          <p className="text-sm font-medium text-foreground mb-1">Updates paused until after the Leaving Cert</p>
+          <p className="text-xs text-muted-foreground font-light">The developer is focusing on their own LC exams. New features will resume after June 2026. Good luck to everyone sitting the exam!</p>
+        </CardContent>
+      </Card>
+
       {/* Coming Soon */}
-      <SectionHeader title="Coming Soon" sub="Features currently in development." />
+      <SectionHeader title="Coming Soon" sub="Features planned for after the Leaving Cert." />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-10">
         {[
-          { title: "Q1 Full Walkthrough", desc: "Step-by-step guide to completing a full Q1 final account from start to finish, integrated into Learn Mode.", status: "In Progress" },
           { title: "Timed Mock Exams", desc: "Full exam simulations with real past papers, auto-timing, and score tracking.", status: "Planned" },
           { title: "Marking Scheme Viewer", desc: "Side-by-side view of questions and official SEC marking schemes with annotations.", status: "Planned" },
           { title: "Mobile App (PWA)", desc: "Install as an app on your phone for offline access to all study materials.", status: "Planned" },
@@ -245,11 +254,7 @@ export default function Index() {
             <CardContent className="p-4">
               <div className="flex items-center gap-2 mb-1.5">
                 <h3 className="text-sm font-bold">{item.title}</h3>
-                <Badge variant="outline" className={`text-[9px] px-2 py-0 ${
-                  item.status === "In Progress"
-                    ? "text-primary border-primary/30 bg-primary/5"
-                    : "text-muted-foreground border-border"
-                }`}>
+                <Badge variant="outline" className="text-muted-foreground border-border text-[9px] px-2 py-0">
                   {item.status}
                 </Badge>
               </div>
