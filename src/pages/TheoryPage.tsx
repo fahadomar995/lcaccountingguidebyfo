@@ -158,7 +158,7 @@ export default function TheoryPage() {
 
         {/* LEARN MODE TAB */}
         <TabsContent value="learn">
-          <TheoryLearnMode />
+          <TheoryLearnMode onReadingStateChange={setIsReading} />
         </TabsContent>
 
         {/* ALL QUESTIONS TAB */}
