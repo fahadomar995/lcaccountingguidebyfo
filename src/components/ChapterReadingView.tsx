@@ -276,6 +276,15 @@ export default function ChapterReadingView({ chapter, initialSectionId, onBack, 
                     </Button>
                   )}
                 </div>
+
+                {/* Chapter Review entry — only on last section */}
+                {activeSectionIdx === chapter.sections.length - 1 && (
+                  <ReviewEntryCard
+                    chapterTitle={chapter.title}
+                    hasItems={hasReviewItems}
+                    onStart={() => setShowReview(true)}
+                  />
+                )}
               </div>
             </CardContent>
           </Card>
