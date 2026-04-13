@@ -589,7 +589,7 @@ table.acct td.l.blank {
 .src-legend { display: flex; gap: 10px; flex-wrap: wrap; margin: 10px 0; padding: 8px 12px; background: hsl(var(--muted)); border-radius: 6px; font-size: 10px; }
 
 /* ═══ THEORY LEARN MODE ═══ */
-.theory-learn-content { font-size: 14px; line-height: 1.7; color: hsl(var(--foreground)); }
+.theory-learn-content { font-size: 14px; line-height: 1.8; color: hsl(var(--foreground)); word-break: break-word; overflow-wrap: break-word; }
 .theory-learn-content h4 { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700; margin: 18px 0 8px; color: hsl(var(--foreground)); }
 .theory-learn-content p { margin: 8px 0; font-weight: 300; }
 .theory-learn-content strong { font-weight: 600; }
