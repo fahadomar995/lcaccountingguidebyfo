@@ -1669,3 +1669,74 @@ export const CHAPTERS: Chapter[] = [
     ]
   },
 ];
+
+// ═══════════════════════════════════════════════════════════════════
+// SEARCH INDEX
+// ═══════════════════════════════════════════════════════════════════
+
+export interface SearchableItem {
+  type: 'chapter' | 'section' | 'subtopic' | 'keyterm';
+  title: string;
+  body: string;
+  breadcrumb: string;
+  chapterId: number;
+  sectionId: string | null;
+  subTopicId: string | null;
+}
+
+export function buildSearchIndex(): SearchableItem[] {
+  const items: SearchableItem[] = [];
+
+  for (const ch of CHAPTERS) {
+    items.push({
+      type: 'chapter',
+      title: ch.title,
+      body: ch.description,
+      breadcrumb: `Block ${ch.block} — Ch ${ch.id}`,
+      chapterId: ch.id,
+      sectionId: null,
+      subTopicId: null,
+    });
+
+    for (const sec of ch.sections) {
+      items.push({
+        type: 'section',
+        title: sec.title,
+        body: '',
+        breadcrumb: `Ch ${ch.id} ${ch.title} → ${sec.id}`,
+        chapterId: ch.id,
+        sectionId: sec.id,
+        subTopicId: null,
+      });
+
+      for (const sub of sec.subTopics) {
+        const bodyText = sub.body.map(b => b.html.replace(/<[^>]+>/g, '')).join(' ').slice(0, 300);
+        items.push({
+          type: 'subtopic',
+          title: sub.title,
+          body: bodyText,
+          breadcrumb: `Ch ${ch.id} → ${sec.id} ${sec.title}`,
+          chapterId: ch.id,
+          sectionId: sec.id,
+          subTopicId: sub.id,
+        });
+
+        if (sub.keyTerms) {
+          for (const kt of sub.keyTerms) {
+            items.push({
+              type: 'keyterm',
+              title: kt.term,
+              body: kt.definition,
+              breadcrumb: `Ch ${ch.id} → ${sec.id} → ${sub.title}`,
+              chapterId: ch.id,
+              sectionId: sec.id,
+              subTopicId: sub.id,
+            });
+          }
+        }
+      }
+    }
+  }
+
+  return items;
+}

@@ -3,16 +3,17 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CHAPTERS, BLOCK_LABELS, BLOCK_DESCRIPTIONS, type Block, type Chapter } from "@/data/theoryChapters";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { ChevronDown, ChevronRight, BookOpen, ArrowRight } from "lucide-react";
+import { ChevronDown, ChevronRight, BookOpen, ArrowRight, Landmark, FileText, Users, Calculator } from "lucide-react";
 import ChapterReadingView from "@/components/ChapterReadingView";
 import TheorySearch from "@/components/TheorySearch";
 
 const BLOCKS: Block[] = ['A', 'B', 'C', 'D'];
+const BLOCK_ICONS: Record<Block, typeof Landmark> = { A: Landmark, B: FileText, C: Users, D: Calculator };
 
 export default function TheoryLearnMode() {
   const [activeChapterId, setActiveChapterId] = useState<number | null>(null);
   const [initialSectionId, setInitialSectionId] = useState<string | undefined>();
-  const [expandedBlocks, setExpandedBlocks] = useState<Set<Block>>(new Set(['A', 'B', 'C', 'D']));
+  const [expandedBlocks, setExpandedBlocks] = useState<Set<Block>>(new Set());
   const [completedSections] = useLocalStorage<Record<string, boolean>>('lc-theory-ch-progress', {});
 
   const activeChapter = activeChapterId ? CHAPTERS.find(c => c.id === activeChapterId) : null;
@@ -105,9 +106,11 @@ export default function TheoryLearnMode() {
               className="w-full text-left p-4 flex items-center gap-3 hover:bg-muted/30 transition-colors"
               onClick={() => toggleBlock(block)}
             >
-              <span className="w-8 h-8 rounded-full bg-primary/10 text-primary font-display font-bold text-sm flex items-center justify-center shrink-0">
-                {block}
-              </span>
+              {(() => { const BlockIcon = BLOCK_ICONS[block]; return (
+                <span className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                  <BlockIcon className="h-4 w-4" />
+                </span>
+              ); })()}
               <div className="flex-1 min-w-0">
                 <h3 className="text-sm font-bold font-display">{BLOCK_LABELS[block]}</h3>
                 <p className="text-[11px] text-muted-foreground font-light">{BLOCK_DESCRIPTIONS[block]}</p>

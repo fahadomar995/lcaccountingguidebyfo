@@ -182,7 +182,7 @@ export default function ChapterReadingView({ chapter, initialSectionId, onBack, 
         </div>
 
         {/* CENTRE — Reading column */}
-        <div className="flex-1 min-w-0 max-w-[720px]" ref={contentRef}>
+        <div className="flex-1 min-w-0 max-w-[720px] overflow-y-auto" ref={contentRef}>
           <Card className="border-border">
             <CardContent className="p-5 sm:p-8">
               {/* Header */}
