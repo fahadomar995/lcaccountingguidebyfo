@@ -3,9 +3,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CHAPTERS, BLOCK_LABELS, BLOCK_DESCRIPTIONS, type Block, type Chapter } from "@/data/theoryChapters";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { ChevronDown, ChevronRight, BookOpen, ArrowRight, Landmark, FileText, Users, Calculator } from "lucide-react";
+import { ChevronDown, ChevronRight, BookOpen, ArrowRight, Landmark, FileText, Users, Calculator, HelpCircle } from "lucide-react";
 import ChapterReadingView from "@/components/ChapterReadingView";
 import TheorySearch from "@/components/TheorySearch";
+import { REVIEW_BANK } from "@/data/chapter-review-bank";
 
 const BLOCKS: Block[] = ['A', 'B', 'C', 'D'];
 const BLOCK_ICONS: Record<Block, typeof Landmark> = { A: Landmark, B: FileText, C: Users, D: Calculator };
@@ -144,8 +145,13 @@ export default function TheoryLearnMode({ onReadingStateChange }: Props) {
                             </span>
                             <div className="flex-1 min-w-0">
                               <h4 className="text-xs font-bold group-hover:text-primary transition-colors font-display leading-tight">{ch.title}</h4>
-                              <div className="flex items-center gap-2 mt-1.5">
+                              <div className="flex items-center gap-1.5 flex-wrap mt-1.5">
                                 <span className="text-[10px] text-muted-foreground">{ch.sections.length} sections</span>
+                                {(REVIEW_BANK[ch.id] || []).length > 0 && (
+                                  <span className="inline-flex items-center gap-0.5 text-[9px] text-primary font-medium">
+                                    <HelpCircle className="h-2.5 w-2.5" /> Quiz
+                                  </span>
+                                )}
                                 {prog.pct > 0 && (
                                   <Badge variant={prog.pct >= 100 ? "default" : "outline"} className="text-[9px] px-1 py-0">
                                     {prog.pct >= 100 ? '✓' : `${prog.pct}%`}
