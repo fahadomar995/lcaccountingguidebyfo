@@ -5,6 +5,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CHAPTERS, type Chapter, type Section, type SubTopic, type ContentBlock } from "@/data/theoryChapters";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { REVIEW_BANK } from "@/data/chapter-review-bank";
+import ReviewEntryCard from "@/components/review/ReviewEntryCard";
+import ReviewSession from "@/components/review/ReviewSession";
 
 interface Props {
   chapter: Chapter;
@@ -89,6 +92,28 @@ export default function ChapterReadingView({ chapter, initialSectionId, onBack, 
   const chapterComplete = chapter.sections.filter(s => completedSections[`${chapter.id}_${s.id}`]).length;
 
   const estimateSection = Math.max(2, Math.round(chapter.estimatedMinutes / chapter.sections.length));
+
+  const [showReview, setShowReview] = useState(false);
+  const hasReviewItems = (REVIEW_BANK[chapter.id] || []).length > 0;
+
+  // Review session mode
+  if (showReview) {
+    return (
+      <ReviewSession
+        chapterId={chapter.id}
+        chapterTitle={chapter.title}
+        onBack={() => setShowReview(false)}
+        onNavigateToSection={(sectionLink) => {
+          setShowReview(false);
+          // Try to find the section containing this sub-topic
+          const secIdx = chapter.sections.findIndex(s =>
+            s.subTopics.some(st => st.id === sectionLink)
+          );
+          if (secIdx >= 0) setActiveSectionIdx(secIdx);
+        }}
+      />
+    );
+  }
 
   return (
     <div className="space-y-4">
@@ -251,6 +276,15 @@ export default function ChapterReadingView({ chapter, initialSectionId, onBack, 
                     </Button>
                   )}
                 </div>
+
+                {/* Chapter Review entry — only on last section */}
+                {activeSectionIdx === chapter.sections.length - 1 && (
+                  <ReviewEntryCard
+                    chapterTitle={chapter.title}
+                    hasItems={hasReviewItems}
+                    onStart={() => setShowReview(true)}
+                  />
+                )}
               </div>
             </CardContent>
           </Card>
