@@ -128,7 +128,7 @@ export default function TheoryLearnMode({ onReadingStateChange }: Props) {
 
             {expanded && (
               <CardContent className="px-4 pb-4 pt-0">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
                   {chapters.map(ch => {
                     const prog = getChapterProgress(ch);
                     return (
