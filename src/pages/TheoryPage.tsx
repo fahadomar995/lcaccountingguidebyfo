@@ -125,7 +125,7 @@ export default function TheoryPage() {
   }).length;
 
   return (
-    <div className="max-w-[900px] mx-auto px-4 sm:px-7 py-8 pb-16">
+    <div className={isReading ? "w-full px-3 md:px-4 lg:px-5 xl:px-6 py-4 pb-10" : "max-w-[900px] mx-auto px-4 sm:px-7 py-8 pb-16"}>
       {!isReading && (
         <>
           <h1 className="font-display text-2xl sm:text-3xl font-bold mb-2">Theory Revision</h1>
