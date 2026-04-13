@@ -143,7 +143,7 @@ export default function TheoryPage() {
       </Card>
 
       <Tabs defaultValue="learn" className="w-full">
-        <TabsList className="mb-6 w-full justify-start overflow-x-auto">
+        <TabsList className="mb-6 w-full justify-start flex-wrap h-auto gap-1">
           <TabsTrigger value="learn" className="gap-1"><BookOpen className="h-3.5 w-3.5" /> Learn</TabsTrigger>
           <TabsTrigger value="questions">All Questions</TabsTrigger>
           <TabsTrigger value="practice">Practice Mode</TabsTrigger>
