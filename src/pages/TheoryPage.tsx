@@ -12,6 +12,7 @@ type Score = "got" | "partial" | "missed";
 const PAGE_SIZE = 20;
 
 export default function TheoryPage() {
+  const [isReading, setIsReading] = useState(false);
   const [topicFilter, setTopicFilter] = useState<string>("All");
   const [revealedIds, setRevealedIds] = useState<Set<number>>(new Set());
   const [scores, setScores] = useLocalStorage<Record<number, Score>>("lc-theory-scores", {});
@@ -125,22 +126,26 @@ export default function TheoryPage() {
 
   return (
     <div className="max-w-[900px] mx-auto px-4 sm:px-7 py-8 pb-16">
-      <h1 className="font-display text-2xl sm:text-3xl font-bold mb-2">Theory Revision</h1>
-      <p className="text-sm text-muted-foreground font-light leading-relaxed mb-6">
-        {THEORY_BANK.length} past exam theory questions with marking scheme answers. Filter by topic, practise, and track your progress.
-      </p>
+      {!isReading && (
+        <>
+          <h1 className="font-display text-2xl sm:text-3xl font-bold mb-2">Theory Revision</h1>
+          <p className="text-sm text-muted-foreground font-light leading-relaxed mb-6">
+            {THEORY_BANK.length} past exam theory questions with marking scheme answers. Filter by topic, practise, and track your progress.
+          </p>
 
-      {/* Stats banner */}
-      <Card className="mb-6 border-border">
-        <CardContent className="p-4 flex flex-wrap gap-6 items-center justify-center">
-          <Stat label="Questions" value={String(THEORY_BANK.length)} />
-          <Stat label="Topics" value={String(THEORY_TOPICS.length)} />
-          <Stat label="Exam Years" value={String(uniqueYears)} />
-          <Stat label="Sub-Topics" value={String(uniqueSubTopics)} />
-          <Stat label="Flashcards" value={String(THEORY_FLASHCARDS.length)} />
-          {totalScored > 0 && <Stat label="Score" value={`${Math.round(gotCount / totalScored * 100)}%`} />}
-        </CardContent>
-      </Card>
+          {/* Stats banner */}
+          <Card className="mb-6 border-border">
+            <CardContent className="p-4 flex flex-wrap gap-6 items-center justify-center">
+              <Stat label="Questions" value={String(THEORY_BANK.length)} />
+              <Stat label="Topics" value={String(THEORY_TOPICS.length)} />
+              <Stat label="Exam Years" value={String(uniqueYears)} />
+              <Stat label="Sub-Topics" value={String(uniqueSubTopics)} />
+              <Stat label="Flashcards" value={String(THEORY_FLASHCARDS.length)} />
+              {totalScored > 0 && <Stat label="Score" value={`${Math.round(gotCount / totalScored * 100)}%`} />}
+            </CardContent>
+          </Card>
+        </>
+      )}
 
       <Tabs defaultValue="learn" className="w-full">
         <TabsList className="mb-6 w-full justify-start flex-wrap h-auto gap-1">
