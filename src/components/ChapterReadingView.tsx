@@ -215,7 +215,7 @@ export default function ChapterReadingView({ chapter, initialSectionId, onBack, 
         </div>
 
         {/* CENTRE — Reading column */}
-        <div className="flex-1 min-w-0 max-w-[720px] overflow-y-auto" ref={contentRef}>
+        <div className="flex-1 min-w-0 overflow-y-auto" ref={contentRef}>
           <Card className="border-border">
             <CardContent className="p-4 sm:p-5 lg:p-8">
               {/* Header */}
@@ -285,8 +285,8 @@ export default function ChapterReadingView({ chapter, initialSectionId, onBack, 
                   )}
                 </div>
 
-                {/* Chapter Review entry — only on last section */}
-                {activeSectionIdx === chapter.sections.length - 1 && (
+                {/* Chapter Review entry — visible on every section */}
+                {hasReviewItems && (
                   <ReviewEntryCard
                     chapterTitle={chapter.title}
                     hasItems={hasReviewItems}
