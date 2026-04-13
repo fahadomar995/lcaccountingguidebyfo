@@ -145,7 +145,7 @@ export default function TheoryLearnMode({ onReadingStateChange }: Props) {
                             <div className="flex-1 min-w-0">
                               <h4 className="text-xs font-bold group-hover:text-primary transition-colors font-display leading-tight">{ch.title}</h4>
                               <div className="flex items-center gap-2 mt-1.5">
-                                <span className="text-[10px] text-muted-foreground">{ch.sections.length}s</span>
+                                <span className="text-[10px] text-muted-foreground">{ch.sections.length} sections</span>
                                 {prog.pct > 0 && (
                                   <Badge variant={prog.pct >= 100 ? "default" : "outline"} className="text-[9px] px-1 py-0">
                                     {prog.pct >= 100 ? '✓' : `${prog.pct}%`}
