@@ -1,196 +1,170 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useMemo } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { THEORY_LEARN_TOPICS, type TheoryLearnTopic } from "@/data/theoryLearnContent";
+import { CHAPTERS, BLOCK_LABELS, BLOCK_DESCRIPTIONS, type Block, type Chapter } from "@/data/theoryChapters";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { ArrowLeft, ChevronRight, Check, BookOpen, BarChart3, Landmark, CalendarDays, TrendingDown, Search, Ruler, Building2, FileSpreadsheet, Banknote, Users, ClipboardList, Calculator, TrendingUp, Factory } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
+import { ChevronDown, ChevronRight, BookOpen, ArrowRight } from "lucide-react";
+import ChapterReadingView from "@/components/ChapterReadingView";
+import TheorySearch from "@/components/TheorySearch";
 
-const ICON_MAP: Record<string, LucideIcon> = {
-  BookOpen, BarChart3, Landmark, CalendarDays, TrendingDown, Search, Ruler, Building2, FileSpreadsheet, Banknote, Users, ClipboardList, Calculator, TrendingUp, Factory,
-};
+const BLOCKS: Block[] = ['A', 'B', 'C', 'D'];
 
 export default function TheoryLearnMode() {
-  const [activeTopic, setActiveTopic] = useState<string | null>(null);
-  const [activeSection, setActiveSection] = useState(0);
-  const [readSections, setReadSections] = useLocalStorage<Record<string, boolean>>("lc-theory-learn-read", {});
-  const contentRef = useRef<HTMLDivElement>(null);
+  const [activeChapterId, setActiveChapterId] = useState<number | null>(null);
+  const [initialSectionId, setInitialSectionId] = useState<string | undefined>();
+  const [expandedBlocks, setExpandedBlocks] = useState<Set<Block>>(new Set(['A', 'B', 'C', 'D']));
+  const [completedSections] = useLocalStorage<Record<string, boolean>>('lc-theory-ch-progress', {});
 
-  const topic = activeTopic ? THEORY_LEARN_TOPICS.find(t => t.id === activeTopic) : null;
+  const activeChapter = activeChapterId ? CHAPTERS.find(c => c.id === activeChapterId) : null;
 
-  const markRead = (topicId: string, sectionIdx: number) => {
-    const key = `${topicId}_${sectionIdx}`;
-    setReadSections(prev => ({ ...prev, [key]: true }));
+  const getChapterProgress = (ch: Chapter) => {
+    const done = ch.sections.filter(s => completedSections[`${ch.id}_${s.id}`]).length;
+    return { done, total: ch.sections.length, pct: Math.round((done / ch.sections.length) * 100) };
   };
 
-  const getTopicProgress = (t: TheoryLearnTopic) => {
-    const done = t.sections.filter((_, i) => readSections[`${t.id}_${i}`]).length;
-    return Math.round((done / t.sections.length) * 100);
-  };
+  const totalSections = CHAPTERS.reduce((a, c) => a + c.sections.length, 0);
+  const totalComplete = Object.values(completedSections).filter(Boolean).length;
+  const overallPct = Math.round((totalComplete / totalSections) * 100);
 
-  // Wire up interactive quiz elements
-  useEffect(() => {
-    const el = contentRef.current;
-    if (!el) return;
+  // Pick up where left off
+  const lastViewed = useMemo(() => {
+    try {
+      const raw = localStorage.getItem('lc-theory-last');
+      if (raw) return JSON.parse(raw) as { chapterId: number; sectionId: string };
+    } catch {}
+    return null;
+  }, []);
+  const lastChapter = lastViewed ? CHAPTERS.find(c => c.id === lastViewed.chapterId) : null;
 
-    el.querySelectorAll<HTMLElement>(".quiz-opt").forEach(opt => {
-      opt.onclick = () => {
-        if (opt.classList.contains("correct") || opt.classList.contains("wrong")) return;
-        const isCorrect = opt.getAttribute("data-correct") === "true";
-        if (isCorrect) {
-          opt.classList.add("correct");
-          opt.closest(".quiz-opts")?.querySelectorAll<HTMLElement>(".quiz-opt").forEach(o => {
-            o.style.pointerEvents = "none";
-          });
-        } else {
-          opt.classList.add("wrong");
-          setTimeout(() => opt.classList.remove("wrong"), 1200);
-        }
-      };
+  const toggleBlock = (b: Block) => {
+    setExpandedBlocks(prev => {
+      const next = new Set(prev);
+      next.has(b) ? next.delete(b) : next.add(b);
+      return next;
     });
-  }, [activeTopic, activeSection]);
+  };
 
-  // Scroll to top on section change
-  useEffect(() => {
-    contentRef.current?.scrollTo({ top: 0, behavior: "smooth" });
-  }, [activeSection]);
+  const openChapter = (id: number, sectionId?: string) => {
+    setActiveChapterId(id);
+    setInitialSectionId(sectionId);
+  };
 
-  if (topic) {
-    const section = topic.sections[activeSection];
-    const isLast = activeSection === topic.sections.length - 1;
+  const handleSearchSelect = (chapterId: number, sectionId?: string) => {
+    openChapter(chapterId, sectionId);
+  };
 
+  // Reading view
+  if (activeChapter) {
     return (
-      <div className="space-y-4">
-        <button
-          className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors font-medium"
-          onClick={() => { setActiveTopic(null); setActiveSection(0); }}
-        >
-          <ArrowLeft className="h-3.5 w-3.5" /> All Topics
-        </button>
-
-        <div className="flex flex-col lg:flex-row gap-4">
-          {/* Section sidebar */}
-          <div className="lg:w-52 shrink-0">
-            <div className="flex items-center gap-2 mb-3">
-              {(() => { const Icon = ICON_MAP[topic.icon]; return Icon ? <Icon className="h-5 w-5 text-primary" /> : null; })()}
-              <h3 className="text-sm font-bold">{topic.title}</h3>
-            </div>
-            <div className="space-y-1">
-              {topic.sections.map((s, i) => {
-                const isRead = readSections[`${topic.id}_${i}`];
-                return (
-                  <button
-                    key={i}
-                    className={`w-full text-left px-3 py-2 rounded-lg text-xs transition-all flex items-center gap-2 ${
-                      i === activeSection
-                        ? "bg-primary/10 text-primary font-semibold border border-primary/20"
-                        : "text-muted-foreground hover:bg-muted/50"
-                    }`}
-                    onClick={() => { markRead(topic.id, activeSection); setActiveSection(i); }}
-                  >
-                    {isRead && <Check className="h-3 w-3 text-green-500 shrink-0" />}
-                    <span>{i + 1}. {s.title}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Content */}
-          <div className="flex-1 min-w-0">
-            <Card className="border-border">
-              <CardContent className="p-5 sm:p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <Badge variant="outline" className="text-[10px]">{topic.title}</Badge>
-                  <span className="text-xs text-muted-foreground font-mono">{activeSection + 1}/{topic.sections.length}</span>
-                </div>
-                <h3 className="text-lg font-bold mb-4">{section.title}</h3>
-                <div
-                  ref={contentRef}
-                  className="theory-learn-content"
-                  dangerouslySetInnerHTML={{ __html: section.content }}
-                />
-                <div className="flex justify-between items-center mt-6 pt-4 border-t border-border">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="text-xs"
-                    disabled={activeSection === 0}
-                    onClick={() => { markRead(topic.id, activeSection); setActiveSection(activeSection - 1); }}
-                  >
-                    ← Previous
-                  </Button>
-                  {isLast ? (
-                    <Button
-                      size="sm"
-                      className="text-xs gap-1"
-                      onClick={() => {
-                        markRead(topic.id, activeSection);
-                        setActiveTopic(null);
-                        setActiveSection(0);
-                      }}
-                    >
-                      <Check className="h-3 w-3" /> Complete Topic
-                    </Button>
-                  ) : (
-                    <Button
-                      size="sm"
-                      className="text-xs gap-1"
-                      onClick={() => { markRead(topic.id, activeSection); setActiveSection(activeSection + 1); }}
-                    >
-                      Next <ChevronRight className="h-3.5 w-3.5" />
-                    </Button>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </div>
+      <ChapterReadingView
+        chapter={activeChapter}
+        initialSectionId={initialSectionId}
+        onBack={() => setActiveChapterId(null)}
+        onNavigateChapter={(id) => openChapter(id)}
+      />
     );
   }
 
-  // Topic grid
+  // Landing page
   return (
-    <div className="space-y-4">
-      <p className="text-xs text-muted-foreground">
-        {THEORY_LEARN_TOPICS.length} topics covering the full LC Accounting theory syllabus. Select a topic to start learning.
-      </p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        {THEORY_LEARN_TOPICS.map(t => {
-          const pct = getTopicProgress(t);
-          return (
-            <Card
-              key={t.id}
-              className="border-border cursor-pointer hover:border-primary/40 transition-all group"
-              onClick={() => { setActiveTopic(t.id); setActiveSection(0); }}
+    <div className="space-y-5">
+      {/* Search */}
+      <TheorySearch onSelect={handleSearchSelect} />
+
+      {/* Progress strip */}
+      <div className="flex items-center gap-4 p-3 bg-card border border-border rounded-lg">
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center justify-between mb-1">
+            <span className="text-xs font-bold">Your Progress</span>
+            <span className="text-[10px] font-mono text-muted-foreground">{totalComplete}/{totalSections} sections · {overallPct}%</span>
+          </div>
+          <div className="h-1.5 bg-muted rounded-full overflow-hidden">
+            <div className="h-full bg-primary rounded-full transition-all" style={{ width: `${overallPct}%` }} />
+          </div>
+        </div>
+        {lastChapter && (
+          <button
+            className="shrink-0 text-xs text-primary hover:underline font-medium flex items-center gap-1"
+            onClick={() => openChapter(lastViewed!.chapterId, lastViewed!.sectionId)}
+          >
+            Continue Ch {lastChapter.id} <ArrowRight className="h-3 w-3" />
+          </button>
+        )}
+      </div>
+
+      {/* Block cards */}
+      {BLOCKS.map(block => {
+        const chapters = CHAPTERS.filter(c => c.block === block);
+        const expanded = expandedBlocks.has(block);
+        const blockDone = chapters.reduce((a, c) => a + getChapterProgress(c).done, 0);
+        const blockTotal = chapters.reduce((a, c) => a + c.sections.length, 0);
+
+        return (
+          <Card key={block} className="border-border overflow-hidden">
+            <button
+              className="w-full text-left p-4 flex items-center gap-3 hover:bg-muted/30 transition-colors"
+              onClick={() => toggleBlock(block)}
             >
-              <CardContent className="p-4">
-                <div className="flex items-start gap-3">
-                  {(() => { const Icon = ICON_MAP[t.icon]; return Icon ? <Icon className="h-6 w-6 text-primary" /> : null; })()}
-                  <div className="flex-1 min-w-0">
-                    <h4 className="text-sm font-bold group-hover:text-primary transition-colors">{t.title}</h4>
-                    <p className="text-[11px] text-muted-foreground font-light leading-relaxed mt-0.5">{t.description}</p>
-                    <div className="flex items-center gap-2 mt-2">
-                      <BookOpen className="h-3 w-3 text-muted-foreground" />
-                      <span className="text-[10px] text-muted-foreground">{t.sections.length} sections</span>
-                      {pct > 0 && (
-                        <Badge variant={pct >= 100 ? "default" : "outline"} className="text-[9px] ml-auto">
-                          {pct >= 100 ? "✓ Complete" : `${pct}%`}
-                        </Badge>
-                      )}
-                    </div>
-                    <div className="h-1 bg-muted rounded-full mt-2 overflow-hidden">
-                      <div className="h-full bg-primary rounded-full transition-all" style={{ width: `${pct}%` }} />
-                    </div>
-                  </div>
+              <span className="w-8 h-8 rounded-full bg-primary/10 text-primary font-display font-bold text-sm flex items-center justify-center shrink-0">
+                {block}
+              </span>
+              <div className="flex-1 min-w-0">
+                <h3 className="text-sm font-bold font-display">{BLOCK_LABELS[block]}</h3>
+                <p className="text-[11px] text-muted-foreground font-light">{BLOCK_DESCRIPTIONS[block]}</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-mono text-muted-foreground">{blockDone}/{blockTotal}</span>
+                {expanded ? <ChevronDown className="h-4 w-4 text-muted-foreground" /> : <ChevronRight className="h-4 w-4 text-muted-foreground" />}
+              </div>
+            </button>
+
+            {expanded && (
+              <CardContent className="px-4 pb-4 pt-0">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {chapters.map(ch => {
+                    const prog = getChapterProgress(ch);
+                    return (
+                      <Card
+                        key={ch.id}
+                        className="border-border cursor-pointer hover:border-primary/40 transition-all group"
+                        onClick={() => openChapter(ch.id)}
+                      >
+                        <CardContent className="p-4">
+                          <div className="flex items-start gap-3">
+                            <span className="w-7 h-7 rounded-full bg-primary/10 text-primary text-[10px] font-mono font-bold flex items-center justify-center shrink-0">
+                              {String(ch.id).padStart(2, '0')}
+                            </span>
+                            <div className="flex-1 min-w-0">
+                              <h4 className="text-xs font-bold group-hover:text-primary transition-colors font-display">{ch.title}</h4>
+                              <p className="text-[10px] text-muted-foreground font-light leading-relaxed mt-0.5 line-clamp-2">{ch.description}</p>
+                              <div className="flex items-center gap-2 mt-2">
+                                <BookOpen className="h-3 w-3 text-muted-foreground" />
+                                <span className="text-[10px] text-muted-foreground">{ch.sections.length} sections</span>
+                                {prog.pct > 0 && (
+                                  <Badge variant={prog.pct >= 100 ? "default" : "outline"} className="text-[9px] ml-auto">
+                                    {prog.pct >= 100 ? 'Complete' : `${prog.pct}%`}
+                                  </Badge>
+                                )}
+                              </div>
+                              <div className="h-1 bg-muted rounded-full mt-2 overflow-hidden">
+                                <div className="h-full bg-primary rounded-full transition-all" style={{ width: `${prog.pct}%` }} />
+                              </div>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
                 </div>
               </CardContent>
-            </Card>
-          );
-        })}
-      </div>
+            )}
+          </Card>
+        );
+      })}
+
+      <p className="text-[10px] text-muted-foreground text-center">
+        24 chapters · {totalSections} sections · Based on the LC HL Accounting syllabus
+      </p>
     </div>
   );
 }
