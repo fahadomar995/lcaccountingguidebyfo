@@ -25,11 +25,11 @@ export const PAST_PAPERS: PaperEntry[] = [
     })
   ),
   // Mock Papers
-  { year: 2026, type: "mock", source: "Mock", documents: [{ label: "Exam Paper", filename: "mock-2026-paper.pdf" }] },
-  { year: 2025, type: "mock", source: "Mock", documents: [{ label: "Exam Paper", filename: "mock-2025-paper.pdf" }] },
-  { year: 2024, type: "mock", source: "Mock", documents: [{ label: "Exam Paper", filename: "mock-2024-paper.pdf" }] },
-  { year: 2023, type: "mock", source: "Mock", documents: [{ label: "Exam Paper", filename: "mock-2023-paper.pdf" }] },
-  { year: 2022, type: "mock", source: "Mock", documents: [{ label: "Exam Paper", filename: "mock-2022-paper.pdf" }] },
-  { year: 2021, type: "mock", source: "Mock", documents: [{ label: "Exam Paper", filename: "mock-2021-paper.pdf" }] },
-  { year: 2020, type: "mock", source: "Mock", documents: [{ label: "Exam Paper", filename: "mock-2020-paper.pdf" }] },
+  { year: 2026, type: "mock", source: "Mock", documents: [{ label: "Exam Paper", filename: "mock-2026-paper.pdf" }, { label: "Marking Scheme", filename: "mock-2026-ms.pdf" }] },
+  { year: 2025, type: "mock", source: "Mock", documents: [{ label: "Exam Paper", filename: "mock-2025-paper.pdf" }, { label: "Marking Scheme", filename: "mock-2025-ms.pdf" }] },
+  { year: 2024, type: "mock", source: "Mock", documents: [{ label: "Exam Paper", filename: "mock-2024-paper.pdf" }, { label: "Marking Scheme", filename: "mock-2024-ms.pdf" }] },
+  { year: 2023, type: "mock", source: "Mock", documents: [{ label: "Exam Paper", filename: "mock-2023-paper.pdf" }, { label: "Marking Scheme", filename: "mock-2023-ms.pdf" }] },
+  { year: 2022, type: "mock", source: "Mock", documents: [{ label: "Exam Paper", filename: "mock-2022-paper.pdf" }, { label: "Marking Scheme", filename: "mock-2022-ms.pdf" }] },
+  { year: 2021, type: "mock", source: "Mock", documents: [{ label: "Exam Paper", filename: "mock-2021-paper.pdf" }, { label: "Marking Scheme", filename: "mock-2021-ms.pdf" }] },
+  { year: 2020, type: "mock", source: "Mock", documents: [{ label: "Exam Paper", filename: "mock-2020-paper.pdf" }, { label: "Marking Scheme", filename: "mock-2020-ms.pdf" }] },
 ];
