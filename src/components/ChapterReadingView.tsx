@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CHAPTERS, type Chapter, type Section, type SubTopic, type ContentBlock } from "@/data/theoryChapters";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useArrowNav } from "@/hooks/useArrowNav";
 import { REVIEW_BANK } from "@/data/chapter-review-bank";
 import ReviewEntryCard from "@/components/review/ReviewEntryCard";
 import ReviewSession from "@/components/review/ReviewSession";
@@ -76,6 +77,13 @@ export default function ChapterReadingView({ chapter, initialSectionId, onBack, 
       setActiveSectionIdx(activeSectionIdx - 1);
     }
   };
+
+  // Arrow key navigation between sections
+  useArrowNav(
+    activeSectionIdx > 0 ? goPrev : null,
+    activeSectionIdx < chapter.sections.length - 1 ? goNext : null,
+  );
+
 
   // Related chapters
   const relatedChapters = useMemo(() => 
