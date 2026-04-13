@@ -10,7 +10,11 @@ import TheorySearch from "@/components/TheorySearch";
 const BLOCKS: Block[] = ['A', 'B', 'C', 'D'];
 const BLOCK_ICONS: Record<Block, typeof Landmark> = { A: Landmark, B: FileText, C: Users, D: Calculator };
 
-export default function TheoryLearnMode() {
+interface Props {
+  onReadingStateChange?: (isReading: boolean) => void;
+}
+
+export default function TheoryLearnMode({ onReadingStateChange }: Props) {
   const [activeChapterId, setActiveChapterId] = useState<number | null>(null);
   const [initialSectionId, setInitialSectionId] = useState<string | undefined>();
   const [expandedBlocks, setExpandedBlocks] = useState<Set<Block>>(new Set());
@@ -48,6 +52,7 @@ export default function TheoryLearnMode() {
   const openChapter = (id: number, sectionId?: string) => {
     setActiveChapterId(id);
     setInitialSectionId(sectionId);
+    onReadingStateChange?.(true);
   };
 
   const handleSearchSelect = (chapterId: number, sectionId?: string) => {
@@ -60,7 +65,7 @@ export default function TheoryLearnMode() {
       <ChapterReadingView
         chapter={activeChapter}
         initialSectionId={initialSectionId}
-        onBack={() => setActiveChapterId(null)}
+        onBack={() => { setActiveChapterId(null); onReadingStateChange?.(false); }}
         onNavigateChapter={(id) => openChapter(id)}
       />
     );
