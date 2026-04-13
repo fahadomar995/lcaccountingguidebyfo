@@ -78,6 +78,13 @@ export default function ChapterReadingView({ chapter, initialSectionId, onBack, 
     }
   };
 
+  // Arrow key navigation between sections
+  useArrowNav(
+    activeSectionIdx > 0 ? goPrev : null,
+    activeSectionIdx < chapter.sections.length - 1 ? goNext : null,
+  );
+
+
   // Related chapters
   const relatedChapters = useMemo(() => 
     chapter.related.map(id => CHAPTERS.find(c => c.id === id)).filter(Boolean) as Chapter[],
