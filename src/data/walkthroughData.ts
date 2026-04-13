@@ -1,9 +1,11 @@
 // ═══════════════════════════════════════════════════
 // Q1 WALKTHROUGH DATA — 3 walkthroughs (extracted from original HTML)
-// Sole Trader (2023), Company (2023), Manufacturing (2021)
+// Sole Trader (2023), Company (2024), Manufacturing (2022)
 // ═══════════════════════════════════════════════════
 
 import type { TAccountDef } from "@/components/TAccount";
+import { CO_NOTES_STEPS, CO_TPL_STEPS_NEW, CO_BS_STEPS_NEW } from "./walkthroughCompany";
+import { MFG_NOTES_STEPS, MFG_TPL_STEPS_NEW, MFG_BS_STEPS_NEW } from "./walkthroughManufacturing";
 
 // ── Step-based T-account engine types ──
 export interface NoteStepEntry {
@@ -1101,35 +1103,35 @@ export const WALKTHROUGHS: Walkthrough[] = [
     bsComplete: 'BS Complete ✓ — Capital Employed = €862,635'
   },
   {
-    id: 'co-2023',
-    title: '2023 Company — Yeats Ltd',
+    id: 'co-2024',
+    title: '2024 Company — Yeats Ltd',
     subtitle: '9 notes, 22 workings, 120 marks',
     type: 'company',
-    year: '2023',
+    year: '2024',
     tplTabLabel: 'Trading P&L',
     introHtml: CO_INTRO,
-    notes: CO_NOTES,
-    tplSteps: CO_TPL_STEPS,
-    bsSteps: CO_BS_STEPS,
-    tplMarks: '70 marks',
-    bsMarks: '50 marks',
+    notes: CO_NOTES_STEPS,
+    tplSteps: CO_TPL_STEPS_NEW,
+    bsSteps: CO_BS_STEPS_NEW,
+    tplMarks: '75 marks',
+    bsMarks: '45 marks',
     tplComplete: 'TPL Complete ✓ — Net Profit: €108,292 · Closing P&L: €108,092',
-    bsComplete: 'BS Complete ✓ — Shareholders\' Funds = €961,922'
+    bsComplete: 'BS Complete ✓ — Capital Employed = €961,922'
   },
   {
-    id: 'mfg-2021',
-    title: '2021 Manufacturing — McGuigan Ltd',
-    subtitle: '3 notes, 22 workings, 120 marks',
+    id: 'mfg-2022',
+    title: '2022 Manufacturing — McGuigan Ltd',
+    subtitle: '9 notes, 22 workings, 120 marks',
     type: 'manufacturing',
-    year: '2021',
+    year: '2022',
     tplTabLabel: 'Mfg + TPL',
     introHtml: MFG_INTRO,
-    notes: MFG_NOTES,
-    tplSteps: MFG_TPL_STEPS,
-    bsSteps: MFG_BS_STEPS,
-    tplMarks: '70 marks',
-    bsMarks: '50 marks',
-    tplComplete: 'Complete ✓ — Cost of Manufacture: €1,047,886 · Net Profit: €515,102',
-    bsComplete: 'BS Complete ✓ — Shareholders\' Funds = €1,476,452'
+    notes: MFG_NOTES_STEPS,
+    tplSteps: MFG_TPL_STEPS_NEW,
+    bsSteps: MFG_BS_STEPS_NEW,
+    tplMarks: '75 marks',
+    bsMarks: '45 marks',
+    tplComplete: 'Complete ✓ — Cost of Manufacture: €1,047,886 · Net Profit: €524,452',
+    bsComplete: 'BS Complete ✓ — Capital Employed = €1,476,452'
   }
 ];
