@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CHAPTERS, type Chapter, type Section, type SubTopic, type ContentBlock } from "@/data/theoryChapters";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useArrowNav } from "@/hooks/useArrowNav";
 import { REVIEW_BANK } from "@/data/chapter-review-bank";
 import ReviewEntryCard from "@/components/review/ReviewEntryCard";
 import ReviewSession from "@/components/review/ReviewSession";
