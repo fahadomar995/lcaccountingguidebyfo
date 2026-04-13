@@ -18,6 +18,7 @@ import RatiosPage from "./pages/RatiosPage";
 import StudyToolsPage from "./pages/StudyToolsPage";
 import { PredOverview, PredCharts, PredInterp, PredQ1, PredSection3, PredSimulate, PredModel, PredStats } from "./pages/PredictionPages";
 import ContactPage from "./pages/ContactPage";
+import PastPapersPage from "./pages/PastPapersPage";
 import SectionPage from "./pages/SectionPage";
 import { COSTING_ARCHETYPES, COSTING_CATEGORIES, BUDGETING_ARCHETYPES, BUDGETING_CATEGORIES } from "./data/archetypes";
 import { COSTING_INTRO, COSTING_FORMULAS, COSTING_APPORTIONMENT_NOTE, COSTING_THEORY } from "./data/costingData";
@@ -97,6 +98,7 @@ const App = () => (
             <Route path="/walkthroughs" element={<WalkthroughMode walkthroughs={WALKTHROUGHS} />} />
             <Route path="/study-tools" element={<StudyToolsPage />} />
             <Route path="/ratios" element={<RatiosPage />} />
+            <Route path="/past-papers" element={<PastPapersPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/predictions" element={<PredOverview />} />
             <Route path="/predictions/charts" element={<PredCharts />} />

@@ -51,6 +51,7 @@ export const NAV_SECTIONS: NavSection[] = [
   {
     label: "Tools",
     items: [
+      { title: "Past Papers", url: "/past-papers", icon: FileText },
       { title: "Study Tools", url: "/study-tools", icon: Wrench },
       { title: "Q5 Ratios", url: "/ratios", icon: BarChart3 },
       { title: "Contact", url: "/contact", icon: Mail },
