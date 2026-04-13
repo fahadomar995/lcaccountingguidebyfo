@@ -21,15 +21,28 @@ export default function ReviewSession({ chapterId, chapterTitle, onBack, onNavig
     return startSession();
   });
 
+  const totalQuestions = activeSession?.itemIds.length ?? 0;
+  const currentIdx = activeSession?.currentIndex ?? 0;
+  const isComplete = activeSession ? currentIdx >= totalQuestions : false;
+
+  const currentItem = activeSession && !isComplete ? getItem(activeSession.itemIds[currentIdx]) : undefined;
+
+  const results = useMemo(() => {
+    if (!isComplete || !activeSession) return [];
+    return activeSession.itemIds.map(id => {
+      const item = getItem(id);
+      return {
+        item: item!,
+        result: activeSession.answers[id] || 'wrong' as const,
+      };
+    }).filter(r => r.item);
+  }, [isComplete, activeSession, getItem]);
+
+  const score = results.filter(r => r.result === 'correct' || r.result === 'got-it').length;
+
   if (!activeSession || !hasItems) {
     return null;
   }
-
-  const totalQuestions = activeSession.itemIds.length;
-  const currentIdx = activeSession.currentIndex;
-  const isComplete = currentIdx >= totalQuestions;
-
-  const currentItem = !isComplete ? getItem(activeSession.itemIds[currentIdx]) : undefined;
 
   const handleAnswer = (result: 'correct' | 'wrong' | 'got-it' | 'close' | 'missed') => {
     if (currentItem) {
@@ -55,20 +68,6 @@ export default function ReviewSession({ chapterId, chapterTitle, onBack, onNavig
     clearSession();
     onBack();
   };
-
-  // Build results data
-  const results = useMemo(() => {
-    if (!isComplete) return [];
-    return activeSession.itemIds.map(id => {
-      const item = getItem(id);
-      return {
-        item: item!,
-        result: activeSession.answers[id] || 'wrong',
-      };
-    }).filter(r => r.item);
-  }, [isComplete, activeSession, getItem]);
-
-  const score = results.filter(r => r.result === 'correct' || r.result === 'got-it').length;
 
   return (
     <div className="space-y-4">
