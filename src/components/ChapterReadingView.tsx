@@ -93,6 +93,28 @@ export default function ChapterReadingView({ chapter, initialSectionId, onBack, 
 
   const estimateSection = Math.max(2, Math.round(chapter.estimatedMinutes / chapter.sections.length));
 
+  const [showReview, setShowReview] = useState(false);
+  const hasReviewItems = (REVIEW_BANK[chapter.id] || []).length > 0;
+
+  // Review session mode
+  if (showReview) {
+    return (
+      <ReviewSession
+        chapterId={chapter.id}
+        chapterTitle={chapter.title}
+        onBack={() => setShowReview(false)}
+        onNavigateToSection={(sectionLink) => {
+          setShowReview(false);
+          // Try to find the section containing this sub-topic
+          const secIdx = chapter.sections.findIndex(s =>
+            s.subTopics.some(st => st.id === sectionLink)
+          );
+          if (secIdx >= 0) setActiveSectionIdx(secIdx);
+        }}
+      />
+    );
+  }
+
   return (
     <div className="space-y-4">
       {/* Back button */}
