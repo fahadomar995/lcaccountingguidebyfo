@@ -154,9 +154,9 @@ export default function ChapterReadingView({ chapter, initialSectionId, onBack, 
       </div>
 
       {/* Three-pane layout */}
-      <div className="flex flex-col md:flex-row gap-3 lg:gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-[220px_minmax(0,1fr)] xl:grid-cols-[220px_minmax(0,1fr)_220px] gap-3 lg:gap-4">
         {/* LEFT RAIL — Section sidebar */}
-        <div className="md:w-[180px] lg:w-[200px] shrink-0">
+        <div className="min-w-0">
           <div className="flex items-center gap-2 mb-2">
             <BookOpen className="h-3.5 w-3.5 text-primary" />
             <h3 className="text-xs font-bold">{chapterComplete}/{chapter.sections.length} sections</h3>
