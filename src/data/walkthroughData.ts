@@ -387,16 +387,6 @@ rows:['<tr class="indent"><td class="lbl">− Closing Stock <span class="wtag">W
 source:'Closing Stock <strong>€34,000</strong> from <strong>W2</strong>: €32,300 (given in Note 1) − €3,500 (sale-or-return goods removed) + €5,200 (goods in transit added).',
 reason:'Cost of Sales = Opening Stock + Purchases − Closing Stock = 20,800 + 381,450 − 34,000 = <strong>€368,250</strong>. Gross Profit = Sales − COS = 675,540 − 368,250 = <strong>€307,290</strong>.',
 watch:'Your closing stock figure must include the goods-in-transit (Note 9) because the goods legally belong to the business at year-end, even if they haven\'t physically arrived. Miss this and your closing stock is too low and COS is too high.'},
-{title:'Other Income — Profits on Disposal',
-rows:['<tr class="heading"><td colspan="3">Other Income</td></tr>','<tr class="indent"><td class="lbl">Profit on disposal of delivery van <span class="wtag">W10</span></td><td class="amt">7,500</td><td></td></tr>','<tr class="indent"><td class="lbl">Profit on disposal of equipment <span class="wtag">W11b</span></td><td class="amt">300</td><td></td></tr>'],
-source:'<strong>Van profit €7,500</strong> (W10) = Trade-in allowance €14,000 − NBV €6,500. <strong>Equipment profit €300</strong> = Settlement value €4,600 − NBV €4,300.',
-reason:'Both profits on disposal go in <strong>Other Income</strong>, not deducted from depreciation. They are separate gains on the sale of fixed assets and must be shown as income lines.',
-tip:'A <em>profit</em> on disposal means the business received more than the NBV — the asset was worth more than the books said. A <em>loss</em> would go in expenses, not here.'},
-{title:'Other Income — Investment Interest & Discount Received',
-rows:['<tr class="indent"><td class="lbl">Investment interest <span class="wtag">W4</span></td><td class="amt">3,000</td><td></td></tr>','<tr class="indent"><td class="lbl">Discount received <span class="wtag">TB</span></td><td class="amt">450</td><td></td></tr>','<tr class="subtotal"><td class="lbl">Total Income</td><td></td><td class="amt">318,540</td></tr>'],
-source:'<strong>Investment interest €3,000</strong> (W4) = €100,000 × 4% × 9/12 (9 months ownership from 01/04/2022). <strong>Discount received €450</strong> from the TB (credit side).',
-reason:'Total Income = Gross Profit + Other Income = 307,290 + 7,500 + 300 + 3,000 + 450 = <strong>€318,540</strong>. All four "Other Income" lines sum together above the total.',
-watch:'<strong>Discount side-check:</strong> Discount in the TB was on the <em>credit side</em> (€450), making it discount <em>received</em> (income) → goes here. If it had been on the <em>debit side</em>, it would be discount <em>allowed</em> (an expense) → Selling & Distribution instead. Always check which side.'},
 {title:'Administration Expenses — Operating Costs',
 rows:['<tr class="heading"><td colspan="3">Less Administration Expenses</td></tr>','<tr class="indent"><td class="lbl">Salaries & general expenses <span class="wtag">TB</span></td><td class="amt">67,320</td><td></td></tr>','<tr class="indent"><td class="lbl">Insurance <span class="wtag">TB</span></td><td class="amt">9,950</td><td></td></tr>','<tr class="indent"><td class="lbl">Rent <span class="wtag">TB</span></td><td class="amt">3,650</td><td></td></tr>'],
 source:'All three lines taken <strong>directly from the TB</strong>. No adjustments needed — the question gives no accruals or prepayments for these items.',
@@ -412,11 +402,21 @@ rows:['<tr class="heading"><td colspan="3">Less Selling & Distribution Expenses<
 source:'<strong>Van depreciation €27,700</strong> (W9) = €3,000 (old van 6 months) + €21,000 (other vans full year) + €3,700 (new van 6 months). <strong>Commission €6,750</strong> from TB.',
 reason:'Van depreciation goes in <strong>Selling & Distribution</strong>, NOT Administration, because vans deliver goods to customers. Commission is typically paid to sales staff, so it belongs here too.',
 watch:'<strong>Most common error:</strong> putting van depreciation in Administration Expenses. Vans = delivery = sales = S+D. Remember: the <em>function</em> of the asset determines which section it goes in, not the asset type.'},
-{title:'Financial Expenses & Net Profit',
-rows:['<tr class="heading"><td colspan="3">Less Financial Expenses</td></tr>','<tr class="indent"><td class="lbl">Mortgage interest <span class="wtag">W11</span></td><td class="amt">10,950</td><td class="amt">(10,950)</td></tr>','<tr class="subtotal"><td class="lbl">Total Expenses</td><td></td><td class="amt">(147,320)</td></tr>','<tr class="total"><td class="lbl">Net Profit</td><td></td><td class="amt">171,220</td></tr>'],
+{title:'Financial Expenses & Total Expenses',
+rows:['<tr class="heading"><td colspan="3">Less Financial Expenses</td></tr>','<tr class="indent"><td class="lbl">Mortgage interest <span class="wtag">W11</span></td><td class="amt">10,950</td><td class="amt">(10,950)</td></tr>','<tr class="subtotal"><td class="lbl">Total Expenses</td><td></td><td class="amt">(147,320)</td></tr>'],
 source:'<strong>Mortgage interest €10,950</strong> (W11) = 9 months on €170,000 + 3 months on €220,000 (the mortgage increased by €50,000 on 01/10/2022). This is the <em>full year\'s expense</em>, not just what was paid.',
-reason:'Mortgage interest is a <strong>financial expense</strong> (cost of borrowing), not an operating cost. It sits in its own section after S+D. Net Profit = Total Income − Total Expenses = 318,540 − 147,320 = <strong>€171,220</strong>.',
-tip:'<strong>Accrual basis:</strong> the P&L shows the full €10,950 expense even though only part was actually paid in cash. The unpaid portion (€7,550) goes to the balance sheet as "mortgage interest due" (a current liability).'}
+reason:'Mortgage interest is a <strong>financial expense</strong> (cost of borrowing), not an operating cost. It sits in its own section after S+D. Total Expenses = Admin + S&D + Financial = 101,920 + 34,450 + 10,950 = <strong>€147,320</strong>.',
+tip:'<strong>Accrual basis:</strong> the P&L shows the full €10,950 expense even though only part was actually paid in cash. The unpaid portion (€7,550) goes to the balance sheet as "mortgage interest due" (a current liability).'},
+{title:'Other Income — Profits on Disposal',
+rows:['<tr class="heading"><td colspan="3">Other Income</td></tr>','<tr class="indent"><td class="lbl">Profit on disposal of delivery van <span class="wtag">W10</span></td><td class="amt">7,500</td><td></td></tr>','<tr class="indent"><td class="lbl">Profit on disposal of equipment <span class="wtag">W11b</span></td><td class="amt">300</td><td></td></tr>'],
+source:'<strong>Van profit €7,500</strong> (W10) = Trade-in allowance €14,000 − NBV €6,500. <strong>Equipment profit €300</strong> = Settlement value €4,600 − NBV €4,300.',
+reason:'Both profits on disposal go in <strong>Other Income</strong>, not deducted from depreciation. They are separate gains on the sale of fixed assets and must be shown as income lines. Other Income appears <strong>after Total Expenses</strong> in the sole trader P&L format.',
+tip:'A <em>profit</em> on disposal means the business received more than the NBV — the asset was worth more than the books said. A <em>loss</em> would go in expenses, not here.'},
+{title:'Other Income — Investment Interest & Discount Received',
+rows:['<tr class="indent"><td class="lbl">Investment interest <span class="wtag">W4</span></td><td class="amt">3,000</td><td></td></tr>','<tr class="indent"><td class="lbl">Discount received <span class="wtag">TB</span></td><td class="amt">450</td><td class="amt">11,250</td></tr>','<tr class="total"><td class="lbl">Net Profit</td><td></td><td class="amt">171,220</td></tr>'],
+source:'<strong>Investment interest €3,000</strong> (W4) = €100,000 × 4% × 9/12 (9 months ownership from 01/04/2022). <strong>Discount received €450</strong> from the TB (credit side). Total Other Income = 7,500 + 300 + 3,000 + 450 = <strong>€11,250</strong>.',
+reason:'Net Profit = Gross Profit − Total Expenses + Other Income = 307,290 − 147,320 + 11,250 = <strong>€171,220</strong>. The Other Income sits after expenses but before Net Profit.',
+watch:'<strong>Discount side-check:</strong> Discount in the TB was on the <em>credit side</em> (€450), making it discount <em>received</em> (income) → goes here. If it had been on the <em>debit side</em>, it would be discount <em>allowed</em> (an expense) → Selling & Distribution instead. Always check which side.'}
 ];
 
 const ST_BS_STEPS: BuilderStep[] = [
@@ -1086,8 +1086,8 @@ tip:'<strong>If your two totals don\'t match</strong>, the most common causes fo
 export const WALKTHROUGHS: Walkthrough[] = [
   {
     id: 'st-2023',
-    title: '2023 Sole Trader — Jim Beechinor',
-    subtitle: '11 notes, 19 workings, 120 marks',
+    title: '2023 Sole Trader — Jim Beechinor (Mock Paper)',
+    subtitle: 'Mock Paper · 11 notes, 19 workings, 120 marks',
     type: 'sole-trader',
     year: '2023',
     tplTabLabel: 'Trading P&L',
