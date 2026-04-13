@@ -148,7 +148,13 @@ export default function TheoryPage() {
       )}
 
       <Tabs defaultValue="learn" className="w-full">
-        <TabsList className="mb-6 w-full justify-start flex-wrap h-auto gap-1">
+        {!isReading && <TabsList className="mb-6 w-full justify-start flex-wrap h-auto gap-1">
+          <TabsTrigger value="learn" className="gap-1"><BookOpen className="h-3.5 w-3.5" /> Learn</TabsTrigger>
+          <TabsTrigger value="questions">All Questions</TabsTrigger>
+          <TabsTrigger value="practice">Practice Mode</TabsTrigger>
+          <TabsTrigger value="flashcards">Flashcards</TabsTrigger>
+          <TabsTrigger value="frequency">Frequency</TabsTrigger>
+        </TabsList>}
           <TabsTrigger value="learn" className="gap-1"><BookOpen className="h-3.5 w-3.5" /> Learn</TabsTrigger>
           <TabsTrigger value="questions">All Questions</TabsTrigger>
           <TabsTrigger value="practice">Practice Mode</TabsTrigger>
