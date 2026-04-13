@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CHAPTERS, BLOCK_LABELS, BLOCK_DESCRIPTIONS, type Block, type Chapter } from "@/data/theoryChapters";
@@ -7,6 +7,7 @@ import { ChevronDown, ChevronRight, BookOpen, ArrowRight, Landmark, FileText, Us
 import ChapterReadingView from "@/components/ChapterReadingView";
 import TheorySearch from "@/components/TheorySearch";
 import { REVIEW_BANK } from "@/data/chapter-review-bank";
+import { useSidebar } from "@/components/ui/sidebar";
 
 const BLOCKS: Block[] = ['A', 'B', 'C', 'D'];
 const BLOCK_ICONS: Record<Block, typeof Landmark> = { A: Landmark, B: FileText, C: Users, D: Calculator };
@@ -50,11 +51,14 @@ export default function TheoryLearnMode({ onReadingStateChange }: Props) {
     });
   };
 
-  const openChapter = (id: number, sectionId?: string) => {
+  const { setOpen: setSidebarOpen } = useSidebar();
+
+  const openChapter = useCallback((id: number, sectionId?: string) => {
     setActiveChapterId(id);
     setInitialSectionId(sectionId);
+    setSidebarOpen(false);
     onReadingStateChange?.(true);
-  };
+  }, [onReadingStateChange, setSidebarOpen]);
 
   const handleSearchSelect = (chapterId: number, sectionId?: string) => {
     openChapter(chapterId, sectionId);
