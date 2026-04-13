@@ -230,41 +230,47 @@ function NotesTab({ notes, color }: { notes: import("@/data/walkthroughData").Wa
             </button>
 
             {isOpen && (
-              <CardContent className="px-5 pb-5 pt-0 space-y-4">
-                {/* Lead-in sections */}
-                <div>
-                  <h5 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                    <span className="w-5 h-5 rounded flex items-center justify-center text-[10px] bg-gray-500 text-white font-bold">N</span>
-                    The note (from the exam paper)
-                  </h5>
-                  <div className="bg-muted/50 rounded-lg p-3 text-sm leading-relaxed italic" dangerouslySetInnerHTML={{ __html: note.noteText }} />
-                </div>
+              <CardContent className="px-4 pb-4 pt-0 space-y-3">
+                {/* Lead-in: 2-col on tablet, stacked on mobile */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {/* Left col: Note + TB Look */}
+                  <div className="space-y-3">
+                    <div>
+                      <h5 className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                        <span className="w-4 h-4 rounded flex items-center justify-center text-[8px] bg-muted-foreground/60 text-white font-bold">N</span>
+                        The note (from the exam paper)
+                      </h5>
+                      <div className="bg-muted/50 rounded-lg p-2.5 text-[13px] leading-relaxed italic" dangerouslySetInnerHTML={{ __html: note.noteText }} />
+                    </div>
 
-                <div>
-                  <h5 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                    <Eye className="h-3.5 w-3.5" /> What to look for in the TB
-                  </h5>
-                  <div className="text-sm leading-relaxed prose prose-sm max-w-none dark:prose-invert overflow-x-auto wt-tb-look" dangerouslySetInnerHTML={{ __html: note.tbLook }} />
-                </div>
+                    <div>
+                      <h5 className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                        <Eye className="h-3 w-3" /> What to look for in the TB
+                      </h5>
+                      <div className="text-[13px] leading-relaxed prose prose-sm max-w-none dark:prose-invert overflow-x-auto wt-tb-look" dangerouslySetInnerHTML={{ __html: note.tbLook }} />
+                    </div>
+                  </div>
 
-                <div>
-                  <h5 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                    <ClipboardList className="h-3.5 w-3.5" /> What to do
-                  </h5>
-                  <div className="text-sm leading-relaxed prose prose-sm max-w-none dark:prose-invert wt-task-box" dangerouslySetInnerHTML={{ __html: note.task }} />
+                  {/* Right col: What to do */}
+                  <div>
+                    <h5 className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                      <ClipboardList className="h-3 w-3" /> What to do
+                    </h5>
+                    <div className="text-[13px] leading-relaxed prose prose-sm max-w-none dark:prose-invert wt-task-box" dangerouslySetInnerHTML={{ __html: note.task }} />
+                  </div>
                 </div>
 
                 {/* Step-based T-account engine */}
                 {totalSteps > 0 && (
                   <div>
-                    <h5 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                      <Wrench className="h-3.5 w-3.5" /> Step-by-step T-account working
+                    <h5 className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                      <Wrench className="h-3 w-3" /> Step-by-step T-account working
                     </h5>
 
                     <StepContent step={note.steps![curStep]} />
 
                     {/* Stepper nav */}
-                    <div className="flex items-center gap-3 mt-4 pt-3 border-t border-border flex-wrap">
+                    <div className="flex items-center gap-3 mt-3 pt-2.5 border-t border-border flex-wrap">
                       <div className="flex gap-1.5">
                         <Button variant="outline" size="sm" className="text-xs h-7 gap-1" disabled={curStep === 0}
                           onClick={() => setStepIndex(prev => ({ ...prev, [note.num]: curStep - 1 }))}>
@@ -286,33 +292,33 @@ function NotesTab({ notes, color }: { notes: import("@/data/walkthroughData").Wa
                   </div>
                 )}
 
-                {/* Legacy workings fallback (if no steps) */}
+                {/* Legacy workings fallback */}
                 {totalSteps === 0 && note.workings && note.workings.length > 0 && (
                   <div>
-                    <h5 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1.5"><Wrench className="h-3.5 w-3.5" /> Workings</h5>
-                    <div className="space-y-3">
+                    <h5 className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-1.5 flex items-center gap-1.5"><Wrench className="h-3 w-3" /> Workings</h5>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                       {note.workings.map((w, i) => (
-                        <div key={i} className="bg-card border border-border rounded-lg p-3">
-                          <div className="font-mono text-xs font-bold mb-2" style={{ color }}>{w.title}</div>
-                          {w.content && <div className="text-sm leading-relaxed" dangerouslySetInnerHTML={{ __html: w.content }} />}
-                          {w.below && <div className="text-sm leading-relaxed mt-2" dangerouslySetInnerHTML={{ __html: w.below }} />}
+                        <div key={i} className="bg-card border border-border rounded-lg p-2.5">
+                          <div className="font-mono text-xs font-bold mb-1.5" style={{ color }}>{w.title}</div>
+                          {w.content && <div className="text-[13px] leading-relaxed" dangerouslySetInnerHTML={{ __html: w.content }} />}
+                          {w.below && <div className="text-[13px] leading-relaxed mt-1.5" dangerouslySetInnerHTML={{ __html: w.below }} />}
                         </div>
                       ))}
                     </div>
                   </div>
                 )}
 
-                {/* Destinations (legacy, shown if no steps) */}
+                {/* Destinations */}
                 {totalSteps === 0 && note.destinations && note.destinations.length > 0 && (
                   <div>
-                    <h5 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1.5"><FileText className="h-3.5 w-3.5" /> Where each figure goes</h5>
-                    <div className="space-y-1.5">
+                    <h5 className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-1.5 flex items-center gap-1.5"><FileText className="h-3 w-3" /> Where each figure goes</h5>
+                    <div className="space-y-1">
                       {note.destinations.map((d, i) => (
                         <div key={i} className="flex items-start gap-2 text-xs">
                           <span className="font-bold shrink-0 mt-0.5" style={{ color }}>{d.arrow}</span>
                           <span className="font-bold">{d.name}</span>
                           <span className="font-mono font-bold">{d.amt}</span>
-                          <span className="text-muted-foreground">→ {d.where}</span>
+                          <span className="text-muted-foreground">{'\u2192'} {d.where}</span>
                         </div>
                       ))}
                     </div>
@@ -320,13 +326,13 @@ function NotesTab({ notes, color }: { notes: import("@/data/walkthroughData").Wa
                 )}
 
                 {totalSteps === 0 && note.tip && (
-                  <div className="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg p-3 text-xs leading-relaxed flex gap-2">
+                  <div className="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg p-2.5 text-xs leading-relaxed flex gap-2">
                     <Lightbulb className="h-3.5 w-3.5 text-amber-600 shrink-0 mt-0.5" />
                     <div dangerouslySetInnerHTML={{ __html: note.tip }} />
                   </div>
                 )}
                 {totalSteps === 0 && note.watchOut && (
-                  <div className="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800 rounded-lg p-3 text-xs leading-relaxed flex gap-2">
+                  <div className="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800 rounded-lg p-2.5 text-xs leading-relaxed flex gap-2">
                     <AlertTriangle className="h-3.5 w-3.5 text-red-600 shrink-0 mt-0.5" />
                     <div dangerouslySetInnerHTML={{ __html: note.watchOut }} />
                   </div>

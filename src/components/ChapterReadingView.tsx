@@ -154,16 +154,16 @@ export default function ChapterReadingView({ chapter, initialSectionId, onBack, 
       </div>
 
       {/* Three-pane layout */}
-      <div className="flex flex-col lg:flex-row gap-4">
+      <div className="flex flex-col md:flex-row gap-3 lg:gap-4">
         {/* LEFT RAIL — Section sidebar */}
-        <div className="lg:w-[220px] shrink-0">
-          <div className="flex items-center gap-2 mb-3">
-            <BookOpen className="h-4 w-4 text-primary" />
+        <div className="md:w-[180px] lg:w-[200px] shrink-0">
+          <div className="flex items-center gap-2 mb-2">
+            <BookOpen className="h-3.5 w-3.5 text-primary" />
             <h3 className="text-xs font-bold">{chapterComplete}/{chapter.sections.length} sections</h3>
           </div>
           
           {/* Mobile: dropdown */}
-          <div className="lg:hidden mb-3">
+          <div className="md:hidden mb-3">
             <select
               className="w-full bg-card border border-border rounded-lg px-3 py-2 text-xs font-medium"
               value={activeSectionIdx}
@@ -171,38 +171,38 @@ export default function ChapterReadingView({ chapter, initialSectionId, onBack, 
             >
               {chapter.sections.map((s, i) => (
                 <option key={s.id} value={i}>
-                  {completedSections[`${chapter.id}_${s.id}`] ? '✓ ' : ''}{s.id} {s.title}
+                  {completedSections[`${chapter.id}_${s.id}`] ? '\u2713 ' : ''}{s.id} {s.title}
                 </option>
               ))}
             </select>
           </div>
 
-          {/* Desktop: list */}
-          <div className="hidden lg:block space-y-1">
+          {/* Tablet+: list */}
+          <div className="hidden md:block space-y-0.5">
             {chapter.sections.map((s, i) => {
               const done = completedSections[`${chapter.id}_${s.id}`];
               return (
                 <button
                   key={s.id}
-                  className={`w-full text-left px-3 py-2 rounded-lg text-xs transition-all flex items-center gap-2 ${
+                  className={`w-full text-left px-2.5 py-1.5 rounded-lg text-[11px] transition-all flex items-center gap-1.5 ${
                     i === activeSectionIdx
                       ? 'bg-primary/10 text-primary font-semibold border border-primary/20'
                       : 'text-muted-foreground hover:bg-muted/50'
                   }`}
                   onClick={() => setActiveSectionIdx(i)}
                 >
-                  {done && <Check className="h-3 w-3 text-green-500 shrink-0" />}
-                  <span className="font-mono text-[10px] text-muted-foreground mr-1">{s.id}</span>
+                  {done && <Check className="h-2.5 w-2.5 text-green-500 shrink-0" />}
+                  <span className="font-mono text-[9px] text-muted-foreground mr-0.5">{s.id}</span>
                   <span className="truncate">{s.title}</span>
                 </button>
               );
             })}
 
             {/* Jump to chapter dropdown */}
-            <div className="mt-4 pt-3 border-t border-border">
-              <label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground block mb-1">Jump to chapter</label>
+            <div className="mt-3 pt-2.5 border-t border-border">
+              <label className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground block mb-1">Jump to chapter</label>
               <select
-                className="w-full bg-card border border-border rounded-lg px-2 py-1.5 text-xs"
+                className="w-full bg-card border border-border rounded-lg px-2 py-1.5 text-[11px]"
                 value={chapter.id}
                 onChange={e => onNavigateChapter(Number(e.target.value))}
               >
@@ -217,7 +217,7 @@ export default function ChapterReadingView({ chapter, initialSectionId, onBack, 
         {/* CENTRE — Reading column */}
         <div className="flex-1 min-w-0 max-w-[720px] overflow-y-auto" ref={contentRef}>
           <Card className="border-border">
-            <CardContent className="p-5 sm:p-8">
+            <CardContent className="p-4 sm:p-5 lg:p-8">
               {/* Header */}
               <div className="flex items-center gap-2 flex-wrap mb-2">
                 <Badge variant="outline" className="text-[10px] font-mono">Ch {chapter.id}</Badge>
