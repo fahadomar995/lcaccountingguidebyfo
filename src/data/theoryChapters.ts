@@ -1342,8 +1342,8 @@ export const CHAPTERS: Chapter[] = [
     ]
   },
 
+
   // ── Chapter 17 — EXPANDED ──
-              { term: 'Income & Expenditure Account', definition: 'The club equivalent of a P&L \u2014 shows surplus or deficit based on accruals.' },
               { term: 'Accumulated Fund', definition: 'The club equivalent of capital \u2014 net assets at the start of the period.' },
               { term: 'Surplus', definition: 'When income exceeds expenditure (equivalent to net profit).' },
               { term: 'Deficit', definition: 'When expenditure exceeds income (equivalent to net loss).' },
