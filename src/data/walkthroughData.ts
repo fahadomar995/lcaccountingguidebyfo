@@ -106,6 +106,15 @@ export interface Walkthrough {
 // ═══════════════════════════════════════════════════
 
 const ST_INTRO = `
+<div class="wt-intro-box green">
+  <h3>Meet the Question — Jim Beechinor (2023 Mock Paper)</h3>
+  <p>Before diving into the workings, take a moment to <strong>read the actual exam question</strong>. Study the trial balance and notes carefully.</p>
+  <div style="display:flex;flex-direction:column;gap:12px;margin-top:12px;">
+    <img src="/images/q1-sole-2023-p1.jpg" alt="2023 Mock Paper Q1 — Trial Balance" style="width:100%;border:1px solid #e0e0e0;border-radius:8px;" />
+    <img src="/images/q1-sole-2023-p2.jpg" alt="2023 Mock Paper Q1 — Notes" style="width:100%;border:1px solid #e0e0e0;border-radius:8px;" />
+  </div>
+</div>
+
 <div class="wt-intro-box">
   <h3>How to Approach Q1 Final Accounts</h3>
   <p>Q1 is worth <strong>120 marks</strong> and is the longest single question on the paper. Don't panic — every Q1 follows the same predictable structure. The trick is to <strong>work in a fixed order</strong> so you never miss anything and you never duplicate work.</p>
