@@ -1105,7 +1105,7 @@ export const CHAPTERS: Chapter[] = [
             ],
             body: [
               { type: 'concept', variant: 'green', title: 'Calculating the Accumulated Fund', html: '<p><strong>Opening Statement of Affairs:</strong></p><p>Opening Assets − Opening Liabilities = <strong>Accumulated Fund</strong></p><p>This is always the first working in a club accounts question. The examiner expects a neat statement listing every opening asset and liability.</p>' },
-              { type: 'worked-example', title: 'Worked Example — Opening Accumulated Fund', html: '<table class="learn-table"><thead><tr><th>Opening Assets</th><th>€</th></tr></thead><tbody><tr><td>Premises</td><td>120,000</td></tr><tr><td>Equipment</td><td>18,000</td></tr><tr><td>Bar stock</td><td>3,200</td></tr><tr><td>Subscriptions due (arrears)</td><td>600</td></tr><tr><td>Bank</td><td>4,500</td></tr><tr><td><strong>Total Assets</strong></td><td><strong>146,300</strong></td></tr></tbody></table><table class="learn-table"><thead><tr><th>Opening Liabilities</th><th>€</th></tr></thead><tbody><tr><td>Bar creditors</td><td>1,800</td></tr><tr><td>Subscriptions prepaid</td><td>400</td></tr><tr><td><strong>Total Liabilities</strong></td><td><strong>2,200</strong></td></tr></tbody></table><p><strong>Accumulated Fund = €146,300 − €2,200 = €144,100</strong></p>' },
+              { type: 'example', title: 'Worked Example — Opening Accumulated Fund', html: '<table class="learn-table"><thead><tr><th>Opening Assets</th><th>€</th></tr></thead><tbody><tr><td>Premises</td><td>120,000</td></tr><tr><td>Equipment</td><td>18,000</td></tr><tr><td>Bar stock</td><td>3,200</td></tr><tr><td>Subscriptions due (arrears)</td><td>600</td></tr><tr><td>Bank</td><td>4,500</td></tr><tr><td><strong>Total Assets</strong></td><td><strong>146,300</strong></td></tr></tbody></table><table class="learn-table"><thead><tr><th>Opening Liabilities</th><th>€</th></tr></thead><tbody><tr><td>Bar creditors</td><td>1,800</td></tr><tr><td>Subscriptions prepaid</td><td>400</td></tr><tr><td><strong>Total Liabilities</strong></td><td><strong>2,200</strong></td></tr></tbody></table><p><strong>Accumulated Fund = €146,300 − €2,200 = €144,100</strong></p>' },
             ]
           },
         ]
@@ -1136,7 +1136,7 @@ export const CHAPTERS: Chapter[] = [
             ],
             body: [
               { type: 'table', html: '<table class="learn-table"><thead><tr><th>Receipt</th><th>Treatment</th><th>Balance Sheet</th></tr></thead><tbody><tr><td>Entrance fees</td><td>Income in year received</td><td>None (unless prepaid element)</td></tr><tr><td>Life membership (€6,000 over 10 yrs)</td><td>€600 income p.a.</td><td>Balance = liability (deferred income)</td></tr><tr><td>Government grant (capital, €50,000 for asset with 10-yr life)</td><td>€5,000 income p.a.</td><td>Balance = liability (deferred grant)</td></tr><tr><td>Fundraising (lotto, race night)</td><td>Income in I&E (or net of direct costs)</td><td>None</td></tr><tr><td>Large one-off donation</td><td>May go directly to accumulated fund</td><td>Increases accumulated fund</td></tr></tbody></table>' },
-              { type: 'worked-example', title: 'Life Membership Calculation', html: '<p>Life membership received: €6,000. Expected membership: 10 years.</p><p>Annual income = €6,000 ÷ 10 = <strong>€600</strong> to I&E.</p><p>Year 1 Balance Sheet: Liability = €6,000 − €600 = <strong>€5,400</strong> (deferred income).</p>' },
+              { type: 'example', title: 'Life Membership Calculation', html: '<p>Life membership received: €6,000. Expected membership: 10 years.</p><p>Annual income = €6,000 ÷ 10 = <strong>€600</strong> to I&E.</p><p>Year 1 Balance Sheet: Liability = €6,000 − €600 = <strong>€5,400</strong> (deferred income).</p>' },
             ]
           },
         ]
@@ -1148,7 +1148,7 @@ export const CHAPTERS: Chapter[] = [
             id: '13.3.1', title: 'Preparing the Bar Account',
             body: [
               { type: 'concept', variant: 'green', title: 'Bar Trading Account Layout', html: '<p><strong>Bar Sales</strong> (from R&P, adjusted for debtors)<br/>Less: Cost of Bar Sales<br/>&nbsp;&nbsp;Opening bar stock<br/>&nbsp;&nbsp;+ Bar purchases (from R&P, adjusted for creditors)<br/>&nbsp;&nbsp;− Closing bar stock<br/>= <strong>Bar Gross Profit</strong><br/>Less: Bar wages, bar expenses<br/>= <strong>Bar Net Profit</strong> → transferred to I&E Account.</p>' },
-              { type: 'worked-example', title: 'Worked Example — Bar Trading Account', html: '<table class="learn-table"><thead><tr><th></th><th>€</th></tr></thead><tbody><tr><td>Bar Sales (R&P €42,000 + closing debtors €800 − opening debtors €500)</td><td>42,300</td></tr><tr><td>Less: Opening bar stock</td><td>3,200</td></tr><tr><td>+ Bar purchases (R&P €28,000 + closing creditors €1,900 − opening creditors €1,800)</td><td>28,100</td></tr><tr><td>− Closing bar stock</td><td>(3,800)</td></tr><tr><td><strong>Cost of Bar Sales</strong></td><td><strong>(27,500)</strong></td></tr><tr><td><strong>Bar Gross Profit</strong></td><td><strong>14,800</strong></td></tr><tr><td>Less: Bar wages</td><td>(5,200)</td></tr><tr><td><strong>Bar Net Profit → I&E</strong></td><td><strong>9,600</strong></td></tr></tbody></table>' },
+              { type: 'example', title: 'Worked Example — Bar Trading Account', html: '<table class="learn-table"><thead><tr><th></th><th>€</th></tr></thead><tbody><tr><td>Bar Sales (R&P €42,000 + closing debtors €800 − opening debtors €500)</td><td>42,300</td></tr><tr><td>Less: Opening bar stock</td><td>3,200</td></tr><tr><td>+ Bar purchases (R&P €28,000 + closing creditors €1,900 − opening creditors €1,800)</td><td>28,100</td></tr><tr><td>− Closing bar stock</td><td>(3,800)</td></tr><tr><td><strong>Cost of Bar Sales</strong></td><td><strong>(27,500)</strong></td></tr><tr><td><strong>Bar Gross Profit</strong></td><td><strong>14,800</strong></td></tr><tr><td>Less: Bar wages</td><td>(5,200)</td></tr><tr><td><strong>Bar Net Profit → I&E</strong></td><td><strong>9,600</strong></td></tr></tbody></table>' },
               { type: 'examtip', title: 'Exam Tip', html: '<p>Bar purchases and sales from the R&P are <em>cash figures</em>. You must adjust for opening AND closing creditors/debtors to get the accruals-based figures for the bar trading account.</p>' },
             ]
           },
@@ -1196,7 +1196,7 @@ export const CHAPTERS: Chapter[] = [
             id: '14.1.2', title: 'Fee Income Calculation',
             body: [
               { type: 'concept', variant: 'green', title: 'Fee Income T-Account', html: '<p>Use a T-account to find the I&E figure:</p><table class="learn-table"><thead><tr><th>Dr (Debit Side)</th><th>Cr (Credit Side)</th></tr></thead><tbody><tr><td>Fees accrued at start (b/d)</td><td>Fees prepaid at start (b/d)</td></tr><tr><td><strong>Fee income for P&L (balancing fig.)</strong></td><td>Fees received (cash from TB)</td></tr><tr><td>Fees prepaid at end (c/d)</td><td>Fees accrued at end (c/d)</td></tr></tbody></table>' },
-              { type: 'worked-example', title: 'Worked Example', html: '<p>Fees received (TB): €185,000. Fees accrued: start €4,200, end €6,800. Fees prepaid: start €1,000, end €1,500.</p><p>Fee Income = €185,000 + €6,800 − €4,200 + €1,000 − €1,500 = <strong>€187,100</strong></p>' },
+              { type: 'example', title: 'Worked Example', html: '<p>Fees received (TB): €185,000. Fees accrued: start €4,200, end €6,800. Fees prepaid: start €1,000, end €1,500.</p><p>Fee Income = €185,000 + €6,800 − €4,200 + €1,000 − €1,500 = <strong>€187,100</strong></p>' },
             ]
           },
         ]
@@ -1307,7 +1307,7 @@ export const CHAPTERS: Chapter[] = [
           {
             id: '16.2.2', title: 'Worked Example — Control Accounts',
             body: [
-              { type: 'worked-example', title: 'Finding Credit Sales', html: '<p>Opening debtors €8,500. Cash received from debtors €74,200. Bad debts €1,200. Discount allowed €800. Closing debtors €9,300.</p><table class="learn-table"><thead><tr><th>Dr</th><th>€</th><th>Cr</th><th>€</th></tr></thead><tbody><tr><td>Opening debtors</td><td>8,500</td><td>Cash received</td><td>74,200</td></tr><tr><td><strong>Credit sales (bal.)</strong></td><td><strong>77,000</strong></td><td>Bad debts</td><td>1,200</td></tr><tr><td></td><td></td><td>Discount allowed</td><td>800</td></tr><tr><td></td><td></td><td>Closing debtors</td><td>9,300</td></tr><tr><td><strong>Total</strong></td><td><strong>85,500</strong></td><td><strong>Total</strong></td><td><strong>85,500</strong></td></tr></tbody></table>' },
+              { type: 'example', title: 'Finding Credit Sales', html: '<p>Opening debtors €8,500. Cash received from debtors €74,200. Bad debts €1,200. Discount allowed €800. Closing debtors €9,300.</p><table class="learn-table"><thead><tr><th>Dr</th><th>€</th><th>Cr</th><th>€</th></tr></thead><tbody><tr><td>Opening debtors</td><td>8,500</td><td>Cash received</td><td>74,200</td></tr><tr><td><strong>Credit sales (bal.)</strong></td><td><strong>77,000</strong></td><td>Bad debts</td><td>1,200</td></tr><tr><td></td><td></td><td>Discount allowed</td><td>800</td></tr><tr><td></td><td></td><td>Closing debtors</td><td>9,300</td></tr><tr><td><strong>Total</strong></td><td><strong>85,500</strong></td><td><strong>Total</strong></td><td><strong>85,500</strong></td></tr></tbody></table>' },
             ]
           },
         ]
@@ -1322,7 +1322,7 @@ export const CHAPTERS: Chapter[] = [
             ],
             body: [
               { type: 'concept', variant: 'blue', title: 'Net Worth Formula', html: '<p><strong>Net Profit = Closing Capital − Opening Capital + Drawings − Capital Introduced</strong></p><p>Steps:</p><p>1. Prepare <strong>opening statement of affairs</strong> → Opening Capital (assets − liabilities).</p><p>2. Prepare <strong>closing statement of affairs</strong> → Closing Capital (assets − liabilities).</p><p>3. Apply the formula.</p>' },
-              { type: 'worked-example', title: 'Worked Example', html: '<p>Opening capital €45,000. Closing capital €62,000. Drawings €18,000. Capital introduced €5,000.</p><p>Net Profit = €62,000 − €45,000 + €18,000 − €5,000 = <strong>€30,000</strong></p>' },
+              { type: 'example', title: 'Worked Example', html: '<p>Opening capital €45,000. Closing capital €62,000. Drawings €18,000. Capital introduced €5,000.</p><p>Net Profit = €62,000 − €45,000 + €18,000 − €5,000 = <strong>€30,000</strong></p>' },
             ]
           },
           {
