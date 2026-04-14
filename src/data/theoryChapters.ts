@@ -1073,10 +1073,11 @@ export const CHAPTERS: Chapter[] = [
   // BLOCK C — OTHER ENTITIES & INTERPRETATION (Ch 13-19)
   // ──────────────────────────────────────────────────
   {
+    // ── Chapter 13 — EXPANDED ──
     id: 13, block: 'C',
     title: 'Club Accounts',
     description: 'Receipts & payments account, income & expenditure account, accumulated fund, bar trading.',
-    estimatedMinutes: 30,
+    estimatedMinutes: 35,
     related: [6, 14],
     sections: [
       {
@@ -1085,7 +1086,263 @@ export const CHAPTERS: Chapter[] = [
           {
             id: '13.1.1', title: 'Receipts & Payments vs Income & Expenditure',
             keyTerms: [
-              { term: 'Receipts & Payments Account', definition: 'A summary of cash transactions \u2014 similar to a cash book.' },
+              { term: 'Receipts & Payments Account', definition: 'A summary of cash transactions — similar to a cash book. Shows opening and closing bank balances.' },
+              { term: 'Income & Expenditure Account', definition: 'The club equivalent of a P&L — shows surplus or deficit based on accruals.' },
+              { term: 'Accumulated Fund', definition: 'The club equivalent of capital — net assets at the start of the period.' },
+              { term: 'Surplus', definition: 'When income exceeds expenditure (equivalent to net profit).' },
+              { term: 'Deficit', definition: 'When expenditure exceeds income (equivalent to net loss).' },
+            ],
+            body: [
+              { type: 'concept', variant: 'blue', title: 'Two Types of Account', html: '<p><strong>Receipts & Payments (R&P):</strong> Cash basis. Records ALL cash received and paid during the year. Shows opening and closing bank balances. Capital items ARE included.</p><p><strong>Income & Expenditure (I&E):</strong> Accruals basis. Only includes income <em>earned</em> and expenses <em>incurred</em> during the year. Shows a surplus or deficit. Capital items are NOT included (only depreciation).</p>' },
+              { type: 'table', html: '<table class="learn-table"><thead><tr><th>Feature</th><th>R&P Account</th><th>I&E Account</th></tr></thead><tbody><tr><td>Basis</td><td>Cash basis</td><td>Accruals basis</td></tr><tr><td>Shows</td><td>Opening/closing bank balance</td><td>Surplus or deficit</td></tr><tr><td>Capital items</td><td>Yes (equipment purchased)</td><td>No (depreciation instead)</td></tr><tr><td>Accruals/prepayments</td><td>Not adjusted</td><td>Fully adjusted</td></tr><tr><td>Equivalent to</td><td>Cash book summary</td><td>Profit & Loss Account</td></tr></tbody></table>' },
+              { type: 'watchout', title: 'Key SEC Exam Trap', html: '<p>Capital items (purchase of equipment, sale of investments) appear in R&P but NOT in I&E. Depreciation appears in I&E but NOT in R&P. This is tested almost every time clubs appear.</p>' },
+            ]
+          },
+          {
+            id: '13.1.2', title: 'The Accumulated Fund',
+            keyTerms: [
+              { term: 'Statement of Affairs', definition: 'A balance sheet prepared at the start to calculate the accumulated fund — lists opening assets and liabilities.' },
+            ],
+            body: [
+              { type: 'concept', variant: 'green', title: 'Calculating the Accumulated Fund', html: '<p><strong>Opening Statement of Affairs:</strong></p><p>Opening Assets − Opening Liabilities = <strong>Accumulated Fund</strong></p><p>This is always the first working in a club accounts question. The examiner expects a neat statement listing every opening asset and liability.</p>' },
+              { type: 'worked-example', title: 'Worked Example — Opening Accumulated Fund', html: '<table class="learn-table"><thead><tr><th>Opening Assets</th><th>€</th></tr></thead><tbody><tr><td>Premises</td><td>120,000</td></tr><tr><td>Equipment</td><td>18,000</td></tr><tr><td>Bar stock</td><td>3,200</td></tr><tr><td>Subscriptions due (arrears)</td><td>600</td></tr><tr><td>Bank</td><td>4,500</td></tr><tr><td><strong>Total Assets</strong></td><td><strong>146,300</strong></td></tr></tbody></table><table class="learn-table"><thead><tr><th>Opening Liabilities</th><th>€</th></tr></thead><tbody><tr><td>Bar creditors</td><td>1,800</td></tr><tr><td>Subscriptions prepaid</td><td>400</td></tr><tr><td><strong>Total Liabilities</strong></td><td><strong>2,200</strong></td></tr></tbody></table><p><strong>Accumulated Fund = €146,300 − €2,200 = €144,100</strong></p>' },
+            ]
+          },
+        ]
+      },
+      {
+        id: '13.2', title: 'Subscriptions & Special Income',
+        subTopics: [
+          {
+            id: '13.2.1', title: 'Subscriptions Account',
+            keyTerms: [
+              { term: 'Subscriptions', definition: 'Annual membership fees — the main income source for most clubs.' },
+              { term: 'Arrears', definition: 'Subscriptions due but not yet received — shown as a current asset (debtor).' },
+              { term: 'Prepaid Subscriptions', definition: 'Subscriptions received in advance — shown as a current liability.' },
+            ],
+            body: [
+              { type: 'concept', variant: 'blue', title: 'Subscriptions T-Account', html: '<p>Prepare a T-account to calculate subscription <strong>income</strong> for the I&E:</p><table class="learn-table"><thead><tr><th>Dr (Debit Side)</th><th>Cr (Credit Side)</th></tr></thead><tbody><tr><td>Arrears at start (b/d)</td><td>Prepaid at start (b/d)</td></tr><tr><td>Cash received (from R&P)</td><td><strong>I&E Income (balancing figure)</strong></td></tr><tr><td>Prepaid at end (c/d)</td><td>Arrears at end (c/d)</td></tr></tbody></table><p>The balancing figure on the <strong>credit side</strong> = Subscription Income for the I&E Account.</p>' },
+              { type: 'watchout', title: 'Balances at Year End', html: '<p><strong>Arrears at year end</strong> = Debit balance carried down = Current Asset (debtors).</p><p><strong>Prepaid at year end</strong> = Credit balance carried down = Current Liability.</p><p>Students often get these reversed — remember: arrears = money OWED TO the club.</p>' },
+              { type: 'examtip', title: 'SEC Marking Scheme', html: '<p>The subscriptions T-account is worth 8–10 marks in a typical club question. Show EVERY entry clearly — the examiner awards method marks even if the final figure is wrong.</p>' },
+            ]
+          },
+          {
+            id: '13.2.2', title: 'Special Receipts',
+            keyTerms: [
+              { term: 'Life Membership', definition: 'A one-off payment for permanent membership — spread over expected years of membership.' },
+              { term: 'Entrance Fees', definition: 'One-off fees for new members — usually income in year received unless capitalised.' },
+              { term: 'Government Grant', definition: 'Capital grants are spread over the asset life; revenue grants are immediate income.' },
+              { term: 'Fundraising Income', definition: 'Income from events like lotto, race nights — shown separately in I&E.' },
+            ],
+            body: [
+              { type: 'table', html: '<table class="learn-table"><thead><tr><th>Receipt</th><th>Treatment</th><th>Balance Sheet</th></tr></thead><tbody><tr><td>Entrance fees</td><td>Income in year received</td><td>None (unless prepaid element)</td></tr><tr><td>Life membership (€6,000 over 10 yrs)</td><td>€600 income p.a.</td><td>Balance = liability (deferred income)</td></tr><tr><td>Government grant (capital, €50,000 for asset with 10-yr life)</td><td>€5,000 income p.a.</td><td>Balance = liability (deferred grant)</td></tr><tr><td>Fundraising (lotto, race night)</td><td>Income in I&E (or net of direct costs)</td><td>None</td></tr><tr><td>Large one-off donation</td><td>May go directly to accumulated fund</td><td>Increases accumulated fund</td></tr></tbody></table>' },
+              { type: 'worked-example', title: 'Life Membership Calculation', html: '<p>Life membership received: €6,000. Expected membership: 10 years.</p><p>Annual income = €6,000 ÷ 10 = <strong>€600</strong> to I&E.</p><p>Year 1 Balance Sheet: Liability = €6,000 − €600 = <strong>€5,400</strong> (deferred income).</p>' },
+            ]
+          },
+        ]
+      },
+      {
+        id: '13.3', title: 'Bar Trading Account',
+        subTopics: [
+          {
+            id: '13.3.1', title: 'Preparing the Bar Account',
+            body: [
+              { type: 'concept', variant: 'green', title: 'Bar Trading Account Layout', html: '<p><strong>Bar Sales</strong> (from R&P, adjusted for debtors)<br/>Less: Cost of Bar Sales<br/>&nbsp;&nbsp;Opening bar stock<br/>&nbsp;&nbsp;+ Bar purchases (from R&P, adjusted for creditors)<br/>&nbsp;&nbsp;− Closing bar stock<br/>= <strong>Bar Gross Profit</strong><br/>Less: Bar wages, bar expenses<br/>= <strong>Bar Net Profit</strong> → transferred to I&E Account.</p>' },
+              { type: 'worked-example', title: 'Worked Example — Bar Trading Account', html: '<table class="learn-table"><thead><tr><th></th><th>€</th></tr></thead><tbody><tr><td>Bar Sales (R&P €42,000 + closing debtors €800 − opening debtors €500)</td><td>42,300</td></tr><tr><td>Less: Opening bar stock</td><td>3,200</td></tr><tr><td>+ Bar purchases (R&P €28,000 + closing creditors €1,900 − opening creditors €1,800)</td><td>28,100</td></tr><tr><td>− Closing bar stock</td><td>(3,800)</td></tr><tr><td><strong>Cost of Bar Sales</strong></td><td><strong>(27,500)</strong></td></tr><tr><td><strong>Bar Gross Profit</strong></td><td><strong>14,800</strong></td></tr><tr><td>Less: Bar wages</td><td>(5,200)</td></tr><tr><td><strong>Bar Net Profit → I&E</strong></td><td><strong>9,600</strong></td></tr></tbody></table>' },
+              { type: 'examtip', title: 'Exam Tip', html: '<p>Bar purchases and sales from the R&P are <em>cash figures</em>. You must adjust for opening AND closing creditors/debtors to get the accruals-based figures for the bar trading account.</p>' },
+            ]
+          },
+        ]
+      },
+      {
+        id: '13.4', title: 'I&E Account & Balance Sheet',
+        subTopics: [
+          {
+            id: '13.4.1', title: 'Full I&E and Balance Sheet Layout',
+            body: [
+              { type: 'concept', variant: 'blue', title: 'Income & Expenditure Account', html: '<p><strong>Income:</strong></p><p>Subscription income (from T-account) + Bar net profit + Investment income + Entrance fees + Life membership (annual portion) + Government grant (annual portion) + Fundraising income</p><p><strong>Less Expenditure:</strong></p><p>Light & heat + Insurance + Repairs + Depreciation + Printing & stationery + Coaching fees + Wages + Any other expenses</p><p>= <strong>Surplus or Deficit</strong></p>' },
+              { type: 'concept', variant: 'green', title: 'Balance Sheet', html: '<p><strong>Fixed Assets:</strong> Premises, equipment, investments (at NBV)</p><p><strong>Current Assets:</strong> Bar stock, subscription arrears, prepayments, bank</p><p><strong>Current Liabilities:</strong> Bar creditors, subscription prepaid, accruals, deferred income (current portion)</p><p><strong>Long-term Liabilities:</strong> Deferred life membership, deferred government grant</p><p><strong>Financed by:</strong> Accumulated fund + Surplus/Deficit = Closing Accumulated Fund</p>' },
+            ]
+          },
+        ]
+      },
+    ]
+  },
+
+  {
+    // ── Chapter 14 — EXPANDED ──
+    id: 14, block: 'C',
+    title: 'Service Firms\' Accounts',
+    description: 'Fee income, work in progress for service firms, HL adjustments.',
+    estimatedMinutes: 25,
+    related: [6, 13],
+    sections: [
+      {
+        id: '14.1', title: 'Service Firm Structure',
+        subTopics: [
+          {
+            id: '14.1.1', title: 'Structure & Key Differences',
+            keyTerms: [
+              { term: 'Service Firm', definition: 'A business that provides services — e.g. solicitors, accountants, architects, veterinary practices.' },
+              { term: 'Fee Income', definition: 'The main revenue source — fees charged for professional services rendered.' },
+              { term: 'WIP (Service)', definition: 'Work done but not yet billed — treated as a current asset at cost.' },
+            ],
+            body: [
+              { type: 'concept', variant: 'blue', title: 'Key Differences from Trading Firms', html: '<p>1. <strong>No Trading Account</strong> — no stock, no purchases, no cost of sales.</p><p>2. Main income is <strong>fee income</strong>, not sales.</p><p>3. P&L starts with <strong>Fee Income</strong> and deducts expenses to give Net Profit.</p><p>4. <strong>Work in Progress</strong> = work done but not yet billed — current asset.</p><p>5. All other adjustments (depreciation, accruals, bad debts) work exactly as for a sole trader.</p>' },
+              { type: 'table', html: '<table class="learn-table"><thead><tr><th>Trading Firm</th><th>Service Firm</th></tr></thead><tbody><tr><td>Sales</td><td>Fee Income</td></tr><tr><td>Trading Account → Gross Profit</td><td>No Trading Account</td></tr><tr><td>Opening/Closing Stock</td><td>Opening/Closing WIP</td></tr><tr><td>Purchases, Carriage In</td><td>Not applicable</td></tr><tr><td>Cost of Sales</td><td>Not applicable</td></tr></tbody></table>' },
+            ]
+          },
+          {
+            id: '14.1.2', title: 'Fee Income Calculation',
+            body: [
+              { type: 'concept', variant: 'green', title: 'Fee Income T-Account', html: '<p>Use a T-account to find the I&E figure:</p><table class="learn-table"><thead><tr><th>Dr (Debit Side)</th><th>Cr (Credit Side)</th></tr></thead><tbody><tr><td>Fees accrued at start (b/d)</td><td>Fees prepaid at start (b/d)</td></tr><tr><td><strong>Fee income for P&L (balancing fig.)</strong></td><td>Fees received (cash from TB)</td></tr><tr><td>Fees prepaid at end (c/d)</td><td>Fees accrued at end (c/d)</td></tr></tbody></table>' },
+              { type: 'worked-example', title: 'Worked Example', html: '<p>Fees received (TB): €185,000. Fees accrued: start €4,200, end €6,800. Fees prepaid: start €1,000, end €1,500.</p><p>Fee Income = €185,000 + €6,800 − €4,200 + €1,000 − €1,500 = <strong>€187,100</strong></p>' },
+            ]
+          },
+        ]
+      },
+      {
+        id: '14.2', title: 'WIP & the P&L Layout',
+        subTopics: [
+          {
+            id: '14.2.1', title: 'Work in Progress',
+            body: [
+              { type: 'concept', variant: 'blue', title: 'WIP in Service Firms', html: '<p>WIP represents the cost of work performed but not yet invoiced to clients at the year end.</p><p><strong>P&L treatment:</strong></p><p>Fee Income<br/>Add: Closing WIP<br/>Less: Opening WIP<br/>= Adjusted Fee Income</p><p><strong>Balance Sheet:</strong> Closing WIP = Current Asset (like closing stock in a trading firm).</p>' },
+              { type: 'examtip', title: 'SEC Pattern', html: '<p>Service firms have appeared in 2009, 2011, 2013, 2017, 2020, and 2023 on Section 2. The WIP adjustment and fee income T-account are tested almost every time.</p>' },
+            ]
+          },
+          {
+            id: '14.2.2', title: 'P&L Layout',
+            body: [
+              { type: 'concept', variant: 'green', title: 'Service Firm P&L', html: '<p><strong>Fee Income</strong> (adjusted)<br/>Add: Closing WIP<br/>Less: Opening WIP<br/>= Adjusted Fee Income</p><p><strong>Less Expenses:</strong><br/>Wages & salaries, rent, insurance, light & heat, depreciation, professional fees, bad debts, provision changes, etc.</p><p>= <strong>Net Profit</strong></p><p>Note: All Q1-style adjustments apply (accruals, prepayments, depreciation, disposal, bad debts). The only difference is the absence of a Trading Account.</p>' },
+            ]
+          },
+        ]
+      },
+    ]
+  },
+
+  {
+    // ── Chapter 15 — EXPANDED ──
+    id: 15, block: 'C',
+    title: 'Farm Accounts',
+    description: 'Enterprise analysis, stock valuation, terms associated with farm accounting.',
+    estimatedMinutes: 20,
+    related: [6, 21],
+    sections: [
+      {
+        id: '15.1', title: 'Farm Accounts Structure',
+        subTopics: [
+          {
+            id: '15.1.1', title: 'Structure & Special Features',
+            keyTerms: [
+              { term: 'Enterprise Analysis', definition: 'Separating farm activities into distinct enterprises (dairy, tillage, livestock) to assess profitability of each.' },
+              { term: 'Farm Produce Used in the House', definition: 'Farm goods consumed by the farmer — treated as drawings at market value.' },
+              { term: 'Herd Basis', definition: 'Livestock kept for production (dairy cows, breeding stock) can be treated as fixed assets under the herd basis.' },
+            ],
+            body: [
+              { type: 'concept', variant: 'blue', title: 'Farm Account Structure', html: '<p>1. Similar to a sole trader P&L but with farm-specific terminology.</p><p>2. <strong>Farm produce used in house</strong> = drawings at market value (reduces sales, not purchases).</p><p>3. <strong>Enterprise analysis</strong> splits income and expenses by farm activity (e.g. dairy, tillage, beef).</p><p>4. Multiple stock types: livestock, crops, fodder, seeds, and fertiliser.</p><p>5. EU subsidies and REPS payments are other income.</p>' },
+              { type: 'table', html: '<table class="learn-table"><thead><tr><th>Farm Term</th><th>Accounting Equivalent</th><th>Treatment</th></tr></thead><tbody><tr><td>Farm produce used in house</td><td>Drawings</td><td>At market value; reduces sales</td></tr><tr><td>Closing valuation of livestock</td><td>Closing stock</td><td>Current asset on BS</td></tr><tr><td>Opening valuation of livestock</td><td>Opening stock</td><td>In Trading Account</td></tr><tr><td>REPS payments / EU subsidies</td><td>Other income</td><td>Income in P&L</td></tr><tr><td>Breeding stock (herd basis)</td><td>Fixed asset</td><td>Not depreciated, shown at cost</td></tr><tr><td>Livestock purchases</td><td>Purchases</td><td>In Trading Account</td></tr></tbody></table>' },
+            ]
+          },
+          {
+            id: '15.1.2', title: 'Enterprise Analysis',
+            body: [
+              { type: 'concept', variant: 'green', title: 'Columnar Format', html: '<p>The farm P&L may be presented in <strong>columnar format</strong> showing each enterprise (dairy, tillage, beef, etc.) in its own column.</p><p>Each enterprise shows its own income, direct costs, and contribution to total farm profit. This helps the farmer decide which enterprises are profitable and which should be expanded or discontinued.</p>' },
+              { type: 'table', html: '<table class="learn-table"><thead><tr><th></th><th>Dairy €</th><th>Tillage €</th><th>Beef €</th><th>Total €</th></tr></thead><tbody><tr><td>Income</td><td>85,000</td><td>42,000</td><td>38,000</td><td>165,000</td></tr><tr><td>Direct costs</td><td>(52,000)</td><td>(28,000)</td><td>(30,000)</td><td>(110,000)</td></tr><tr><td><strong>Contribution</strong></td><td><strong>33,000</strong></td><td><strong>14,000</strong></td><td><strong>8,000</strong></td><td><strong>55,000</strong></td></tr></tbody></table>' },
+            ]
+          },
+        ]
+      },
+      {
+        id: '15.2', title: 'Farm P&L & Balance Sheet',
+        subTopics: [
+          {
+            id: '15.2.1', title: 'Full Farm Final Accounts',
+            body: [
+              { type: 'concept', variant: 'blue', title: 'Farm Trading & P&L', html: '<p><strong>Trading Account:</strong></p><p>Farm sales (milk, livestock, crops)<br/>Less: Farm produce used in house<br/>= Net Farm Sales</p><p>Less: Opening livestock/crop stock + Livestock purchases + Seeds + Fertiliser + Feeds − Closing livestock/crop stock = Cost of Sales</p><p>= <strong>Gross Farm Profit</strong></p><p><strong>P&L Account:</strong></p><p>Gross Profit + EU subsidies + REPS payments<br/>Less: Farm wages, machinery costs, vet fees, insurance, depreciation, interest, etc.<br/>= <strong>Net Farm Profit</strong></p>' },
+              { type: 'watchout', title: 'Key Exam Points', html: '<p>1. Farm produce used in house is deducted from sales (not added to drawings on the P&L).</p><p>2. EU subsidies go below Gross Profit as other income.</p><p>3. Farm accounts have NEVER been set as a full SEC exam question — but the syllabus includes it and it could appear as a theory question or part of a prediction wildcard.</p>' },
+            ]
+          },
+        ]
+      },
+    ]
+  },
+
+  {
+    // ── Chapter 16 — EXPANDED ──
+    id: 16, block: 'C',
+    title: 'Incomplete Records',
+    description: 'Reconstructing accounts when full double-entry records are not available.',
+    estimatedMinutes: 30,
+    related: [2, 5, 6],
+    sections: [
+      {
+        id: '16.1', title: 'Overview',
+        subTopics: [
+          {
+            id: '16.1.1', title: 'What Are Incomplete Records?',
+            keyTerms: [
+              { term: 'Incomplete Records', definition: 'Situations where a business does not keep full double-entry records — the accountant must reconstruct the accounts.' },
+              { term: 'Statement of Affairs', definition: 'A balance sheet prepared from incomplete records to establish the capital/net worth at a given date.' },
+            ],
+            body: [
+              { type: 'concept', variant: 'blue', title: 'When Do They Arise?', html: '<p>1. Small businesses that only keep a cash book and bank statements.</p><p>2. Records destroyed by fire, flood, or theft.</p><p>3. Single-entry systems (only some transactions recorded).</p><p>Two methods are used to reconstruct the accounts:</p><p><strong>Method 1:</strong> Control Account / Cash Method — reconstructs individual figures (sales, purchases) using T-accounts.</p><p><strong>Method 2:</strong> Net Worth / Balance Sheet Method — calculates profit by comparing opening and closing capital.</p>' },
+              { type: 'examtip', title: 'SEC Context', html: '<p>Incomplete records typically appears as a component within Q1 (sole trader) or as part of a correction of errors question. The mark-up/margin calculation is the most frequently tested element.</p>' },
+            ]
+          },
+        ]
+      },
+      {
+        id: '16.2', title: 'Method 1: Control Account / Cash Method',
+        subTopics: [
+          {
+            id: '16.2.1', title: 'Using Control Accounts',
+            body: [
+              { type: 'concept', variant: 'blue', title: 'Finding Credit Sales — Debtors Control', html: '<table class="learn-table"><thead><tr><th>Dr (Debit Side)</th><th>Cr (Credit Side)</th></tr></thead><tbody><tr><td>Opening debtors (b/d)</td><td>Cash/cheques received from debtors</td></tr><tr><td><strong>Credit sales (balancing figure)</strong></td><td>Sales returns</td></tr><tr><td></td><td>Bad debts written off</td></tr><tr><td></td><td>Discount allowed</td></tr><tr><td></td><td>Closing debtors (c/d)</td></tr></tbody></table>' },
+              { type: 'concept', variant: 'green', title: 'Finding Credit Purchases — Creditors Control', html: '<table class="learn-table"><thead><tr><th>Dr (Debit Side)</th><th>Cr (Credit Side)</th></tr></thead><tbody><tr><td>Cash/cheques paid to creditors</td><td>Opening creditors (b/d)</td></tr><tr><td>Purchase returns</td><td><strong>Credit purchases (balancing figure)</strong></td></tr><tr><td>Discount received</td><td></td></tr><tr><td>Closing creditors (c/d)</td><td></td></tr></tbody></table>' },
+              { type: 'concept', variant: 'amber', title: 'Cash/Bank Summary', html: '<p>Prepare a summarised cash/bank account listing all known receipts and payments. The balancing figure may represent:</p><p>— Cash sales (if on the credit/income side)</p><p>— Unrecorded drawings or theft (if on the debit/payment side)</p>' },
+            ]
+          },
+          {
+            id: '16.2.2', title: 'Worked Example — Control Accounts',
+            body: [
+              { type: 'worked-example', title: 'Finding Credit Sales', html: '<p>Opening debtors €8,500. Cash received from debtors €74,200. Bad debts €1,200. Discount allowed €800. Closing debtors €9,300.</p><table class="learn-table"><thead><tr><th>Dr</th><th>€</th><th>Cr</th><th>€</th></tr></thead><tbody><tr><td>Opening debtors</td><td>8,500</td><td>Cash received</td><td>74,200</td></tr><tr><td><strong>Credit sales (bal.)</strong></td><td><strong>77,000</strong></td><td>Bad debts</td><td>1,200</td></tr><tr><td></td><td></td><td>Discount allowed</td><td>800</td></tr><tr><td></td><td></td><td>Closing debtors</td><td>9,300</td></tr><tr><td><strong>Total</strong></td><td><strong>85,500</strong></td><td><strong>Total</strong></td><td><strong>85,500</strong></td></tr></tbody></table>' },
+            ]
+          },
+        ]
+      },
+      {
+        id: '16.3', title: 'Method 2: Net Worth / Balance Sheet Method',
+        subTopics: [
+          {
+            id: '16.3.1', title: 'Calculating Profit from Net Worth',
+            keyTerms: [
+              { term: 'Net Worth Method', definition: 'Profit = Closing Capital − Opening Capital + Drawings − Capital Introduced.' },
+            ],
+            body: [
+              { type: 'concept', variant: 'blue', title: 'Net Worth Formula', html: '<p><strong>Net Profit = Closing Capital − Opening Capital + Drawings − Capital Introduced</strong></p><p>Steps:</p><p>1. Prepare <strong>opening statement of affairs</strong> → Opening Capital (assets − liabilities).</p><p>2. Prepare <strong>closing statement of affairs</strong> → Closing Capital (assets − liabilities).</p><p>3. Apply the formula.</p>' },
+              { type: 'worked-example', title: 'Worked Example', html: '<p>Opening capital €45,000. Closing capital €62,000. Drawings €18,000. Capital introduced €5,000.</p><p>Net Profit = €62,000 − €45,000 + €18,000 − €5,000 = <strong>€30,000</strong></p>' },
+            ]
+          },
+          {
+            id: '16.3.2', title: 'Mark-Up vs Margin',
+            keyTerms: [
+              { term: 'Mark-Up', definition: 'Profit expressed as a percentage of cost price. If mark-up is 25%: SP = Cost × 1.25.' },
+              { term: 'Margin', definition: 'Profit expressed as a percentage of selling price. If margin is 20%: Cost = SP × 0.80.' },
+            ],
+            body: [
+              { type: 'concept', variant: 'green', title: 'Mark-Up vs Margin Formulas', html: '<p><strong>Mark-Up = Profit / Cost × 100</strong></p><p><strong>Margin = Profit / Sales × 100</strong></p><p>If cost is €100 and selling price is €125:</p><p>Mark-up = 25/100 = <strong>25%</strong></p><p>Margin = 25/125 = <strong>20%</strong></p>' },
+              { type: 'table', html: '<table class="learn-table"><thead><tr><th>Mark-Up</th><th>Equivalent Margin</th><th>Conversion</th></tr></thead><tbody><tr><td>25%</td><td>20%</td><td>25/125</td></tr><tr><td>33⅓%</td><td>25%</td><td>33.33/133.33</td></tr><tr><td>50%</td><td>33⅓%</td><td>50/150</td></tr><tr><td>100%</td><td>50%</td><td>100/200</td></tr></tbody></table>' },
+              { type: 'examtip', title: 'Most Common SEC Application', html: '<p>The examiner gives you the mark-up/margin and one known figure (e.g. sales or cost of sales). You must reconstruct the Trading Account. For example:</p><p>"Mark-up is 25%. Sales = €150,000."</p><p>Cost = €150,000 ÷ 1.25 = €120,000. Gross Profit = €30,000.</p>' },
+            ]
+          },
+        ]
+      },
+    ]
+  },
+
+  // ── Chapter 17 — EXPANDED ──
               { term: 'Income & Expenditure Account', definition: 'The club equivalent of a P&L \u2014 shows surplus or deficit based on accruals.' },
               { term: 'Accumulated Fund', definition: 'The club equivalent of capital \u2014 net assets at the start of the period.' },
               { term: 'Surplus', definition: 'When income exceeds expenditure (equivalent to net profit).' },
