@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CHAPTERS, BLOCK_LABELS, BLOCK_DESCRIPTIONS, type Block, type Chapter } from "@/data/theoryChapters";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { ChevronDown, ChevronRight, BookOpen, ArrowRight, Landmark, FileText, Users, Calculator, HelpCircle } from "lucide-react";
+import { ChevronDown, ChevronRight, BookOpen, ArrowRight, Landmark, FileText, Users, Calculator, HelpCircle, Check } from "lucide-react";
 import ChapterReadingView from "@/components/ChapterReadingView";
 import TheorySearch from "@/components/TheorySearch";
 import { REVIEW_BANK } from "@/data/chapter-review-bank";
