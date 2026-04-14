@@ -921,7 +921,7 @@ export function PredStats() {
       <Card className="mb-6 border-border">
         <CardContent className="p-5">
           <h3 className="font-display text-sm font-bold mb-1">Descriptive Statistics — 2001-2025</h3>
-          <p className="text-[10px] text-muted-foreground mb-4">All values computed live from the verified 25-year dataset. Gap Ratio > 1.0 = overdue.</p>
+          <p className="text-[10px] text-muted-foreground mb-4">All values computed live from the verified 25-year dataset. Gap Ratio &gt; 1.0 = overdue.</p>
           <div className="overflow-x-auto">
             <table className="w-full text-xs border-collapse">
               <thead>
@@ -967,7 +967,7 @@ export function PredStats() {
       {/* Pearson Correlation Table */}
       <Card className="mb-6 border-border">
         <CardContent className="p-5">
-          <h3 className="font-display text-sm font-bold mb-1">Pearson Correlation Table (|r| > 0.20)</h3>
+          <h3 className="font-display text-sm font-bold mb-1">Pearson Correlation Table (|r| &gt; 0.20)</h3>
           <p className="text-[10px] text-muted-foreground mb-4">Negative r = topics rarely appear together. Use to eliminate unlikely Q6+Q7 pairs.</p>
           <div className="overflow-x-auto">
             <table className="w-full text-xs border-collapse">
