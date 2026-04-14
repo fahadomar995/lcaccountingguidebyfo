@@ -1174,7 +1174,7 @@ export const CHAPTERS: Chapter[] = [
     id: 14, block: 'C',
     title: 'Service Firms\' Accounts',
     description: 'Fee income, work in progress for service firms, HL adjustments.',
-    estimatedMinutes: 25,
+    estimatedMinutes: 30,
     related: [6, 13],
     sections: [
       {
@@ -1202,19 +1202,44 @@ export const CHAPTERS: Chapter[] = [
         ]
       },
       {
-        id: '14.2', title: 'WIP & the P&L Layout',
+        id: '14.2', title: 'Work in Progress (WIP)',
         subTopics: [
           {
-            id: '14.2.1', title: 'Work in Progress',
+            id: '14.2.1', title: 'What is WIP in a Service Firm?',
+            keyTerms: [
+              { term: 'WIP (Work in Progress)', definition: 'The cost of professional work completed for clients but not yet invoiced at the year end.' },
+            ],
             body: [
-              { type: 'concept', variant: 'blue', title: 'WIP in Service Firms', html: '<p>WIP represents the cost of work performed but not yet invoiced to clients at the year end.</p><p><strong>P&L treatment:</strong></p><p>Fee Income<br/>Add: Closing WIP<br/>Less: Opening WIP<br/>= Adjusted Fee Income</p><p><strong>Balance Sheet:</strong> Closing WIP = Current Asset (like closing stock in a trading firm).</p>' },
-              { type: 'examtip', title: 'SEC Pattern', html: '<p>Service firms have appeared in 2009, 2011, 2013, 2017, 2020, and 2023 on Section 2. The WIP adjustment and fee income T-account are tested almost every time.</p>' },
+              { type: 'concept', variant: 'blue', title: 'WIP Explained', html: '<p>In a service firm, WIP represents time and costs incurred on client work that has <strong>not yet been billed</strong> at the year end.</p><p>For example, a solicitor may have spent 20 hours on a case by 31 December but has not yet sent an invoice. The cost of those hours is WIP.</p><p><strong>WIP is valued at cost</strong> — the direct costs incurred (partner/employee time, direct expenses) but NOT including any profit element.</p>' },
+              { type: 'concept', variant: 'green', title: 'WIP Treatment — Two Places', html: '<p><strong>1. In the P&L (Income Statement):</strong></p><p>Fee Income (adjusted for accruals/prepayments)<br/>+ Closing WIP<br/>− Opening WIP<br/>= <strong>Adjusted Fee Income</strong></p><p>This mirrors the stock adjustment in a trading firm. Closing WIP adds value (work done, not yet billed), opening WIP is subtracted (was last year\'s asset, now billed and in fee income).</p><p><strong>2. On the Balance Sheet:</strong></p><p>Closing WIP appears as a <strong>Current Asset</strong>, just like closing stock in a trading business.</p>' },
+              { type: 'watchout', title: 'Key Exam Trap', html: '<p>Students sometimes forget to adjust fee income for WIP. The examiner expects you to show:</p><p>Fee Income per TB → adjust for accruals/prepayments → adjust for WIP → then deduct expenses.</p><p>If you skip the WIP adjustment, you lose marks on both the P&L AND the Balance Sheet.</p>' },
             ]
           },
           {
-            id: '14.2.2', title: 'P&L Layout',
+            id: '14.2.2', title: 'WIP Worked Example',
             body: [
-              { type: 'concept', variant: 'green', title: 'Service Firm P&L', html: '<p><strong>Fee Income</strong> (adjusted)<br/>Add: Closing WIP<br/>Less: Opening WIP<br/>= Adjusted Fee Income</p><p><strong>Less Expenses:</strong><br/>Wages & salaries, rent, insurance, light & heat, depreciation, professional fees, bad debts, provision changes, etc.</p><p>= <strong>Net Profit</strong></p><p>Note: All Q1-style adjustments apply (accruals, prepayments, depreciation, disposal, bad debts). The only difference is the absence of a Trading Account.</p>' },
+              { type: 'example', title: 'WIP Calculation — O\'Sullivan & Partners', html: '<p><strong>Given:</strong></p><p>Fees received (TB): €320,000<br/>Fees accrued at start: €8,400 | at end: €12,600<br/>Fees prepaid at start: €2,000 | at end: €3,500<br/>Opening WIP: €15,000<br/>Closing WIP: €22,000</p><p><strong>Step 1: Fee Income (T-Account method)</strong></p><p>= 320,000 + 12,600 − 8,400 + 2,000 − 3,500 = <strong>€322,700</strong></p><p><strong>Step 2: Adjust for WIP</strong></p><p>322,700 + 22,000 (closing WIP) − 15,000 (opening WIP) = <strong>€329,700</strong></p><p>This is the Adjusted Fee Income that appears at the top of the P&L.</p>' },
+              { type: 'concept', variant: 'green', title: 'Balance Sheet Treatment', html: '<p>On the Balance Sheet at year end:</p><p><strong>Current Assets:</strong><br/>Work in Progress: €22,000<br/>Fee debtors (accrued): €12,600<br/>Prepayments: €3,500<br/>Bank: (from TB)</p><p><strong>Current Liabilities:</strong><br/>Fee creditors (prepaid by clients): if applicable<br/>Creditors, accruals, etc.</p>' },
+            ]
+          },
+        ]
+      },
+      {
+        id: '14.3', title: 'Full Service Firm P&L & BS',
+        subTopics: [
+          {
+            id: '14.3.1', title: 'Complete P&L Layout',
+            body: [
+              { type: 'concept', variant: 'blue', title: 'Service Firm P&L Format', html: '<p><strong>Income Statement of [Firm Name] for year ended 31/12/20XX</strong></p><p><strong>Fee Income</strong> (adjusted for accruals & prepayments)<br/>Add: Closing WIP<br/>Less: Opening WIP<br/>= <strong>Adjusted Fee Income</strong></p><p><strong>Less Expenses:</strong><br/>Salaries & wages (adjusted)<br/>Rent (adjusted)<br/>Insurance (adjusted)<br/>Light & heat (adjusted)<br/>Depreciation<br/>Bad debts written off<br/>Increase/decrease in provision for bad debts<br/>Motor expenses<br/>Professional fees<br/>General expenses<br/>Interest paid<br/>= <strong>Total Expenses</strong></p><p>Adjusted Fee Income − Total Expenses = <strong>Net Profit</strong></p>' },
+              { type: 'examtip', title: 'SEC Marking Scheme Pattern', html: '<p>In SEC questions, service firm marks are typically allocated as:</p><p>1. Fee income calculation (accruals/prepayments): <strong>6-8 marks</strong></p><p>2. WIP adjustment: <strong>4 marks</strong></p><p>3. Expenses with adjustments: <strong>12-16 marks</strong></p><p>4. Balance Sheet: <strong>20 marks</strong></p><p>The WIP adjustment is free marks — do not skip it.</p>' },
+            ]
+          },
+          {
+            id: '14.3.2', title: 'Worked SEC-Style Question',
+            body: [
+              { type: 'example', title: 'Byrne & Associates — Veterinary Practice (Full Question)', html: '<p><strong>Trial Balance at 31/12/2024:</strong></p><table class="learn-table"><thead><tr><th>Account</th><th>Dr €</th><th>Cr €</th></tr></thead><tbody><tr><td>Premises at cost</td><td>280,000</td><td></td></tr><tr><td>Equipment at cost</td><td>95,000</td><td></td></tr><tr><td>Motor vehicles at cost</td><td>48,000</td><td></td></tr><tr><td>Acc. dep\'n — Premises</td><td></td><td>28,000</td></tr><tr><td>Acc. dep\'n — Equipment</td><td></td><td>38,000</td></tr><tr><td>Acc. dep\'n — Motor vehicles</td><td></td><td>24,000</td></tr><tr><td>Fees received</td><td></td><td>395,000</td></tr><tr><td>Salaries</td><td>142,000</td><td></td></tr><tr><td>Rent & rates</td><td>18,500</td><td></td></tr><tr><td>Insurance</td><td>9,600</td><td></td></tr><tr><td>Light & heat</td><td>7,200</td><td></td></tr><tr><td>Motor expenses</td><td>12,400</td><td></td></tr><tr><td>General expenses</td><td>8,800</td><td></td></tr><tr><td>Bad debts</td><td>3,200</td><td></td></tr><tr><td>Provision for bad debts</td><td></td><td>2,800</td></tr><tr><td>Fee debtors</td><td>34,000</td><td></td></tr><tr><td>Creditors</td><td></td><td>11,500</td></tr><tr><td>Bank</td><td>15,600</td><td></td></tr><tr><td>WIP at 01/01/2024</td><td>18,500</td><td></td></tr><tr><td>Capital</td><td></td><td>194,500</td></tr><tr><td>Drawings</td><td>29,500</td><td></td></tr><tr><td></td><td>722,300</td><td>722,300</td></tr></tbody></table><p><strong>Notes:</strong></p><p>(i) Fees accrued at 31/12/2024: €14,200. Fees prepaid by clients at 31/12/2024: €3,400.</p><p>(ii) Closing WIP at 31/12/2024: €21,800.</p><p>(iii) Depreciation: Premises 2% straight line; Equipment 15% of NBV; Motor vehicles 20% straight line.</p><p>(iv) Insurance prepaid at 31/12/2024: €1,200.</p><p>(v) Light & heat accrued at 31/12/2024: €1,800.</p><p>(vi) Provision for bad debts to be adjusted to 5% of fee debtors.</p>' },
+              { type: 'solution', title: 'Solution — Workings', html: '<p><strong>W1: Fee Income</strong><br/>Fees received: 395,000 + Accrued end 14,200 − Prepaid by clients 3,400 = <strong>€405,800</strong></p><p><strong>W2: WIP Adjustment</strong><br/>+ Closing WIP 21,800 − Opening WIP 18,500 = + <strong>€3,300</strong></p><p><strong>W3: Adjusted Fee Income</strong> = 405,800 + 3,300 = <strong>€409,100</strong></p><p><strong>W4: Depreciation</strong><br/>Premises: 280,000 × 2% = €5,600<br/>Equipment: (95,000 − 38,000) × 15% = €8,550<br/>Motor vehicles: 48,000 × 20% = €9,600<br/>Total depreciation = <strong>€23,750</strong></p><p><strong>W5: Insurance</strong> = 9,600 − 1,200 = <strong>€8,400</strong></p><p><strong>W6: Light & Heat</strong> = 7,200 + 1,800 = <strong>€9,000</strong></p><p><strong>W7: Provision for bad debts</strong><br/>Required: 5% × (34,000 + 14,200) = 5% × 48,200 = <strong>€2,410</strong><br/>Existing: €2,800. Decrease: 2,800 − 2,410 = €390 (reduce expenses by €390).</p><p>Note: Fee debtors for provision = TB debtors + accrued fees (these are all amounts owed to the firm).</p>' },
+              { type: 'solution', title: 'Solution — P&L', html: '<p><strong>Income Statement of Byrne & Associates for year ended 31/12/2024</strong></p><table class="learn-table"><tbody><tr><td>Fee Income (W1)</td><td></td><td>405,800</td></tr><tr><td>Add: Closing WIP</td><td></td><td>21,800</td></tr><tr><td>Less: Opening WIP</td><td></td><td>(18,500)</td></tr><tr><td><strong>Adjusted Fee Income</strong></td><td></td><td><strong>409,100</strong></td></tr><tr><td colspan="3"><strong>Less Expenses:</strong></td></tr><tr><td>Salaries</td><td>142,000</td><td></td></tr><tr><td>Rent & rates</td><td>18,500</td><td></td></tr><tr><td>Insurance (W5)</td><td>8,400</td><td></td></tr><tr><td>Light & heat (W6)</td><td>9,000</td><td></td></tr><tr><td>Motor expenses</td><td>12,400</td><td></td></tr><tr><td>General expenses</td><td>8,800</td><td></td></tr><tr><td>Bad debts</td><td>3,200</td><td></td></tr><tr><td>Less: Decrease in provision</td><td>(390)</td><td></td></tr><tr><td>Depreciation (W4)</td><td>23,750</td><td></td></tr><tr><td><strong>Total Expenses</strong></td><td></td><td><strong>(225,660)</strong></td></tr><tr><td><strong>Net Profit</strong></td><td></td><td><strong>183,440</strong></td></tr></tbody></table>' },
             ]
           },
         ]
