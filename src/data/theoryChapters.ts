@@ -915,7 +915,7 @@ export const CHAPTERS: Chapter[] = [
     id: 10, block: 'B',
     title: 'Published Accounts',
     description: 'Directors\' report, published P&L and Balance Sheet templates, explanatory notes, FRS 102.',
-    estimatedMinutes: 22,
+    estimatedMinutes: 35,
     related: [8, 9, 18],
     sections: [
       {
@@ -925,27 +925,73 @@ export const CHAPTERS: Chapter[] = [
             id: '10.1.1', title: 'Components of Published Accounts',
             keyTerms: [
               { term: 'Directors\' Report', definition: 'A report by directors giving an overview of the company\'s performance, activities, and future prospects.' },
-              { term: 'FRS 102', definition: 'The Financial Reporting Standard applicable in the UK and Republic of Ireland \u2014 sets out the rules for financial reporting.' },
+              { term: 'FRS 102', definition: 'The Financial Reporting Standard applicable in the UK and Republic of Ireland — sets out the rules for financial reporting.' },
+              { term: 'Published Accounts', definition: 'A condensed version of the internal accounts that must be filed with the CRO and made available to shareholders and the public.' },
             ],
             body: [
-              { type: 'concept', variant: 'blue', title: 'What Must Be Published?', html: '<p>1. <strong>Directors\' Report</strong> \u2014 overview of activities, dividends, future developments.</p><p>2. <strong>Income Statement (P&L)</strong> \u2014 published format (less detail than internal).</p><p>3. <strong>Balance Sheet</strong> \u2014 published format.</p><p>4. <strong>Cash Flow Statement</strong> \u2014 shows where cash came from and went.</p><p>5. <strong>Notes to the Accounts</strong> \u2014 accounting policies, detailed breakdowns.</p><p>6. <strong>Auditor\'s Report</strong> \u2014 independent opinion on whether accounts are true and fair.</p>' },
+              { type: 'concept', variant: 'blue', title: 'What Must Be Published?', html: '<p>1. <strong>Directors\' Report</strong> — overview of activities, dividends, future developments.</p><p>2. <strong>Income Statement (P&L)</strong> — published format (less detail than internal).</p><p>3. <strong>Balance Sheet</strong> — published format.</p><p>4. <strong>Cash Flow Statement</strong> — shows where cash came from and went.</p><p>5. <strong>Notes to the Accounts</strong> — accounting policies, detailed breakdowns.</p><p>6. <strong>Auditor\'s Report</strong> — independent opinion on whether accounts are true and fair.</p>' },
             ]
           },
           {
             id: '10.1.2', title: 'Published P&L vs Internal P&L',
             body: [
-              { type: 'table', html: '<table class="learn-table"><thead><tr><th>Internal P&L (Ch 9)</th><th>Published P&L</th></tr></thead><tbody><tr><td>Shows individual expenses</td><td>Groups expenses into Distribution Costs & Admin</td></tr><tr><td>Shows detailed workings</td><td>Summary figures only \u2014 detail in notes</td></tr><tr><td>For managers and directors</td><td>For shareholders, creditors, public</td></tr><tr><td>No prescribed format</td><td>Must follow FRS 102 / Companies Act</td></tr></tbody></table>' },
+              { type: 'table', html: '<table class="learn-table"><thead><tr><th>Internal P&L (Ch 9)</th><th>Published P&L</th></tr></thead><tbody><tr><td>Shows individual expenses</td><td>Groups expenses into Distribution Costs & Admin</td></tr><tr><td>Shows detailed workings</td><td>Summary figures only — detail in notes</td></tr><tr><td>For managers and directors</td><td>For shareholders, creditors, public</td></tr><tr><td>No prescribed format</td><td>Must follow FRS 102 / Companies Act</td></tr></tbody></table>' },
             ]
           },
         ]
       },
       {
-        id: '10.2', title: 'Notes to the Financial Statements',
+        id: '10.2', title: 'Published P&L Format',
         subTopics: [
           {
-            id: '10.2.1', title: 'What the Notes Disclose',
+            id: '10.2.1', title: 'Income Statement Layout',
             body: [
-              { type: 'concept', variant: 'green', title: 'Required Notes', html: '<p>1. <strong>Accounting policies</strong> \u2014 depreciation methods, stock valuation, revenue recognition.</p><p>2. <strong>Fixed asset schedule</strong> \u2014 cost, additions, disposals, accumulated depreciation for each class.</p><p>3. <strong>Debtors breakdown</strong> \u2014 trade debtors, prepayments, other debtors.</p><p>4. <strong>Creditors breakdown</strong> \u2014 trade creditors, accruals, taxation, proposed dividends.</p><p>5. <strong>Share capital</strong> \u2014 authorised vs issued, movements during the year.</p><p>6. <strong>Reserves movements</strong> \u2014 opening balance, transfers, closing balance.</p><p>7. <strong>Contingent liabilities</strong> \u2014 possible obligations depending on future events.</p>' },
+              { type: 'concept', variant: 'green', title: 'Published Income Statement Format', html: '<p><strong>Published Income Statement of [Company] plc for year ended 31/12/20XX</strong></p><table class="learn-table"><tbody><tr><td><strong>Turnover</strong> (Note 1)</td><td></td><td>X</td></tr><tr><td>Cost of Sales</td><td></td><td>(X)</td></tr><tr><td><strong>Gross Profit</strong></td><td></td><td><strong>X</strong></td></tr><tr><td>Distribution Costs (Note 2)</td><td>(X)</td><td></td></tr><tr><td>Administrative Expenses (Note 3)</td><td>(X)</td><td></td></tr><tr><td></td><td></td><td><strong>(X)</strong></td></tr><tr><td><strong>Operating Profit</strong></td><td></td><td><strong>X</strong></td></tr><tr><td>Investment Income</td><td>X</td><td></td></tr><tr><td>Interest Payable (Note 4)</td><td>(X)</td><td></td></tr><tr><td><strong>Profit on Ordinary Activities before Tax</strong></td><td></td><td><strong>X</strong></td></tr><tr><td>Corporation Tax</td><td></td><td>(X)</td></tr><tr><td><strong>Profit on Ordinary Activities after Tax</strong></td><td></td><td><strong>X</strong></td></tr><tr><td>Dividends (Note 5)</td><td></td><td>(X)</td></tr><tr><td><strong>Retained Profit for Year</strong></td><td></td><td><strong>X</strong></td></tr></tbody></table>' },
+              { type: 'watchout', title: 'Distribution vs Admin — How to Classify', html: '<p><strong>Distribution Costs</strong> = expenses related to SELLING and DELIVERING goods:</p><p>Advertising, carriage outwards, sales reps\' salaries & commission, delivery van costs, depreciation of delivery vehicles, showroom costs, bad debts, provision for bad debts.</p><p><strong>Administrative Expenses</strong> = expenses related to RUNNING the business:</p><p>Office salaries, rent & rates (office), insurance, light & heat (office), audit fees, directors\' fees, office depreciation, general expenses, professional fees.</p><p><strong>Exam trap:</strong> Depreciation must be split — delivery vehicles go to Distribution, office equipment goes to Admin. If not specified, put it in Admin.</p>' },
+            ]
+          },
+          {
+            id: '10.2.2', title: 'Key Workings for the Published P&L',
+            body: [
+              { type: 'concept', variant: 'blue', title: 'Standard Workings Required', html: '<p>The SEC examiner expects specific workings for the Published P&L:</p><p><strong>W1: Cost of Sales</strong><br/>Opening stock + Purchases − Closing stock ± Manufacturing adjustments</p><p><strong>W2: Distribution Costs</strong><br/>List all selling/delivery expenses (each adjusted for accruals/prepayments as needed)</p><p><strong>W3: Administrative Expenses</strong><br/>List all office/admin expenses (adjusted)</p><p><strong>W4: Interest Payable</strong><br/>Debenture interest ± accrual. Remember: if the TB shows 6 months\' interest paid, you must accrue the other 6 months.</p><p><strong>W5: Dividends</strong><br/>Interim (already paid, in TB) + Final (proposed, to be accrued)</p><p><strong>W6: Corporation Tax</strong><br/>The figure given in the notes — this is the provision for the current year.</p>' },
+              { type: 'examtip', title: 'Marks Allocation', html: '<p>Published Accounts is worth <strong>80-100 marks</strong> on Section 2. Typical split:</p><p>Published P&L: <strong>30-36 marks</strong> (including workings for Dist & Admin)</p><p>Published Balance Sheet: <strong>30-36 marks</strong></p><p>Notes to the Accounts: <strong>12-20 marks</strong></p><p>Show ALL workings — the examiner awards marks for the Distribution and Admin breakdowns even if the totals are wrong.</p>' },
+            ]
+          },
+        ]
+      },
+      {
+        id: '10.3', title: 'Published Balance Sheet',
+        subTopics: [
+          {
+            id: '10.3.1', title: 'Balance Sheet Format',
+            body: [
+              { type: 'concept', variant: 'green', title: 'Published Balance Sheet Layout', html: '<p><strong>Balance Sheet of [Company] plc as at 31/12/20XX</strong></p><table class="learn-table"><tbody><tr><td colspan="3"><strong>Fixed Assets</strong> (Note 6)</td></tr><tr><td>Tangible Assets</td><td></td><td>X</td></tr><tr><td>Financial Assets (investments)</td><td></td><td>X</td></tr><tr><td></td><td></td><td><strong>X</strong></td></tr><tr><td colspan="3"><strong>Current Assets</strong></td></tr><tr><td>Stock</td><td>X</td><td></td></tr><tr><td>Debtors (Note 7)</td><td>X</td><td></td></tr><tr><td>Bank</td><td>X</td><td></td></tr><tr><td></td><td><strong>X</strong></td><td></td></tr><tr><td colspan="3"><strong>Creditors: amounts falling due within one year</strong> (Note 8)</td></tr><tr><td>Trade creditors, accruals, tax, proposed dividends, bank OD</td><td><strong>(X)</strong></td><td></td></tr><tr><td><strong>Net Current Assets</strong></td><td></td><td><strong>X</strong></td></tr><tr><td><strong>Total Assets less Current Liabilities</strong></td><td></td><td><strong>X</strong></td></tr><tr><td colspan="3"><strong>Creditors: amounts falling due after more than one year</strong> (Note 9)</td></tr><tr><td>Debentures / Long-term loans</td><td></td><td>(X)</td></tr><tr><td><strong>Net Assets</strong></td><td></td><td><strong>X</strong></td></tr><tr><td colspan="3"><strong>Capital and Reserves</strong> (Note 10)</td></tr><tr><td>Called-up share capital</td><td></td><td>X</td></tr><tr><td>Share premium</td><td></td><td>X</td></tr><tr><td>Revaluation reserve</td><td></td><td>X</td></tr><tr><td>Profit and loss balance</td><td></td><td>X</td></tr><tr><td><strong>Shareholders\' Funds</strong></td><td></td><td><strong>X</strong></td></tr></tbody></table>' },
+              { type: 'watchout', title: 'Common BS Errors', html: '<p>1. <strong>Proposed dividends</strong> = Current Liability (creditors < 1 year). NOT deducted from reserves.</p><p>2. <strong>Corporation tax</strong> = Current Liability.</p><p>3. <strong>Debenture interest accrued</strong> = Current Liability (not long-term).</p><p>4. <strong>P&L balance</strong> = Opening P&L balance + Retained profit for year.</p><p>5. <strong>Revaluation reserve</strong> only changes if an asset is revalued during the year. Revaluation surplus = New value − Old NBV.</p>' },
+            ]
+          },
+        ]
+      },
+      {
+        id: '10.4', title: 'Notes to the Accounts',
+        subTopics: [
+          {
+            id: '10.4.1', title: 'Required Notes',
+            body: [
+              { type: 'concept', variant: 'blue', title: 'Notes Commonly Examined', html: '<p><strong>Note 6: Tangible Fixed Assets</strong></p><table class="learn-table"><thead><tr><th></th><th>Land & Buildings</th><th>Equipment</th><th>Motor Vehicles</th><th>Total</th></tr></thead><tbody><tr><td><strong>Cost/Valuation</strong></td><td></td><td></td><td></td><td></td></tr><tr><td>At 01/01</td><td>X</td><td>X</td><td>X</td><td>X</td></tr><tr><td>Additions</td><td>X</td><td>X</td><td>-</td><td>X</td></tr><tr><td>Disposals</td><td>-</td><td>-</td><td>(X)</td><td>(X)</td></tr><tr><td>Revaluation</td><td>X</td><td>-</td><td>-</td><td>X</td></tr><tr><td>At 31/12</td><td><strong>X</strong></td><td><strong>X</strong></td><td><strong>X</strong></td><td><strong>X</strong></td></tr><tr><td><strong>Depreciation</strong></td><td></td><td></td><td></td><td></td></tr><tr><td>At 01/01</td><td>X</td><td>X</td><td>X</td><td>X</td></tr><tr><td>Charge for year</td><td>X</td><td>X</td><td>X</td><td>X</td></tr><tr><td>On disposals</td><td>-</td><td>-</td><td>(X)</td><td>(X)</td></tr><tr><td>Revaluation adj.</td><td>(X)</td><td>-</td><td>-</td><td>(X)</td></tr><tr><td>At 31/12</td><td><strong>X</strong></td><td><strong>X</strong></td><td><strong>X</strong></td><td><strong>X</strong></td></tr><tr><td><strong>NBV at 31/12</strong></td><td><strong>X</strong></td><td><strong>X</strong></td><td><strong>X</strong></td><td><strong>X</strong></td></tr></tbody></table>' },
+              { type: 'concept', variant: 'green', title: 'Other Key Notes', html: '<p><strong>Note 7: Debtors</strong></p><p>Trade debtors: X<br/>Less: Provision for bad debts: (X)<br/>Prepayments: X<br/>Total debtors: <strong>X</strong></p><p><strong>Note 8: Creditors (< 1 year)</strong></p><p>Trade creditors: X<br/>Accruals: X<br/>Corporation tax: X<br/>Proposed dividends: X<br/>PAYE/PRSI: X<br/>VAT: X<br/>Debenture interest accrued: X<br/>Total: <strong>X</strong></p><p><strong>Note 9: Creditors (> 1 year)</strong></p><p>X% Debentures: X</p><p><strong>Note 10: Capital & Reserves</strong></p><p>Authorised share capital: X shares at €X = €X<br/>Issued share capital: X shares at €X = €X<br/>Share premium: X<br/>Revaluation reserve: X<br/>P&L balance: X</p>' },
+              { type: 'examtip', title: 'Note 6 is the Highest-Scoring Note', html: '<p>The Fixed Asset Note (Note 6) typically carries <strong>12-16 marks</strong>. Key points:</p><p>1. If an asset is <strong>revalued</strong>, its cost is replaced by the new valuation AND accumulated depreciation is removed. Future depreciation is based on the new value.</p><p>2. On <strong>disposal</strong>, remove both cost and accumulated depreciation. The profit/loss on disposal does NOT appear in the note — it goes to the P&L.</p><p>3. <strong>Additions</strong> include assets purchased during the year (check for any bought on credit that might be in creditors).</p>' },
+            ]
+          },
+        ]
+      },
+      {
+        id: '10.5', title: 'Worked Published Accounts Example',
+        subTopics: [
+          {
+            id: '10.5.1', title: 'SEC-Style Worked Example',
+            body: [
+              { type: 'example', title: 'Galway Trading plc — Key Workings', html: '<p><strong>Given:</strong> Operating profit (from internal P&L) = €186,000. The question requires you to prepare the Published P&L from internal figures.</p><p><strong>W1: Distribution Costs</strong></p><table class="learn-table"><tbody><tr><td>Advertising</td><td>18,000</td></tr><tr><td>Carriage outwards</td><td>6,400</td></tr><tr><td>Sales reps\' commission</td><td>12,500</td></tr><tr><td>Delivery van depreciation (20% of €40,000)</td><td>8,000</td></tr><tr><td>Bad debts</td><td>3,600</td></tr><tr><td>Increase in provision for bad debts</td><td>1,200</td></tr><tr><td><strong>Total Distribution Costs</strong></td><td><strong>49,700</strong></td></tr></tbody></table><p><strong>W2: Administrative Expenses</strong></p><table class="learn-table"><tbody><tr><td>Office salaries</td><td>68,000</td></tr><tr><td>Rent & rates (adjusted: 24,000 − 2,000 prepaid)</td><td>22,000</td></tr><tr><td>Insurance (adjusted: 9,600 − 1,600 prepaid)</td><td>8,000</td></tr><tr><td>Light & heat (adjusted: 5,200 + 800 accrued)</td><td>6,000</td></tr><tr><td>Directors\' fees</td><td>35,000</td></tr><tr><td>Audit fee</td><td>8,500</td></tr><tr><td>Office equipment depreciation (10% × €85,000)</td><td>8,500</td></tr><tr><td>General expenses</td><td>4,300</td></tr><tr><td><strong>Total Administrative Expenses</strong></td><td><strong>160,300</strong></td></tr></tbody></table><p><strong>Check:</strong> Gross Profit (396,000) − Distribution (49,700) − Admin (160,300) = <strong>Operating Profit €186,000</strong></p>' },
+              { type: 'examtip', title: 'How to Approach Published Accounts in the Exam', html: '<p><strong>Step 1:</strong> Prepare internal P&L first (Trading Account → Gross Profit → all expenses).</p><p><strong>Step 2:</strong> Classify each expense as Distribution or Admin.</p><p><strong>Step 3:</strong> Prepare the Published P&L using the format above.</p><p><strong>Step 4:</strong> Prepare the Published BS (use the internal BS but reformat into the published layout).</p><p><strong>Step 5:</strong> Prepare Notes (especially Note 6 — Fixed Assets).</p><p><strong>Remember:</strong> The examiner gives marks for the workings even if your final published figures are wrong. Always show W1, W2, W3 etc.</p>' },
             ]
           },
         ]
@@ -1174,7 +1220,7 @@ export const CHAPTERS: Chapter[] = [
     id: 14, block: 'C',
     title: 'Service Firms\' Accounts',
     description: 'Fee income, work in progress for service firms, HL adjustments.',
-    estimatedMinutes: 25,
+    estimatedMinutes: 30,
     related: [6, 13],
     sections: [
       {
@@ -1202,19 +1248,44 @@ export const CHAPTERS: Chapter[] = [
         ]
       },
       {
-        id: '14.2', title: 'WIP & the P&L Layout',
+        id: '14.2', title: 'Work in Progress (WIP)',
         subTopics: [
           {
-            id: '14.2.1', title: 'Work in Progress',
+            id: '14.2.1', title: 'What is WIP in a Service Firm?',
+            keyTerms: [
+              { term: 'WIP (Work in Progress)', definition: 'The cost of professional work completed for clients but not yet invoiced at the year end.' },
+            ],
             body: [
-              { type: 'concept', variant: 'blue', title: 'WIP in Service Firms', html: '<p>WIP represents the cost of work performed but not yet invoiced to clients at the year end.</p><p><strong>P&L treatment:</strong></p><p>Fee Income<br/>Add: Closing WIP<br/>Less: Opening WIP<br/>= Adjusted Fee Income</p><p><strong>Balance Sheet:</strong> Closing WIP = Current Asset (like closing stock in a trading firm).</p>' },
-              { type: 'examtip', title: 'SEC Pattern', html: '<p>Service firms have appeared in 2009, 2011, 2013, 2017, 2020, and 2023 on Section 2. The WIP adjustment and fee income T-account are tested almost every time.</p>' },
+              { type: 'concept', variant: 'blue', title: 'WIP Explained', html: '<p>In a service firm, WIP represents time and costs incurred on client work that has <strong>not yet been billed</strong> at the year end.</p><p>For example, a solicitor may have spent 20 hours on a case by 31 December but has not yet sent an invoice. The cost of those hours is WIP.</p><p><strong>WIP is valued at cost</strong> — the direct costs incurred (partner/employee time, direct expenses) but NOT including any profit element.</p>' },
+              { type: 'concept', variant: 'green', title: 'WIP Treatment — Two Places', html: '<p><strong>1. In the P&L (Income Statement):</strong></p><p>Fee Income (adjusted for accruals/prepayments)<br/>+ Closing WIP<br/>− Opening WIP<br/>= <strong>Adjusted Fee Income</strong></p><p>This mirrors the stock adjustment in a trading firm. Closing WIP adds value (work done, not yet billed), opening WIP is subtracted (was last year\'s asset, now billed and in fee income).</p><p><strong>2. On the Balance Sheet:</strong></p><p>Closing WIP appears as a <strong>Current Asset</strong>, just like closing stock in a trading business.</p>' },
+              { type: 'watchout', title: 'Key Exam Trap', html: '<p>Students sometimes forget to adjust fee income for WIP. The examiner expects you to show:</p><p>Fee Income per TB → adjust for accruals/prepayments → adjust for WIP → then deduct expenses.</p><p>If you skip the WIP adjustment, you lose marks on both the P&L AND the Balance Sheet.</p>' },
             ]
           },
           {
-            id: '14.2.2', title: 'P&L Layout',
+            id: '14.2.2', title: 'WIP Worked Example',
             body: [
-              { type: 'concept', variant: 'green', title: 'Service Firm P&L', html: '<p><strong>Fee Income</strong> (adjusted)<br/>Add: Closing WIP<br/>Less: Opening WIP<br/>= Adjusted Fee Income</p><p><strong>Less Expenses:</strong><br/>Wages & salaries, rent, insurance, light & heat, depreciation, professional fees, bad debts, provision changes, etc.</p><p>= <strong>Net Profit</strong></p><p>Note: All Q1-style adjustments apply (accruals, prepayments, depreciation, disposal, bad debts). The only difference is the absence of a Trading Account.</p>' },
+              { type: 'example', title: 'WIP Calculation — O\'Sullivan & Partners', html: '<p><strong>Given:</strong></p><p>Fees received (TB): €320,000<br/>Fees accrued at start: €8,400 | at end: €12,600<br/>Fees prepaid at start: €2,000 | at end: €3,500<br/>Opening WIP: €15,000<br/>Closing WIP: €22,000</p><p><strong>Step 1: Fee Income (T-Account method)</strong></p><p>= 320,000 + 12,600 − 8,400 + 2,000 − 3,500 = <strong>€322,700</strong></p><p><strong>Step 2: Adjust for WIP</strong></p><p>322,700 + 22,000 (closing WIP) − 15,000 (opening WIP) = <strong>€329,700</strong></p><p>This is the Adjusted Fee Income that appears at the top of the P&L.</p>' },
+              { type: 'concept', variant: 'green', title: 'Balance Sheet Treatment', html: '<p>On the Balance Sheet at year end:</p><p><strong>Current Assets:</strong><br/>Work in Progress: €22,000<br/>Fee debtors (accrued): €12,600<br/>Prepayments: €3,500<br/>Bank: (from TB)</p><p><strong>Current Liabilities:</strong><br/>Fee creditors (prepaid by clients): if applicable<br/>Creditors, accruals, etc.</p>' },
+            ]
+          },
+        ]
+      },
+      {
+        id: '14.3', title: 'Full Service Firm P&L & BS',
+        subTopics: [
+          {
+            id: '14.3.1', title: 'Complete P&L Layout',
+            body: [
+              { type: 'concept', variant: 'blue', title: 'Service Firm P&L Format', html: '<p><strong>Income Statement of [Firm Name] for year ended 31/12/20XX</strong></p><p><strong>Fee Income</strong> (adjusted for accruals & prepayments)<br/>Add: Closing WIP<br/>Less: Opening WIP<br/>= <strong>Adjusted Fee Income</strong></p><p><strong>Less Expenses:</strong><br/>Salaries & wages (adjusted)<br/>Rent (adjusted)<br/>Insurance (adjusted)<br/>Light & heat (adjusted)<br/>Depreciation<br/>Bad debts written off<br/>Increase/decrease in provision for bad debts<br/>Motor expenses<br/>Professional fees<br/>General expenses<br/>Interest paid<br/>= <strong>Total Expenses</strong></p><p>Adjusted Fee Income − Total Expenses = <strong>Net Profit</strong></p>' },
+              { type: 'examtip', title: 'SEC Marking Scheme Pattern', html: '<p>In SEC questions, service firm marks are typically allocated as:</p><p>1. Fee income calculation (accruals/prepayments): <strong>6-8 marks</strong></p><p>2. WIP adjustment: <strong>4 marks</strong></p><p>3. Expenses with adjustments: <strong>12-16 marks</strong></p><p>4. Balance Sheet: <strong>20 marks</strong></p><p>The WIP adjustment is free marks — do not skip it.</p>' },
+            ]
+          },
+          {
+            id: '14.3.2', title: 'Worked SEC-Style Question',
+            body: [
+              { type: 'example', title: 'Byrne & Associates — Veterinary Practice (Full Question)', html: '<p><strong>Trial Balance at 31/12/2024:</strong></p><table class="learn-table"><thead><tr><th>Account</th><th>Dr €</th><th>Cr €</th></tr></thead><tbody><tr><td>Premises at cost</td><td>280,000</td><td></td></tr><tr><td>Equipment at cost</td><td>95,000</td><td></td></tr><tr><td>Motor vehicles at cost</td><td>48,000</td><td></td></tr><tr><td>Acc. dep\'n — Premises</td><td></td><td>28,000</td></tr><tr><td>Acc. dep\'n — Equipment</td><td></td><td>38,000</td></tr><tr><td>Acc. dep\'n — Motor vehicles</td><td></td><td>24,000</td></tr><tr><td>Fees received</td><td></td><td>395,000</td></tr><tr><td>Salaries</td><td>142,000</td><td></td></tr><tr><td>Rent & rates</td><td>18,500</td><td></td></tr><tr><td>Insurance</td><td>9,600</td><td></td></tr><tr><td>Light & heat</td><td>7,200</td><td></td></tr><tr><td>Motor expenses</td><td>12,400</td><td></td></tr><tr><td>General expenses</td><td>8,800</td><td></td></tr><tr><td>Bad debts</td><td>3,200</td><td></td></tr><tr><td>Provision for bad debts</td><td></td><td>2,800</td></tr><tr><td>Fee debtors</td><td>34,000</td><td></td></tr><tr><td>Creditors</td><td></td><td>11,500</td></tr><tr><td>Bank</td><td>15,600</td><td></td></tr><tr><td>WIP at 01/01/2024</td><td>18,500</td><td></td></tr><tr><td>Capital</td><td></td><td>194,500</td></tr><tr><td>Drawings</td><td>29,500</td><td></td></tr><tr><td></td><td>722,300</td><td>722,300</td></tr></tbody></table><p><strong>Notes:</strong></p><p>(i) Fees accrued at 31/12/2024: €14,200. Fees prepaid by clients at 31/12/2024: €3,400.</p><p>(ii) Closing WIP at 31/12/2024: €21,800.</p><p>(iii) Depreciation: Premises 2% straight line; Equipment 15% of NBV; Motor vehicles 20% straight line.</p><p>(iv) Insurance prepaid at 31/12/2024: €1,200.</p><p>(v) Light & heat accrued at 31/12/2024: €1,800.</p><p>(vi) Provision for bad debts to be adjusted to 5% of fee debtors.</p>' },
+              { type: 'solution', title: 'Solution — Workings', html: '<p><strong>W1: Fee Income</strong><br/>Fees received: 395,000 + Accrued end 14,200 − Prepaid by clients 3,400 = <strong>€405,800</strong></p><p><strong>W2: WIP Adjustment</strong><br/>+ Closing WIP 21,800 − Opening WIP 18,500 = + <strong>€3,300</strong></p><p><strong>W3: Adjusted Fee Income</strong> = 405,800 + 3,300 = <strong>€409,100</strong></p><p><strong>W4: Depreciation</strong><br/>Premises: 280,000 × 2% = €5,600<br/>Equipment: (95,000 − 38,000) × 15% = €8,550<br/>Motor vehicles: 48,000 × 20% = €9,600<br/>Total depreciation = <strong>€23,750</strong></p><p><strong>W5: Insurance</strong> = 9,600 − 1,200 = <strong>€8,400</strong></p><p><strong>W6: Light & Heat</strong> = 7,200 + 1,800 = <strong>€9,000</strong></p><p><strong>W7: Provision for bad debts</strong><br/>Required: 5% × (34,000 + 14,200) = 5% × 48,200 = <strong>€2,410</strong><br/>Existing: €2,800. Decrease: 2,800 − 2,410 = €390 (reduce expenses by €390).</p><p>Note: Fee debtors for provision = TB debtors + accrued fees (these are all amounts owed to the firm).</p>' },
+              { type: 'solution', title: 'Solution — P&L', html: '<p><strong>Income Statement of Byrne & Associates for year ended 31/12/2024</strong></p><table class="learn-table"><tbody><tr><td>Fee Income (W1)</td><td></td><td>405,800</td></tr><tr><td>Add: Closing WIP</td><td></td><td>21,800</td></tr><tr><td>Less: Opening WIP</td><td></td><td>(18,500)</td></tr><tr><td><strong>Adjusted Fee Income</strong></td><td></td><td><strong>409,100</strong></td></tr><tr><td colspan="3"><strong>Less Expenses:</strong></td></tr><tr><td>Salaries</td><td>142,000</td><td></td></tr><tr><td>Rent & rates</td><td>18,500</td><td></td></tr><tr><td>Insurance (W5)</td><td>8,400</td><td></td></tr><tr><td>Light & heat (W6)</td><td>9,000</td><td></td></tr><tr><td>Motor expenses</td><td>12,400</td><td></td></tr><tr><td>General expenses</td><td>8,800</td><td></td></tr><tr><td>Bad debts</td><td>3,200</td><td></td></tr><tr><td>Less: Decrease in provision</td><td>(390)</td><td></td></tr><tr><td>Depreciation (W4)</td><td>23,750</td><td></td></tr><tr><td><strong>Total Expenses</strong></td><td></td><td><strong>(225,660)</strong></td></tr><tr><td><strong>Net Profit</strong></td><td></td><td><strong>183,440</strong></td></tr></tbody></table>' },
             ]
           },
         ]
