@@ -161,9 +161,12 @@ export default function TheoryLearnMode({ onReadingStateChange }: Props) {
                               <div className="flex items-center gap-1.5 flex-wrap mt-1.5">
                                 <span className="text-[10px] text-muted-foreground">{ch.sections.length} sections</span>
                                 {(REVIEW_BANK[ch.id] || []).length > 0 && (
-                                  <span className="inline-flex items-center gap-0.5 text-[9px] text-primary font-medium">
-                                    <HelpCircle className="h-2.5 w-2.5" /> Quiz
-                                  </span>
+                                  <>
+                                    <span className="inline-flex items-center gap-0.5 text-[9px] text-primary font-medium">
+                                      <HelpCircle className="h-2.5 w-2.5" /> Quiz
+                                    </span>
+                                    <Badge variant="outline" className="text-[8px] px-1 py-0 border-primary/30 text-primary font-bold">R</Badge>
+                                  </>
                                 )}
                                 {prog.pct > 0 && (
                                   <Badge variant={prog.pct >= 100 ? "default" : "outline"} className="text-[9px] px-1 py-0">
