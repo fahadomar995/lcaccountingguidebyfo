@@ -505,8 +505,16 @@ tip:'<strong>If your two totals don\'t match</strong>, the most common causes ar
 // ═══════════════════════════════════════════════════
 
 const CO_INTRO = `
+<div class="wt-intro-box green">
+  <h3>📄 Meet the Question — Yeats Ltd (2024 SEC Paper)</h3>
+  <p>Before diving into the workings, take a moment to <strong>read the actual exam question</strong>. Study the trial balance and notes carefully.</p>
+  <div style="display:flex;flex-direction:column;gap:12px;margin-top:12px;">
+    <img src="/images/q1-company-2024-p1.jpg" alt="2024 Company Q1 Page 1 — Trial Balance" style="width:100%;border-radius:8px;border:1px solid rgba(255,255,255,0.1);" />
+    <img src="/images/q1-company-2024-p2.jpg" alt="2024 Company Q1 Page 2 — Notes" style="width:100%;border-radius:8px;border:1px solid rgba(255,255,255,0.1);" />
+  </div>
+</div>
+
 <div class="wt-intro-box">
-  <h3>How to Approach Q1 Company</h3>
   <p>A Company Q1 is worth <strong>120 marks</strong> and closely follows the Sole Trader structure, but with key differences: <strong>share capital</strong> instead of owner's capital, a <strong>P&L balance</strong> carried forward, <strong>debentures</strong> as long-term financing, and <strong>dividends</strong> deducted after Net Profit.</p>
   <h4>The 5-step approach:</h4>
   <ol>
@@ -838,8 +846,16 @@ tip:'<strong>If your two totals don\'t match</strong> for Company 2024: (1) forg
 // ═══════════════════════════════════════════════════
 
 const MFG_INTRO = `
+<div class="wt-intro-box green">
+  <h3>📄 Meet the Question — McGuigan Ltd (2022 SEC Paper)</h3>
+  <p>Before diving into the workings, take a moment to <strong>read the actual exam question</strong>. Study the trial balance and notes carefully.</p>
+  <div style="display:flex;flex-direction:column;gap:12px;margin-top:12px;">
+    <img src="/images/q1-mfg-2022-p1.jpg" alt="2022 Manufacturing Q1 Page 1 — Trial Balance" style="width:100%;border-radius:8px;border:1px solid rgba(255,255,255,0.1);" />
+    <img src="/images/q1-mfg-2022-p2.jpg" alt="2022 Manufacturing Q1 Page 2 — Notes" style="width:100%;border-radius:8px;border:1px solid rgba(255,255,255,0.1);" />
+  </div>
+</div>
+
 <div class="wt-intro-box">
-  <h3>How to Approach Q1 Manufacturing</h3>
   <p>A Manufacturing Q1 is worth <strong>120 marks</strong> and is the longest and most structured question on the paper. It adds a <strong>Manufacturing Account</strong> that calculates the Cost of Manufacture before the Trading P&L.</p>
   <h4>The 6-step approach:</h4>
   <ol>

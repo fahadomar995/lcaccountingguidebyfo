@@ -20,7 +20,7 @@ export default function TheoryLearnMode({ onReadingStateChange }: Props) {
   const [activeChapterId, setActiveChapterId] = useState<number | null>(null);
   const [initialSectionId, setInitialSectionId] = useState<string | undefined>();
   const [expandedBlocks, setExpandedBlocks] = useState<Set<Block>>(new Set());
-  const [completedSections] = useLocalStorage<Record<string, boolean>>('lc-theory-ch-progress', {});
+  const [completedSections, , refreshCompleted] = useLocalStorage<Record<string, boolean>>('lc-theory-ch-progress', {});
 
   const activeChapter = activeChapterId ? CHAPTERS.find(c => c.id === activeChapterId) : null;
 
