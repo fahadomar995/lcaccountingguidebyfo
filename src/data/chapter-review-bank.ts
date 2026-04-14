@@ -708,7 +708,7 @@ export const REVIEW_BANK: Record<number, ReviewItem[]> = {
     },
   ],
 
-  3: [],
+  // Ch 3 review items are at end of file
 
   // ────────────────────────────────────────────
   // Chapter 4 — Depreciation & Revaluation (13 items)
@@ -851,7 +851,7 @@ export const REVIEW_BANK: Record<number, ReviewItem[]> = {
     },
   ],
 
-  5: [],
+  // Ch 5 review items are at end of file
 
   // ────────────────────────────────────────────
   // Chapter 6 — Final Accounts: Sole Trader (13 items)
