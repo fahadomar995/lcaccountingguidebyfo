@@ -1343,31 +1343,8 @@ export const CHAPTERS: Chapter[] = [
   },
 
 
+
   // ── Chapter 17 — EXPANDED ──
-              { term: 'Accumulated Fund', definition: 'The club equivalent of capital \u2014 net assets at the start of the period.' },
-              { term: 'Surplus', definition: 'When income exceeds expenditure (equivalent to net profit).' },
-              { term: 'Deficit', definition: 'When expenditure exceeds income (equivalent to net loss).' },
-            ],
-            body: [
-              { type: 'concept', variant: 'blue', title: 'Two Types of Account', html: '<p><strong>Receipts & Payments:</strong> Cash basis. Records ALL cash received and paid. Shows opening and closing bank balances.</p><p><strong>Income & Expenditure:</strong> Accruals basis. Only includes income earned and expenses incurred. Shows a surplus or deficit.</p>' },
-              { type: 'watchout', title: 'Key Difference', html: '<p>Capital items (purchase of equipment) appear in R&P but NOT in I&E. Depreciation appears in I&E but NOT in R&P.</p>' },
-            ]
-          },
-          {
-            id: '13.1.2', title: 'The Accumulated Fund',
-            body: [
-              { type: 'concept', variant: 'green', title: 'Calculating the Accumulated Fund', html: '<p><strong>Opening Assets \u2212 Opening Liabilities = Accumulated Fund</strong></p><p>At year end: Accumulated Fund + Surplus (or \u2212 Deficit) = Closing Accumulated Fund.</p>' },
-            ]
-          },
-        ]
-      },
-      {
-        id: '13.2', title: 'Subscriptions & Special Income',
-        subTopics: [
-          {
-            id: '13.2.1', title: 'Subscriptions Account',
-            keyTerms: [
-              { term: 'Subscriptions', definition: 'Annual membership fees \u2014 the main income source for most clubs.' },
             ],
             body: [
               { type: 'concept', variant: 'blue', title: 'Subscriptions T-Account', html: '<p>Prepare a T-account to calculate subscription <strong>income</strong> for the I&E:</p><p><strong>Dr:</strong> Arrears at start, Cash received (from R&P), Prepaid at end.</p><p><strong>Cr:</strong> Prepaid at start, <strong>Income (balancing figure)</strong>, Arrears at end.</p>' },
