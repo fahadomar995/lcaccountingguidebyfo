@@ -167,7 +167,7 @@ export default function TheoryLearnMode({ onReadingStateChange }: Props) {
                                 )}
                                 {prog.pct > 0 && (
                                   <Badge variant={prog.pct >= 100 ? "default" : "outline"} className="text-[9px] px-1 py-0">
-                                    {prog.pct >= 100 ? '✓' : `${prog.pct}%`}
+                                    {prog.pct >= 100 ? <Check className="h-3 w-3" /> : `${prog.pct}%`}
                                   </Badge>
                                 )}
                               </div>
