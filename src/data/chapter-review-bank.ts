@@ -1005,7 +1005,7 @@ export const REVIEW_BANK: Record<number, ReviewItem[]> = {
     },
   ],
 
-  8: [],
+  
 
   // ────────────────────────────────────────────
   // Chapter 9 — Company Accounts: Internal Use (13 items)
