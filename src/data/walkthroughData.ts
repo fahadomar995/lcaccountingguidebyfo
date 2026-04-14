@@ -515,7 +515,7 @@ tip:'<strong>If your two totals don\'t match</strong>, the most common causes ar
 
 const CO_INTRO = `
 <div class="wt-intro-box green">
-  <h3>📄 Meet the Question — Yeats Ltd (2024 SEC Paper)</h3>
+  <h3>Meet the Question — Yeats Ltd (2024 SEC Paper)</h3>
   <p>Before diving into the workings, take a moment to <strong>read the actual exam question</strong>. Study the trial balance and notes carefully.</p>
   <div style="display:flex;flex-direction:column;gap:12px;margin-top:12px;">
     <img src="/images/q1-company-2024-p1.jpg" alt="2024 Company Q1 Page 1 — Trial Balance" style="width:100%;border-radius:8px;border:1px solid rgba(255,255,255,0.1);" />
@@ -856,7 +856,7 @@ tip:'<strong>If your two totals don\'t match</strong> for Company 2024: (1) forg
 
 const MFG_INTRO = `
 <div class="wt-intro-box green">
-  <h3>📄 Meet the Question — McGuigan Ltd (2022 SEC Paper)</h3>
+  <h3>Meet the Question — McGuigan Ltd (2022 SEC Paper)</h3>
   <p>Before diving into the workings, take a moment to <strong>read the actual exam question</strong>. Study the trial balance and notes carefully.</p>
   <div style="display:flex;flex-direction:column;gap:12px;margin-top:12px;">
     <img src="/images/q1-mfg-2022-p1.jpg" alt="2022 Manufacturing Q1 Page 1 — Trial Balance" style="width:100%;border-radius:8px;border:1px solid rgba(255,255,255,0.1);" />
