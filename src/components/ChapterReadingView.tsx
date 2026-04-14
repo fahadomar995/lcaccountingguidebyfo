@@ -65,7 +65,25 @@ export default function ChapterReadingView({ chapter, initialSectionId, onBack, 
   }, [activeSectionIdx, chapter.id]);
 
   const toggleComplete = () => {
-    setCompleted(prev => ({ ...prev, [sectionKey]: !prev[sectionKey] }));
+    const wasComplete = completedSections[sectionKey];
+    const next = { ...completedSections, [sectionKey]: !wasComplete };
+    setCompleted(next);
+    
+    if (!wasComplete) {
+      // Count completed sections for this chapter after this toggle
+      const chapterDone = chapter.sections.filter(s => next[`${chapter.id}_${s.id}`]).length;
+      const total = chapter.sections.length;
+      
+      if (chapterDone === total) {
+        toast.success(`Chapter ${chapter.id} complete`, {
+          description: `All ${total} sections of "${chapter.title}" finished.`,
+        });
+      } else {
+        toast(`Section ${section.id} complete`, {
+          description: `${chapterDone}/${total} sections done in Ch ${chapter.id}.`,
+        });
+      }
+    }
   };
 
   const goNext = () => {
