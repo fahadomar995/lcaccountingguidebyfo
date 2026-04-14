@@ -20,7 +20,8 @@ export default function TheoryLearnMode({ onReadingStateChange }: Props) {
   const [activeChapterId, setActiveChapterId] = useState<number | null>(null);
   const [initialSectionId, setInitialSectionId] = useState<string | undefined>();
   const [expandedBlocks, setExpandedBlocks] = useState<Set<Block>>(new Set());
-  const [completedSections] = useLocalStorage<Record<string, boolean>>('lc-theory-ch-progress', {});
+  const [completedSections, setCompletedSections] = useLocalStorage<Record<string, boolean>>('lc-theory-ch-progress', {});
+  
 
   const activeChapter = activeChapterId ? CHAPTERS.find(c => c.id === activeChapterId) : null;
 
@@ -70,7 +71,15 @@ export default function TheoryLearnMode({ onReadingStateChange }: Props) {
       <ChapterReadingView
         chapter={activeChapter}
         initialSectionId={initialSectionId}
-        onBack={() => { setActiveChapterId(null); onReadingStateChange?.(false); }}
+        onBack={() => {
+          setActiveChapterId(null);
+          onReadingStateChange?.(false);
+          // Re-sync progress from localStorage
+          try {
+            const raw = localStorage.getItem('lc-theory-ch-progress');
+            if (raw) setCompletedSections(JSON.parse(raw));
+          } catch {}
+        }}
         onNavigateChapter={(id) => openChapter(id)}
       />
     );
