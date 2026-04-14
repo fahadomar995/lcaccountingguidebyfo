@@ -1453,10 +1453,556 @@ export const REVIEW_BANK: Record<number, ReviewItem[]> = {
   ],
 
   12: [],
-  13: [],
-  14: [],
-  15: [],
-  16: [],
+  // ────────────────────────────────────────────
+  // Chapter 13 — Club Accounts (13 items)
+  // ────────────────────────────────────────────
+  13: [
+    {
+      id: 'r13-01', chapterId: 13, sectionId: '13.1', type: 'sort',
+      prompt: 'Sort these items by whether they appear in the R&P Account or I&E Account.',
+      itemData: { type: 'sort', data: { buckets: ['R&P Account', 'I&E Account', 'Both'], items: [
+        { label: 'Purchase of equipment', correctBucket: 'R&P Account' },
+        { label: 'Depreciation', correctBucket: 'I&E Account' },
+        { label: 'Insurance paid', correctBucket: 'Both' },
+        { label: 'Subscriptions received', correctBucket: 'R&P Account' },
+        { label: 'Subscription income (accruals-adjusted)', correctBucket: 'I&E Account' },
+        { label: 'Bar net profit', correctBucket: 'I&E Account' },
+      ] } },
+      explanation: 'Capital items (equipment purchase) only appear in R&P. Depreciation only appears in I&E. Cash payments like insurance appear in R&P; the accruals-adjusted amount appears in I&E.',
+      sectionLink: '13.1.1',
+    },
+    {
+      id: 'r13-02', chapterId: 13, sectionId: '13.1', type: 'match',
+      prompt: 'Match each club term with its business equivalent.',
+      itemData: { type: 'match', data: { pairs: [
+        { term: 'Accumulated Fund', definition: 'Capital' },
+        { term: 'Surplus', definition: 'Net Profit' },
+        { term: 'Deficit', definition: 'Net Loss' },
+        { term: 'Income & Expenditure Account', definition: 'Profit & Loss Account' },
+      ] } },
+      explanation: 'Club accounts use different terminology but follow the same accounting principles.',
+      sectionLink: '13.1.1',
+    },
+    {
+      id: 'r13-03', chapterId: 13, sectionId: '13.1', type: 'fill-chip',
+      prompt: 'Complete the accumulated fund calculation.',
+      itemData: { type: 'fill-chip', data: {
+        sentence: 'Accumulated Fund = Opening Assets minus Opening ___.',
+        chips: ['Income', 'Liabilities', 'Subscriptions', 'Surplus'],
+        correctChip: 'Liabilities',
+      } },
+      explanation: 'The accumulated fund is calculated from the opening statement of affairs: Assets − Liabilities = Accumulated Fund.',
+      sectionLink: '13.1.2',
+    },
+    {
+      id: 'r13-04', chapterId: 13, sectionId: '13.2', type: 'sort',
+      prompt: 'In the subscriptions T-account, sort these to the correct side.',
+      itemData: { type: 'sort', data: { buckets: ['Debit Side', 'Credit Side'], items: [
+        { label: 'Arrears at start', correctBucket: 'Debit Side' },
+        { label: 'Cash received', correctBucket: 'Debit Side' },
+        { label: 'Prepaid at start', correctBucket: 'Credit Side' },
+        { label: 'I&E income (balancing figure)', correctBucket: 'Credit Side' },
+        { label: 'Prepaid at end', correctBucket: 'Debit Side' },
+        { label: 'Arrears at end', correctBucket: 'Credit Side' },
+      ] } },
+      explanation: 'The subscriptions T-account has arrears b/d, cash, and prepaid c/d on the debit side. Prepaid b/d, I&E income (balancing figure), and arrears c/d on the credit side.',
+      sectionLink: '13.2.1',
+    },
+    {
+      id: 'r13-05', chapterId: 13, sectionId: '13.2', type: 'mcq',
+      prompt: 'Subscriptions received €24,000. Arrears: start €1,200, end €1,800. Prepaid: start €400, end €600. What is subscription income for I&E?',
+      itemData: { type: 'mcq', data: { options: ['€24,000', '€24,800', '€23,200', '€25,000'], correctIndex: 1 } },
+      explanation: 'Income = Cash + Arrears end − Arrears start − Prepaid end + Prepaid start = €24,000 + €1,800 − €1,200 − €600 + €400 = €24,800 (or use the T-account balancing figure).',
+      sectionLink: '13.2.1',
+    },
+    {
+      id: 'r13-06', chapterId: 13, sectionId: '13.2', type: 'true-false',
+      prompt: 'True or false?',
+      itemData: { type: 'true-false', data: {
+        statement: 'Subscription arrears at year end are shown as a current liability on the Balance Sheet.',
+        isTrue: false,
+        followUp: {
+          prompt: 'What are subscription arrears?',
+          chips: ['Current asset (debtor)', 'Fixed asset', 'Long-term liability'],
+          correctChip: 'Current asset (debtor)',
+        },
+      } },
+      explanation: 'Arrears = money owed TO the club by members. This is a debtor (current asset). Prepaid subscriptions (paid in advance) are a current liability.',
+      sectionLink: '13.2.1',
+    },
+    {
+      id: 'r13-07', chapterId: 13, sectionId: '13.2', type: 'mcq',
+      prompt: 'Life membership €9,000 received. Expected membership: 15 years. What goes to I&E in year 1?',
+      itemData: { type: 'mcq', data: { options: ['€9,000', '€600', '€900', '€1,500'], correctIndex: 1 } },
+      explanation: '€9,000 ÷ 15 years = €600 per year. The balance (€8,400) is a liability (deferred income).',
+      sectionLink: '13.2.2',
+    },
+    {
+      id: 'r13-08', chapterId: 13, sectionId: '13.3', type: 'order',
+      prompt: 'Put the bar trading account steps in order.',
+      itemData: { type: 'order', data: { steps: [
+        'Calculate bar sales (adjust R&P cash for debtors)',
+        'Calculate bar purchases (adjust R&P cash for creditors)',
+        'Cost of bar sales = Opening stock + Purchases − Closing stock',
+        'Bar Gross Profit = Sales − Cost of Sales',
+        'Deduct bar wages to get Bar Net Profit → I&E',
+      ] } },
+      explanation: 'The bar trading account follows the same structure as a normal trading account but uses R&P cash figures adjusted for debtors and creditors.',
+      sectionLink: '13.3.1',
+    },
+    {
+      id: 'r13-09', chapterId: 13, sectionId: '13.3', type: 'fill-chip',
+      prompt: 'Complete the statement about bar purchases.',
+      itemData: { type: 'fill-chip', data: {
+        sentence: 'Bar purchases for the trading account = R&P cash paid + closing bar creditors minus ___.',
+        chips: ['closing debtors', 'opening bar creditors', 'bar wages', 'depreciation'],
+        correctChip: 'opening bar creditors',
+      } },
+      explanation: 'Cash paid + closing creditors − opening creditors gives the accruals-based purchases figure.',
+      sectionLink: '13.3.1',
+    },
+    {
+      id: 'r13-10', chapterId: 13, sectionId: '13.1', type: 'define',
+      prompt: 'Define the following term.',
+      itemData: { type: 'define', data: {
+        term: 'Receipts & Payments Account',
+        modelDefinition: 'A summary of all cash received and paid during the year on a cash basis — showing opening and closing bank balances. The club equivalent of a summarised cash book.',
+      } },
+      explanation: 'Unlike the I&E Account, the R&P includes capital items and does not adjust for accruals.',
+      sectionLink: '13.1.1',
+    },
+    {
+      id: 'r13-11', chapterId: 13, sectionId: '13.1', type: 'true-false',
+      prompt: 'True or false?',
+      itemData: { type: 'true-false', data: {
+        statement: 'The purchase of new equipment for the club appears in the Income & Expenditure Account.',
+        isTrue: false,
+        followUp: {
+          prompt: 'Where does equipment purchase appear?',
+          chips: ['R&P Account only (as a payment)', 'I&E as an expense', 'Neither — it is ignored'],
+          correctChip: 'R&P Account only (as a payment)',
+        },
+      } },
+      explanation: 'Capital expenditure goes in R&P (cash payment) but NOT in I&E. Only depreciation on the equipment goes in I&E.',
+      sectionLink: '13.1.1',
+    },
+    {
+      id: 'r13-12', chapterId: 13, sectionId: '13.2', type: 'match',
+      prompt: 'Match each special receipt with its correct treatment.',
+      itemData: { type: 'match', data: { pairs: [
+        { term: 'Entrance fees', definition: 'Income in I&E in year received' },
+        { term: 'Life membership', definition: 'Spread over expected years; balance is a liability' },
+        { term: 'Government grant (capital)', definition: 'Spread over asset life; balance is a liability' },
+        { term: 'Recurring donations', definition: 'Income in I&E in year received' },
+      ] } },
+      explanation: 'Life membership and capital grants are deferred — only the annual portion is income. Entrance fees and regular donations are immediate income.',
+      sectionLink: '13.2.2',
+    },
+    {
+      id: 'r13-13', chapterId: 13, sectionId: '13.4', type: 'sort',
+      prompt: 'Sort these items into their correct Balance Sheet location for a club.',
+      itemData: { type: 'sort', data: { buckets: ['Current Assets', 'Current Liabilities'], items: [
+        { label: 'Subscription arrears', correctBucket: 'Current Assets' },
+        { label: 'Subscription prepaid', correctBucket: 'Current Liabilities' },
+        { label: 'Bar stock', correctBucket: 'Current Assets' },
+        { label: 'Bar creditors', correctBucket: 'Current Liabilities' },
+        { label: 'Deferred life membership (current year)', correctBucket: 'Current Liabilities' },
+        { label: 'Prepaid insurance', correctBucket: 'Current Assets' },
+      ] } },
+      explanation: 'Arrears and bar stock are current assets. Prepaid subs, bar creditors, and deferred income portions are current liabilities.',
+      sectionLink: '13.4.1',
+    },
+  ],
+
+  // ────────────────────────────────────────────
+  // Chapter 14 — Service Firms (12 items)
+  // ────────────────────────────────────────────
+  14: [
+    {
+      id: 'r14-01', chapterId: 14, sectionId: '14.1', type: 'sort',
+      prompt: 'Sort these features by whether they apply to a Service Firm or Trading Firm.',
+      itemData: { type: 'sort', data: { buckets: ['Service Firm', 'Trading Firm'], items: [
+        { label: 'Fee income as main revenue', correctBucket: 'Service Firm' },
+        { label: 'Trading Account', correctBucket: 'Trading Firm' },
+        { label: 'Work in Progress as current asset', correctBucket: 'Service Firm' },
+        { label: 'Opening and closing stock', correctBucket: 'Trading Firm' },
+        { label: 'Cost of Sales calculation', correctBucket: 'Trading Firm' },
+        { label: 'No gross profit figure', correctBucket: 'Service Firm' },
+      ] } },
+      explanation: 'Service firms have no trading account, no stock, and no cost of sales. Their revenue is fee income and WIP replaces stock.',
+      sectionLink: '14.1.1',
+    },
+    {
+      id: 'r14-02', chapterId: 14, sectionId: '14.1', type: 'fill-chip',
+      prompt: 'Complete the statement about service firms.',
+      itemData: { type: 'fill-chip', data: {
+        sentence: 'In a service firm, the P&L starts with ___ rather than Sales.',
+        chips: ['Cost of Sales', 'Fee Income', 'Gross Profit', 'Work in Progress'],
+        correctChip: 'Fee Income',
+      } },
+      explanation: 'Service firms earn revenue from professional fees, not sales of goods.',
+      sectionLink: '14.1.1',
+    },
+    {
+      id: 'r14-03', chapterId: 14, sectionId: '14.1', type: 'mcq',
+      prompt: 'Fees received €185,000. Fees accrued: start €4,200, end €6,800. Fees prepaid: start €1,000, end €1,500. What is fee income for P&L?',
+      itemData: { type: 'mcq', data: { options: ['€185,000', '€187,100', '€182,900', '€186,600'], correctIndex: 1 } },
+      explanation: 'Fee income = €185,000 + €6,800 − €4,200 + €1,000 − €1,500 = €187,100.',
+      sectionLink: '14.1.2',
+    },
+    {
+      id: 'r14-04', chapterId: 14, sectionId: '14.2', type: 'true-false',
+      prompt: 'True or false?',
+      itemData: { type: 'true-false', data: {
+        statement: 'Work in Progress in a service firm is treated as a fixed asset on the Balance Sheet.',
+        isTrue: false,
+        followUp: {
+          prompt: 'How is WIP classified?',
+          chips: ['Current asset', 'Long-term liability', 'Capital reserve'],
+          correctChip: 'Current asset',
+        },
+      } },
+      explanation: 'WIP is work done but not yet billed — it will generate fee income shortly, so it is a current asset (like closing stock in a trading firm).',
+      sectionLink: '14.2.1',
+    },
+    {
+      id: 'r14-05', chapterId: 14, sectionId: '14.2', type: 'fill-chip',
+      prompt: 'Complete the WIP adjustment.',
+      itemData: { type: 'fill-chip', data: {
+        sentence: 'Adjusted Fee Income = Fee Income + Closing WIP minus ___.',
+        chips: ['Opening WIP', 'Depreciation', 'Bad debts', 'Closing stock'],
+        correctChip: 'Opening WIP',
+      } },
+      explanation: 'Like stock adjustments: add closing WIP (new work done) and deduct opening WIP (now billed).',
+      sectionLink: '14.2.1',
+    },
+    {
+      id: 'r14-06', chapterId: 14, sectionId: '14.1', type: 'define',
+      prompt: 'Define the following term.',
+      itemData: { type: 'define', data: {
+        term: 'Work in Progress (Service Firm)',
+        modelDefinition: 'The cost of professional work that has been performed but not yet billed to clients at the year end — shown as a current asset.',
+      } },
+      explanation: 'WIP represents unbilled work. Once invoiced, it becomes fee income and moves to debtors.',
+      sectionLink: '14.1.1',
+    },
+    {
+      id: 'r14-07', chapterId: 14, sectionId: '14.1', type: 'match',
+      prompt: 'Match each service firm term with its trading firm equivalent.',
+      itemData: { type: 'match', data: { pairs: [
+        { term: 'Fee income', definition: 'Sales' },
+        { term: 'Work in Progress', definition: 'Stock' },
+        { term: 'Net Profit (directly from fees)', definition: 'Gross Profit then Net Profit' },
+        { term: 'Fee debtors', definition: 'Trade debtors' },
+      ] } },
+      explanation: 'The concepts are the same — only the terminology differs because service firms sell services not goods.',
+      sectionLink: '14.1.1',
+    },
+    {
+      id: 'r14-08', chapterId: 14, sectionId: '14.2', type: 'mcq',
+      prompt: 'Which of these expenses would NOT appear in a service firm\'s P&L?',
+      itemData: { type: 'mcq', data: { options: ['Depreciation', 'Cost of Sales', 'Bad debts', 'Insurance'], correctIndex: 1 } },
+      explanation: 'Service firms have no cost of sales because they do not buy and sell goods. All other expenses (depreciation, bad debts, insurance) apply as normal.',
+      sectionLink: '14.2.2',
+    },
+    {
+      id: 'r14-09', chapterId: 14, sectionId: '14.1', type: 'true-false',
+      prompt: 'True or false?',
+      itemData: { type: 'true-false', data: {
+        statement: 'All Q1-style adjustments (accruals, prepayments, depreciation, bad debts) apply to service firms.',
+        isTrue: true,
+      } },
+      explanation: 'The only difference is the absence of a Trading Account. All other adjustments from Q1 apply exactly the same way.',
+      sectionLink: '14.1.1',
+    },
+    {
+      id: 'r14-10', chapterId: 14, sectionId: '14.1', type: 'mcq',
+      prompt: 'Which of these is an example of a service firm?',
+      itemData: { type: 'mcq', data: { options: ['Supermarket', 'Solicitor\'s practice', 'Manufacturing company', 'Clothing retailer'], correctIndex: 1 } },
+      explanation: 'Solicitors, accountants, architects, and vets are all service firms — they sell professional services, not goods.',
+      sectionLink: '14.1.1',
+    },
+    {
+      id: 'r14-11', chapterId: 14, sectionId: '14.2', type: 'order',
+      prompt: 'Put the service firm P&L in the correct order.',
+      itemData: { type: 'order', data: { steps: [
+        'Fee Income (adjusted for accruals)',
+        'Adjust for opening and closing WIP',
+        'Deduct all expenses (wages, rent, depreciation, bad debts, etc.)',
+        'Net Profit',
+      ] } },
+      explanation: 'The service firm P&L starts with fee income, adjusts for WIP, deducts expenses, and arrives directly at Net Profit — no Trading Account step.',
+      sectionLink: '14.2.2',
+    },
+    {
+      id: 'r14-12', chapterId: 14, sectionId: '14.2', type: 'mcq',
+      prompt: 'Opening WIP €12,000. Closing WIP €15,000. Fee income €200,000. What is adjusted fee income?',
+      itemData: { type: 'mcq', data: { options: ['€200,000', '€203,000', '€197,000', '€215,000'], correctIndex: 1 } },
+      explanation: 'Adjusted = €200,000 + €15,000 − €12,000 = €203,000.',
+      sectionLink: '14.2.1',
+    },
+  ],
+
+  // ────────────────────────────────────────────
+  // Chapter 15 — Farm Accounts (10 items)
+  // ────────────────────────────────────────────
+  15: [
+    {
+      id: 'r15-01', chapterId: 15, sectionId: '15.1', type: 'match',
+      prompt: 'Match each farm term with its accounting equivalent.',
+      itemData: { type: 'match', data: { pairs: [
+        { term: 'Farm produce used in house', definition: 'Drawings (at market value)' },
+        { term: 'Closing valuation of livestock', definition: 'Closing stock' },
+        { term: 'REPS payments / EU subsidies', definition: 'Other income' },
+        { term: 'Breeding stock (herd basis)', definition: 'Fixed asset' },
+      ] } },
+      explanation: 'Farm accounting uses specific terminology but maps to standard accounting concepts.',
+      sectionLink: '15.1.1',
+    },
+    {
+      id: 'r15-02', chapterId: 15, sectionId: '15.1', type: 'true-false',
+      prompt: 'True or false?',
+      itemData: { type: 'true-false', data: {
+        statement: 'Farm produce used in the house is valued at cost price.',
+        isTrue: false,
+        followUp: {
+          prompt: 'At what value?',
+          chips: ['Market value', 'Original cost', 'Net book value'],
+          correctChip: 'Market value',
+        },
+      } },
+      explanation: 'Farm produce used in the house is treated as drawings at market value, not cost.',
+      sectionLink: '15.1.1',
+    },
+    {
+      id: 'r15-03', chapterId: 15, sectionId: '15.1', type: 'fill-chip',
+      prompt: 'Complete the statement.',
+      itemData: { type: 'fill-chip', data: {
+        sentence: 'Farm produce used in the house is treated as ___ and reduces farm sales.',
+        chips: ['an expense', 'drawings', 'other income', 'a fixed asset'],
+        correctChip: 'drawings',
+      } },
+      explanation: 'When the farmer takes farm produce for personal use, it is drawings at market value.',
+      sectionLink: '15.1.1',
+    },
+    {
+      id: 'r15-04', chapterId: 15, sectionId: '15.1', type: 'define',
+      prompt: 'Define the following term.',
+      itemData: { type: 'define', data: {
+        term: 'Enterprise Analysis',
+        modelDefinition: 'The separation of farm activities into distinct enterprises (e.g. dairy, tillage, beef) to assess the profitability of each individually.',
+      } },
+      explanation: 'Enterprise analysis helps farmers identify which activities are profitable and which should be expanded or discontinued.',
+      sectionLink: '15.1.1',
+    },
+    {
+      id: 'r15-05', chapterId: 15, sectionId: '15.1', type: 'mcq',
+      prompt: 'Where do EU subsidies and REPS payments appear in farm accounts?',
+      itemData: { type: 'mcq', data: { options: ['Trading Account', 'Other income in P&L', 'Balance Sheet only', 'They are ignored'], correctIndex: 1 } },
+      explanation: 'EU subsidies and REPS payments are government support — shown as other income below gross profit.',
+      sectionLink: '15.1.1',
+    },
+    {
+      id: 'r15-06', chapterId: 15, sectionId: '15.1', type: 'sort',
+      prompt: 'Sort these into farm stock types or farm expenses.',
+      itemData: { type: 'sort', data: { buckets: ['Farm Stock', 'Farm Expenses'], items: [
+        { label: 'Livestock', correctBucket: 'Farm Stock' },
+        { label: 'Vet fees', correctBucket: 'Farm Expenses' },
+        { label: 'Fodder', correctBucket: 'Farm Stock' },
+        { label: 'Machinery repairs', correctBucket: 'Farm Expenses' },
+        { label: 'Seeds', correctBucket: 'Farm Stock' },
+        { label: 'Farm insurance', correctBucket: 'Farm Expenses' },
+      ] } },
+      explanation: 'Livestock, fodder, seeds, fertiliser, and crops are stock items. Vet fees, machinery costs, and insurance are expenses.',
+      sectionLink: '15.1.1',
+    },
+    {
+      id: 'r15-07', chapterId: 15, sectionId: '15.1', type: 'true-false',
+      prompt: 'True or false?',
+      itemData: { type: 'true-false', data: {
+        statement: 'Farm accounts have appeared as a full SEC HL exam question.',
+        isTrue: false,
+      } },
+      explanation: 'Farm accounts are on the syllabus but have NEVER been set as a full exam question — making them a wildcard prediction topic.',
+      sectionLink: '15.1.1',
+    },
+    {
+      id: 'r15-08', chapterId: 15, sectionId: '15.1', type: 'mcq',
+      prompt: 'Under the herd basis, breeding stock is treated as:',
+      itemData: { type: 'mcq', data: { options: ['Current asset (stock)', 'Fixed asset', 'An expense', 'Other income'], correctIndex: 1 } },
+      explanation: 'The herd basis treats production livestock (dairy cows, breeding ewes) as fixed assets rather than stock, as they are kept long-term.',
+      sectionLink: '15.1.1',
+    },
+    {
+      id: 'r15-09', chapterId: 15, sectionId: '15.1', type: 'fill-chip',
+      prompt: 'Complete the statement about enterprise analysis.',
+      itemData: { type: 'fill-chip', data: {
+        sentence: 'Enterprise analysis uses a ___ format to show each farm activity in its own column.',
+        chips: ['tabular', 'columnar', 'vertical', 'horizontal'],
+        correctChip: 'columnar',
+      } },
+      explanation: 'The columnar format shows dairy, tillage, beef etc. side by side for comparison.',
+      sectionLink: '15.1.2',
+    },
+    {
+      id: 'r15-10', chapterId: 15, sectionId: '15.2', type: 'order',
+      prompt: 'Put the farm Trading Account items in order.',
+      itemData: { type: 'order', data: { steps: [
+        'Farm sales (milk, livestock, crops)',
+        'Less: Farm produce used in house',
+        'Less: Opening stock + Purchases − Closing stock = Cost of Sales',
+        'Gross Farm Profit',
+      ] } },
+      explanation: 'Farm produce used in house reduces sales. Then cost of sales is calculated as normal to arrive at gross farm profit.',
+      sectionLink: '15.2.1',
+    },
+  ],
+
+  // ────────────────────────────────────────────
+  // Chapter 16 — Incomplete Records (13 items)
+  // ────────────────────────────────────────────
+  16: [
+    {
+      id: 'r16-01', chapterId: 16, sectionId: '16.1', type: 'mcq',
+      prompt: 'Which TWO methods are used to reconstruct accounts from incomplete records?',
+      itemData: { type: 'mcq', data: { options: [
+        'Control Account method and Net Worth method',
+        'Cash basis and accruals basis',
+        'FIFO and LIFO',
+        'Straight-line and reducing balance',
+      ], correctIndex: 0 } },
+      explanation: 'The two methods are: (1) Control Account / Cash Method — reconstructs individual figures, and (2) Net Worth / Balance Sheet Method — calculates profit from capital changes.',
+      sectionLink: '16.1.1',
+    },
+    {
+      id: 'r16-02', chapterId: 16, sectionId: '16.3', type: 'fill-chip',
+      prompt: 'Complete the Net Worth formula.',
+      itemData: { type: 'fill-chip', data: {
+        sentence: 'Net Profit = Closing Capital − Opening Capital + Drawings minus ___.',
+        chips: ['Bad debts', 'Capital Introduced', 'Depreciation', 'Sales'],
+        correctChip: 'Capital Introduced',
+      } },
+      explanation: 'Net Profit = Closing Capital − Opening Capital + Drawings − Capital Introduced. Any capital introduced inflates closing capital and must be deducted.',
+      sectionLink: '16.3.1',
+    },
+    {
+      id: 'r16-03', chapterId: 16, sectionId: '16.3', type: 'mcq',
+      prompt: 'Opening capital €45,000. Closing capital €62,000. Drawings €18,000. Capital introduced €5,000. Net Profit?',
+      itemData: { type: 'mcq', data: { options: ['€17,000', '€30,000', '€35,000', '€40,000'], correctIndex: 1 } },
+      explanation: 'NP = €62,000 − €45,000 + €18,000 − €5,000 = €30,000.',
+      sectionLink: '16.3.1',
+    },
+    {
+      id: 'r16-04', chapterId: 16, sectionId: '16.2', type: 'sort',
+      prompt: 'In a Debtors Control Account, sort these to the correct side.',
+      itemData: { type: 'sort', data: { buckets: ['Debit Side', 'Credit Side'], items: [
+        { label: 'Opening debtors', correctBucket: 'Debit Side' },
+        { label: 'Credit sales (balancing figure)', correctBucket: 'Debit Side' },
+        { label: 'Cash received from debtors', correctBucket: 'Credit Side' },
+        { label: 'Bad debts written off', correctBucket: 'Credit Side' },
+        { label: 'Discount allowed', correctBucket: 'Credit Side' },
+        { label: 'Closing debtors', correctBucket: 'Credit Side' },
+      ] } },
+      explanation: 'Debtors control: Dr side has opening debtors and credit sales. Cr side has cash received, bad debts, discount, returns, and closing debtors.',
+      sectionLink: '16.2.1',
+    },
+    {
+      id: 'r16-05', chapterId: 16, sectionId: '16.3', type: 'match',
+      prompt: 'Match each mark-up with its equivalent margin.',
+      itemData: { type: 'match', data: { pairs: [
+        { term: 'Mark-up 25%', definition: 'Margin 20%' },
+        { term: 'Mark-up 33⅓%', definition: 'Margin 25%' },
+        { term: 'Mark-up 50%', definition: 'Margin 33⅓%' },
+        { term: 'Mark-up 100%', definition: 'Margin 50%' },
+      ] } },
+      explanation: 'Mark-up is % of cost; margin is % of sales. Mark-up 25% on €100 cost = €125 SP. Margin = €25/€125 = 20%.',
+      sectionLink: '16.3.2',
+    },
+    {
+      id: 'r16-06', chapterId: 16, sectionId: '16.3', type: 'mcq',
+      prompt: 'Mark-up is 33⅓%. Sales are €160,000. What is the cost of sales?',
+      itemData: { type: 'mcq', data: { options: ['€106,667', '€120,000', '€128,000', '€133,333'], correctIndex: 1 } },
+      explanation: 'Mark-up 33⅓% means SP = Cost × 1.3333. Cost = €160,000 ÷ 1.3333 = €120,000.',
+      sectionLink: '16.3.2',
+    },
+    {
+      id: 'r16-07', chapterId: 16, sectionId: '16.3', type: 'true-false',
+      prompt: 'True or false?',
+      itemData: { type: 'true-false', data: {
+        statement: 'Mark-up and margin always give the same percentage for a given transaction.',
+        isTrue: false,
+        followUp: {
+          prompt: 'What is the difference?',
+          chips: [
+            'Mark-up is % of cost; margin is % of selling price',
+            'They are calculated the same way',
+            'Mark-up is always higher than margin',
+          ],
+          correctChip: 'Mark-up is % of cost; margin is % of selling price',
+        },
+      } },
+      explanation: 'Mark-up uses cost as the base; margin uses selling price. The same profit gives different percentages depending on the base used.',
+      sectionLink: '16.3.2',
+    },
+    {
+      id: 'r16-08', chapterId: 16, sectionId: '16.2', type: 'mcq',
+      prompt: 'Opening debtors €8,500. Cash received €74,200. Bad debts €1,200. Discount €800. Closing debtors €9,300. Credit sales?',
+      itemData: { type: 'mcq', data: { options: ['€74,200', '€77,000', '€85,500', '€76,200'], correctIndex: 1 } },
+      explanation: 'Credit sales = Cash + Bad debts + Discount + Closing debtors − Opening debtors = €74,200 + €1,200 + €800 + €9,300 − €8,500 = €77,000.',
+      sectionLink: '16.2.1',
+    },
+    {
+      id: 'r16-09', chapterId: 16, sectionId: '16.1', type: 'define',
+      prompt: 'Define the following term.',
+      itemData: { type: 'define', data: {
+        term: 'Statement of Affairs',
+        modelDefinition: 'A balance sheet prepared from incomplete records to establish the capital (net worth) at a given date — lists known assets and liabilities.',
+      } },
+      explanation: 'The statement of affairs is prepared at both the start and end of the period to enable the net worth calculation.',
+      sectionLink: '16.1.1',
+    },
+    {
+      id: 'r16-10', chapterId: 16, sectionId: '16.3', type: 'fill-chip',
+      prompt: 'Complete the statement.',
+      itemData: { type: 'fill-chip', data: {
+        sentence: 'Margin is profit expressed as a percentage of ___.',
+        chips: ['cost price', 'selling price', 'opening stock', 'net assets'],
+        correctChip: 'selling price',
+      } },
+      explanation: 'Margin = Profit / Sales × 100. Mark-up = Profit / Cost × 100.',
+      sectionLink: '16.3.2',
+    },
+    {
+      id: 'r16-11', chapterId: 16, sectionId: '16.2', type: 'order',
+      prompt: 'Put the incomplete records reconstruction steps in order.',
+      itemData: { type: 'order', data: { steps: [
+        'Prepare opening statement of affairs',
+        'Summarise the cash/bank account',
+        'Prepare debtors and creditors control accounts',
+        'Reconstruct the Trading, P&L Account',
+        'Prepare closing Balance Sheet',
+      ] } },
+      explanation: 'Start with what you know (opening position), then use control accounts to find missing figures, and finally prepare the full set of accounts.',
+      sectionLink: '16.2.1',
+    },
+    {
+      id: 'r16-12', chapterId: 16, sectionId: '16.2', type: 'true-false',
+      prompt: 'True or false?',
+      itemData: { type: 'true-false', data: {
+        statement: 'In a cash/bank summary, the balancing figure on the payments side could represent unrecorded drawings.',
+        isTrue: true,
+      } },
+      explanation: 'If all known receipts exceed all known payments + closing balance, the difference may be unrecorded drawings or theft.',
+      sectionLink: '16.2.1',
+    },
+    {
+      id: 'r16-13', chapterId: 16, sectionId: '16.3', type: 'mcq',
+      prompt: 'Margin is 20%. Cost of sales is €96,000. What are the sales?',
+      itemData: { type: 'mcq', data: { options: ['€115,200', '€120,000', '€100,800', '€128,000'], correctIndex: 1 } },
+      explanation: 'Margin 20% means cost = 80% of sales. Sales = €96,000 ÷ 0.80 = €120,000.',
+      sectionLink: '16.3.2',
+    },
+  ],
 
   // ────────────────────────────────────────────
   // Chapter 17 — Cash Flow Statements (13 items)
