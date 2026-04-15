@@ -180,7 +180,7 @@ function StepContent({ step }: { step: NoteStep }) {
               <div key={i} className={`flex items-center gap-2 p-2.5 rounded-lg text-xs flex-wrap ${ds.bg}`}>
                 <span className={`text-[8px] font-bold uppercase tracking-widest px-2 py-0.5 rounded text-white whitespace-nowrap ${ds.label}`}>{d.l}</span>
                 <span className="font-medium flex-1 min-w-[140px]">{d.x}</span>
-                <span className="font-mono font-bold ml-auto">€{d.v}</span>
+                <span className="font-mono font-bold ml-auto">{/^\d/.test(d.v) ? `€${d.v}` : d.v}</span>
               </div>
             );
           })}

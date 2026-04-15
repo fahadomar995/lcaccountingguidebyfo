@@ -583,22 +583,22 @@ export const LAYOUT_TEMPLATES: LayoutTemplate[] = [
 // ═══ Classification Reference ═══
 export const CLASSIFICATION_REF = [
   {
-    title: 'Cost of Sales (Working A)',
+    title: 'Cost of Sales',
     cls: 'cos',
     items: 'Opening stock\n+ Purchases\n+ Carriage inwards\n+ Patent amortisation (Published only)\n− Closing stock\n**Note:** In Manufacturing, replace Purchases with Cost of Goods Manufactured + Opening FG − Closing FG',
   },
   {
-    title: 'Distribution Costs (Working B)',
+    title: 'Distribution Costs',
     cls: 'dist',
     items: 'Distribution / Selling expenses (TB)\nDepreciation on delivery vans\nBad debts written off\nIncrease in provision for bad debts\nCommission earned by salespeople\nCarriage outwards\nAdvertising\nSalesforce salaries\nRent of showroom\nVan insurance\nBuilding depreciation (distribution %)\n**Note:** If "included in distribution costs is €X for commission earned" — SUBTRACT it (it\'s income, not a cost)',
   },
   {
-    title: 'Administration Expenses (Working C)',
+    title: 'Administration Expenses',
     cls: 'admin',
     items: 'Administration expenses (TB)\nDepreciation on buildings (admin %)\nDepreciation on equipment/furniture\nDirectors\' remuneration (fees)\nAuditors\' remuneration (fees)\nLegal fees\nGoodwill written off / amortised\nInsurance (admin portion)\nGeneral expenses\nProvision for damages / contingent liability\nRent & rates (admin portion)\nLight & heat (admin portion)\n**Note:** If split stated (e.g. "80% admin, 20% distribution"), apply to shared expenses',
   },
   {
-    title: 'Other Operating Income (Working D)',
+    title: 'Other Operating Income',
     cls: 'oi',
     items: 'Rental income\nProfit on sale of investments\nCommission received\nBad debts recovered\nDecrease in provision for bad debts\nGovernment grants (revenue)\nDiscount received\n**Note:** Profit on sale of LAND is shown separately as an Exceptional Item (below Operating Profit)',
   },

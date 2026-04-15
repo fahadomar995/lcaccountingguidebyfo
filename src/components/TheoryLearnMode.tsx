@@ -165,7 +165,6 @@ export default function TheoryLearnMode({ onReadingStateChange }: Props) {
                                     <span className="inline-flex items-center gap-0.5 text-[9px] text-primary font-medium">
                                       <HelpCircle className="h-2.5 w-2.5" /> Quiz
                                     </span>
-                                    <Badge variant="outline" className="text-[8px] px-1 py-0 border-primary/30 text-primary font-bold">R</Badge>
                                   </>
                                 )}
                                 {prog.pct > 0 && (

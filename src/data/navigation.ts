@@ -49,6 +49,12 @@ export const NAV_SECTIONS: NavSection[] = [
     ],
   },
   {
+    label: "Predictions",
+    items: [
+      { title: "Predictions", url: "/predictions", icon: TrendingUp },
+    ],
+  },
+  {
     label: "Tools",
     items: [
       { title: "Past Papers", url: "/past-papers", icon: FileText },
@@ -68,4 +74,5 @@ export const PREDICTION_PAGES = [
   { title: "Monte Carlo & Scenarios", url: "/predictions/simulate" },
   { title: "Model Parameters", url: "/predictions/model" },
   { title: "Stats & Backtesting", url: "/predictions/stats" },
+  { title: "Topic Grid", url: "/predictions/topicgrid" },
 ];
