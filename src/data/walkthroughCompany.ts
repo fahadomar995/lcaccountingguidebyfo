@@ -1159,7 +1159,8 @@ export const CO_NOTES_STEPS: WalkthroughNote[] = [
         "accts": [
           {
             "n": "Investment Income",
-            "d": [
+            "d": [],
+            "c": [
               {
                 "x": "8 months: 120k × 3% × 8/12",
                 "v": "2,400",
@@ -1177,8 +1178,7 @@ export const CO_NOTES_STEPS: WalkthroughNote[] = [
                 "tot": 1
               }
             ],
-            "c": [],
-            "s": "d"
+            "s": "c"
           }
         ]
       },
