@@ -249,7 +249,7 @@ tbLook:'<p>Look at the trial balance:</p><table><tr><th>Item</th><th>Dr</th></tr
 task:'<p><strong>Three things:</strong></p><ol><li>Calculate 9 months of investment interest for the P&L (full year earned)</li><li>Remove the 3 months wrongly hidden in patents → put in investment income</li><li>Write off the cleaned-up patents over 10 years</li></ol>',
 steps:[
   {expl:{t:'info',tx:'<strong>Step 1 — Full year investment income (9 months).</strong> Investments €100,000 at 4% held for 9 months (Apr–Dec). Income earned = €100,000 × 4% × 9/12 = <strong>€3,000</strong>.'},
-   accts:[{n:'Investment Income Working',d:[{x:'9 months: 100k × 4% × 9/12',v:'3,000',h:'g'},{x:'3 months received (in patents)',v:'(1,000)',h:'a'},{x:'Investment income due (CA)',v:'2,000',h:'b',tot:1}],c:[],s:'d'}]},
+   accts:[{n:'Investment Income Working',d:[],c:[{x:'9 months: 100k × 4% × 9/12',v:'3,000',h:'g'},{x:'Less: received (in patents)',v:'(1,000)',h:'a'},{x:'Investment income due (CA)',v:'2,000',h:'b',tot:1}],s:'c'}]},
   {expl:{t:'warning',tx:'<strong>Step 2 — Clean up the patents figure.</strong> The 3 months of income (€1,000) was CREDITED to patents by mistake (reducing the balance). To reverse: add €1,000 back to patents. True patents balance = €62,500 + €1,000 = <strong>€63,500</strong>.'},
    accts:[{n:'Patents A/C',d:[{x:'Per trial balance',v:'62,500'},{x:'Add back: wrongly credited income',v:'1,000',h:'g'},{x:'True patents balance',v:'63,500',h:'b',tot:1}],c:[],s:'d'}]},
   {expl:{t:'warning',tx:'<strong>Step 3 — Write off over 10 years.</strong> The plan commenced in 2022 — this is year 1. Annual write-off = €63,500 ÷ 10 = <strong>€6,350</strong>. Balance remaining on BS = €63,500 − €6,350 = €57,150.'},

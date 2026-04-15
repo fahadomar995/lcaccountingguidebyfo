@@ -16,7 +16,7 @@ import FormulasPage from "./pages/FormulasPage";
 import Q1GuidePage from "./pages/Q1GuidePage";
 import RatiosPage from "./pages/RatiosPage";
 import StudyToolsPage from "./pages/StudyToolsPage";
-import { PredOverview, PredCharts, PredInterp, PredQ1, PredSection3, PredSimulate, PredModel, PredStats } from "./pages/PredictionPages";
+import { PredOverview, PredCharts, PredInterp, PredQ1, PredSection3, PredSimulate, PredModel, PredStats, PredTopicGrid } from "./pages/PredictionPages";
 import ContactPage from "./pages/ContactPage";
 import PastPapersPage from "./pages/PastPapersPage";
 import SectionPage from "./pages/SectionPage";
@@ -108,6 +108,7 @@ const App = () => (
             <Route path="/predictions/simulate" element={<PredSimulate />} />
             <Route path="/predictions/model" element={<PredModel />} />
             <Route path="/predictions/stats" element={<PredStats />} />
+            <Route path="/predictions/topicgrid" element={<PredTopicGrid />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AppLayout>
