@@ -894,11 +894,11 @@ export const REVIEW_BANK: Record<number, ReviewItem[]> = {
       sectionLink: '6.1.1',
     },
     {
-      id: 'r6-04', chapterId: 6, sectionId: '6.2', type: 'mcq',
-      prompt: 'Q1 is worth how many marks on the LC HL Accounting paper?',
-      itemData: { type: 'mcq', data: { options: ['80 marks', '100 marks', '120 marks', '60 marks'], correctIndex: 2 } },
-      explanation: 'Q1 is the biggest question on the paper at 120 marks. Students should spend approximately 45\u201350 minutes on it.',
-      sectionLink: '6.2.1',
+      id: 'r6-04', chapterId: 6, sectionId: '6.2', type: 'true-false',
+      prompt: 'In Q1, partial marks are awarded for correct workings even if the final figure is wrong.',
+      itemData: { type: 'true-false', data: { statement: 'In Q1, partial marks are awarded for correct workings even if the final figure is wrong.', isTrue: true } },
+      explanation: 'A large proportion of Q1 marks are for individual workings. A student who shows correct workings but makes a casting error will score significantly higher than one who writes only final statements with no workings.',
+      sectionLink: '6.2.2',
     },
     {
       id: 'r6-05', chapterId: 6, sectionId: '6.3', type: 'mcq',
