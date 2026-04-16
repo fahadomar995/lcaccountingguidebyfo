@@ -854,7 +854,7 @@ export function PredModel() {
       </Card>
 
       {/* Algorithm box */}
-      <Card className="border-border bg-slate-900 text-white">
+      <Card className="border-border bg-card">
         <CardContent className="p-5">
           <h3 className="font-display text-sm font-bold mb-2">How the Algorithm Works</h3>
           <div className="text-xs space-y-1 leading-relaxed opacity-90">
@@ -903,7 +903,7 @@ export function PredStats() {
       </Card>
 
       {/* Algorithm box */}
-      <Card className="mb-6 border-border bg-slate-900 text-white">
+      <Card className="mb-6 border-border bg-card">
         <CardContent className="p-5">
           <h3 className="font-display text-sm font-bold mb-2">Algorithm: How Predictions Are Generated</h3>
           <div className="text-xs space-y-1 leading-relaxed opacity-90">

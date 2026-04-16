@@ -1219,7 +1219,7 @@ export const CHAPTERS: Chapter[] = [
     // ── Chapter 14 — EXPANDED ──
     id: 14, block: 'C',
     title: 'Service Firms\' Accounts',
-    description: 'Fee income, work in progress for service firms, HL adjustments.',
+    description: 'Fee income, service firm P&L layout, HL adjustments for professional practices.',
     estimatedMinutes: 30,
     related: [6, 13],
     sections: [
@@ -1231,11 +1231,11 @@ export const CHAPTERS: Chapter[] = [
             keyTerms: [
               { term: 'Service Firm', definition: 'A business that provides services — e.g. solicitors, accountants, architects, veterinary practices.' },
               { term: 'Fee Income', definition: 'The main revenue source — fees charged for professional services rendered.' },
-              { term: 'WIP (Service)', definition: 'Work done but not yet billed — treated as a current asset at cost.' },
+              
             ],
             body: [
-              { type: 'concept', variant: 'blue', title: 'Key Differences from Trading Firms', html: '<p>1. <strong>No Trading Account</strong> — no stock, no purchases, no cost of sales.</p><p>2. Main income is <strong>fee income</strong>, not sales.</p><p>3. P&L starts with <strong>Fee Income</strong> and deducts expenses to give Net Profit.</p><p>4. <strong>Work in Progress</strong> = work done but not yet billed — current asset.</p><p>5. All other adjustments (depreciation, accruals, bad debts) work exactly as for a sole trader.</p>' },
-              { type: 'table', html: '<table class="learn-table"><thead><tr><th>Trading Firm</th><th>Service Firm</th></tr></thead><tbody><tr><td>Sales</td><td>Fee Income</td></tr><tr><td>Trading Account → Gross Profit</td><td>No Trading Account</td></tr><tr><td>Opening/Closing Stock</td><td>Opening/Closing WIP</td></tr><tr><td>Purchases, Carriage In</td><td>Not applicable</td></tr><tr><td>Cost of Sales</td><td>Not applicable</td></tr></tbody></table>' },
+              { type: 'concept', variant: 'blue', title: 'Key Differences from Trading Firms', html: '<p>1. <strong>No Trading Account</strong> — no stock, no purchases, no cost of sales.</p><p>2. Main income is <strong>fee income</strong>, not sales.</p><p>3. P&L starts with <strong>Fee Income</strong> and deducts expenses to give Net Profit.</p><p>4. All other adjustments (depreciation, accruals, bad debts) work exactly as for a sole trader.</p>' },
+              { type: 'table', html: '<table class="learn-table"><thead><tr><th>Trading Firm</th><th>Service Firm</th></tr></thead><tbody><tr><td>Sales</td><td>Fee Income</td></tr><tr><td>Trading Account → Gross Profit</td><td>No Trading Account</td></tr><tr><td>Purchases, Carriage In</td><td>Not applicable</td></tr><tr><td>Cost of Sales</td><td>Not applicable</td></tr></tbody></table>' },
             ]
           },
           {
