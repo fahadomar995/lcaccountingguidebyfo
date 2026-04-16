@@ -1248,29 +1248,6 @@ export const CHAPTERS: Chapter[] = [
         ]
       },
       {
-        id: '14.2', title: 'Work in Progress (WIP)',
-        subTopics: [
-          {
-            id: '14.2.1', title: 'What is WIP in a Service Firm?',
-            keyTerms: [
-              { term: 'WIP (Work in Progress)', definition: 'The cost of professional work completed for clients but not yet invoiced at the year end.' },
-            ],
-            body: [
-              { type: 'concept', variant: 'blue', title: 'WIP Explained', html: '<p>In a service firm, WIP represents time and costs incurred on client work that has <strong>not yet been billed</strong> at the year end.</p><p>For example, a solicitor may have spent 20 hours on a case by 31 December but has not yet sent an invoice. The cost of those hours is WIP.</p><p><strong>WIP is valued at cost</strong> — the direct costs incurred (partner/employee time, direct expenses) but NOT including any profit element.</p>' },
-              { type: 'concept', variant: 'green', title: 'WIP Treatment — Two Places', html: '<p><strong>1. In the P&L (Income Statement):</strong></p><p>Fee Income (adjusted for accruals/prepayments)<br/>+ Closing WIP<br/>− Opening WIP<br/>= <strong>Adjusted Fee Income</strong></p><p>This mirrors the stock adjustment in a trading firm. Closing WIP adds value (work done, not yet billed), opening WIP is subtracted (was last year\'s asset, now billed and in fee income).</p><p><strong>2. On the Balance Sheet:</strong></p><p>Closing WIP appears as a <strong>Current Asset</strong>, just like closing stock in a trading business.</p>' },
-              { type: 'watchout', title: 'Key Exam Trap', html: '<p>Students sometimes forget to adjust fee income for WIP. The examiner expects you to show:</p><p>Fee Income per TB → adjust for accruals/prepayments → adjust for WIP → then deduct expenses.</p><p>If you skip the WIP adjustment, you lose marks on both the P&L AND the Balance Sheet.</p>' },
-            ]
-          },
-          {
-            id: '14.2.2', title: 'WIP Worked Example',
-            body: [
-              { type: 'example', title: 'WIP Calculation — O\'Sullivan & Partners', html: '<p><strong>Given:</strong></p><p>Fees received (TB): €320,000<br/>Fees accrued at start: €8,400 | at end: €12,600<br/>Fees prepaid at start: €2,000 | at end: €3,500<br/>Opening WIP: €15,000<br/>Closing WIP: €22,000</p><p><strong>Step 1: Fee Income (T-Account method)</strong></p><p>= 320,000 + 12,600 − 8,400 + 2,000 − 3,500 = <strong>€322,700</strong></p><p><strong>Step 2: Adjust for WIP</strong></p><p>322,700 + 22,000 (closing WIP) − 15,000 (opening WIP) = <strong>€329,700</strong></p><p>This is the Adjusted Fee Income that appears at the top of the P&L.</p>' },
-              { type: 'concept', variant: 'green', title: 'Balance Sheet Treatment', html: '<p>On the Balance Sheet at year end:</p><p><strong>Current Assets:</strong><br/>Work in Progress: €22,000<br/>Fee debtors (accrued): €12,600<br/>Prepayments: €3,500<br/>Bank: (from TB)</p><p><strong>Current Liabilities:</strong><br/>Fee creditors (prepaid by clients): if applicable<br/>Creditors, accruals, etc.</p>' },
-            ]
-          },
-        ]
-      },
-      {
         id: '14.3', title: 'Full Service Firm P&L & BS',
         subTopics: [
           {
