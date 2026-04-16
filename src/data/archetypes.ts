@@ -586,6 +586,7 @@ export const COSTING_CATEGORIES = [
   { key: "all", label: "All" },
   { key: "marginal", label: "Marginal" },
   { key: "job", label: "Job Costing" },
+  { key: "absorption", label: "Absorption" },
   { key: "stock", label: "Stock Valuation" },
   { key: "overhead", label: "Overhead" },
 ];
