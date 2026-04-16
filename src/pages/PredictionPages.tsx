@@ -854,16 +854,16 @@ export function PredModel() {
       </Card>
 
       {/* Algorithm box */}
-      <Card className="border-border bg-slate-900 text-white">
+      <Card className="border-border bg-card">
         <CardContent className="p-5">
           <h3 className="font-display text-sm font-bold mb-2">How the Algorithm Works</h3>
           <div className="text-xs space-y-1 leading-relaxed opacity-90">
-            <p><strong className="text-blue-300">Step 1 — Weighted Frequency:</strong> Each appearance weighted by e^(-λ×(2026-year)). Higher λ = faster decay.</p>
-            <p><strong className="text-blue-300">Step 2 — Markov Chain:</strong> P(appear 2026 | state in 2025). Uses observed 2001-2025 transition rates.</p>
-            <p><strong className="text-blue-300">Step 3 — Gap Score:</strong> yearsSinceLast / avgGap, capped at 2.5×.</p>
-            <p><strong className="text-blue-300">Step 4 — Sigmoid Recency:</strong> 1/(1+e^(-6×(gapRatio-0.65))). Smooth S-curve.</p>
-            <p><strong className="text-blue-300">Step 5 — Streak Penalty:</strong> 0.78^(consecutive_years-1).</p>
-            <p><strong className="text-blue-300">Final Score:</strong> (wFreq×wf + MarkovP×wm + GapScore×wg + Recency×wr) × StreakPenalty, normalised to 8-85%.</p>
+            <p><strong className="text-primary">Step 1 — Weighted Frequency:</strong> Each appearance weighted by e^(-λ×(2026-year)). Higher λ = faster decay.</p>
+            <p><strong className="text-primary">Step 2 — Markov Chain:</strong> P(appear 2026 | state in 2025). Uses observed 2001-2025 transition rates.</p>
+            <p><strong className="text-primary">Step 3 — Gap Score:</strong> yearsSinceLast / avgGap, capped at 2.5×.</p>
+            <p><strong className="text-primary">Step 4 — Sigmoid Recency:</strong> 1/(1+e^(-6×(gapRatio-0.65))). Smooth S-curve.</p>
+            <p><strong className="text-primary">Step 5 — Streak Penalty:</strong> 0.78^(consecutive_years-1).</p>
+            <p><strong className="text-primary">Final Score:</strong> (wFreq×wf + MarkovP×wm + GapScore×wg + Recency×wr) × StreakPenalty, normalised to 8-85%.</p>
           </div>
         </CardContent>
       </Card>
@@ -903,16 +903,16 @@ export function PredStats() {
       </Card>
 
       {/* Algorithm box */}
-      <Card className="mb-6 border-border bg-slate-900 text-white">
+      <Card className="mb-6 border-border bg-card">
         <CardContent className="p-5">
           <h3 className="font-display text-sm font-bold mb-2">Algorithm: How Predictions Are Generated</h3>
           <div className="text-xs space-y-1 leading-relaxed opacity-90">
-            <p><strong className="text-blue-300">Step 1 — Weighted Frequency (25%):</strong> Each appearance weighted by e^(-0.1×(2026-year)). Recent appearances count ~10× more than those 10 years ago.</p>
-            <p><strong className="text-blue-300">Step 2 — Markov Chain (35%):</strong> P(appear 2026 | state in 2025). Appeared in 2025 → historical P = 0.00. Absent → uses observed transition rate from 25-year matrix.</p>
-            <p><strong className="text-blue-300">Step 3 — Gap Score (25%):</strong> yearsSinceLast / avgGap, capped at 2.5×. A topic 2× overdue scores far higher.</p>
-            <p><strong className="text-blue-300">Step 4 — Sigmoid Recency (15%):</strong> 1/(1+e^(-6×(gapRatio-0.65))). Smooth S-curve.</p>
-            <p><strong className="text-blue-300">Step 5 — Streak Penalty:</strong> 0.78^(consecutive_years-1).</p>
-            <p><strong className="text-blue-300">Pearson r:</strong> Computed on the 25-year binary appearance matrix. Used to flag unlikely Q6+Q7 combinations.</p>
+            <p><strong className="text-primary">Step 1 — Weighted Frequency (25%):</strong> Each appearance weighted by e^(-0.1×(2026-year)). Recent appearances count ~10× more than those 10 years ago.</p>
+            <p><strong className="text-primary">Step 2 — Markov Chain (35%):</strong> P(appear 2026 | state in 2025). Appeared in 2025 → historical P = 0.00. Absent → uses observed transition rate from 25-year matrix.</p>
+            <p><strong className="text-primary">Step 3 — Gap Score (25%):</strong> yearsSinceLast / avgGap, capped at 2.5×. A topic 2× overdue scores far higher.</p>
+            <p><strong className="text-primary">Step 4 — Sigmoid Recency (15%):</strong> 1/(1+e^(-6×(gapRatio-0.65))). Smooth S-curve.</p>
+            <p><strong className="text-primary">Step 5 — Streak Penalty:</strong> 0.78^(consecutive_years-1).</p>
+            <p><strong className="text-primary">Pearson r:</strong> Computed on the 25-year binary appearance matrix. Used to flag unlikely Q6+Q7 combinations.</p>
           </div>
         </CardContent>
       </Card>
