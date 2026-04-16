@@ -29,110 +29,421 @@ export const COSTING_ARCHETYPES: Archetype[] = [
     type: "Pure Marginal",
     name: "Kells Ltd — Marginal Costing",
     year: 2025,
-    source: "SEC 2025 Q8",
+    source: "SEC 2025 — Section 3, Question 8",
     totalMarks: 80,
     category: "marginal",
-    desc: "Given a P&L, separate costs, build MCS, BEP, MoS, 5 scenario changes, theory.",
-    partSummary: ["Break-up", "MCS", "BEP+MoS", "Target", "Scenarios", "Theory"],
-    question: `<h3>2025 Q8: Marginal Costing — Kells Ltd</h3><div class="text-sm text-muted-foreground leading-relaxed"><p><strong>Kells Ltd</strong> produces a single product. P&L for year ended 31/12/2024 (42,000 units):</p><table class="w-full text-xs border-collapse my-2"><tr class="bg-muted"><th class="text-left p-1.5 border border-border">Item</th><th class="p-1.5 border border-border text-right">€</th><th class="p-1.5 border border-border text-right">€</th></tr><tr><td class="p-1.5 border border-border">Sales (42,000)</td><td class="p-1.5 border border-border"></td><td class="p-1.5 border border-border text-right">1,528,800</td></tr><tr><td class="p-1.5 border border-border">Materials</td><td class="p-1.5 border border-border text-right">537,600</td><td class="p-1.5 border border-border"></td></tr><tr><td class="p-1.5 border border-border">Direct labour</td><td class="p-1.5 border border-border text-right">361,200</td><td class="p-1.5 border border-border"></td></tr><tr><td class="p-1.5 border border-border">Factory OH</td><td class="p-1.5 border border-border text-right">136,500</td><td class="p-1.5 border border-border"></td></tr><tr><td class="p-1.5 border border-border">Admin</td><td class="p-1.5 border border-border text-right">95,700</td><td class="p-1.5 border border-border"></td></tr><tr><td class="p-1.5 border border-border">Selling</td><td class="p-1.5 border border-border text-right">90,000</td><td class="p-1.5 border border-border text-right">1,221,000</td></tr><tr class="font-bold border-t-2 border-border"><td class="p-1.5 border border-border">Net Profit</td><td class="p-1.5 border border-border"></td><td class="p-1.5 border border-border text-right">307,800</td></tr></table><p>Materials, direct labour, 20% of factory OH are variable. Apart from 5% sales commission, selling and admin are fixed.</p><p><strong>Required:</strong> (a) BEP+MoS (b) Units for +25% profit (c) Profit if SP=€34, advertising+€13k, units=45k (d) SP if FC+10% (e) Units at €35 for 10% profit on sales (f) Theory</p></div>`,
+    desc: "Given a P&L, separate fixed/variable costs, build an MCS, calculate BEP & MoS, then handle 5 scenario changes. The most common Q8 format.",
+    partSummary: ["MCS + Break-up of Costs", "BEP + MoS", "Target Profit (+25%)", "Price cut + advertising", "FC increase + SP change", "Target profit (10% of sales)", "Theory: Sensitivity + Step Fixed + Graph"],
+    question: `<h3>2025 — Section 3, Question 8: Marginal Costing</h3>
+<div class="text-sm text-muted-foreground leading-relaxed">
+<p><strong>Kells Ltd</strong> produces a single product. The company's profit and loss account for the year ended 31/12/2024, during which <strong>42,000 units</strong> were produced and sold, was as follows:</p>
+<table class="w-full text-xs border-collapse my-2">
+<tr class="bg-muted"><th class="text-left p-1.5 border border-border">Item</th><th class="p-1.5 border border-border text-right">€</th><th class="p-1.5 border border-border text-right">€</th></tr>
+<tr><td class="p-1.5 border border-border">Sales (42,000 units)</td><td class="p-1.5 border border-border"></td><td class="p-1.5 border border-border text-right">1,528,800</td></tr>
+<tr><td class="p-1.5 border border-border">Materials</td><td class="p-1.5 border border-border text-right">537,600</td><td class="p-1.5 border border-border"></td></tr>
+<tr><td class="p-1.5 border border-border">Direct labour</td><td class="p-1.5 border border-border text-right">361,200</td><td class="p-1.5 border border-border"></td></tr>
+<tr><td class="p-1.5 border border-border">Factory overheads</td><td class="p-1.5 border border-border text-right">136,500</td><td class="p-1.5 border border-border"></td></tr>
+<tr><td class="p-1.5 border border-border">Administration expenses</td><td class="p-1.5 border border-border text-right">95,700</td><td class="p-1.5 border border-border"></td></tr>
+<tr><td class="p-1.5 border border-border">Selling expenses</td><td class="p-1.5 border border-border text-right">90,000</td><td class="p-1.5 border border-border text-right">1,221,000</td></tr>
+<tr class="font-bold border-t-2 border-border"><td class="p-1.5 border border-border">Net Profit</td><td class="p-1.5 border border-border"></td><td class="p-1.5 border border-border text-right">307,800</td></tr>
+</table>
+<p>The materials, direct labour and 20% of the factory overheads are variable costs. Apart from sales commission of 5% of sales, selling and administration expenses are fixed.</p>
+<p><strong>You are required to calculate:</strong></p>
+<p>(a) The company's break-even point and margin of safety.</p>
+<p>(b) Units to sell in 2025 to increase net profit by 25%, assuming SP, cost levels & percentages unchanged.</p>
+<p>(c) Profit if SP reduced to €34, advertising increased by €13,000, units sold increase to 45,000.</p>
+<p>(d) SP per unit if fixed costs increase by 10% but volume of sales and profit remain the same.</p>
+<p>(e) Units at €35 SP to provide profit of 10% of sales revenue.</p>
+<p>(f)(i) Explain sensitivity analysis. (ii) Explain step fixed cost. (iii) Sketch a step fixed cost graph.</p>
+</div>`,
     steps: [
       {
         title: "Break-up of Costs",
         marks: 19,
-        explain: "<strong>Classify every cost as fixed or variable.</strong> Materials + DL + 20% Factory OH = variable. Commission 5% of sales = variable. Everything else = fixed.",
-        content: `<table class="w-full text-xs border-collapse"><tr class="bg-muted"><th class="text-left p-1.5 border border-border">Cost</th><th class="p-1.5 border border-border text-right">Total</th><th class="p-1.5 border border-border text-right">FC</th><th class="p-1.5 border border-border text-right">VC</th><th class="p-1.5 border border-border text-right">VCpu</th></tr><tr><td class="p-1.5 border border-border">Materials</td><td class="p-1.5 border border-border text-right font-mono">537,600</td><td class="p-1.5 border border-border text-right font-mono">0</td><td class="p-1.5 border border-border text-right font-mono">537,600</td><td class="p-1.5 border border-border text-right font-mono">12.80</td></tr><tr><td class="p-1.5 border border-border">Direct Labour</td><td class="p-1.5 border border-border text-right font-mono">361,200</td><td class="p-1.5 border border-border text-right font-mono">0</td><td class="p-1.5 border border-border text-right font-mono">361,200</td><td class="p-1.5 border border-border text-right font-mono">8.60</td></tr><tr><td class="p-1.5 border border-border">Factory OH</td><td class="p-1.5 border border-border text-right font-mono">136,500</td><td class="p-1.5 border border-border text-right font-mono">109,200</td><td class="p-1.5 border border-border text-right font-mono">27,300</td><td class="p-1.5 border border-border text-right font-mono">0.65</td></tr><tr><td class="p-1.5 border border-border">Admin</td><td class="p-1.5 border border-border text-right font-mono">95,700</td><td class="p-1.5 border border-border text-right font-mono">95,700</td><td class="p-1.5 border border-border text-right font-mono">0</td><td class="p-1.5 border border-border text-right font-mono">0.00</td></tr><tr><td class="p-1.5 border border-border">Selling</td><td class="p-1.5 border border-border text-right font-mono">90,000</td><td class="p-1.5 border border-border text-right font-mono">13,560</td><td class="p-1.5 border border-border text-right font-mono">76,440</td><td class="p-1.5 border border-border text-right font-mono">1.82</td></tr><tr class="font-bold border-t-2 border-border"><td class="p-1.5 border border-border"><strong>Totals</strong></td><td class="p-1.5 border border-border text-right font-mono">1,221,000</td><td class="p-1.5 border border-border text-right font-mono">218,460</td><td class="p-1.5 border border-border text-right font-mono">1,002,540</td><td class="p-1.5 border border-border text-right font-mono">23.87</td></tr></table><p class="mt-3 text-xs p-3 rounded-lg border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950"><strong>Selling:</strong> Commission = 5% × €1,528,800 = €76,440 (variable). Fixed selling = €90,000 − €76,440 = €13,560. Factory OH: 20% variable = €27,300.</p>`,
-        mistakes: ["Commission (5% of sales) is VARIABLE", "Factory OH: 20% × 136,500 = 27,300 variable", "VCpu = VC ÷ 42,000. Keep 2 decimal places"]
+        explain: "<strong>First, identify what's variable and what's fixed.</strong> The question tells you: Materials, Direct Labour, and 20% of Factory O/H are variable. Sales commission = 5% of sales is also variable. Everything else is fixed. Build the break-up table showing Total, Fixed, Variable, and Variable Cost per Unit for each cost line.",
+        content: `<table class="w-full text-xs border-collapse">
+<tr class="bg-muted"><th class="text-left p-1.5 border border-border">Cost</th><th class="p-1.5 border border-border text-right">Total (€)</th><th class="p-1.5 border border-border text-right">FC (€)</th><th class="p-1.5 border border-border text-right">VC (€)</th><th class="p-1.5 border border-border text-right">VCpu (€)</th></tr>
+<tr><td class="p-1.5 border border-border">Materials</td><td class="p-1.5 border border-border text-right font-mono">537,600</td><td class="p-1.5 border border-border text-right font-mono">0</td><td class="p-1.5 border border-border text-right font-mono">537,600</td><td class="p-1.5 border border-border text-right font-mono">12.80</td></tr>
+<tr><td class="p-1.5 border border-border">Direct Labour</td><td class="p-1.5 border border-border text-right font-mono">361,200</td><td class="p-1.5 border border-border text-right font-mono">0</td><td class="p-1.5 border border-border text-right font-mono">361,200</td><td class="p-1.5 border border-border text-right font-mono">8.60</td></tr>
+<tr><td class="p-1.5 border border-border">Factory O/H</td><td class="p-1.5 border border-border text-right font-mono">136,500</td><td class="p-1.5 border border-border text-right font-mono">109,200</td><td class="p-1.5 border border-border text-right font-mono">27,300</td><td class="p-1.5 border border-border text-right font-mono">0.65</td></tr>
+<tr><td class="p-1.5 border border-border">Admin expenses</td><td class="p-1.5 border border-border text-right font-mono">95,700</td><td class="p-1.5 border border-border text-right font-mono">95,700</td><td class="p-1.5 border border-border text-right font-mono">0</td><td class="p-1.5 border border-border text-right font-mono">0.00</td></tr>
+<tr><td class="p-1.5 border border-border">Selling expenses</td><td class="p-1.5 border border-border text-right font-mono">90,000</td><td class="p-1.5 border border-border text-right font-mono">13,560</td><td class="p-1.5 border border-border text-right font-mono">76,440</td><td class="p-1.5 border border-border text-right font-mono">1.82</td></tr>
+<tr class="font-bold border-t-2 border-border"><td class="p-1.5 border border-border"><strong>Totals</strong></td><td class="p-1.5 border border-border text-right font-mono">1,221,000</td><td class="p-1.5 border border-border text-right font-mono">218,460</td><td class="p-1.5 border border-border text-right font-mono">1,002,540</td><td class="p-1.5 border border-border text-right font-mono">23.87</td></tr>
+</table>
+<p class="mt-3 text-xs p-3 rounded-lg border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950"><strong>Key working — Selling expenses:</strong> Commission = 5% × €1,528,800 = €76,440 (variable). Fixed selling = €90,000 − €76,440 = €13,560. Factory O/H: 20% variable = €27,300, 80% fixed = €109,200.</p>`,
+        mistakes: ["Forgetting that sales commission (5% of sales) is a VARIABLE cost — many students treat all selling expenses as fixed", "Calculating factory OH variable as 20% of 136,500 = 27,300 — correct. Common error: using 20% of total costs instead", "VCpu = Total VC ÷ 42,000 units. Don't round too early — keep 2 decimal places"]
       },
       {
-        title: "MCS + Unit Contribution",
+        title: "Marginal Costing Statement",
         marks: "In (a)",
-        explain: "<strong>Sales − VC = Contribution − FC = Profit.</strong> Calculate SP per unit and UCpu.",
-        content: `<table class="w-full text-xs border-collapse max-w-sm"><tr class="bg-muted"><th class="text-left p-1.5 border border-border">MCS</th><th class="p-1.5 border border-border text-right">€</th></tr><tr><td class="p-1.5 border border-border">Sales (42,000 × €36.40)</td><td class="p-1.5 border border-border text-right font-mono">1,528,800</td></tr><tr><td class="p-1.5 border border-border">Less Variable Costs</td><td class="p-1.5 border border-border text-right font-mono">(1,002,540)</td></tr><tr class="font-bold"><td class="p-1.5 border border-border">Contribution</td><td class="p-1.5 border border-border text-right font-mono">526,260</td></tr><tr><td class="p-1.5 border border-border">Less Fixed Costs</td><td class="p-1.5 border border-border text-right font-mono">(218,460)</td></tr><tr class="font-bold border-t-2 border-border"><td class="p-1.5 border border-border">Profit</td><td class="p-1.5 border border-border text-right font-mono">307,800</td></tr></table><p class="mt-3 text-xs p-3 rounded-lg border border-border bg-muted"><strong>SP:</strong> €1,528,800 ÷ 42,000 = <strong>€36.40</strong>. UCpu = €36.40 − €23.87 = <strong>€12.53</strong>.</p>`,
-        mistakes: ["SP is NOT given — calculate from Sales ÷ Units", "Check: Contribution − FC must = original Net Profit"]
+        explain: "<strong>Now build the MCS from your break-up.</strong> Format: Sales − Variable Costs = Contribution − Fixed Costs = Profit. Show both total and per unit columns. The Unit Contribution is the key figure — you'll use it for every calculation that follows.",
+        content: `<table class="w-full text-xs border-collapse max-w-sm">
+<tr class="bg-muted"><th class="text-left p-1.5 border border-border">Marginal Costing Statement</th><th class="p-1.5 border border-border text-right">€</th></tr>
+<tr><td class="p-1.5 border border-border">Sales (42,000 × €36.40)</td><td class="p-1.5 border border-border text-right font-mono">1,528,800</td></tr>
+<tr><td class="p-1.5 border border-border">Less: Variable Costs (42,000 × €23.87)</td><td class="p-1.5 border border-border text-right font-mono">(1,002,540)</td></tr>
+<tr class="font-bold"><td class="p-1.5 border border-border"><strong>Contribution</strong></td><td class="p-1.5 border border-border text-right font-mono">526,260</td></tr>
+<tr><td class="p-1.5 border border-border">Less: Fixed Costs</td><td class="p-1.5 border border-border text-right font-mono">(218,460)</td></tr>
+<tr class="font-bold border-t-2 border-border"><td class="p-1.5 border border-border"><strong>Profit</strong></td><td class="p-1.5 border border-border text-right font-mono">307,800</td></tr>
+</table>
+<table class="w-full text-xs border-collapse max-w-[200px] mt-3">
+<tr class="bg-muted"><th class="text-left p-1.5 border border-border">Unit figures</th><th class="p-1.5 border border-border text-right">€</th></tr>
+<tr><td class="p-1.5 border border-border">Selling Price</td><td class="p-1.5 border border-border text-right font-mono">36.40</td></tr>
+<tr><td class="p-1.5 border border-border">Variable Cost p.u.</td><td class="p-1.5 border border-border text-right font-mono">(23.87)</td></tr>
+<tr class="font-bold border-t-2 border-border"><td class="p-1.5 border border-border"><strong>Unit Contribution</strong></td><td class="p-1.5 border border-border text-right font-mono">12.53</td></tr>
+</table>
+<p class="mt-3 text-xs p-3 rounded-lg border border-border bg-muted"><strong>Selling Price per unit:</strong> €1,528,800 ÷ 42,000 = <strong>€36.40</strong>. This isn't given directly — you must calculate it from total sales ÷ units. Unit Contribution = €36.40 − €23.87 = <strong>€12.53</strong>. This is your most important number.</p>`,
+        mistakes: ["SP per unit is NOT given in the question — you must calculate it: 1,528,800 ÷ 42,000 = €36.40", "Contribution must equal Sales − Variable Costs ONLY. Do NOT deduct fixed costs from contribution", "Check: Contribution − Fixed Costs should = Profit from the original P&L (€307,800). If not, you've made an error in your break-up"]
       },
       {
-        title: "(a) BEP + Margin of Safety",
+        title: "(a) Break-Even Point & Margin of Safety",
         marks: 16,
-        explain: "<strong>BEP = FC ÷ UCpu. MoS = Actual − BEP.</strong>",
-        content: `<div class="text-sm space-y-2 leading-relaxed"><p><strong>BEP:</strong> €218,460 ÷ €12.53 = <strong>17,434 units</strong></p><p>BEP (€) = 17,434 × €36.40 = <strong>€634,598</strong></p><p class="mt-3"><strong>MoS:</strong> 42,000 − 17,434 = <strong>24,566 units</strong></p><p>MoS (€) = 24,566 × €36.40 = <strong>€894,202</strong></p></div>`,
-        mistakes: ["Round BEP UP to whole units", "Show BEP in both units AND euro"]
+        explain: "<strong>BEP = Fixed Costs ÷ Unit Contribution.</strong> This gives you units. Multiply by SP for euro value. Margin of Safety = Actual Sales − BEP (in units or €). This tells you how much sales can drop before the company makes a loss.",
+        content: `<div class="text-sm space-y-2 leading-relaxed">
+<p><strong>Break-Even Point:</strong></p>
+<p class="ml-5">BEP = FC ÷ UCpu = €218,460 ÷ €12.53 = <strong>17,434 units</strong></p>
+<p class="ml-5">BEP (€) = 17,434 × €36.40 = <strong>€634,598</strong></p>
+<p class="mt-4"><strong>Margin of Safety:</strong></p>
+<p class="ml-5">MoS = Actual − BEP = 42,000 − 17,434 = <strong>24,566 units</strong></p>
+<p class="ml-5">MoS (€) = 24,566 × €36.40 = <strong>€894,202</strong></p>
+</div>
+<p class="mt-3 text-xs p-3 rounded-lg border border-border bg-muted"><strong>Formula reminder:</strong> BEP (units) = Fixed Costs ÷ Contribution per Unit. Always state the formula, show the substitution, then the answer — this gets you 3 marks even if the number is wrong.</p>`,
+        mistakes: ["Always round BEP UP to whole units (you can't sell 0.43 of a unit)", "Don't forget to show BEP in BOTH units and euro — the question asks for both", "MoS can also be expressed as a percentage: (24,566 ÷ 42,000) × 100 = 58.5%"]
       },
       {
-        title: "(b) Units for +25% Profit",
+        title: "(b) Units for 25% Profit Increase",
         marks: 8,
-        explain: "<strong>Target = €307,800 × 1.25. Units = (FC + Target) ÷ UCpu.</strong>",
-        content: `<div class="text-sm space-y-2 leading-relaxed"><p>Target: €307,800 × 1.25 = €384,750</p><p>Units: (€218,460 + €384,750) ÷ €12.53 = <strong>48,140 units</strong></p></div>`,
-        mistakes: ["25% increase on PROFIT, not sales"]
+        explain: "<strong>Target Profit questions follow the same formula as BEP, but add the target profit to fixed costs.</strong> New target = current profit + 25%. Units = (FC + Target Profit) ÷ UCpu.",
+        content: `<div class="text-sm space-y-2 leading-relaxed">
+<p><strong>Target Profit:</strong> €307,800 × 1.25 = <strong>€384,750</strong></p>
+<p><strong>Formula:</strong> Sales − VC − FC = Profit</p>
+<p class="ml-5">Let X = number of units</p>
+<p class="ml-5">36.40X − 23.87X − 218,460 = 384,750</p>
+<p class="ml-5">12.53X = 603,210</p>
+<p class="ml-5">X = <strong>48,140 units</strong></p>
+</div>
+<p class="mt-3 text-xs p-3 rounded-lg border border-border bg-muted"><strong>Alternative quick method:</strong> Units = (FC + Target Profit) ÷ UCpu = (218,460 + 384,750) ÷ 12.53 = 48,140 units. Both methods get full marks.</p>`,
+        mistakes: ["The 25% increase is on PROFIT (€307,800), not on sales", "Don't recalculate variable costs or fixed costs — the question says 'assume SP, cost levels & percentages remain unchanged'"]
       },
       {
-        title: "(c) Price Cut + Advertising",
+        title: "(c) Profit with Price Cut + Advertising",
         marks: 8,
-        explain: "<strong>New SP €34, +€13k advertising, 45,000 units.</strong> Commission changes.",
-        content: `<div class="text-sm space-y-2 leading-relaxed"><p>New commission: 5% × €34 = €1.70. New VCpu = €22.05 + €1.70 = €23.75</p><p>New UCpu = €34 − €23.75 = €10.25. New FC = €218,460 + €13,000 = €231,460</p><p>Profit: (45,000 × €10.25) − €231,460 = <strong>€229,790</strong></p></div>`,
-        mistakes: ["Commission = 5% of NEW SP (€34), not old", "Extra advertising → fixed costs", "This profit is LESS than original — strategy not worth it"]
+        explain: "<strong>Scenario change: new SP (€34), extra advertising (€13,000), new volume (45,000 units).</strong> Rebuild the MCS with changed figures. Variable cost per unit stays at €23.87 EXCEPT the commission which is now 5% of the new SP.",
+        content: `<div class="text-sm space-y-2 leading-relaxed">
+<p><strong>New VC per unit:</strong></p>
+<p class="ml-5">Old VCpu without commission: €23.87 − €1.82 = €22.05</p>
+<p class="ml-5">New commission: 5% × €34 = <strong>€1.70</strong></p>
+<p class="ml-5">New VCpu = €22.05 + €1.70 = <strong>€23.75</strong></p>
+<p class="ml-5">New UCpu = €34.00 − €23.75 = <strong>€10.25</strong></p>
+<p class="mt-3"><strong>New Fixed Costs:</strong> €218,460 + €13,000 = <strong>€231,460</strong></p>
+<p class="mt-3"><strong>Profit:</strong></p>
+<p class="ml-5">Contribution = 45,000 × €10.25 = €461,250</p>
+<p class="ml-5">Profit = €461,250 − €231,460 = <strong>€229,790</strong></p>
+</div>
+<p class="mt-3 text-xs p-3 rounded-lg border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950"><strong>Critical trap:</strong> When SP changes, the sales commission (5% of sales) also changes because it's a percentage of the NEW selling price, not the old one. This is the most common error on this part.</p>`,
+        mistakes: ["Commission changes when SP changes! 5% × €34 = €1.70 (not the old €1.82)", "The extra advertising (€13,000) is added to FIXED costs, not variable", "Note this profit (€229,790) is LESS than the original (€307,800) — the price cut and extra advertising aren't worth it"]
       },
       {
-        title: "(d) SP if FC +10%",
+        title: "(d) SP if Fixed Costs +10%, Same Profit",
         marks: 8,
-        explain: "<strong>Algebra. Let SP = X. Commission = 0.05X.</strong>",
-        content: `<div class="text-sm space-y-2 leading-relaxed font-mono"><p>New FC: €218,460 × 1.10 = €240,306</p><p>42,000X − 42,000(22.05 + 0.05X) − 240,306 = 307,800</p><p>39,900X = 1,474,206</p><p>X = <strong>€36.95</strong></p></div>`,
-        mistakes: ["Must use algebra — commission depends on unknown SP", "Volume stays at 42,000"]
+        explain: "<strong>Fixed costs increase by 10%, but profit and volume stay the same.</strong> Work backwards from the profit equation to find the new SP. Remember: commission is 5% of the NEW (unknown) SP.",
+        content: `<div class="text-sm space-y-2 leading-relaxed font-mono">
+<p><strong class="font-sans">Let SP = X</strong></p>
+<p>New FC: €218,460 × 1.10 = <strong>€240,306</strong></p>
+<p>New Commission: 5% of X = 0.05X</p>
+<p>New VCpu: €22.05 + 0.05X</p>
+<p class="mt-3"><strong class="font-sans">Equation:</strong></p>
+<p class="ml-5">42,000X − 42,000(22.05 + 0.05X) − 240,306 = 307,800</p>
+<p class="ml-5">42,000X − 926,100 − 2,100X − 240,306 = 307,800</p>
+<p class="ml-5">39,900X = 1,474,206</p>
+<p class="ml-5">X = <strong>€36.95</strong></p>
+</div>
+<p class="mt-3 text-xs p-3 rounded-lg border border-border bg-muted font-sans"><strong>Why can't you just add €0.55 to the old price?</strong> Because when SP changes, the 5% commission also changes. So the equation uses 0.05X (variable) rather than a fixed commission amount. This is an algebra question disguised as accounting.</p>`,
+        mistakes: ["You MUST use algebra here because commission depends on the unknown SP", "Volume stays at 42,000 (same as original) — the question says 'volume of sales remains the same'", "Don't forget to multiply the old VCpu (without commission) by 42,000 units"]
       },
       {
-        title: "(e) Units at €35, 10% Profit on Sales",
+        title: "(e) Units at €35 for 10% Profit on Sales",
         marks: 8,
-        explain: "<strong>Profit = 10% × 35X = 3.5X. Solve.</strong>",
-        content: `<div class="text-sm space-y-2 leading-relaxed font-mono"><p>New VCpu = €22.05 + (5% × €35) = €23.80. UCpu = €11.20</p><p>11.20X − 218,460 = 3.5X → 7.70X = 218,460</p><p>X = <strong>28,371 units</strong></p></div>`,
-        mistakes: ["Profit = 10% of SALES (35X), not contribution", "Move 3.5X to left side of equation"]
+        explain: "<strong>Target: Profit = 10% of Sales Revenue.</strong> Let X = units. Sales = 35X. Profit = 0.10 × 35X = 3.5X. Build the equation and solve.",
+        content: `<div class="text-sm space-y-2 leading-relaxed font-mono">
+<p><strong class="font-sans">Let X = number of units</strong></p>
+<p>New SP = €35. New commission = 5% × €35 = €1.75</p>
+<p>New VCpu = €22.05 + €1.75 = <strong>€23.80</strong></p>
+<p>New UCpu = €35.00 − €23.80 = <strong>€11.20</strong></p>
+<p class="mt-3"><strong class="font-sans">Profit = 10% of Sales:</strong></p>
+<p class="ml-5">35X − 23.80X − 218,460 = 3.5X</p>
+<p class="ml-5">11.20X − 218,460 = 3.5X</p>
+<p class="ml-5">7.70X = 218,460</p>
+<p class="ml-5">X = <strong>28,371 units</strong></p>
+</div>
+<p class="mt-3 text-xs p-3 rounded-lg border border-border bg-muted font-sans"><strong>The trick:</strong> Profit isn't a fixed amount here — it's 10% of sales, which depends on how many units you sell. So you can't use the simple BEP formula. You must set up the equation with profit as 3.5X on the right side, then move it to the left.</p>`,
+        mistakes: ["Profit = 10% of SALES (35X), not 10% of contribution", "Commission changes again because SP = €35 (not €36.40)", "This is testing your algebra — show each line of working for method marks"]
       },
       {
-        title: "(f) Theory",
+        title: "(f) Theory — Sensitivity, Step Fixed, Graph",
         marks: 13,
-        explain: "<strong>Sensitivity Analysis + Step Fixed Cost + Graph = 13 marks.</strong>",
-        content: `<div class="text-sm space-y-3 leading-relaxed"><p><strong>(i) Sensitivity Analysis:</strong> Effect on profit from changes in SP, VCpu, FC, or volume. "What if" analysis.</p><p><strong>(ii) Step Fixed Cost:</strong> Fixed within a range, increases in steps. E.g. rent jumps when new factory needed.</p><p><strong>(iii) Graph:</strong> X=Output, Y=Cost. Horizontal lines with vertical jumps (staircase). Label axes, 3+ steps.</p></div>`,
-        mistakes: ["Must name all 4 variables for sensitivity", "Graph needs labelled axes", "Show at least 3 steps with numbers"]
+        explain: "<strong>Theory is worth 13 marks here — don't skip it!</strong> Sensitivity Analysis, Step Fixed Costs, and a graph. Each needs a clear definition with an example.",
+        content: `<div class="text-sm space-y-3 leading-relaxed">
+<p><strong>(f)(i) Sensitivity Analysis</strong></p>
+<p>A "what-if" analysis that examines how changes in key variables affect profit. The four variables: <strong>Selling Price, Variable Cost per Unit, Fixed Costs, Sales Volume.</strong></p>
+<p class="ml-5 text-xs text-muted-foreground">Example: "What if we reduce the selling price by €2? New UCpu = €10.53, new BEP = 20,746 units."</p>
+
+<p class="mt-2"><strong>(f)(ii) Step Fixed Cost</strong></p>
+<p>A cost that is fixed within a certain range of output but increases in steps when a threshold is crossed.</p>
+<p class="ml-5 text-xs text-muted-foreground">Example: Rent is €5,000 for 0–10,000 units, €15,000 for 10,001–20,000 units, €25,000 for 20,001–30,000 units.</p>
+
+<p class="mt-2"><strong>(f)(iii) Step Fixed Cost Graph</strong></p>
+<pre class="text-xs font-mono bg-muted p-3 rounded-lg mt-1">
+Cost (€)
+  │
+35,000 ┤                    ┌──────────
+       │                    │
+25,000 ┤          ┌─────────┘
+       │          │
+ 5,000 ┤──────────┘
+       │
+       └──────────┬─────────┬──────────→
+              10,000    20,000     Output</pre>
+</div>`,
+        mistakes: ["For sensitivity analysis, you must mention the FOUR variables: SP, VCpu, FC, and volume", "The graph must have LABELLED axes — 'Cost (€)' and 'Output (units)'", "Show at least 3 steps in your graph with specific numbers from the table given"]
       }
     ]
   },
   {
     id: "job-2024",
     type: "Job Costing",
-    name: "Wyndham Ltd — OH Apportionment",
+    name: "Wyndham Ltd — OH Apportionment & Job Costing",
     year: 2024,
-    source: "SEC 2024 Q8",
+    source: "SEC 2024 — Section 3, Question 8",
     totalMarks: 80,
     category: "job",
-    desc: "OH Analysis Sheet (11 items, 4 depts), reapportionment, absorption rates, job pricing.",
-    partSummary: ["OH Analysis", "Reapportionment", "Rates", "Job Sheet"],
-    question: `<h3>2024 Q8: Job Costing — Wyndham Ltd</h3><div class="text-sm text-muted-foreground leading-relaxed"><p>2 production depts (Assembly, Finishing) + 2 service depts (Finance, HR). Service costs apportioned by <strong>labour hours</strong>. 11 overheads to allocate. Job AB6710 to price at 30% profit margin.</p><p>Floor: 10k:5k:3k:2k. Volume: 15k:10k:3k:2k. MH: 30k:20k. LH: 60k:15k. Mach.val: 150k:50k. Employees: 25:10:5:5.</p></div>`,
+    desc: "Build an Overhead Analysis Sheet with 11 overheads across 4 departments, reapportion service dept costs, calculate absorption rates, then price a job.",
+    partSummary: ["OH Analysis Sheet (11 items, 4 depts)", "Reapportionment of service depts", "OH Absorption Rates", "Job Cost Sheet for Job AB6710"],
+    question: `<h3>2024 — Section 3, Question 8: Overhead Apportionment/Job Costing</h3>
+<div class="text-sm text-muted-foreground leading-relaxed">
+<p><strong>Wyndham Ltd</strong> has two production departments (Assembly and Finishing) and two ancillary/service departments (Finance and Human Resource). Service department overheads are to be apportioned to production departments on the basis of <strong>labour hours</strong>.</p>
+<p>The budgeted overheads for the year ended 31/12/2024:</p>
+<table class="w-full text-xs border-collapse my-2">
+<tr class="bg-muted"><th class="text-left p-1.5 border border-border">Overhead</th><th class="p-1.5 border border-border text-right">Total €</th><th class="p-1.5 border border-border text-right">Assembly €</th><th class="p-1.5 border border-border text-right">Finishing €</th><th class="p-1.5 border border-border text-right">Finance €</th><th class="p-1.5 border border-border text-right">HR €</th></tr>
+<tr><td class="p-1.5 border border-border">Indirect labour</td><td class="p-1.5 border border-border text-right">18,900</td><td class="p-1.5 border border-border text-right">15,120</td><td class="p-1.5 border border-border text-right">3,780</td><td class="p-1.5 border border-border"></td><td class="p-1.5 border border-border"></td></tr>
+<tr><td class="p-1.5 border border-border">Material handling costs</td><td class="p-1.5 border border-border text-right">9,900</td><td class="p-1.5 border border-border text-right">5,500</td><td class="p-1.5 border border-border text-right">4,400</td><td class="p-1.5 border border-border"></td><td class="p-1.5 border border-border"></td></tr>
+</table>
+<p>Additional information: Floor space 10k:5k:3k:2k. Volume 15k:10k:3k:2k. Machine hours 30k:20k. Labour hours 60k:15k. Machinery valuation 150k:50k. Employees 25:10:5:5.</p>
+<p class="mt-2"><strong>Job No. AB6710:</strong> Assembly: DM €4,500, DL €3,600, 280 MH, 320 LH. Finishing: DM €3,200, DL €4,350, 350 MH, 275 LH. Profit margin: 30%.</p>
+</div>`,
     steps: [
       {
-        title: "(a) OH Analysis Sheet",
+        title: "(a) Overhead Analysis Sheet — Apportionment",
         marks: 24,
-        explain: "<strong>24 marks.</strong> Allocate 11 overheads using correct bases. Each correct figure = marks.",
-        content: `<div class="overflow-x-auto"><table class="w-full text-[11px] border-collapse"><tr class="bg-muted"><th class="text-left p-1.5 border border-border min-w-[110px]">Overhead</th><th class="p-1.5 border border-border">Basis</th><th class="p-1.5 border border-border text-right">Total</th><th class="p-1.5 border border-border text-right">Assy</th><th class="p-1.5 border border-border text-right">Fin</th><th class="p-1.5 border border-border text-right">Fin.</th><th class="p-1.5 border border-border text-right">HR</th></tr><tr><td class="p-1.5 border border-border">Indirect labour</td><td class="p-1.5 border border-border">Given</td><td class="p-1.5 border border-border text-right font-mono">18,900</td><td class="p-1.5 border border-border text-right font-mono">15,120</td><td class="p-1.5 border border-border text-right font-mono">3,780</td><td class="p-1.5 border border-border text-right font-mono">—</td><td class="p-1.5 border border-border text-right font-mono">—</td></tr><tr><td class="p-1.5 border border-border">Mat. handling</td><td class="p-1.5 border border-border">Given</td><td class="p-1.5 border border-border text-right font-mono">9,900</td><td class="p-1.5 border border-border text-right font-mono">5,500</td><td class="p-1.5 border border-border text-right font-mono">4,400</td><td class="p-1.5 border border-border text-right font-mono">—</td><td class="p-1.5 border border-border text-right font-mono">—</td></tr><tr><td class="p-1.5 border border-border">Cleaning</td><td class="p-1.5 border border-border">Floor</td><td class="p-1.5 border border-border text-right font-mono">12,500</td><td class="p-1.5 border border-border text-right font-mono">6,250</td><td class="p-1.5 border border-border text-right font-mono">3,125</td><td class="p-1.5 border border-border text-right font-mono">1,875</td><td class="p-1.5 border border-border text-right font-mono">1,250</td></tr><tr><td class="p-1.5 border border-border">Mach. maint.</td><td class="p-1.5 border border-border">MH</td><td class="p-1.5 border border-border text-right font-mono">21,600</td><td class="p-1.5 border border-border text-right font-mono">12,960</td><td class="p-1.5 border border-border text-right font-mono">8,640</td><td class="p-1.5 border border-border text-right font-mono">—</td><td class="p-1.5 border border-border text-right font-mono">—</td></tr><tr><td class="p-1.5 border border-border">Light&heat</td><td class="p-1.5 border border-border">Vol</td><td class="p-1.5 border border-border text-right font-mono">36,000</td><td class="p-1.5 border border-border text-right font-mono">18,000</td><td class="p-1.5 border border-border text-right font-mono">12,000</td><td class="p-1.5 border border-border text-right font-mono">3,600</td><td class="p-1.5 border border-border text-right font-mono">2,400</td></tr><tr><td class="p-1.5 border border-border">Depreciation</td><td class="p-1.5 border border-border">M.val</td><td class="p-1.5 border border-border text-right font-mono">25,000</td><td class="p-1.5 border border-border text-right font-mono">18,750</td><td class="p-1.5 border border-border text-right font-mono">6,250</td><td class="p-1.5 border border-border text-right font-mono">—</td><td class="p-1.5 border border-border text-right font-mono">—</td></tr><tr><td class="p-1.5 border border-border">Bldg ins.</td><td class="p-1.5 border border-border">Floor</td><td class="p-1.5 border border-border text-right font-mono">2,700</td><td class="p-1.5 border border-border text-right font-mono">1,350</td><td class="p-1.5 border border-border text-right font-mono">675</td><td class="p-1.5 border border-border text-right font-mono">405</td><td class="p-1.5 border border-border text-right font-mono">270</td></tr><tr><td class="p-1.5 border border-border">Canteen</td><td class="p-1.5 border border-border">Emps</td><td class="p-1.5 border border-border text-right font-mono">14,850</td><td class="p-1.5 border border-border text-right font-mono">8,250</td><td class="p-1.5 border border-border text-right font-mono">3,300</td><td class="p-1.5 border border-border text-right font-mono">1,650</td><td class="p-1.5 border border-border text-right font-mono">1,650</td></tr><tr><td class="p-1.5 border border-border">Rent</td><td class="p-1.5 border border-border">Floor</td><td class="p-1.5 border border-border text-right font-mono">12,600</td><td class="p-1.5 border border-border text-right font-mono">6,300</td><td class="p-1.5 border border-border text-right font-mono">3,150</td><td class="p-1.5 border border-border text-right font-mono">1,890</td><td class="p-1.5 border border-border text-right font-mono">1,260</td></tr><tr><td class="p-1.5 border border-border">Supervisors</td><td class="p-1.5 border border-border">Emps</td><td class="p-1.5 border border-border text-right font-mono">50,850</td><td class="p-1.5 border border-border text-right font-mono">28,250</td><td class="p-1.5 border border-border text-right font-mono">11,300</td><td class="p-1.5 border border-border text-right font-mono">5,650</td><td class="p-1.5 border border-border text-right font-mono">5,650</td></tr><tr><td class="p-1.5 border border-border">Admin</td><td class="p-1.5 border border-border">Emps</td><td class="p-1.5 border border-border text-right font-mono">9,675</td><td class="p-1.5 border border-border text-right font-mono">5,375</td><td class="p-1.5 border border-border text-right font-mono">2,150</td><td class="p-1.5 border border-border text-right font-mono">1,075</td><td class="p-1.5 border border-border text-right font-mono">1,075</td></tr><tr class="font-bold border-t-2 border-border"><td class="p-1.5 border border-border"><strong>Totals</strong></td><td class="p-1.5 border border-border"></td><td class="p-1.5 border border-border text-right font-mono"><strong>214,575</strong></td><td class="p-1.5 border border-border text-right font-mono"><strong>126,105</strong></td><td class="p-1.5 border border-border text-right font-mono"><strong>58,770</strong></td><td class="p-1.5 border border-border text-right font-mono"><strong>16,145</strong></td><td class="p-1.5 border border-border text-right font-mono"><strong>13,555</strong></td></tr></table></div>`,
-        mistakes: ["Maintenance = MACHINE hours, not labour", "Light&heat = VOLUME, not floor space", "Depreciation = MACHINERY VALUATION", "Service depts get NO machine-related costs"]
+        explain: "<strong>This is the big one — 24 marks.</strong> You need to allocate each of the 11 overheads to the 4 departments using the correct apportionment basis. Some overheads are already allocated (indirect labour, material handling). The rest need a basis: floor space, machine hours, volume, machinery valuation, or number of employees.",
+        content: `<div class="overflow-x-auto"><table class="w-full text-[11px] border-collapse">
+<tr class="bg-muted"><th class="text-left p-1.5 border border-border min-w-[110px]">Overhead</th><th class="p-1.5 border border-border">Basis</th><th class="p-1.5 border border-border text-right">Total</th><th class="p-1.5 border border-border text-right">Assy</th><th class="p-1.5 border border-border text-right">Fin</th><th class="p-1.5 border border-border text-right">Fin.</th><th class="p-1.5 border border-border text-right">HR</th></tr>
+<tr><td class="p-1.5 border border-border">Indirect labour</td><td class="p-1.5 border border-border">Given</td><td class="p-1.5 border border-border text-right font-mono">18,900</td><td class="p-1.5 border border-border text-right font-mono">15,120</td><td class="p-1.5 border border-border text-right font-mono">3,780</td><td class="p-1.5 border border-border text-right font-mono">—</td><td class="p-1.5 border border-border text-right font-mono">—</td></tr>
+<tr><td class="p-1.5 border border-border">Mat. handling</td><td class="p-1.5 border border-border">Given</td><td class="p-1.5 border border-border text-right font-mono">9,900</td><td class="p-1.5 border border-border text-right font-mono">5,500</td><td class="p-1.5 border border-border text-right font-mono">4,400</td><td class="p-1.5 border border-border text-right font-mono">—</td><td class="p-1.5 border border-border text-right font-mono">—</td></tr>
+<tr><td class="p-1.5 border border-border">Factory cleaning</td><td class="p-1.5 border border-border">Floor</td><td class="p-1.5 border border-border text-right font-mono">12,500</td><td class="p-1.5 border border-border text-right font-mono">6,250</td><td class="p-1.5 border border-border text-right font-mono">3,125</td><td class="p-1.5 border border-border text-right font-mono">1,875</td><td class="p-1.5 border border-border text-right font-mono">1,250</td></tr>
+<tr><td class="p-1.5 border border-border">Mach. maintenance</td><td class="p-1.5 border border-border">MH</td><td class="p-1.5 border border-border text-right font-mono">21,600</td><td class="p-1.5 border border-border text-right font-mono">12,960</td><td class="p-1.5 border border-border text-right font-mono">8,640</td><td class="p-1.5 border border-border text-right font-mono">—</td><td class="p-1.5 border border-border text-right font-mono">—</td></tr>
+<tr><td class="p-1.5 border border-border">Light & heat</td><td class="p-1.5 border border-border">Vol</td><td class="p-1.5 border border-border text-right font-mono">36,000</td><td class="p-1.5 border border-border text-right font-mono">18,000</td><td class="p-1.5 border border-border text-right font-mono">12,000</td><td class="p-1.5 border border-border text-right font-mono">3,600</td><td class="p-1.5 border border-border text-right font-mono">2,400</td></tr>
+<tr><td class="p-1.5 border border-border">Depreciation</td><td class="p-1.5 border border-border">M.val</td><td class="p-1.5 border border-border text-right font-mono">25,000</td><td class="p-1.5 border border-border text-right font-mono">18,750</td><td class="p-1.5 border border-border text-right font-mono">6,250</td><td class="p-1.5 border border-border text-right font-mono">—</td><td class="p-1.5 border border-border text-right font-mono">—</td></tr>
+<tr><td class="p-1.5 border border-border">Bldg insurance</td><td class="p-1.5 border border-border">Floor</td><td class="p-1.5 border border-border text-right font-mono">2,700</td><td class="p-1.5 border border-border text-right font-mono">1,350</td><td class="p-1.5 border border-border text-right font-mono">675</td><td class="p-1.5 border border-border text-right font-mono">405</td><td class="p-1.5 border border-border text-right font-mono">270</td></tr>
+<tr><td class="p-1.5 border border-border">Canteen</td><td class="p-1.5 border border-border">Emps</td><td class="p-1.5 border border-border text-right font-mono">14,850</td><td class="p-1.5 border border-border text-right font-mono">8,250</td><td class="p-1.5 border border-border text-right font-mono">3,300</td><td class="p-1.5 border border-border text-right font-mono">1,650</td><td class="p-1.5 border border-border text-right font-mono">1,650</td></tr>
+<tr><td class="p-1.5 border border-border">Rent and rates</td><td class="p-1.5 border border-border">Floor</td><td class="p-1.5 border border-border text-right font-mono">12,600</td><td class="p-1.5 border border-border text-right font-mono">6,300</td><td class="p-1.5 border border-border text-right font-mono">3,150</td><td class="p-1.5 border border-border text-right font-mono">1,890</td><td class="p-1.5 border border-border text-right font-mono">1,260</td></tr>
+<tr><td class="p-1.5 border border-border">Supervisors</td><td class="p-1.5 border border-border">Emps</td><td class="p-1.5 border border-border text-right font-mono">50,850</td><td class="p-1.5 border border-border text-right font-mono">28,250</td><td class="p-1.5 border border-border text-right font-mono">11,300</td><td class="p-1.5 border border-border text-right font-mono">5,650</td><td class="p-1.5 border border-border text-right font-mono">5,650</td></tr>
+<tr><td class="p-1.5 border border-border">Admin costs</td><td class="p-1.5 border border-border">Emps</td><td class="p-1.5 border border-border text-right font-mono">9,675</td><td class="p-1.5 border border-border text-right font-mono">5,375</td><td class="p-1.5 border border-border text-right font-mono">2,150</td><td class="p-1.5 border border-border text-right font-mono">1,075</td><td class="p-1.5 border border-border text-right font-mono">1,075</td></tr>
+<tr class="font-bold border-t-2 border-border"><td class="p-1.5 border border-border"><strong>Totals</strong></td><td class="p-1.5 border border-border"></td><td class="p-1.5 border border-border text-right font-mono"><strong>214,575</strong></td><td class="p-1.5 border border-border text-right font-mono"><strong>126,105</strong></td><td class="p-1.5 border border-border text-right font-mono"><strong>58,770</strong></td><td class="p-1.5 border border-border text-right font-mono"><strong>16,145</strong></td><td class="p-1.5 border border-border text-right font-mono"><strong>13,555</strong></td></tr>
+</table></div>
+<p class="mt-3 text-xs p-3 rounded-lg border border-border bg-muted"><strong>Apportionment bases:</strong> Floor space → cleaning, insurance, rent. Volume → light & heat. Machine hours → maintenance. Machinery valuation → depreciation. Employees → canteen, supervisors, admin.</p>`,
+        mistakes: ["Machine maintenance uses MACHINE HOURS, not labour hours — common mix-up", "Light & heat uses VOLUME (cubic metres), not floor space (square metres)", "Depreciation uses MACHINERY VALUATION, not machine hours", "Service departments (Finance, HR) get NO share of machine-related costs"]
       },
       {
-        title: "(b) Reapportionment",
+        title: "(b) Reapportionment of Service Departments",
         marks: 12,
-        explain: "<strong>Labour hours ratio: 60k:15k = 4:1.</strong> Transfer Finance + HR to production.",
-        content: `<div class="text-sm space-y-2 leading-relaxed"><p><strong>Finance (€16,145):</strong> Assy = 12,916, Fin = 3,229</p><p><strong>HR (€13,555):</strong> Assy = 10,844, Fin = 2,711</p><p><strong>Final:</strong> Assembly = <strong>149,865</strong>, Finishing = <strong>64,710</strong></p></div><p class="mt-2 text-xs p-3 rounded-lg border border-border bg-muted"><strong>Check:</strong> 149,865 + 64,710 = 214,575 ✓</p>`,
-        mistakes: ["Use LABOUR HOURS as basis (stated in question)", "Ratio is 4:1 (60k:15k), so 4/5 and 1/5", "Service columns must = zero after"]
+        explain: "<strong>Service departments don't produce anything — their costs must be transferred to production departments.</strong> The question says to use labour hours as the basis. Apportion Finance and HR costs to Assembly and Finishing based on their share of labour hours (60,000 : 15,000 = 4:1).",
+        content: `<div class="text-sm space-y-2 leading-relaxed">
+<p><strong>Labour hours ratio:</strong> Assembly 60,000 : Finishing 15,000 = <strong>4 : 1</strong></p>
+<p class="mt-3"><strong>Reapportion Finance (€16,145):</strong></p>
+<p class="ml-5">Assembly: 16,145 × 4/5 = <strong>12,916</strong></p>
+<p class="ml-5">Finishing: 16,145 × 1/5 = <strong>3,229</strong></p>
+<p class="mt-3"><strong>Reapportion HR (€13,555):</strong></p>
+<p class="ml-5">Assembly: 13,555 × 4/5 = <strong>10,844</strong></p>
+<p class="ml-5">Finishing: 13,555 × 1/5 = <strong>2,711</strong></p>
+</div>
+<table class="w-full text-xs border-collapse max-w-sm mt-3">
+<tr class="bg-muted"><th class="text-left p-1.5 border border-border"></th><th class="p-1.5 border border-border text-right">Assembly €</th><th class="p-1.5 border border-border text-right">Finishing €</th></tr>
+<tr><td class="p-1.5 border border-border">Before reapportionment</td><td class="p-1.5 border border-border text-right font-mono">126,105</td><td class="p-1.5 border border-border text-right font-mono">58,770</td></tr>
+<tr><td class="p-1.5 border border-border">+ Finance</td><td class="p-1.5 border border-border text-right font-mono">12,916</td><td class="p-1.5 border border-border text-right font-mono">3,229</td></tr>
+<tr><td class="p-1.5 border border-border">+ HR</td><td class="p-1.5 border border-border text-right font-mono">10,844</td><td class="p-1.5 border border-border text-right font-mono">2,711</td></tr>
+<tr class="font-bold border-t-2 border-border"><td class="p-1.5 border border-border"><strong>Total OH</strong></td><td class="p-1.5 border border-border text-right font-mono"><strong>149,865</strong></td><td class="p-1.5 border border-border text-right font-mono"><strong>64,710</strong></td></tr>
+</table>
+<p class="mt-2 text-xs p-3 rounded-lg border border-border bg-muted"><strong>Check:</strong> 149,865 + 64,710 = 214,575 = original total. Finance and HR columns should now be zero.</p>`,
+        mistakes: ["Use LABOUR HOURS for reapportionment (as stated in the question), not employees or floor space", "The ratio is 60,000 : 15,000 = 4:1 (so 4/5 and 1/5), NOT 60,000 : 75,000", "After reapportionment, Finance and HR columns must equal ZERO — all their costs have been transferred"]
       },
       {
-        title: "(c) Absorption Rates",
+        title: "(c) Overhead Absorption Rates",
         marks: 10,
-        explain: "<strong>Assembly: labour hours. Finishing: machine hours.</strong>",
-        content: `<div class="text-sm space-y-2 leading-relaxed"><p><strong>Assembly:</strong> €149,865 ÷ 60,000 = <strong>€2.50/labour hr</strong></p><p><strong>Finishing:</strong> €64,710 ÷ 20,000 = <strong>€3.24/machine hr</strong></p></div>`,
-        mistakes: ["Assembly = LABOUR hrs, Finishing = MACHINE hrs", "State units: 'per labour hour' / 'per machine hour'", "Own figure from (a) accepted"]
+        explain: "<strong>Now calculate how much overhead each department charges per hour of work.</strong> Assembly uses labour hours (labour-intensive), Finishing uses machine hours (machine-intensive). The rate = Total departmental OH ÷ Hours.",
+        content: `<div class="text-sm space-y-2 leading-relaxed">
+<p><strong>1) Assembly Dept — Labour Hour Rate:</strong></p>
+<p class="ml-5">Total OH = <strong>€149,865</strong></p>
+<p class="ml-5">Labour hours = 60,000</p>
+<p class="ml-5">Rate = 149,865 ÷ 60,000 = <strong>€2.50 per labour hour</strong></p>
+<p class="mt-4"><strong>2) Finishing Dept — Machine Hour Rate:</strong></p>
+<p class="ml-5">Total OH = <strong>€64,710</strong></p>
+<p class="ml-5">Machine hours = 20,000</p>
+<p class="ml-5">Rate = 64,710 ÷ 20,000 = <strong>€3.24 per machine hour</strong></p>
+</div>
+<p class="mt-3 text-xs p-3 rounded-lg border border-border bg-muted"><strong>Why different bases?</strong> Assembly is labour-intensive (more labour hours than machine hours), so overhead is absorbed based on labour hours. Finishing is more machine-dependent, so machine hours are used. The marking scheme accepts the student's own figure from part (a).</p>`,
+        mistakes: ["Assembly = LABOUR hours (60,000), Finishing = MACHINE hours (20,000) — don't mix them up", "The marking scheme says 'own figure from part (a) acceptable' — so use YOUR total even if it differs", "State the unit clearly: 'per labour hour' or 'per machine hour' — 1 mark penalty for missing units"]
       },
       {
-        title: "(d) Job Cost Sheet",
+        title: "(d) Job Cost Sheet — Job AB6710",
         marks: "Remaining",
-        explain: "<strong>Price Job AB6710. 30% profit MARGIN = Cost ÷ 0.70.</strong>",
-        content: `<table class="w-full text-xs border-collapse max-w-md"><tr class="bg-muted"><th class="text-left p-1.5 border border-border">Job AB6710</th><th class="p-1.5 border border-border text-right">Assy</th><th class="p-1.5 border border-border text-right">Fin</th><th class="p-1.5 border border-border text-right">Total</th></tr><tr><td class="p-1.5 border border-border">Direct Materials</td><td class="p-1.5 border border-border text-right font-mono">4,500</td><td class="p-1.5 border border-border text-right font-mono">3,200</td><td class="p-1.5 border border-border text-right font-mono">7,700</td></tr><tr><td class="p-1.5 border border-border">Direct Labour</td><td class="p-1.5 border border-border text-right font-mono">3,600</td><td class="p-1.5 border border-border text-right font-mono">4,350</td><td class="p-1.5 border border-border text-right font-mono">7,950</td></tr><tr><td class="p-1.5 border border-border">OH: Assy (320×€2.50)</td><td class="p-1.5 border border-border text-right font-mono">800</td><td class="p-1.5 border border-border text-right font-mono"></td><td class="p-1.5 border border-border text-right font-mono">800</td></tr><tr><td class="p-1.5 border border-border">OH: Fin (350×€3.24)</td><td class="p-1.5 border border-border text-right font-mono"></td><td class="p-1.5 border border-border text-right font-mono">1,134</td><td class="p-1.5 border border-border text-right font-mono">1,134</td></tr><tr class="font-bold"><td class="p-1.5 border border-border"><strong>Total Cost</strong></td><td class="p-1.5 border border-border"></td><td class="p-1.5 border border-border"></td><td class="p-1.5 border border-border text-right font-mono"><strong>17,584</strong></td></tr><tr><td class="p-1.5 border border-border">Profit (30% margin)</td><td class="p-1.5 border border-border"></td><td class="p-1.5 border border-border"></td><td class="p-1.5 border border-border text-right font-mono">7,536</td></tr><tr class="font-bold border-t-2 border-border"><td class="p-1.5 border border-border"><strong>Selling Price</strong></td><td class="p-1.5 border border-border"></td><td class="p-1.5 border border-border"></td><td class="p-1.5 border border-border text-right font-mono"><strong>25,120</strong></td></tr></table><p class="mt-2 text-xs p-3 rounded-lg border border-border bg-muted"><strong>MARGIN:</strong> SP = 17,584 ÷ 0.70 = €25,120. Mark-up would be 17,584 × 1.30 = €22,859.</p>`,
-        mistakes: ["Assy OH = LABOUR hrs (320), Fin = MACHINE hrs (350)", "30% MARGIN ≠ 30% mark-up", "Use YOUR rates from (c)"]
+        explain: "<strong>Now price the job.</strong> Add up: Direct Materials + Direct Labour + Overheads (using the rates you just calculated) = Total Cost. Then add profit margin of 30% to get the selling price.",
+        content: `<table class="w-full text-xs border-collapse max-w-md">
+<tr class="bg-muted"><th class="text-left p-1.5 border border-border">Job Cost Sheet — Job AB6710</th><th class="p-1.5 border border-border text-right">Assy €</th><th class="p-1.5 border border-border text-right">Fin €</th><th class="p-1.5 border border-border text-right">Total €</th></tr>
+<tr><td class="p-1.5 border border-border">Direct Materials</td><td class="p-1.5 border border-border text-right font-mono">4,500</td><td class="p-1.5 border border-border text-right font-mono">3,200</td><td class="p-1.5 border border-border text-right font-mono">7,700</td></tr>
+<tr><td class="p-1.5 border border-border">Direct Labour</td><td class="p-1.5 border border-border text-right font-mono">3,600</td><td class="p-1.5 border border-border text-right font-mono">4,350</td><td class="p-1.5 border border-border text-right font-mono">7,950</td></tr>
+<tr><td class="p-1.5 border border-border">OH: Assy (320 hrs × €2.50)</td><td class="p-1.5 border border-border text-right font-mono">800</td><td class="p-1.5 border border-border text-right font-mono"></td><td class="p-1.5 border border-border text-right font-mono">800</td></tr>
+<tr><td class="p-1.5 border border-border">OH: Fin (350 hrs × €3.24)</td><td class="p-1.5 border border-border text-right font-mono"></td><td class="p-1.5 border border-border text-right font-mono">1,134</td><td class="p-1.5 border border-border text-right font-mono">1,134</td></tr>
+<tr class="font-bold"><td class="p-1.5 border border-border"><strong>Total Cost</strong></td><td class="p-1.5 border border-border"></td><td class="p-1.5 border border-border"></td><td class="p-1.5 border border-border text-right font-mono"><strong>17,584</strong></td></tr>
+<tr><td class="p-1.5 border border-border">Profit (30% margin)</td><td class="p-1.5 border border-border"></td><td class="p-1.5 border border-border"></td><td class="p-1.5 border border-border text-right font-mono">7,536</td></tr>
+<tr class="font-bold border-t-2 border-border"><td class="p-1.5 border border-border"><strong>Selling Price</strong></td><td class="p-1.5 border border-border"></td><td class="p-1.5 border border-border"></td><td class="p-1.5 border border-border text-right font-mono"><strong>25,120</strong></td></tr>
+</table>
+<p class="mt-2 text-xs p-3 rounded-lg border border-border bg-muted"><strong>Profit margin of 30%:</strong> This means profit = 30% of SELLING PRICE (not of cost). So: Cost = 70% of SP. SP = Cost ÷ 0.70 = 17,584 ÷ 0.70 = <strong>€25,120</strong>. Profit = 25,120 − 17,584 = €7,536. <strong>Common error:</strong> 30% × 17,584 = 5,275. This gives a MARK-UP of 30%, not a margin.</p>`,
+        mistakes: ["Assembly OH uses LABOUR HOURS (320), Finishing uses MACHINE HOURS (350) — match the absorption basis", "Profit MARGIN of 30% means Cost = 70% of SP. So SP = Cost ÷ 0.70. This is NOT the same as adding 30% to cost (that's mark-up)", "If the question said 'mark-up of 30%' you would calculate 17,584 × 1.30 = €22,859. Read carefully!"]
+      }
+    ]
+  },
+  // ─── ARCHETYPE 3: MARGINAL vs ABSORPTION COMPARISON ──────────────
+  {
+    id: "absorption-compare",
+    type: "Marginal vs Absorption",
+    name: "Blackwater Ltd — Full Comparison",
+    year: 2024,
+    source: "Leaving Cert — Topic Comparison",
+    totalMarks: 60,
+    category: "absorption",
+    desc: "Same data, two methods. Build income statements under BOTH marginal and absorption costing, reconcile the profit difference, and learn when to use each method.",
+    partSummary: ["Cost per unit (both methods)", "Marginal Income Statement", "Absorption Income Statement", "Profit Reconciliation", "Key Differences Table", "When to Use Each"],
+    question: `<h3>Marginal vs Absorption Costing — Blackwater Ltd</h3>
+<div class="text-sm text-muted-foreground leading-relaxed">
+<p><strong>Blackwater Ltd</strong> manufactures a single product. The following information relates to the year ended 31/12/2024:</p>
+<table class="w-full text-xs border-collapse my-2">
+<tr class="bg-muted"><th class="text-left p-1.5 border border-border">Production & Sales</th><th class="p-1.5 border border-border text-right">Units</th></tr>
+<tr><td class="p-1.5 border border-border">Units produced</td><td class="p-1.5 border border-border text-right">50,000</td></tr>
+<tr><td class="p-1.5 border border-border">Units sold</td><td class="p-1.5 border border-border text-right">45,000</td></tr>
+<tr><td class="p-1.5 border border-border">Opening stock</td><td class="p-1.5 border border-border text-right">0</td></tr>
+<tr><td class="p-1.5 border border-border">Closing stock</td><td class="p-1.5 border border-border text-right">5,000</td></tr>
+</table>
+<table class="w-full text-xs border-collapse my-2">
+<tr class="bg-muted"><th class="text-left p-1.5 border border-border">Cost Information</th><th class="p-1.5 border border-border text-right">€</th></tr>
+<tr><td class="p-1.5 border border-border">Selling price per unit</td><td class="p-1.5 border border-border text-right">40</td></tr>
+<tr><td class="p-1.5 border border-border">Direct materials per unit</td><td class="p-1.5 border border-border text-right">12</td></tr>
+<tr><td class="p-1.5 border border-border">Direct labour per unit</td><td class="p-1.5 border border-border text-right">8</td></tr>
+<tr><td class="p-1.5 border border-border">Variable factory overhead per unit</td><td class="p-1.5 border border-border text-right">4</td></tr>
+<tr><td class="p-1.5 border border-border">Variable selling & admin per unit sold</td><td class="p-1.5 border border-border text-right">2</td></tr>
+<tr><td class="p-1.5 border border-border">Fixed factory overhead (annual)</td><td class="p-1.5 border border-border text-right">150,000</td></tr>
+<tr><td class="p-1.5 border border-border">Fixed selling & admin (annual)</td><td class="p-1.5 border border-border text-right">80,000</td></tr>
+</table>
+<p>The company absorbs fixed factory overhead based on <strong>normal capacity of 50,000 units</strong>.</p>
+<p><strong>Required:</strong> (a) Production cost per unit under both methods. (b) Marginal costing income statement. (c) Absorption costing income statement. (d) Reconcile the profit difference. (e) Key differences.</p>
+</div>`,
+    steps: [
+      {
+        title: "Production Cost per Unit — Both Methods",
+        marks: 10,
+        explain: "<strong>Start by calculating the production cost per unit under each method.</strong> The key difference: marginal costing includes only VARIABLE production costs, while absorption costing adds a share of FIXED factory overhead. Fixed OH rate = €150,000 ÷ 50,000 = €3.00/unit.",
+        content: `<table class="w-full text-xs border-collapse max-w-md">
+<tr class="bg-muted"><th class="text-left p-1.5 border border-border">Cost Element</th><th class="p-1.5 border border-border text-right">Marginal (€)</th><th class="p-1.5 border border-border text-right">Absorption (€)</th></tr>
+<tr><td class="p-1.5 border border-border">Direct materials</td><td class="p-1.5 border border-border text-right font-mono">12.00</td><td class="p-1.5 border border-border text-right font-mono">12.00</td></tr>
+<tr><td class="p-1.5 border border-border">Direct labour</td><td class="p-1.5 border border-border text-right font-mono">8.00</td><td class="p-1.5 border border-border text-right font-mono">8.00</td></tr>
+<tr><td class="p-1.5 border border-border">Variable factory O/H</td><td class="p-1.5 border border-border text-right font-mono">4.00</td><td class="p-1.5 border border-border text-right font-mono">4.00</td></tr>
+<tr><td class="p-1.5 border border-border">Fixed factory O/H absorbed</td><td class="p-1.5 border border-border text-right font-mono">—</td><td class="p-1.5 border border-border text-right font-mono">3.00</td></tr>
+<tr class="font-bold border-t-2 border-border"><td class="p-1.5 border border-border"><strong>Production cost per unit</strong></td><td class="p-1.5 border border-border text-right font-mono"><strong>24.00</strong></td><td class="p-1.5 border border-border text-right font-mono"><strong>27.00</strong></td></tr>
+</table>
+<p class="mt-3 text-xs p-3 rounded-lg border border-border bg-muted"><strong>Fixed OH rate:</strong> €150,000 ÷ 50,000 = <strong>€3.00/unit</strong>. Variable S&A (€2) is a selling cost, NOT a production cost — excluded from both methods.</p>`,
+        mistakes: ["Including variable selling & admin (€2) in production cost — it's a period cost under BOTH methods", "Forgetting that variable factory O/H is in BOTH methods — only FIXED factory O/H is the difference", "Adding fixed S&A to absorption cost per unit — fixed S&A is never absorbed into product cost"]
+      },
+      {
+        title: "Marginal Costing Income Statement",
+        marks: 15,
+        explain: "<strong>Under marginal costing, stock is valued at VARIABLE production cost only (€24/unit).</strong> Fixed factory overhead is treated as a period cost — the ENTIRE €150,000 is expensed in the year.",
+        content: `<table class="w-full text-xs border-collapse max-w-md">
+<tr class="bg-muted"><th class="text-left p-1.5 border border-border">Marginal Costing Income Statement</th><th class="p-1.5 border border-border text-right">€</th><th class="p-1.5 border border-border text-right">€</th></tr>
+<tr><td class="p-1.5 border border-border">Sales (45,000 × €40)</td><td class="p-1.5 border border-border"></td><td class="p-1.5 border border-border text-right font-mono">1,800,000</td></tr>
+<tr><td class="p-1.5 border border-border pl-5">Opening stock (0 × €24)</td><td class="p-1.5 border border-border text-right font-mono">0</td><td class="p-1.5 border border-border"></td></tr>
+<tr><td class="p-1.5 border border-border pl-5">+ Variable production (50,000 × €24)</td><td class="p-1.5 border border-border text-right font-mono">1,200,000</td><td class="p-1.5 border border-border"></td></tr>
+<tr><td class="p-1.5 border border-border pl-5">− Closing stock (5,000 × €24)</td><td class="p-1.5 border border-border text-right font-mono">(120,000)</td><td class="p-1.5 border border-border"></td></tr>
+<tr><td class="p-1.5 border border-border">Variable cost of sales</td><td class="p-1.5 border border-border text-right font-mono">1,080,000</td><td class="p-1.5 border border-border"></td></tr>
+<tr><td class="p-1.5 border border-border">+ Variable S&A (45,000 × €2)</td><td class="p-1.5 border border-border text-right font-mono">90,000</td><td class="p-1.5 border border-border text-right font-mono">(1,170,000)</td></tr>
+<tr class="font-bold"><td class="p-1.5 border border-border"><strong>Contribution</strong></td><td class="p-1.5 border border-border"></td><td class="p-1.5 border border-border text-right font-mono"><strong>630,000</strong></td></tr>
+<tr><td class="p-1.5 border border-border pl-5">Fixed factory overhead</td><td class="p-1.5 border border-border text-right font-mono">150,000</td><td class="p-1.5 border border-border"></td></tr>
+<tr><td class="p-1.5 border border-border pl-5">Fixed selling & admin</td><td class="p-1.5 border border-border text-right font-mono">80,000</td><td class="p-1.5 border border-border text-right font-mono">(230,000)</td></tr>
+<tr class="font-bold border-t-2 border-border"><td class="p-1.5 border border-border"><strong>Net Profit (Marginal)</strong></td><td class="p-1.5 border border-border"></td><td class="p-1.5 border border-border text-right font-mono"><strong>400,000</strong></td></tr>
+</table>
+<p class="mt-3 text-xs p-3 rounded-lg border border-border bg-muted"><strong>Key point:</strong> Closing stock valued at €24 × 5,000 = <strong>€120,000</strong> (variable cost only). The entire €150,000 of fixed factory OH hits this year's profit.</p>`,
+        mistakes: ["Valuing closing stock at €27 (absorption cost) — under marginal, stock is ALWAYS at variable cost only (€24)", "Deducting only part of fixed factory OH — under marginal, the ENTIRE fixed factory OH (€150,000) is expensed", "Calculating variable S&A on units produced (50,000) — it's a selling cost, so use units SOLD (45,000)"]
+      },
+      {
+        title: "Absorption Costing Income Statement",
+        marks: 15,
+        explain: "<strong>Under absorption costing, stock is valued at FULL production cost (€27/unit), which includes €3 of fixed overhead per unit.</strong>",
+        content: `<table class="w-full text-xs border-collapse max-w-md">
+<tr class="bg-muted"><th class="text-left p-1.5 border border-border">Absorption Costing Income Statement</th><th class="p-1.5 border border-border text-right">€</th><th class="p-1.5 border border-border text-right">€</th></tr>
+<tr><td class="p-1.5 border border-border">Sales (45,000 × €40)</td><td class="p-1.5 border border-border"></td><td class="p-1.5 border border-border text-right font-mono">1,800,000</td></tr>
+<tr><td class="p-1.5 border border-border pl-5">Opening stock (0 × €27)</td><td class="p-1.5 border border-border text-right font-mono">0</td><td class="p-1.5 border border-border"></td></tr>
+<tr><td class="p-1.5 border border-border pl-5">+ Production (50,000 × €27)</td><td class="p-1.5 border border-border text-right font-mono">1,350,000</td><td class="p-1.5 border border-border"></td></tr>
+<tr><td class="p-1.5 border border-border pl-5">− Closing stock (5,000 × €27)</td><td class="p-1.5 border border-border text-right font-mono">(135,000)</td><td class="p-1.5 border border-border"></td></tr>
+<tr><td class="p-1.5 border border-border">Cost of sales</td><td class="p-1.5 border border-border"></td><td class="p-1.5 border border-border text-right font-mono">(1,215,000)</td></tr>
+<tr class="font-bold"><td class="p-1.5 border border-border"><strong>Gross Profit</strong></td><td class="p-1.5 border border-border"></td><td class="p-1.5 border border-border text-right font-mono"><strong>585,000</strong></td></tr>
+<tr><td class="p-1.5 border border-border pl-5">Variable S&A (45,000 × €2)</td><td class="p-1.5 border border-border text-right font-mono">90,000</td><td class="p-1.5 border border-border"></td></tr>
+<tr><td class="p-1.5 border border-border pl-5">Fixed selling & admin</td><td class="p-1.5 border border-border text-right font-mono">80,000</td><td class="p-1.5 border border-border text-right font-mono">(170,000)</td></tr>
+<tr class="font-bold border-t-2 border-border"><td class="p-1.5 border border-border"><strong>Net Profit (Absorption)</strong></td><td class="p-1.5 border border-border"></td><td class="p-1.5 border border-border text-right font-mono"><strong>415,000</strong></td></tr>
+</table>
+<p class="mt-3 text-xs p-3 rounded-lg border border-border bg-muted"><strong>Key point:</strong> Closing stock valued at €27 × 5,000 = <strong>€135,000</strong> (including €3 × 5,000 = €15,000 of fixed overhead). No under/over-absorption because actual production = normal capacity.</p>`,
+        mistakes: ["Valuing closing stock at €24 (marginal cost) — under absorption, stock is at FULL production cost (€27)", "Including fixed factory OH as a separate expense line — under absorption it's ALREADY in cost of sales via the €3/unit rate", "Forgetting to check for over/under absorption when actual production ≠ normal capacity"]
+      },
+      {
+        title: "Profit Reconciliation",
+        marks: 10,
+        explain: "<strong>The two methods gave different profits — but by exactly €15,000.</strong> The difference = fixed OH trapped in the CHANGE in stock. Formula: Absorption Profit = Marginal Profit + (Change in Stock × Fixed OH rate per unit).",
+        content: `<table class="w-full text-xs border-collapse max-w-sm">
+<tr class="bg-muted"><th class="text-left p-1.5 border border-border">Profit Reconciliation</th><th class="p-1.5 border border-border text-right">€</th></tr>
+<tr><td class="p-1.5 border border-border">Net Profit (Marginal Costing)</td><td class="p-1.5 border border-border text-right font-mono">400,000</td></tr>
+<tr><td class="p-1.5 border border-border">+ Fixed OH in closing stock (5,000 × €3)</td><td class="p-1.5 border border-border text-right font-mono">15,000</td></tr>
+<tr><td class="p-1.5 border border-border">− Fixed OH in opening stock (0 × €3)</td><td class="p-1.5 border border-border text-right font-mono">0</td></tr>
+<tr class="font-bold border-t-2 border-border"><td class="p-1.5 border border-border"><strong>Net Profit (Absorption Costing)</strong></td><td class="p-1.5 border border-border text-right font-mono"><strong>415,000</strong></td></tr>
+</table>
+<p class="mt-3 text-xs p-3 rounded-lg border border-border bg-muted"><strong>Three scenarios:</strong><br/>• <strong>Production > Sales</strong> (stock UP): Absorption profit > Marginal profit (this case)<br/>• <strong>Production < Sales</strong> (stock DOWN): Absorption profit < Marginal profit<br/>• <strong>Production = Sales</strong> (no stock change): Both profits IDENTICAL</p>`,
+        mistakes: ["Using variable cost per unit (€24) instead of the fixed OH rate (€3) in the reconciliation", "Reversing the direction — when stock INCREASES, absorption > marginal", "Thinking the profit difference is permanent — it's a TIMING difference"]
+      },
+      {
+        title: "Key Differences — Comparison Table",
+        marks: 10,
+        explain: "<strong>This is the comparison you need to memorise for the theory section.</strong> The SEC frequently asks students to explain the differences between marginal and absorption costing.",
+        content: `<table class="w-full text-[11px] border-collapse">
+<tr class="bg-muted"><th class="text-left p-1.5 border border-border" style="width:28%">Aspect</th><th class="text-left p-1.5 border border-border">Marginal Costing</th><th class="text-left p-1.5 border border-border">Absorption Costing</th></tr>
+<tr><td class="p-1.5 border border-border font-semibold">Stock valuation</td><td class="p-1.5 border border-border">Variable production cost only (€24/unit)</td><td class="p-1.5 border border-border">Full production cost incl. fixed OH (€27/unit)</td></tr>
+<tr><td class="p-1.5 border border-border font-semibold">Fixed factory OH</td><td class="p-1.5 border border-border">Period cost — all expensed in the year</td><td class="p-1.5 border border-border">Product cost — absorbed into each unit</td></tr>
+<tr><td class="p-1.5 border border-border font-semibold">Statement format</td><td class="p-1.5 border border-border">Contribution approach</td><td class="p-1.5 border border-border">Gross profit approach</td></tr>
+<tr><td class="p-1.5 border border-border font-semibold">Profit when stock rises</td><td class="p-1.5 border border-border">Lower</td><td class="p-1.5 border border-border">Higher</td></tr>
+<tr><td class="p-1.5 border border-border font-semibold">Main use</td><td class="p-1.5 border border-border">Internal decisions: BEP, MoS, special orders</td><td class="p-1.5 border border-border">External reporting: required by IAS 2</td></tr>
+</table>
+<p class="mt-3 text-xs p-3 rounded-lg border border-border bg-muted"><strong>Remember:</strong> Marginal treats fixed factory OH as a cost of TIME (expense in the period). Absorption treats it as a cost of UNITS (attach to each unit produced).</p>`,
+        mistakes: ["Saying 'absorption costing is always better' — neither is better; they serve different purposes", "Forgetting that IAS 2 requires absorption costing for published accounts", "Saying both methods always give the same profit — they only agree when production = sales"]
+      },
+      {
+        title: "When to Use Each Method",
+        marks: "Theory",
+        explain: "<strong>The examiner often asks 'when would you use marginal costing vs absorption costing?'</strong>",
+        content: `<table class="w-full text-[11px] border-collapse">
+<tr class="bg-muted"><th class="text-left p-1.5 border border-border" style="width:50%">Use MARGINAL When...</th><th class="text-left p-1.5 border border-border">Use ABSORPTION When...</th></tr>
+<tr><td class="p-1.5 border border-border">Calculating BEP or margin of safety</td><td class="p-1.5 border border-border">Preparing published financial statements (IAS 2)</td></tr>
+<tr><td class="p-1.5 border border-border">Deciding on a special order below normal price</td><td class="p-1.5 border border-border">Valuing stock in the balance sheet</td></tr>
+<tr><td class="p-1.5 border border-border">Make-or-buy decisions</td><td class="p-1.5 border border-border">Long-term pricing where all costs must be recovered</td></tr>
+<tr><td class="p-1.5 border border-border">Product mix decisions</td><td class="p-1.5 border border-border">Job costing and cost-plus contracts</td></tr>
+<tr><td class="p-1.5 border border-border">Short-term decisions where FC won't change</td><td class="p-1.5 border border-border">Reporting to external stakeholders</td></tr>
+</table>
+<p class="mt-3 text-xs p-3 rounded-lg border border-border bg-muted"><strong>Classic exam answer:</strong> "Marginal costing is used for SHORT-TERM, INTERNAL decision-making. Absorption costing is used for LONG-TERM reporting and published financial statements because IAS 2 requires stock to be valued at full production cost."</p>`,
+        mistakes: ["Saying one method is 'right' and the other is 'wrong' — both are valid, for different purposes", "Forgetting that IAS 2 REQUIRES absorption costing for published accounts", "Thinking absorption costing is outdated — it's still required by law for external accounts"]
       }
     ]
   },
@@ -275,6 +586,7 @@ export const COSTING_CATEGORIES = [
   { key: "all", label: "All" },
   { key: "marginal", label: "Marginal" },
   { key: "job", label: "Job Costing" },
+  { key: "absorption", label: "Absorption" },
   { key: "stock", label: "Stock Valuation" },
   { key: "overhead", label: "Overhead" },
 ];
