@@ -46,10 +46,14 @@ function useDashboardStats() {
 }
 
 const TOOLS = [
-  { href: "/theory", name: "Theory Revision", desc: "Past exam theory questions with marking scheme answers. Practice mode, flashcards, frequency analysis.", stat: `${THEORY_BANK.length}+ questions`, color: "bg-sage-bg border-sage" },
-  { href: "/study-tools", name: "Study Tools", desc: "Exam timing calculator, study planner, practice tracker, checklists.", stat: "3 interactive tools", color: "bg-blue-bg border-blue" },
-  { href: "/q1-guide", name: "Q1 Adjustment Guide", desc: "Complete reference for every Q1 adjustment type. Filterable by account type.", stat: "Filterable by type", color: "bg-rose-bg border-rose" },
-  { href: "/ratios", name: "Q5 Ratios Hub", desc: "Practice papers, formula quiz, Part (b) report guide, sector notes.", stat: "5 papers, 19 formulas", color: "bg-lavender-bg border-lavender" },
+  { href: "/theory", name: "Theory Revision", desc: "24-chapter study hub with Learn mode, past exam questions, practice mode, flashcards, and frequency analysis.", stat: `${THEORY_BANK.length}+ questions`, color: "bg-sage-bg border-sage" },
+  { href: "/q1-workings", name: "Q1 Workings", desc: "37 step-by-step adjustment walkthroughs with T-accounts. Every Q1 adjustment type covered.", stat: "37 archetypes", color: "bg-blue-bg border-blue" },
+  { href: "/s2-workings", name: "S2 Workings", desc: "37 Section 2 walkthroughs covering Suspense, Club, Service, Published, and Cash Flow accounts.", stat: "37 archetypes", color: "bg-rose-bg border-rose" },
+  { href: "/ratios", name: "Q5 Ratios Hub", desc: "Practice papers, formula quiz, Part (b) report guide, sector notes. Q5 appears every year.", stat: "5 papers, 19 formulas", color: "bg-lavender-bg border-lavender" },
+  { href: "/q8-costing", name: "Q8 Costing", desc: "Full exam question walkthroughs — marginal costing, job costing, absorption costing with SEC data.", stat: "Real SEC data", color: "bg-sage-bg border-sage" },
+  { href: "/q9-budgeting", name: "Q9 Budgeting", desc: "Cash budgets, production budgets, and combined formats with step-by-step mark allocations.", stat: "Full walkthroughs", color: "bg-blue-bg border-blue" },
+  { href: "/study-tools", name: "Study Tools", desc: "Exam timing calculator, study planner, practice tracker, checklists.", stat: "3 interactive tools", color: "bg-rose-bg border-rose" },
+  { href: "/predictions/detail", name: "Predictions", desc: "Statistical prediction engine analysing 25 years of SEC data. Markov chains, Monte Carlo simulations.", stat: "25 years of data", color: "bg-lavender-bg border-lavender" },
 ];
 
 const Q1_PAIRS = [
