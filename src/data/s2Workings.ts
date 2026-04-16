@@ -1307,7 +1307,7 @@ export const S2_ARCHETYPES: Archetype[] = [
     totalMarks: 9,
     category: "published",
     desc: "Company sued for €94,000 unfair dismissal. Legal advisors: unlikely compensation will be paid. Legal fees invoice €7,500 received. 2023 Navan plc (vii...",
-    partSummary: ["Step 1 — What...", "Step 2 — Apply...", "Note 5 wording:"The company..."],
+    partSummary: ["Step 1 — What...", "Step 2 — Apply...", "Note 5 wording: The company..."],
     question: `<strong>Company sued for €94,000 unfair dismissal. Legal advisors: unlikely compensation will be paid. Legal fees invoice €7,500 received.</strong> <em>2023 Navan plc (vii)</em>`,
     steps: [
       {
