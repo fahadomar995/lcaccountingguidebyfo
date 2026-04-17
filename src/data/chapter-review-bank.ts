@@ -835,7 +835,7 @@ export const REVIEW_BANK: Record<number, ReviewItem[]> = {
         isTrue: true,
       } },
       explanation: 'When an asset is revalued, old accumulated depreciation is wiped out. Depreciation going forward uses the new value and remaining useful life.',
-      sectionLink: '4.3.2',
+      sectionLink: '4.3.3',
     },
     {
       id: 'r4-13', chapterId: 4, sectionId: '4.2', type: 'match',
