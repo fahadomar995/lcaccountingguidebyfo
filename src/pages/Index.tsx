@@ -15,9 +15,13 @@ function useDashboardStats() {
       const attempted = Object.keys(scores).length;
       const gotCount = Object.values(scores).filter(s => s === "got").length;
 
-      // Flashcards known
-      const knownRaw = localStorage.getItem("lc-flash-known");
-      const known: string[] = knownRaw ? JSON.parse(knownRaw) : [];
+      // Flashcards known (v2 per-card status map; falls back to legacy v1 array)
+      const statusRaw = localStorage.getItem("lc-flash-status-v2");
+      const statusMap: Record<string, string> = statusRaw ? JSON.parse(statusRaw) : {};
+      const v2Known = Object.values(statusMap).filter(s => s === "know").length;
+      const legacyRaw = localStorage.getItem("lc-flash-known");
+      const legacy: string[] = legacyRaw ? JSON.parse(legacyRaw) : [];
+      const known: { length: number } = { length: v2Known > 0 ? v2Known : legacy.length };
 
       // Classify best
       const classifyBest = Number(localStorage.getItem("lc-classify-best")) || 0;
@@ -212,6 +216,7 @@ export default function Index() {
       <SectionHeader title="Patch Notes" sub="Recent updates and improvements to the study guide." />
       <div className="space-y-3 mb-8">
         {[
+          { version: "v2.7.1", date: "17 Apr 2026", items: ["Quizlet-style flashcards — per-card 'Know' / 'Still learning' status saved automatically", "Smart round cycling — learning cards surface first, known cards rotate to the back, progress persists across sessions", "Round-complete summary screen with Know / Learning / New counts and one-click 'Study learning only' replay", "Keyboard shortcuts: ← prev · → next · Space flip · 1 = learning · 2 = know", "Workings cards no longer display the year (some archetypes pull from multiple SEC years)", "Home dashboard 'Flashcards' counter migrated to the new per-card status (legacy progress preserved as fallback)"] },
           { version: "v2.7", date: "17 Apr 2026", items: ["Theory bank expanded to 24 chapters with 71 sections — added FRS 105 / Directors' Report (§10.5.3), Receipts & Payments preparation (§13.1.3), Effect On phrasing (§19.1.2), and Machine vs Labour-hour OAR (§22.2.2)", "Chapter Review system grown to 363 interactive items across 24 chapters (mcq, match, sort, fill-chip, true-false, order, define) — Ch3 and Ch15 topped up to 14 items each", "Q1 and S2 Workings cleaned up — removed ADJ source labels and per-step mark badges; cards now show only the year", "Theory Frequency Tracker and Theory Predictions tabs added to match original site layout", "Key Past-Paper Pointers boxes simplified to show year only (no Q-references)", "387-test smoke suite added — every review item across all 24 chapters render-tested on each commit"] },
           { version: "v2.6", date: "13 Apr 2026", items: ["Past Papers page added — SEC papers (2005–2025) linked from examinations.ie, 7 mock papers + marking schemes hosted locally", "Theory chapter cards compacted into 2-column grid to reduce scrolling on iPad", "Keyboard navigation (← →) added to chapter reading view"] },
           { version: "v2.5", date: "10 Apr 2026", items: ["Chapter Review quiz system added at end of each theory chapter", "iPad/tablet layout optimisation across all pages", "Walkthrough notes now display in 2-column grid on tablet"] },

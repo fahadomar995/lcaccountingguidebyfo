@@ -7,6 +7,7 @@ import { THEORY_BANK, THEORY_FLASHCARDS, THEORY_TOPICS } from "@/data/theory";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { Eye, EyeOff, RotateCcw, Check, X, Minus, ChevronLeft, ChevronRight, BarChart3, Shuffle, BookOpen } from "lucide-react";
 import TheoryLearnMode from "@/components/TheoryLearnMode";
+import FlashcardDeck from "@/components/FlashcardDeck";
 
 type Score = "got" | "partial" | "missed";
 const PAGE_SIZE = 20;
@@ -311,55 +312,11 @@ export default function TheoryPage() {
           )}
         </TabsContent>
 
-        {/* FLASHCARDS */}
+        {/* FLASHCARDS — Quizlet-style deck with per-card progress */}
         <TabsContent value="flashcards">
-          <FilterBar topics={THEORY_TOPICS} active={flashTopic} onSelect={(t) => { setFlashTopic(t); setFlashIndex(0); setFlipped(false); }} />
-          {flashFiltered.length > 0 ? (
-            <div className="max-w-[500px] mx-auto">
-              <p className="text-xs text-muted-foreground mb-3 text-center">
-                {flashIndex + 1} of {flashFiltered.length} · {known.length} known
-              </p>
-              <div
-                className="relative cursor-pointer"
-                style={{ minHeight: 220 }}
-                onClick={() => setFlipped(!flipped)}
-              >
-                <Card className={`p-8 text-center transition-all duration-300 ${flipped ? "bg-sage-bg" : "bg-card"}`}>
-                  <CardContent className="p-0">
-                    <Badge variant="outline" className="mb-4 text-[10px]">{flashFiltered[flashIndex].topic}</Badge>
-                    {!flipped ? (
-                      <p className="font-display text-lg font-bold">{flashFiltered[flashIndex].term}</p>
-                    ) : (
-                      <p className="text-sm font-light leading-relaxed">{flashFiltered[flashIndex].def}</p>
-                    )}
-                    <p className="text-[10px] text-muted-foreground mt-4">{flipped ? "Click to see term" : "Click to reveal definition"}</p>
-                  </CardContent>
-                </Card>
-              </div>
-              <div className="flex gap-3 justify-center mt-4">
-                <Button variant="outline" size="sm" onClick={() => { setFlashIndex(Math.max(0, flashIndex - 1)); setFlipped(false); }} disabled={flashIndex === 0}>
-                  <ChevronLeft className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant={known.includes(flashFiltered[flashIndex].term) ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => {
-                    const term = flashFiltered[flashIndex].term;
-                    setKnown(prev => prev.includes(term) ? prev.filter(t => t !== term) : [...prev, term]);
-                  }}
-                >
-                  {known.includes(flashFiltered[flashIndex].term) ? "Known ✓" : "Mark Known"}
-                </Button>
-                <Button variant="outline" size="sm" onClick={() => { setFlashIndex(Math.min(flashFiltered.length - 1, flashIndex + 1)); setFlipped(false); }} disabled={flashIndex === flashFiltered.length - 1}>
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-          ) : (
-            <p className="text-sm text-muted-foreground text-center py-8">No flashcards for this topic.</p>
-          )}
+          <FilterBar topics={THEORY_TOPICS} active={flashTopic} onSelect={(t) => setFlashTopic(t)} />
+          <FlashcardDeck cards={flashFiltered} />
         </TabsContent>
-
         {/* FREQUENCY TRACKER */}
         <TabsContent value="frequency">
           <FrequencyTracker />
