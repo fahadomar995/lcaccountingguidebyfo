@@ -451,3 +451,226 @@ function QuestionCard({ q, revealed, onToggle, score, onScore, showScoring }: Qu
     </Card>
   );
 }
+
+// ─────────────────────────────────────────────────────────────────────
+// Frequency Tracker — per-topic table with overdue flags
+// ─────────────────────────────────────────────────────────────────────
+const TARGET_YEAR = 2026;
+
+type TagStat = {
+  tag: string;
+  count: number;
+  years: number[];
+  lastYr: number;
+  yrsSince: number;
+  avgGap: number | null;
+  overdue: boolean;
+};
+
+function buildTopicTagStats(): Record<string, TagStat[]> {
+  const topicTags: Record<string, Record<string, { count: number; years: number[] }>> = {};
+  THEORY_BANK.forEach(q => {
+    if (!topicTags[q.topic]) topicTags[q.topic] = {};
+    q.tags.forEach(t => {
+      if (!topicTags[q.topic][t]) topicTags[q.topic][t] = { count: 0, years: [] };
+      topicTags[q.topic][t].count++;
+      if (!topicTags[q.topic][t].years.includes(q.year)) topicTags[q.topic][t].years.push(q.year);
+    });
+  });
+
+  const result: Record<string, TagStat[]> = {};
+  Object.keys(topicTags).forEach(topic => {
+    const tags = topicTags[topic];
+    result[topic] = Object.keys(tags).map(t => {
+      const d = tags[t];
+      d.years.sort((a, b) => a - b);
+      const lastYr = d.years[d.years.length - 1];
+      const yrsSince = TARGET_YEAR - lastYr;
+      const avgGap = d.years.length > 1 ? (d.years[d.years.length - 1] - d.years[0]) / (d.years.length - 1) : null;
+      const overdue = avgGap !== null && yrsSince > avgGap * 1.2;
+      return { tag: t, count: d.count, years: d.years, lastYr, yrsSince, avgGap, overdue };
+    }).sort((a, b) => b.count - a.count);
+  });
+  return result;
+}
+
+function FrequencyTracker() {
+  const stats = useMemo(buildTopicTagStats, []);
+  const topics = useMemo(() => Object.keys(stats).sort(), [stats]);
+
+  return (
+    <div className="space-y-7">
+      <div className="p-3 rounded-lg border border-primary/30 bg-primary/5">
+        <p className="text-xs text-foreground leading-relaxed">
+          <strong className="text-primary">How to use:</strong> This table shows how often each theory sub-topic has been examined.
+          Sub-topics with a large gap since their last appearance are flagged as overdue for {TARGET_YEAR}.
+          Focus your revision on high-frequency and overdue topics.
+        </p>
+      </div>
+
+      {topics.map(topic => {
+        const list = stats[topic];
+        if (!list || list.length === 0) return null;
+        const maxCount = list[0].count;
+        return (
+          <div key={topic}>
+            <h3 className="font-display text-base font-bold mb-3">{topic}</h3>
+            <div className="overflow-x-auto rounded-lg border border-border">
+              <table className="w-full text-xs">
+                <thead className="bg-muted/50">
+                  <tr className="text-left">
+                    <th className="px-3 py-2 font-bold text-muted-foreground uppercase tracking-wider text-[10px]">Sub-Topic</th>
+                    <th className="px-3 py-2 font-bold text-muted-foreground uppercase tracking-wider text-[10px] text-center">Times</th>
+                    <th className="px-3 py-2 font-bold text-muted-foreground uppercase tracking-wider text-[10px] text-center w-[120px]">Frequency</th>
+                    <th className="px-3 py-2 font-bold text-muted-foreground uppercase tracking-wider text-[10px] text-center">Last Yr</th>
+                    <th className="px-3 py-2 font-bold text-muted-foreground uppercase tracking-wider text-[10px] text-center">Avg Gap</th>
+                    <th className="px-3 py-2 font-bold text-muted-foreground uppercase tracking-wider text-[10px] text-center">Yrs Since</th>
+                    <th className="px-3 py-2 font-bold text-muted-foreground uppercase tracking-wider text-[10px] text-center">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {list.map(t => {
+                    const pct = Math.round((t.count / maxCount) * 100);
+                    return (
+                      <tr key={t.tag} className="border-t border-border">
+                        <td className="px-3 py-2 font-medium">{t.tag}</td>
+                        <td className="px-3 py-2 text-center font-mono font-bold">{t.count}</td>
+                        <td className="px-3 py-2">
+                          <div className="h-1.5 bg-muted rounded-full overflow-hidden">
+                            <div
+                              className={`h-full rounded-full ${t.overdue ? "bg-destructive" : "bg-primary"}`}
+                              style={{ width: `${pct}%` }}
+                            />
+                          </div>
+                        </td>
+                        <td className="px-3 py-2 text-center font-mono">{t.lastYr}</td>
+                        <td className="px-3 py-2 text-center font-mono text-muted-foreground">
+                          {t.avgGap !== null ? t.avgGap.toFixed(1) : "—"}
+                        </td>
+                        <td className={`px-3 py-2 text-center font-bold font-mono ${t.yrsSince >= 4 ? "text-destructive" : "text-muted-foreground"}`}>
+                          {t.yrsSince}
+                        </td>
+                        <td className="px-3 py-2 text-center">
+                          {t.overdue ? (
+                            <Badge variant="destructive" className="text-[9px] font-bold">OVERDUE</Badge>
+                          ) : (
+                            <span className="text-[10px] text-muted-foreground">On cycle</span>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// Theory Predictions — score = frequency × min(gap ratio, 3.0)
+// ─────────────────────────────────────────────────────────────────────
+function TheoryPredictions() {
+  const predictions = useMemo(() => {
+    const topicTags: Record<string, Record<string, { count: number; years: number[] }>> = {};
+    THEORY_BANK.forEach(q => {
+      if (!topicTags[q.topic]) topicTags[q.topic] = {};
+      q.tags.forEach(t => {
+        if (!topicTags[q.topic][t]) topicTags[q.topic][t] = { count: 0, years: [] };
+        topicTags[q.topic][t].count++;
+        if (!topicTags[q.topic][t].years.includes(q.year)) topicTags[q.topic][t].years.push(q.year);
+      });
+    });
+
+    return Object.keys(topicTags).sort().map(topic => {
+      const tags = topicTags[topic];
+      const list = Object.keys(tags).map(t => {
+        const d = tags[t];
+        d.years.sort((a, b) => a - b);
+        const lastYr = d.years[d.years.length - 1];
+        const yrsSince = TARGET_YEAR - lastYr;
+        const avgGap = d.years.length > 1 ? (d.years[d.years.length - 1] - d.years[0]) / (d.years.length - 1) : 4;
+        const gapRatio = yrsSince / avgGap;
+        const score = d.count * Math.min(gapRatio, 3.0);
+        return { tag: t, count: d.count, lastYr, yrsSince, avgGap, gapRatio, score };
+      }).sort((a, b) => b.score - a.score);
+
+      const recentQ = THEORY_BANK
+        .filter(q => q.topic === topic)
+        .sort((a, b) => b.year - a.year)[0];
+
+      return { topic, list, recentQ };
+    });
+  }, []);
+
+  return (
+    <div className="space-y-4">
+      <div className="p-3 rounded-lg border border-primary/30 bg-primary/5">
+        <p className="text-xs text-foreground leading-relaxed">
+          <strong className="text-primary">Theory predictions for {TARGET_YEAR}:</strong> Based on how often each theory sub-topic
+          has been asked and when it last appeared. The examiner rotates through the same pool of theory questions, so topics
+          that have not appeared recently are more likely to come up. These predictions apply to the theory portion (typically
+          6–15 marks) within each question.
+        </p>
+      </div>
+
+      {predictions.map(({ topic, list, recentQ }) => {
+        if (list.length === 0) return null;
+        const top = list[0];
+        const shown = list.slice(0, 4);
+        return (
+          <Card key={topic} className="border-l-4 border-l-primary">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-2 flex-wrap mb-3">
+                <h3 className="font-display text-base font-bold">{topic}</h3>
+                <Badge className="text-[10px] bg-primary/15 text-primary border border-primary/40 hover:bg-primary/15">
+                  TOP PICK: {top.tag}
+                </Badge>
+              </div>
+
+              <div className="space-y-1.5">
+                {shown.map((t, i) => {
+                  const isTop = i === 0;
+                  const barPct = Math.round((t.score / top.score) * 100);
+                  return (
+                    <div key={t.tag} className={`flex items-center gap-3 py-1.5 ${i < shown.length - 1 ? "border-b border-border/60" : ""}`}>
+                      <span className={`w-6 text-[11px] font-bold text-right font-mono ${isTop ? "text-primary" : "text-muted-foreground"}`}>
+                        #{i + 1}
+                      </span>
+                      <span className={`w-44 text-xs ${isTop ? "font-bold text-foreground" : "font-medium text-foreground/80"}`}>
+                        {t.tag}
+                      </span>
+                      <div className="flex-1 min-w-[60px]">
+                        <div className="h-1.5 bg-muted rounded-full overflow-hidden">
+                          <div
+                            className={`h-full rounded-full ${isTop ? "bg-primary" : t.gapRatio > 1.2 ? "bg-amber-500" : "bg-primary/60"}`}
+                            style={{ width: `${barPct}%` }}
+                          />
+                        </div>
+                      </div>
+                      <span className="text-[11px] text-muted-foreground w-24 text-right font-mono">
+                        {t.count}× · last {t.lastYr}
+                      </span>
+                      {t.gapRatio > 1.2 && (
+                        <Badge variant="destructive" className="text-[9px] font-bold">OVERDUE</Badge>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+
+              {recentQ && (
+                <div className="mt-3 p-3 bg-muted/50 rounded-md text-[11px] text-muted-foreground leading-relaxed">
+                  <strong className="text-foreground">Most recent ({recentQ.year}):</strong> {recentQ.q}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        );
+      })}
+    </div>
+  );
+}
