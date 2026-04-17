@@ -517,6 +517,27 @@ export const CHAPTERS: Chapter[] = [
           },
         ]
       },
+      {
+        id: '5.2', title: 'Reconciliation & Theory',
+        subTopics: [
+          {
+            id: '5.2.1', title: 'Advantages of Control Accounts',
+            body: [
+              { type: 'concept', variant: 'green', title: 'Five Key Advantages', html: '<p>1. <strong>Locate errors quickly</strong> \u2014 if the control account total disagrees with the list of personal balances, the error is contained within that ledger.</p><p>2. <strong>Internal check</strong> \u2014 the control account is usually written up by a different person from the subsidiary ledger, deterring fraud.</p><p>3. <strong>Quick totals</strong> \u2014 management can see total debtors/creditors at a glance without adding up every account.</p><p>4. <strong>Speeds up the trial balance</strong> \u2014 only the control account totals are entered, not every individual account.</p><p>5. <strong>Allows division of work</strong> \u2014 different staff can work on the general ledger and subsidiary ledgers simultaneously.</p>' },
+            ]
+          },
+          {
+            id: '5.2.2', title: 'Reasons for Differences',
+            keyTerms: [
+              { term: 'Reconciliation', definition: 'A working that explains the difference between two figures that should agree \u2014 here, the control account balance and the list of subsidiary balances.' },
+            ],
+            body: [
+              { type: 'concept', variant: 'red', title: 'Why Might the Two Disagree?', html: '<p>1. <strong>Casting errors</strong> in the day books before posting to the control account.</p><p>2. <strong>Posting errors</strong> \u2014 entry made in the personal account but not the control account, or vice versa.</p><p>3. <strong>Wrong amounts</strong> \u2014 different figure posted to the control account vs the personal account.</p><p>4. <strong>Sales/purchase day book undercast</strong> \u2014 individual postings done correctly but the day book total wrong.</p><p>5. <strong>Discount, returns or contras</strong> recorded in one but not the other.</p><p>6. <strong>Bad debts</strong> written off in the personal account but not the control account.</p>' },
+              { type: 'examtip', title: 'Exam Theory Question', html: '<p>"Outline two reasons why the control account total may not agree with the list of debtors\u2019 balances." Use any two from the list above. Each reason is typically worth 2\u20133 marks.</p>' },
+            ]
+          },
+        ]
+      },
     ]
   },
 
