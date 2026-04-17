@@ -21,8 +21,8 @@ export const PAST_PAPERS: PaperEntry[] = [
       type: "sec",
       source: "SEC",
       documents: [
-        { label: "Exam Paper", externalUrl: `https://www.examinations.ie/archive/exampapers/${year}/LC003ALP100EV.pdf` },
-        { label: "Marking Scheme", externalUrl: `https://www.examinations.ie/archive/markingschemes/${year}/LC003ALP100EV.pdf` },
+        { label: "Exam Paper", externalUrl: `https://www.studystrivers.ie/exampaperfiles/higher/accounting/accounting${year}.pdf` },
+        { label: "Marking Scheme", externalUrl: `https://www.studystrivers.ie/markingschemefiles/higher/accounting/accounting${year}.pdf` },
       ],
     })
   ),
