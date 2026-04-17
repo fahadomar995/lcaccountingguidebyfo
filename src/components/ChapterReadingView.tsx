@@ -253,7 +253,11 @@ export default function ChapterReadingView({ chapter, initialSectionId, onBack, 
                     <BookOpen className="h-3 w-3" /> Key past-paper pointers
                   </p>
                   <ul className="text-xs text-foreground space-y-0.5 list-disc list-inside font-light">
-                    {chapter.examPointers.map((p, i) => <li key={i}>{p}</li>)}
+                    {chapter.examPointers.map((p, i) => {
+                      // Strip everything after the question reference — keep only year + Q-ref (e.g. "2023 Q9 (b)")
+                      const ref = p.split(/\s+[—–-]\s+/)[0].trim();
+                      return <li key={i}>{ref}</li>;
+                    })}
                   </ul>
                 </div>
               )}
