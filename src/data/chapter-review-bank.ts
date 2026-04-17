@@ -3331,7 +3331,7 @@ export const REVIEW_BANK: Record<number, ReviewItem[]> = {
         'Move all overheads to other departments to make it look profitable',
       ], correctIndex: 1 } },
       explanation: 'If a department covers its variable costs (positive contribution), closing it would mean losing that contribution to total fixed overheads — overall profit would FALL.',
-      sectionLink: '12.3.2',
+      sectionLink: '12.1.2',
     },
     {
       id: 'r12-18', chapterId: 12, sectionId: '12.2', type: 'fill-chip',
