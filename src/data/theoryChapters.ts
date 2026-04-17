@@ -37,6 +37,8 @@ export interface Chapter {
   estimatedMinutes: number;
   sections: Section[];
   related: number[];
+  /** Past-paper pointers, e.g. ["2019 Q7 (a)", "2014 Q9 (b) — short Qs"] */
+  examPointers?: string[];
 }
 
 export const BLOCK_LABELS: Record<Block, string> = {

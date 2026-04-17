@@ -244,7 +244,19 @@ export default function ChapterReadingView({ chapter, initialSectionId, onBack, 
                 <span className="text-[10px] text-muted-foreground font-mono ml-auto">{activeSectionIdx + 1}/{chapter.sections.length}</span>
               </div>
               <h1 className="font-display text-xl sm:text-2xl font-bold mb-1">{chapter.title}</h1>
-              <h2 className="font-display text-base sm:text-lg font-semibold text-primary mb-6">{section.title}</h2>
+              <h2 className="font-display text-base sm:text-lg font-semibold text-primary mb-4">{section.title}</h2>
+
+              {/* Past-paper pointers — show on first section only */}
+              {activeSectionIdx === 0 && chapter.examPointers && chapter.examPointers.length > 0 && (
+                <div className="mb-6 p-3 rounded-lg border border-primary/30 bg-primary/5">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-primary mb-1.5 flex items-center gap-1.5">
+                    <BookOpen className="h-3 w-3" /> Key past-paper pointers
+                  </p>
+                  <ul className="text-xs text-foreground space-y-0.5 list-disc list-inside font-light">
+                    {chapter.examPointers.map((p, i) => <li key={i}>{p}</li>)}
+                  </ul>
+                </div>
+              )}
 
               {/* Content */}
               <div className="theory-learn-content space-y-6">
