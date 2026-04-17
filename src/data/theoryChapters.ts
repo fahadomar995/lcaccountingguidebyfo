@@ -628,28 +628,31 @@ export const CHAPTERS: Chapter[] = [
           },
         ]
       },
-      // ── NEW: Section 6.4 — Full Worked Q1 Example ──
+      // ── Section 6.4 — Theory of Final Accounts (David Wilson) ──
       {
-        id: '6.4', title: 'Full Worked Q1 Example',
+        id: '6.4', title: 'Underlying Theory',
         subTopics: [
           {
-            id: '6.4.1', title: 'Worked Example \u2014 Hanrahan Trading',
+            id: '6.4.1', title: 'Purpose of Final Accounts',
+            keyTerms: [
+              { term: 'Stewardship', definition: 'The duty of those running the business to account to the owner(s) for how resources have been used.' },
+              { term: 'Profit Measurement', definition: 'Final accounts measure profit by matching income earned with expenses incurred (accruals concept).' },
+            ],
             body: [
-              { type: 'example', title: 'Trial Balance Extract \u2014 Hanrahan Trading, Y/E 31/12', html: '<table class="learn-table"><thead><tr><th>Account</th><th>Dr \u20ac</th><th>Cr \u20ac</th></tr></thead><tbody><tr><td>Sales</td><td></td><td>420,000</td></tr><tr><td>Purchases</td><td>268,000</td><td></td></tr><tr><td>Opening Stock</td><td>32,000</td><td></td></tr><tr><td>Debtors</td><td>48,000</td><td></td></tr><tr><td>Creditors</td><td></td><td>29,000</td></tr><tr><td>Premises (cost)</td><td>300,000</td><td></td></tr><tr><td>Equipment (cost)</td><td>80,000</td><td></td></tr><tr><td>Acc. Dep. \u2014 Premises</td><td></td><td>24,000</td></tr><tr><td>Acc. Dep. \u2014 Equipment</td><td></td><td>32,000</td></tr><tr><td>Insurance</td><td>9,600</td><td></td></tr><tr><td>Light & Heat</td><td>6,800</td><td></td></tr><tr><td>Wages</td><td>54,000</td><td></td></tr><tr><td>Provision for Bad Debts</td><td></td><td>2,400</td></tr><tr><td>Bank</td><td>14,200</td><td></td></tr><tr><td>Capital</td><td></td><td>300,000</td></tr><tr><td>Drawings</td><td>18,800</td><td></td></tr></tbody></table>' },
-              { type: 'example', title: 'Notes', html: '<p>1. Closing stock \u20ac36,000.</p><p>2. Insurance prepaid \u20ac1,200.</p><p>3. Light & heat accrued \u20ac800.</p><p>4. Write off Doyle as bad debt \u20ac1,500. Adjust provision to 5% of remaining debtors.</p><p>5. Depreciation: Premises 2% straight-line. Equipment 10% of cost.</p><p>6. Goods taken for own use at cost \u20ac2,000.</p>' },
+              { type: 'concept', variant: 'blue', title: 'Why Prepare Final Accounts?', html: '<p>1. <strong>Measure profit or loss</strong> for the period (Trading & Profit and Loss Account).</p><p>2. Show the <strong>financial position</strong> at year end (Balance Sheet).</p><p>3. Provide information for <strong>decision-making</strong> by the owner, lenders, Revenue and other users.</p><p>4. Discharge the owner\u2019s duty of <strong>stewardship</strong> over the business assets.</p>' },
+              { type: 'concept', variant: 'green', title: 'Concepts Underpinning Final Accounts', html: '<p><strong>Accruals (matching):</strong> Income and expenses are recorded when earned/incurred, not when cash moves. Drives prepayments and accruals.</p><p><strong>Prudence:</strong> Recognise losses as soon as foreseen (e.g. provision for bad debts) but do not anticipate profits.</p><p><strong>Going concern:</strong> Assume the business will continue \u2014 justifies showing fixed assets at cost less depreciation rather than break-up value.</p><p><strong>Consistency:</strong> Use the same depreciation methods, stock valuation policies year on year.</p>' },
             ]
           },
           {
-            id: '6.4.2', title: 'Solution \u2014 Workings',
+            id: '6.4.2', title: 'Capital vs Revenue (Exam Theory)',
+            keyTerms: [
+              { term: 'Capital Expenditure', definition: 'Spending on fixed assets and improvements that benefit more than one year. Goes to the Balance Sheet.' },
+              { term: 'Revenue Expenditure', definition: 'Spending on day-to-day running of the business consumed within the year. Goes to the P&L.' },
+              { term: 'Capital Receipt', definition: 'Cash received from sale of a fixed asset, share issue or long-term loan.' },
+              { term: 'Revenue Receipt', definition: 'Income from normal trading \u2014 sales, rent received, commission etc.' },
+            ],
             body: [
-              { type: 'solution', title: 'Workings', html: '<p><strong>W1 \u2014 Purchases:</strong> \u20ac268,000 \u2212 \u20ac2,000 (own use) = <strong>\u20ac266,000</strong>. Drawings: \u20ac18,800 + \u20ac2,000 = \u20ac20,800.</p><p><strong>W2 \u2014 Insurance:</strong> \u20ac9,600 \u2212 \u20ac1,200 (prepaid) = <strong>\u20ac8,400</strong>. Prepayment \u20ac1,200 \u2192 current asset.</p><p><strong>W3 \u2014 Light & Heat:</strong> \u20ac6,800 + \u20ac800 (accrued) = <strong>\u20ac7,600</strong>. Accrual \u20ac800 \u2192 current liability.</p><p><strong>W4 \u2014 Bad debts:</strong> Debtors: \u20ac48,000 \u2212 \u20ac1,500 = \u20ac46,500. New provision: 5% \u00d7 \u20ac46,500 = \u20ac2,325. Old provision \u20ac2,400. Decrease = \u20ac75 \u2192 other income.</p><p><strong>W5 \u2014 Depreciation:</strong> Premises: \u20ac300,000 \u00d7 2% = \u20ac6,000. Equipment: \u20ac80,000 \u00d7 10% = \u20ac8,000. Total = <strong>\u20ac14,000</strong>.</p>' },
-            ]
-          },
-          {
-            id: '6.4.3', title: 'Solution \u2014 Final Accounts',
-            body: [
-              { type: 'solution', title: 'Trading, Profit & Loss Account', html: '<table class="learn-table"><thead><tr><th></th><th>\u20ac</th><th>\u20ac</th></tr></thead><tbody><tr><td>Sales</td><td></td><td>420,000</td></tr><tr><td>Less Cost of Sales:</td><td></td><td></td></tr><tr><td>&nbsp;&nbsp;Opening Stock</td><td>32,000</td><td></td></tr><tr><td>&nbsp;&nbsp;Purchases (W1)</td><td>266,000</td><td></td></tr><tr><td>&nbsp;&nbsp;Less Closing Stock</td><td>(36,000)</td><td>(262,000)</td></tr><tr><td><strong>Gross Profit</strong></td><td></td><td><strong>158,000</strong></td></tr><tr><td>Decrease in Provision (W4)</td><td></td><td>75</td></tr><tr><td></td><td></td><td>158,075</td></tr><tr><td>Less Expenses:</td><td></td><td></td></tr><tr><td>&nbsp;&nbsp;Insurance (W2)</td><td>8,400</td><td></td></tr><tr><td>&nbsp;&nbsp;Light & Heat (W3)</td><td>7,600</td><td></td></tr><tr><td>&nbsp;&nbsp;Wages</td><td>54,000</td><td></td></tr><tr><td>&nbsp;&nbsp;Bad Debts (W4)</td><td>1,500</td><td></td></tr><tr><td>&nbsp;&nbsp;Depreciation (W5)</td><td>14,000</td><td>(85,500)</td></tr><tr><td><strong>Net Profit</strong></td><td></td><td><strong>72,575</strong></td></tr></tbody></table>' },
-              { type: 'solution', title: 'Balance Sheet as at 31/12', html: '<table class="learn-table"><thead><tr><th></th><th>Cost</th><th>Acc Dep</th><th>NBV</th></tr></thead><tbody><tr><td><strong>Fixed Assets</strong></td><td></td><td></td><td></td></tr><tr><td>Premises</td><td>300,000</td><td>30,000</td><td>270,000</td></tr><tr><td>Equipment</td><td>80,000</td><td>40,000</td><td>40,000</td></tr><tr><td></td><td>380,000</td><td>70,000</td><td><strong>310,000</strong></td></tr></tbody></table><table class="learn-table"><thead><tr><th></th><th>\u20ac</th></tr></thead><tbody><tr><td><strong>Current Assets</strong></td><td></td></tr><tr><td>Closing Stock</td><td>36,000</td></tr><tr><td>Debtors (46,500 \u2212 2,325)</td><td>44,175</td></tr><tr><td>Prepayment</td><td>1,200</td></tr><tr><td>Bank</td><td>14,200</td></tr><tr><td></td><td><strong>95,575</strong></td></tr><tr><td><strong>Less Current Liabilities</strong></td><td></td></tr><tr><td>Creditors</td><td>29,000</td></tr><tr><td>Accrual</td><td>800</td></tr><tr><td></td><td><strong>(29,800)</strong></td></tr><tr><td><strong>Net Assets</strong></td><td><strong>375,775</strong></td></tr><tr><td colspan="2"></td></tr><tr><td><strong>Financed by:</strong></td><td></td></tr><tr><td>Capital</td><td>300,000</td></tr><tr><td>+ Net Profit</td><td>72,575</td></tr><tr><td>\u2212 Drawings</td><td>(20,800)</td></tr><tr><td></td><td>351,775</td></tr></tbody></table><p><em>Note: The Balance Sheet does not balance here because this is a simplified extract for learning purposes \u2014 in a full Q1, every TB item would be placed and the two sides would agree.</em></p>' },
+              { type: 'concept', variant: 'amber', title: 'Why the Distinction Matters', html: '<p>If capital expenditure is wrongly treated as revenue expenditure, profit is <strong>understated</strong> and fixed assets are <strong>understated</strong>. If revenue expenditure is wrongly treated as capital, profit is <strong>overstated</strong>. This is a classic Q7/Q9 theory question and the basis of the "Error of Principle" tested in Ch 7.</p>' },
             ]
           },
         ]
@@ -1003,13 +1006,24 @@ export const CHAPTERS: Chapter[] = [
         ]
       },
       {
-        id: '10.5', title: 'Worked Published Accounts Example',
+        id: '10.5', title: 'Theory of Published Accounts',
         subTopics: [
           {
-            id: '10.5.1', title: 'SEC-Style Worked Example',
+            id: '10.5.1', title: 'Users & Purpose',
+            keyTerms: [
+              { term: 'Users of Published Accounts', definition: 'Shareholders, potential investors, lenders, employees, suppliers, customers, government, the public.' },
+              { term: 'Stewardship Function', definition: 'Directors use published accounts to demonstrate to shareholders how they have managed the company\u2019s resources.' },
+            ],
             body: [
-              { type: 'example', title: 'Galway Trading plc — Key Workings', html: '<p><strong>Given:</strong> Operating profit (from internal P&L) = €186,000. The question requires you to prepare the Published P&L from internal figures.</p><p><strong>W1: Distribution Costs</strong></p><table class="learn-table"><tbody><tr><td>Advertising</td><td>18,000</td></tr><tr><td>Carriage outwards</td><td>6,400</td></tr><tr><td>Sales reps\' commission</td><td>12,500</td></tr><tr><td>Delivery van depreciation (20% of €40,000)</td><td>8,000</td></tr><tr><td>Bad debts</td><td>3,600</td></tr><tr><td>Increase in provision for bad debts</td><td>1,200</td></tr><tr><td><strong>Total Distribution Costs</strong></td><td><strong>49,700</strong></td></tr></tbody></table><p><strong>W2: Administrative Expenses</strong></p><table class="learn-table"><tbody><tr><td>Office salaries</td><td>68,000</td></tr><tr><td>Rent & rates (adjusted: 24,000 − 2,000 prepaid)</td><td>22,000</td></tr><tr><td>Insurance (adjusted: 9,600 − 1,600 prepaid)</td><td>8,000</td></tr><tr><td>Light & heat (adjusted: 5,200 + 800 accrued)</td><td>6,000</td></tr><tr><td>Directors\' fees</td><td>35,000</td></tr><tr><td>Audit fee</td><td>8,500</td></tr><tr><td>Office equipment depreciation (10% × €85,000)</td><td>8,500</td></tr><tr><td>General expenses</td><td>4,300</td></tr><tr><td><strong>Total Administrative Expenses</strong></td><td><strong>160,300</strong></td></tr></tbody></table><p><strong>Check:</strong> Gross Profit (396,000) − Distribution (49,700) − Admin (160,300) = <strong>Operating Profit €186,000</strong></p>' },
-              { type: 'examtip', title: 'How to Approach Published Accounts in the Exam', html: '<p><strong>Step 1:</strong> Prepare internal P&L first (Trading Account → Gross Profit → all expenses).</p><p><strong>Step 2:</strong> Classify each expense as Distribution or Admin.</p><p><strong>Step 3:</strong> Prepare the Published P&L using the format above.</p><p><strong>Step 4:</strong> Prepare the Published BS (use the internal BS but reformat into the published layout).</p><p><strong>Step 5:</strong> Prepare Notes (especially Note 6 — Fixed Assets).</p><p><strong>Remember:</strong> The examiner gives marks for the workings even if your final published figures are wrong. Always show W1, W2, W3 etc.</p>' },
+              { type: 'concept', variant: 'blue', title: 'Why Are Accounts Published?', html: '<p>1. <strong>Legal requirement</strong> under the Companies Act 2014 \u2014 plc and Ltd companies must file annual accounts with the CRO.</p><p>2. <strong>Stewardship</strong> \u2014 directors account to shareholders for how the company has been run.</p><p>3. <strong>Information for users</strong> \u2014 investors, lenders, employees and Revenue use the accounts to assess performance, security of loans, job security and tax due.</p><p>4. <strong>Public accountability</strong> \u2014 published accounts are part of the social contract giving limited liability to shareholders.</p>' },
+              { type: 'concept', variant: 'green', title: 'Qualitative Characteristics (FRS 102)', html: '<p><strong>Relevance</strong> \u2014 information must influence economic decisions.</p><p><strong>Reliability</strong> \u2014 free from material error and bias.</p><p><strong>Comparability</strong> \u2014 prior-year figures shown alongside current year.</p><p><strong>Understandability</strong> \u2014 presented clearly for users with reasonable knowledge.</p>' },
+            ]
+          },
+          {
+            id: '10.5.2', title: 'Why Internal Accounts Are NOT Published',
+            body: [
+              { type: 'concept', variant: 'amber', title: 'Internal vs Published \u2014 The Theory', html: '<p>Companies prepare detailed <strong>internal</strong> accounts for management plus condensed <strong>published</strong> accounts for outsiders because:</p><p>1. <strong>Confidentiality</strong> \u2014 detailed margins, customers and supplier breakdowns would aid competitors.</p><p>2. <strong>Standardisation</strong> \u2014 published format under FRS 102 lets users compare across companies.</p><p>3. <strong>Materiality</strong> \u2014 outside users need summary figures, not every nominal-ledger account.</p>' },
+              { type: 'examtip', title: 'Common Q9 Theory Asks', html: '<p>"State two reasons companies prepare published accounts" \u2014 use legal requirement + stewardship.</p><p>"Identify two qualitative characteristics" \u2014 relevance, reliability, comparability, understandability.</p><p>"Explain the role of the auditor" \u2014 independent examination, expresses opinion on true and fair view (link to Ch 8).</p>' },
             ]
           },
         ]
@@ -1074,24 +1088,34 @@ export const CHAPTERS: Chapter[] = [
           },
         ]
       },
-      // ── NEW: Section 11.4 — Worked Manufacturing Example ──
+      // ── Section 11.4 — Manufacturing Theory (David Wilson) ──
       {
-        id: '11.4', title: 'Worked Manufacturing Example',
+        id: '11.4', title: 'Manufacturing Theory',
         subTopics: [
           {
-            id: '11.4.1', title: 'Full Worked Example \u2014 Doherty Manufacturing',
+            id: '11.4.1', title: 'Direct vs Indirect Costs',
+            keyTerms: [
+              { term: 'Direct Cost', definition: 'A cost that can be traced directly to a unit of production \u2014 e.g. raw materials in the product, the machinist\u2019s wages.' },
+              { term: 'Indirect Cost (Overhead)', definition: 'A cost that benefits production but cannot be traced to a single unit \u2014 e.g. factory rent, supervisor\u2019s salary.' },
+              { term: 'Direct Expenses', definition: 'Direct costs that are not materials or labour \u2014 most commonly royalties payable per unit produced and the hire of special tools.' },
+            ],
             body: [
-              { type: 'example', title: 'Data', html: '<p>Opening raw materials \u20ac18,000. Purchases of raw materials \u20ac92,000. Carriage inwards \u20ac3,500. Closing raw materials \u20ac15,000.</p><p>Factory wages (direct) \u20ac64,000. Royalties \u20ac6,000.</p><p>Factory rent \u20ac12,000. Factory insurance \u20ac4,800. Factory depreciation \u20ac8,000. Indirect factory wages \u20ac11,000.</p><p>Opening WIP \u20ac7,500. Closing WIP \u20ac9,200.</p><p>Opening finished goods \u20ac24,000. Closing finished goods \u20ac28,000. Sales \u20ac340,000.</p>' },
-              { type: 'solution', title: 'Manufacturing Account', html: '<table class="learn-table"><thead><tr><th></th><th>\u20ac</th><th>\u20ac</th></tr></thead><tbody><tr><td colspan="3"><strong>Direct Materials</strong></td></tr><tr><td>&nbsp;&nbsp;Opening stock raw materials</td><td>18,000</td><td></td></tr><tr><td>&nbsp;&nbsp;+ Purchases raw materials</td><td>92,000</td><td></td></tr><tr><td>&nbsp;&nbsp;+ Carriage inwards</td><td>3,500</td><td></td></tr><tr><td>&nbsp;&nbsp;\u2212 Closing stock raw materials</td><td>(15,000)</td><td></td></tr><tr><td><strong>Raw Materials Consumed</strong></td><td></td><td><strong>98,500</strong></td></tr><tr><td>+ Direct Labour</td><td></td><td>64,000</td></tr><tr><td>+ Direct Expenses (royalties)</td><td></td><td>6,000</td></tr><tr><td><strong>PRIME COST</strong></td><td></td><td><strong>168,500</strong></td></tr><tr><td colspan="3"><strong>Factory Overhead</strong></td></tr><tr><td>&nbsp;&nbsp;Factory rent</td><td>12,000</td><td></td></tr><tr><td>&nbsp;&nbsp;Factory insurance</td><td>4,800</td><td></td></tr><tr><td>&nbsp;&nbsp;Factory depreciation</td><td>8,000</td><td></td></tr><tr><td>&nbsp;&nbsp;Indirect factory wages</td><td>11,000</td><td>35,800</td></tr><tr><td></td><td></td><td>204,300</td></tr><tr><td>+ Opening WIP</td><td></td><td>7,500</td></tr><tr><td>\u2212 Closing WIP</td><td></td><td>(9,200)</td></tr><tr><td><strong>COST OF MANUFACTURE</strong></td><td></td><td><strong>202,600</strong></td></tr></tbody></table>' },
-              { type: 'solution', title: 'Trading Account', html: '<table class="learn-table"><thead><tr><th></th><th>\u20ac</th><th>\u20ac</th></tr></thead><tbody><tr><td>Sales</td><td></td><td>340,000</td></tr><tr><td>Less Cost of Sales:</td><td></td><td></td></tr><tr><td>&nbsp;&nbsp;Opening finished goods</td><td>24,000</td><td></td></tr><tr><td>&nbsp;&nbsp;+ Cost of Manufacture</td><td>202,600</td><td></td></tr><tr><td>&nbsp;&nbsp;\u2212 Closing finished goods</td><td>(28,000)</td><td>(198,600)</td></tr><tr><td><strong>Gross Profit</strong></td><td></td><td><strong>141,400</strong></td></tr></tbody></table>' },
+              { type: 'concept', variant: 'blue', title: 'Why the Split Matters', html: '<p>The Manufacturing Account splits costs into <strong>direct</strong> (added together to give Prime Cost) and <strong>indirect</strong> (Factory Overhead). This split is essential because:</p><p>1. <strong>Prime Cost</strong> measures what each unit physically costs to make.</p><p>2. <strong>Cost of Manufacture</strong> includes overheads and is used to value finished-goods stock.</p><p>3. Management uses Prime Cost vs Total Cost to decide pricing and whether to make-or-buy components.</p>' },
+              { type: 'table', html: '<table class="learn-table"><thead><tr><th>Direct Costs (Prime Cost)</th><th>Indirect Costs (Factory Overhead)</th></tr></thead><tbody><tr><td>Raw materials consumed</td><td>Factory rent and rates</td></tr><tr><td>Direct factory wages</td><td>Factory insurance</td></tr><tr><td>Royalties per unit</td><td>Factory light & heat</td></tr><tr><td>Hire of special tools</td><td>Depreciation of plant & machinery</td></tr><tr><td>&nbsp;</td><td>Indirect wages (foreman, cleaners)</td></tr></tbody></table>' },
             ]
           },
           {
-            id: '11.4.2', title: 'Apportionment Worked Example',
+            id: '11.4.2', title: 'Three Types of Stock',
             body: [
-              { type: 'example', title: 'Shared Cost Apportionment', html: '<p>Total rent \u20ac30,000. Factory occupies 70% of floor area. Total insurance on assets \u20ac10,000. Factory assets are valued at \u20ac120,000, office assets at \u20ac80,000.</p>' },
-              { type: 'solution', title: 'Solution', html: '<p><strong>Rent:</strong> Factory 70% = \u20ac21,000. Office 30% = \u20ac9,000.</p><p><strong>Insurance on assets:</strong> Total asset value = \u20ac200,000. Factory share = 120/200 = 60%. Factory insurance = \u20ac6,000. Office = \u20ac4,000.</p><p>The factory portions go to Factory Overhead in the Manufacturing Account. The office portions go to expenses in the P&L.</p>' },
-              { type: 'examtip', title: 'Exam Tip \u2014 Apportionment Table', html: '<p>Set up a table with columns for each cost and rows for Factory and Office. Apply the correct basis for each cost. This makes it clear and earns full marks for methodology even if one number is wrong.</p>' },
+              { type: 'concept', variant: 'green', title: 'Raw Materials, WIP, Finished Goods', html: '<p>A manufacturer holds <strong>three</strong> kinds of stock, each appearing on the Balance Sheet as a separate line in current assets:</p><p>1. <strong>Raw materials</strong> \u2014 valued at cost. Opening + Purchases \u2212 Closing = Raw materials consumed (Manufacturing Account).</p><p>2. <strong>Work in Progress</strong> \u2014 partially completed goods. Opening WIP added, Closing WIP deducted to derive Cost of Manufacture.</p><p>3. <strong>Finished goods</strong> \u2014 valued at cost of manufacture (lower of cost and NRV \u2014 prudence). Used in the Trading Account.</p>' },
+              { type: 'watchout', title: 'Stock Valuation Rule', html: '<p>Per the <strong>prudence concept</strong>, all three stock types are valued at the <strong>lower of cost and net realisable value (NRV)</strong>. NRV = expected selling price \u2212 costs to complete and sell.</p>' },
+            ]
+          },
+          {
+            id: '11.4.3', title: 'Apportionment of Shared Costs',
+            body: [
+              { type: 'concept', variant: 'amber', title: 'Bases of Apportionment', html: '<p>When a cost (e.g. rent, insurance, light & heat) covers both the factory and the office, it must be split on a <strong>fair basis</strong> reflecting how the cost is incurred:</p><p><strong>Floor area</strong> \u2014 rent, rates, light & heat, insurance of premises.</p><p><strong>Book value of assets</strong> \u2014 depreciation, insurance of assets.</p><p><strong>Number of employees</strong> \u2014 canteen, welfare, supervision.</p><p>Factory portion \u2192 Manufacturing Account (Factory Overhead). Office portion \u2192 P&L expense.</p>' },
+              { type: 'examtip', title: 'Exam Tip', html: '<p>Set up a small apportionment table with columns "Total / Factory / Office" for each shared cost. Marks are awarded for the methodology even if a single arithmetic step is wrong.</p>' },
             ]
           },
         ]
