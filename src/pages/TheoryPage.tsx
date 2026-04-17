@@ -153,7 +153,8 @@ export default function TheoryPage() {
           <TabsTrigger value="questions">All Questions</TabsTrigger>
           <TabsTrigger value="practice">Practice Mode</TabsTrigger>
           <TabsTrigger value="flashcards">Flashcards</TabsTrigger>
-          <TabsTrigger value="frequency">Frequency</TabsTrigger>
+          <TabsTrigger value="frequency">Frequency Tracker</TabsTrigger>
+          <TabsTrigger value="predictions">Theory Predictions</TabsTrigger>
         </TabsList>}
 
 
