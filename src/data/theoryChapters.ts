@@ -1429,9 +1429,9 @@ export const CHAPTERS: Chapter[] = [
     estimatedMinutes: 30,
     related: [6, 13],
     examPointers: [
-      '2024 Q9 (a) — Explain Work in Progress and its treatment in a service firm',
       '2019 Q9 (b) — Distinguish a service firm’s P&L from a trading firm’s P&L',
       '2015 Q9 (a) — Why service firms have no Trading Account',
+      '2012 Q9 (a) — Calculation of fee income with accruals & prepayments',
     ],
     sections: [
       {
@@ -1440,43 +1440,43 @@ export const CHAPTERS: Chapter[] = [
           {
             id: '14.1.1', title: 'Structure & Key Differences',
             keyTerms: [
-              { term: 'Service Firm', definition: 'A business that provides services — e.g. solicitors, accountants, architects, veterinary practices.' },
-              { term: 'Fee Income', definition: 'The main revenue source — fees charged for professional services rendered.' },
-              
+              { term: 'Service Firm', definition: 'A business that provides services rather than goods — e.g. solicitors, accountants, architects, veterinary practices, consultants.' },
+              { term: 'Fee Income', definition: 'The main revenue source of a service firm — fees charged for professional services rendered during the year.' },
             ],
             body: [
-              { type: 'concept', variant: 'blue', title: 'Key Differences from Trading Firms', html: '<p>1. <strong>No Trading Account</strong> — no stock, no purchases, no cost of sales.</p><p>2. Main income is <strong>fee income</strong>, not sales.</p><p>3. P&L starts with <strong>Fee Income</strong> and deducts expenses to give Net Profit.</p><p>4. All other adjustments (depreciation, accruals, bad debts) work exactly as for a sole trader.</p>' },
-              { type: 'table', html: '<table class="learn-table"><thead><tr><th>Trading Firm</th><th>Service Firm</th></tr></thead><tbody><tr><td>Sales</td><td>Fee Income</td></tr><tr><td>Trading Account → Gross Profit</td><td>No Trading Account</td></tr><tr><td>Purchases, Carriage In</td><td>Not applicable</td></tr><tr><td>Cost of Sales</td><td>Not applicable</td></tr></tbody></table>' },
+              { type: 'concept', variant: 'blue', title: 'Key Differences from Trading Firms', html: '<p>1. <strong>No Trading Account</strong> — no stock of goods, no purchases, no cost of sales.</p><p>2. Main income is <strong>fee income</strong>, not sales.</p><p>3. The Income Statement starts with <strong>Fee Income</strong> and deducts expenses to give Net Profit directly.</p><p>4. All other adjustments (depreciation, accruals, prepayments, bad debts, provision for bad debts) work exactly as for a sole trader.</p><p>5. There is <strong>no closing stock of goods</strong>, but there may be a stock of <strong>office consumables</strong> (stationery, etc.) treated as a prepayment.</p>' },
+              { type: 'table', html: '<table class="learn-table"><thead><tr><th>Trading Firm</th><th>Service Firm</th></tr></thead><tbody><tr><td>Sales</td><td>Fee Income</td></tr><tr><td>Trading Account → Gross Profit</td><td>No Trading Account</td></tr><tr><td>Purchases, Carriage In</td><td>Not applicable</td></tr><tr><td>Cost of Sales</td><td>Not applicable</td></tr><tr><td>Closing Stock of Goods</td><td>Closing Stock of Stationery (if any)</td></tr><tr><td>Debtors (for goods sold)</td><td>Fees Due / Fees Owing</td></tr></tbody></table>' },
             ]
           },
           {
             id: '14.1.2', title: 'Fee Income Calculation',
+            keyTerms: [
+              { term: 'Fees Due (Accrued)', definition: 'Fees earned for work completed but not yet received in cash at year-end — a current asset (debtor).' },
+              { term: 'Fees Prepaid (Received in Advance)', definition: 'Fees received in cash before the work has been performed — a current liability at year-end.' },
+            ],
             body: [
-              { type: 'concept', variant: 'green', title: 'Fee Income T-Account', html: '<p>Use a T-account to find the I&E figure:</p><table class="learn-table"><thead><tr><th>Dr (Debit Side)</th><th>Cr (Credit Side)</th></tr></thead><tbody><tr><td>Fees accrued at start (b/d)</td><td>Fees prepaid at start (b/d)</td></tr><tr><td><strong>Fee income for P&L (balancing fig.)</strong></td><td>Fees received (cash from TB)</td></tr><tr><td>Fees prepaid at end (c/d)</td><td>Fees accrued at end (c/d)</td></tr></tbody></table>' },
-              { type: 'example', title: 'Worked Example', html: '<p>Fees received (TB): €185,000. Fees accrued: start €4,200, end €6,800. Fees prepaid: start €1,000, end €1,500.</p><p>Fee Income = €185,000 + €6,800 − €4,200 + €1,000 − €1,500 = <strong>€187,100</strong></p>' },
+              { type: 'concept', variant: 'green', title: 'Fee Income T-Account', html: '<p>Use a T-account to find the figure for the Income Statement:</p><table class="learn-table"><thead><tr><th>Dr (Debit Side)</th><th>Cr (Credit Side)</th></tr></thead><tbody><tr><td>Fees due at start (b/d)</td><td>Fees prepaid at start (b/d)</td></tr><tr><td><strong>Fee income for I/S (balancing fig.)</strong></td><td>Fees received in cash (from TB)</td></tr><tr><td>Fees prepaid at end (c/d)</td><td>Fees due at end (c/d)</td></tr></tbody></table>' },
+              { type: 'concept', variant: 'blue', title: 'Quick Formula', html: '<p>Fee Income = Cash received + Fees due at end − Fees due at start + Fees prepaid at start − Fees prepaid at end</p>' },
+              { type: 'example', title: 'Worked Example', html: '<p>Fees received (TB): €185,000. Fees due: start €4,200, end €6,800. Fees prepaid: start €1,000, end €1,500.</p><p>Fee Income = 185,000 + 6,800 − 4,200 + 1,000 − 1,500 = <strong>€187,100</strong></p>' },
             ]
           },
         ]
       },
       {
-        id: '14.3', title: 'Full Service Firm P&L & BS',
+        id: '14.2', title: 'Service Firm P&L & Balance Sheet',
         subTopics: [
           {
-            id: '14.3.1', title: 'Complete P&L Layout',
+            id: '14.2.1', title: 'Complete P&L Layout',
             body: [
-              { type: 'concept', variant: 'blue', title: 'Service Firm P&L Format', html: '<p><strong>Income Statement of [Firm Name] for year ended 31/12/20XX</strong></p><p><strong>Fee Income</strong> (adjusted for accruals & prepayments)</p><p><strong>Less Expenses:</strong><br/>Salaries & wages (adjusted)<br/>Rent (adjusted)<br/>Insurance (adjusted)<br/>Light & heat (adjusted)<br/>Depreciation<br/>Bad debts written off<br/>Increase/decrease in provision for bad debts<br/>Motor expenses<br/>Professional fees<br/>General expenses<br/>Interest paid<br/>= <strong>Total Expenses</strong></p><p>Fee Income − Total Expenses = <strong>Net Profit</strong></p>' },
-              { type: 'examtip', title: 'SEC Marking Scheme Pattern', html: '<p>In SEC questions, service firm marks are typically allocated as:</p><p>1. Fee income calculation (accruals/prepayments): <strong>6-8 marks</strong></p><p>2. Expenses with adjustments: <strong>12-16 marks</strong></p><p>3. Balance Sheet: <strong>20 marks</strong></p>' },
+              { type: 'concept', variant: 'blue', title: 'Service Firm Income Statement Format', html: '<p><strong>Income Statement of [Firm Name] for year ended 31/12/20XX</strong></p><p><strong>Fee Income</strong> (adjusted for fees due & fees prepaid)</p><p><em>Add:</em> Other operating income (interest received, commission received, rent received) — each adjusted for accruals/prepayments.</p><p><strong>Less Expenses:</strong><br/>Salaries &amp; wages (adjusted)<br/>Rent &amp; rates (adjusted)<br/>Insurance (adjusted)<br/>Light &amp; heat (adjusted)<br/>Depreciation of equipment / motor vehicles<br/>Bad debts written off<br/>Increase / decrease in provision for bad debts<br/>Motor expenses<br/>Professional indemnity insurance<br/>General office expenses<br/>Loan / mortgage interest<br/>= <strong>Total Expenses</strong></p><p>Fee Income − Total Expenses = <strong>Net Profit</strong></p>' },
+              { type: 'examtip', title: 'SEC Marking Pattern', html: '<p>In SEC service-firm questions, marks are typically allocated as:</p><p>• Fee income calculation (accruals/prepayments): <strong>6–8 marks</strong></p><p>• Expenses with adjustments: <strong>12–16 marks</strong></p><p>• Balance Sheet: <strong>20 marks</strong></p>' },
             ]
           },
           {
-            id: '14.3.2', title: 'Work-in-Progress (WIP) in a Professional Practice',
-            keyTerms: [
-              { term: 'Work in Progress (WIP)', definition: 'Services partially completed at year-end but not yet invoiced — valued at the cost of the time/expense already incurred.' },
-            ],
+            id: '14.2.2', title: 'Balance Sheet for a Service Firm',
             body: [
-              { type: 'concept', variant: 'blue', title: 'Why WIP Matters', html: '<p>Professional services (solicitors, accountants, architects, vets) often have jobs that span the year-end. The work has been started but not invoiced.</p><p>To match revenue with the period in which the work was performed (the <strong>matching concept</strong>), an adjustment is made:</p><p><strong>+ Closing WIP</strong> (work done this year, not yet invoiced — to be billed next year)</p><p><strong>− Opening WIP</strong> (work invoiced this year that was actually performed last year)</p><p>The net adjustment is added to fee income.</p>' },
-              { type: 'concept', variant: 'green', title: 'Treatment in the Accounts', html: '<p><strong>Income Statement:</strong> Closing WIP added to fee income; Opening WIP deducted.</p><p><strong>Balance Sheet:</strong> Closing WIP shown as a <strong>current asset</strong> (similar to closing stock in a trading firm).</p><p><strong>Valuation rule:</strong> at the lower of cost or net realisable value — the prudence concept applies.</p>' },
-              { type: 'examtip', title: 'Common Theory Question', html: '<p>"Explain the term Work in Progress and outline its accounting treatment in the financial statements of a professional firm." (worth ~10 marks in Q9 short questions when service firms appear).</p>' },
+              { type: 'concept', variant: 'blue', title: 'Balance Sheet Specifics', html: '<p><strong>Fixed Assets:</strong> Premises, office equipment, computers, motor vehicles (less accumulated depreciation).</p><p><strong>Current Assets:</strong> Fees due (debtors), prepayments, stock of stationery (if applicable), bank, cash. <em>There is no stock of goods.</em></p><p><strong>Current Liabilities:</strong> Expense accruals, fees prepaid (received in advance), bank overdraft, VAT, PAYE/PRSI.</p><p><strong>Financed By:</strong> Capital + Net Profit − Drawings + Long-term loans / mortgages.</p>' },
+              { type: 'examtip', title: 'Common Theory Question', html: '<p>"Distinguish between the Income Statement of a service firm and that of a trading firm." Mention: no Trading Account, no Gross Profit, fee income replaces sales, no purchases / cost of sales, no closing stock of goods.</p>' },
             ]
           },
         ]
