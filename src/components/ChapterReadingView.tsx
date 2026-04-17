@@ -254,9 +254,9 @@ export default function ChapterReadingView({ chapter, initialSectionId, onBack, 
                   </p>
                   <ul className="text-xs text-foreground space-y-0.5 list-disc list-inside font-light">
                     {chapter.examPointers.map((p, i) => {
-                      // Strip everything after the question reference — keep only year + Q-ref (e.g. "2023 Q9 (b)")
-                      const ref = p.split(/\s+[—–-]\s+/)[0].trim();
-                      return <li key={i}>{ref}</li>;
+                      // Keep only the 4-digit year (e.g. "2023")
+                      const m = p.match(/\b(19|20)\d{2}\b/);
+                      return <li key={i}>{m ? m[0] : p.split(/\s+[—–-]\s+/)[0].trim()}</li>;
                     })}
                   </ul>
                 </div>
