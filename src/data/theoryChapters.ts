@@ -1841,6 +1841,22 @@ export const CHAPTERS: Chapter[] = [
               { type: 'example', title: 'Example Transactions', html: '<p><strong>Owner invests \u20ac10,000:</strong> Assets (Bank) +\u20ac10,000, Capital +\u20ac10,000.</p><p><strong>Buy equipment for \u20ac3,000 cash:</strong> Assets (Equipment) +\u20ac3,000, Assets (Bank) \u2212\u20ac3,000. No net change.</p><p><strong>Buy stock on credit \u20ac2,000:</strong> Assets (Stock) +\u20ac2,000, Liabilities (Creditors) +\u20ac2,000.</p><p><strong>Pay wages \u20ac500:</strong> Assets (Bank) \u2212\u20ac500, Capital \u2212\u20ac500 (expense reduces capital).</p>' },
             ]
           },
+          {
+            id: '19.1.2', title: '"Effect On" Phrasing & Reserve Transactions',
+            keyTerms: [
+              { term: '"Effect on" Question', definition: 'SEC asks for the change in Fixed Assets, Current Assets, Current Liabilities, Long-term Liabilities, Capital and Profit — each as a + / − figure.' },
+              { term: 'Revaluation Reserve', definition: 'A capital reserve created when a fixed asset (usually premises) is revalued upwards. Increases Fixed Assets and Capital by the same amount.' },
+              { term: 'Bonus Issue', definition: 'Free shares issued to existing shareholders out of reserves. Reduces a reserve and increases share capital — no change in net assets.' },
+              { term: 'Rights Issue', definition: 'New shares offered to existing shareholders, usually at a discount. Increases bank and share capital (and share premium).' },
+            ],
+            body: [
+              { type: 'concept', variant: 'blue', title: 'How the SEC Lays Out a Tabular Statement', html: '<p>Q1(c) and Q4 typically use a six-column table. For EACH transaction state the <strong>effect on</strong>:</p><ol><li>Fixed Assets (+ / − / no effect)</li><li>Current Assets (+ / − / no effect)</li><li>Current Liabilities (+ / − / no effect)</li><li>Long-term Liabilities (+ / − / no effect)</li><li>Capital (+ / − / no effect)</li><li>Profit for the year (+ / − / no effect)</li></ol><p>Always quote the <strong>amount</strong> as well as the direction. Marks are awarded per cell — leave nothing blank.</p>' },
+              { type: 'example', title: 'Worked Example — Revaluation Reserve', html: '<p><strong>Premises (NBV €200,000) revalued to €280,000.</strong></p><table class="learn-table"><thead><tr><th>Item</th><th>Effect</th><th>€</th></tr></thead><tbody><tr><td>Fixed Assets</td><td>+</td><td>80,000</td></tr><tr><td>Current Assets</td><td>No effect</td><td>—</td></tr><tr><td>Current Liabilities</td><td>No effect</td><td>—</td></tr><tr><td>Long-term Liabilities</td><td>No effect</td><td>—</td></tr><tr><td>Capital (Revaluation Reserve)</td><td>+</td><td>80,000</td></tr><tr><td>Profit for the year</td><td>No effect</td><td>—</td></tr></tbody></table><p>The revaluation surplus does NOT touch profit — it is a capital reserve directly under Capital & Reserves.</p>' },
+              { type: 'example', title: 'Worked Example — Bonus Issue 1-for-4', html: '<p><strong>Issued capital 200,000 €1 ords. Bonus issue of 1-for-4 from Share Premium €60,000.</strong></p><table class="learn-table"><thead><tr><th>Item</th><th>Effect</th><th>€</th></tr></thead><tbody><tr><td>Fixed Assets</td><td>No effect</td><td>—</td></tr><tr><td>Current Assets (Bank)</td><td>No effect</td><td>—</td></tr><tr><td>Capital — Share Capital</td><td>+</td><td>50,000</td></tr><tr><td>Capital — Share Premium</td><td>−</td><td>50,000</td></tr><tr><td>Net change in Capital</td><td>No effect</td><td>—</td></tr></tbody></table><p>Bonus issues are a "book entry" — no cash, no change in net assets.</p>' },
+              { type: 'concept', variant: 'amber', title: 'Common "Effect On" Trip-Ups', html: '<p>1. <strong>Goods withdrawn by owner</strong> for personal use → Current Assets (Stock) −, Capital (Drawings) −. NO effect on Profit.</p><p>2. <strong>Bad debt written off</strong> → Current Assets (Debtors) −, Profit −.</p><p>3. <strong>Depreciation for the year</strong> → Fixed Assets −, Profit −.</p><p>4. <strong>Issue of debentures €100k</strong> → Current Assets (Bank) +€100k, Long-term Liabilities +€100k. NO effect on Capital.</p><p>5. <strong>Final dividend declared</strong> → Current Liabilities +, Capital (Retained P&L) −.</p><p>6. <strong>Goodwill written off against reserves</strong> → Fixed Assets (Intangibles) −, Capital (Reserves) −. NO effect on Profit.</p>' },
+              { type: 'examtip', title: 'Marks & Method', html: '<p>Each transaction is typically worth <strong>4–6 marks</strong>. Marks are split: 1 mark for direction, 1 mark for amount, 1 mark for hitting the right column. NEVER leave the "no effect" cells empty — write "No effect" or "—" so the marker can see you considered them.</p>' },
+            ]
+          },
         ]
       },
     ]
@@ -1947,10 +1963,10 @@ export const CHAPTERS: Chapter[] = [
     estimatedMinutes: 30,
     related: [11, 21, 23],
     examPointers: [
-      'Q9 (marginal costing / break-even) — alternates with Q8; ~50% probability',
-      '2023 Q9 (b) — Limitations of break-even analysis (4 assumptions that may not hold)',
-      '2018 Q9 (a) — Define contribution and explain its uses in decision-making',
-      '2011 Q9 (b) — Margin of safety: definition and significance',
+      'Q8 (product costing / overhead absorption) — alternates with Q9 marginal costing',
+      '2021 Q9 (a) — Bases of overhead absorption (machine-hour vs labour-hour)',
+      '2015 Q9 (b) — Define under- and over-absorption of overheads and their treatment',
+      '2009 Q9 (a) — Distinguish allocation, apportionment and absorption',
     ],
     sections: [
       {
@@ -1989,6 +2005,21 @@ export const CHAPTERS: Chapter[] = [
               { type: 'concept', variant: 'amber', title: 'Steps in Overhead Recovery', html: '<p>1. <strong>Allocation</strong> \u2014 assign directly to departments.</p><p>2. <strong>Apportionment</strong> \u2014 share common costs.</p><p>3. <strong>Reapportionment</strong> \u2014 transfer service dept costs to production.</p><p>4. <strong>Absorption</strong> \u2014 charge to products using OAR.</p>' },
             ]
           },
+          {
+            id: '22.2.2', title: 'Machine-hour vs Labour-hour OAR',
+            keyTerms: [
+              { term: 'Machine-Hour Rate', definition: 'OAR = Budgeted Overheads / Budgeted Machine Hours. Used in highly mechanised departments.' },
+              { term: 'Labour-Hour Rate', definition: 'OAR = Budgeted Overheads / Budgeted Direct Labour Hours. Used in labour-intensive departments.' },
+              { term: 'Cost Driver', definition: 'The activity that causes the overhead to be incurred — choose the basis that best reflects how the overhead is consumed.' },
+            ],
+            body: [
+              { type: 'concept', variant: 'blue', title: 'Choosing the Right Basis', html: '<p>The basis of absorption should reflect <strong>what causes the overhead to be incurred</strong>.</p><ul><li><strong>Machine-intensive department</strong> (e.g. Machining, where overheads are mostly power, machine depreciation, maintenance) → use a <strong>Machine-Hour Rate</strong>.</li><li><strong>Labour-intensive department</strong> (e.g. Assembly or Finishing, where overheads are mostly supervision and indirect labour) → use a <strong>Labour-Hour Rate</strong>.</li></ul><p>The exam will tell you the budgeted hours of each type — pick the higher and more relevant one.</p>' },
+              { type: 'example', title: 'Worked Example — Machine-Hour OAR (Machining Dept)', html: '<p><strong>Budgeted overheads</strong> for the Machining Dept: €120,000.<br/><strong>Budgeted machine hours:</strong> 8,000.<br/><strong>Budgeted labour hours:</strong> 2,000.</p><p>Machine-Hour OAR = €120,000 / 8,000 = <strong>€15 per machine hour</strong>.</p><p>Job 247 uses 6 machine hours and 1.5 labour hours.<br/>Overhead absorbed by Job 247 = 6 × €15 = <strong>€90</strong>.</p>' },
+              { type: 'example', title: 'Worked Example — Labour-Hour OAR (Assembly Dept)', html: '<p><strong>Budgeted overheads</strong> for the Assembly Dept: €84,000.<br/><strong>Budgeted machine hours:</strong> 1,200.<br/><strong>Budgeted labour hours:</strong> 7,000.</p><p>Labour-Hour OAR = €84,000 / 7,000 = <strong>€12 per labour hour</strong>.</p><p>Job 247 uses 0.5 machine hours and 4 labour hours in Assembly.<br/>Overhead absorbed by Job 247 = 4 × €12 = <strong>€48</strong>.</p><p><strong>Total overhead absorbed by Job 247 across both departments = €90 + €48 = €138.</strong></p>' },
+              { type: 'example', title: 'Under- / Over-Absorption Example', html: '<p>Continuing Machining: <strong>actual</strong> machine hours = 8,500 and <strong>actual</strong> overheads = €131,000.</p><p>Overhead absorbed = 8,500 × €15 = €127,500.<br/>Actual overhead = €131,000.<br/><strong>Under-absorbed = €3,500</strong> → debit P&L (reduce profit).</p><p>If actual had been €124,000 instead, overheads would be <strong>over-absorbed by €3,500</strong> → credit P&L (add to profit).</p>' },
+              { type: 'examtip', title: 'Marking Scheme Tips', html: '<p>1. State the formula <em>before</em> the calculation — examiners reward the formula line even if the arithmetic is wrong.</p><p>2. Always state the <strong>units</strong> ("€15 per machine hour") — bare numbers lose marks.</p><p>3. For under-/over-absorption, state both the figure AND the treatment ("under-absorbed €3,500, debited to P&L").</p>' },
+            ]
+          },
         ]
       },
     ]
@@ -2001,10 +2032,10 @@ export const CHAPTERS: Chapter[] = [
     estimatedMinutes: 28,
     related: [21, 22, 24],
     examPointers: [
-      'Q9 (cash budget) — appears periodically; ~30% probability for full question',
-      '2024 Q9 (a) — Advantages of preparing a cash budget',
-      '2019 Q9 (b) — Limitations of budgeting and possible behavioural problems',
-      '2010 Q9 (a) — Distinguish a fixed budget from a flexible budget',
+      'Q9 (marginal costing / break-even) — alternates with Q8; ~50% probability',
+      '2023 Q9 (b) — Limitations of break-even analysis (4 assumptions that may not hold)',
+      '2018 Q9 (a) — Define contribution and explain its uses in decision-making',
+      '2011 Q9 (b) — Margin of safety: definition and significance',
     ],
     sections: [
       {
