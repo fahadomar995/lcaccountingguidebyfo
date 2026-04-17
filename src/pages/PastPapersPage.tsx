@@ -91,7 +91,7 @@ export default function PastPapersPage() {
       )}
 
       <p className="text-[11px] text-muted-foreground mt-8 font-body">
-        SEC papers linked from examinations.ie. Mock papers provided for study purposes only.
+        SEC papers and marking schemes hosted via studystrivers.ie. Mock papers provided for study purposes only.
       </p>
     </div>
   );
