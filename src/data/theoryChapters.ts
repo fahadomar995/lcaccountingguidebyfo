@@ -69,6 +69,12 @@ export const CHAPTERS: Chapter[] = [
     description: 'Objectives, concepts, bases and policies — the principles underpinning all financial reporting.',
     estimatedMinutes: 22,
     related: [2, 8, 10],
+    examPointers: [
+      '2023 Q9 (b) — Accounting concepts (matching, prudence, going concern)',
+      '2019 Q7 (a) — Qualities of useful financial information',
+      '2017 Q9 (a) — Distinguish financial vs management accounting',
+      '2014 Q9 (a) — Users of financial information & their needs',
+    ],
     sections: [
       {
         id: '1.1', title: 'Objectives of Financial Information',
