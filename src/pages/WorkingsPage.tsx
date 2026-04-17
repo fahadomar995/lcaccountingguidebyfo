@@ -63,9 +63,10 @@ export default function WorkingsPage({ title, subtitle, sectionLabel, accentColo
                 {activeArch.type}
               </span>
             </div>
-            <p className="text-xs text-muted-foreground">{activeArch.year}</p>
           </div>
         </div>
+        {/* removed year subtitle — workings span multiple SEC years */}
+        <div className="hidden">{activeArch.year}</div>
 
         {/* Progress bar */}
         <div className="h-1 bg-muted rounded-full overflow-hidden mb-5">
