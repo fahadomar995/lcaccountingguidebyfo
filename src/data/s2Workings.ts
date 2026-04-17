@@ -13,44 +13,44 @@ export const S2_ARCHETYPES: Archetype[] = [
   {
     id: "s2-sus-bad-debt",
     type: "Suspense",
-    name: "Bad Debt Recovered — Debtor Reinstated",
+    name: "Bad Debt Recovered \u2014 Debtor Reinstated",
     year: 2025,
     source: "2024 Q7(i)",
-    totalMarks: 12,
+    totalMarks: 0,
     category: "suspense",
-    desc: "€900 received from V. Mullen, debtor whose debt was previously written off. This represents 80% of the original debt. Debtor will pay the remainder by...",
-    partSummary: ["Step 1 — Understand...", "Step 2 — DID...", "Step 3 — What...", "Step 4 — FIX..."],
+    desc: "\u20ac900 received from V. Mullen, debtor whose debt was previously written off. This represents 80% of the original debt. Debtor will pay the remainder by January 2024. No entry made. 2024 SEC Q7",
+    partSummary: ["Step 1 — Understand the error", "Step 2 — DID happen: Nothing", "Step 3 — What SHOULD have happened:", "Step 4 — FIX = SHOULD minus DID"],
     question: `<strong>€900 received from V. Mullen, debtor whose debt was previously written off.</strong> This represents 80% of the original debt. Debtor will pay the remainder by January 2024. No entry made. <em>2024 SEC Q7</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — Understand the error. Mullen's debt was written off (removed from books). Now he wants to trade again and paid €900 = 80% of original. So original debt = 900 ÷ 0.80 = €1,125. The full €1,125 must be reinstated as \"bad debt recovered\" (income). The €225 balance (20%) remains as a debtor.",
+        explain: `<strong>Step 1 — Understand the error.</strong> Mullen's debt was written off (removed from books). Now he wants to trade again and paid €900 = 80% of original. So original debt = 900 ÷ 0.80 = <strong>€1,125</strong>. The full €1,125 must be reinstated as "bad debt recovered" (income). The €225 balance (20%) remains as a debtor.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — DID happen: Nothing. No entry was made at all. This is a complete Error of Omission.",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What DID Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">(Nothing recorded): —</td><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">(Nothing recorded): —</td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 2 — DID happen:</strong> Nothing. No entry was made at all. This is a complete Error of Omission.`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What DID Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">(Nothing recorded): —</td><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">(Nothing recorded): —</td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "Step 3 — What SHOULD have happened:",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What SHOULD Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Bank (cash received): 900</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Bad Debts Recovered (income): 1,125</td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Debtors: Mullen (20% still owed): 225</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 3 — What SHOULD have happened:</strong>`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What SHOULD Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Bank (cash received): 900</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Bad Debts Recovered (income): 1,125</td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Debtors: Mullen (20% still owed): 225</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 4",
         marks: 0,
-        explain: "Step 4 — FIX = SHOULD minus DID. Since nothing was recorded, the fix IS the should entry. Dr Bank 900, Dr Debtors 225, Cr Bad Debts Recovered 1,125.P&L: Bad debts recovered +€1,125 (INCREASES profit).BS: Bank +900, Debtors +225.SUSPENSE: Error of Omission = does NOT affect Suspense (both sides were missing).",
-        content: ``,
-        mistakes: ["TRAP: The FULL debt (€1,125) goes to income, not just the €900 received. The remaining 20% (€225) is a new debtor on the Balance Sheet."]
+        explain: `<strong>Step 4 — FIX = SHOULD minus DID.</strong> Since nothing was recorded, the fix IS the should entry. Dr Bank 900, Dr Debtors 225, Cr Bad Debts Recovered 1,125.<br><br><strong>P&L:</strong> Bad debts recovered +€1,125 (INCREASES profit).<br><strong>BS:</strong> Bank +900, Debtors +225.<br><strong>SUSPENSE:</strong> Error of Omission = does NOT affect Suspense (both sides were missing).`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>TRAP:</strong> The FULL debt (€1,125) goes to income, not just the €900 received. The remaining 20% (€225) is a new debtor on the Balance Sheet.</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-sus-van-as-sale",
@@ -58,48 +58,48 @@ export const S2_ARCHETYPES: Archetype[] = [
     name: "Van Disposal Entered as a Cash Sale",
     year: 2025,
     source: "2024 Q7(ii)",
-    totalMarks: 15,
+    totalMarks: 0,
     category: "suspense",
-    desc: "Delivery van (cost €20,000, BV €12,000) sold for €10,000 cash. Entered as €2,000 Dr Debtors and €1,200 Cr Sales. No other entries made. 2024 SEC Q7...",
-    partSummary: ["Step 1 — Understand....", "Step 2 — DID...", "Step 3 — What...", "Step 4 — FIX..."],
+    desc: "Delivery van (cost \u20ac20,000, BV \u20ac12,000) sold for \u20ac10,000 cash. Entered as \u20ac2,000 Dr Debtors and \u20ac1,200 Cr Sales. No other entries made. 2024 SEC Q7",
+    partSummary: ["Step 1 — Understand", "Step 2 — DID happen:", "Step 3 — What SHOULD have happened:", "Step 4 — FIX (SHOULD minus DID):", "Why Suspense = Dr 800? DID: Dr side 2,000, Cr side 1,200"],
     question: `<strong>Delivery van (cost €20,000, BV €12,000) sold for €10,000 cash.</strong> Entered as €2,000 Dr Debtors and €1,200 Cr Sales. No other entries made. <em>2024 SEC Q7</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — Understand. This is one of the most complex errors. A FIXED ASSET disposal was treated as if it were a sale of GOODS. The amounts are also wrong (€2,000 and €1,200 instead of €10,000). We need to: reverse the wrong entries, remove the van at cost, remove its accumulated depreciation, record the cash, and record the loss on disposal.Loss = Cost − Acc Dep − Proceeds = 20,000 − 8,000 − 10,000 = €2,000 loss.",
+        explain: `<strong>Step 1 — Understand.</strong> This is one of the most complex errors. A FIXED ASSET disposal was treated as if it were a sale of GOODS. The amounts are also wrong (€2,000 and €1,200 instead of €10,000). We need to: reverse the wrong entries, remove the van at cost, remove its accumulated depreciation, record the cash, and record the loss on disposal.<br><br>Loss = Cost − Acc Dep − Proceeds = 20,000 − 8,000 − 10,000 = <strong>€2,000 loss</strong>.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — DID happen:",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What DID Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Debtors: 2,000</td><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Sales: 1,200</td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 2 — DID happen:</strong>`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What DID Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Debtors: 2,000</td><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Sales: 1,200</td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "Step 3 — What SHOULD have happened:",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What SHOULD Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Cash/Bank (proceeds): 10,000</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Delivery Van (at cost): 20,000</td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Provision for Depreciation: 8,000</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">P&L Loss on Disposal: 2,000</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 3 — What SHOULD have happened:</strong>`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What SHOULD Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Cash/Bank (proceeds): 10,000</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Delivery Van (at cost): 20,000</td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Provision for Depreciation: 8,000</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">P&L Loss on Disposal: 2,000</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 4",
         marks: 0,
-        explain: "Step 4 — FIX (SHOULD minus DID):",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Journal Entry (Fix)</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Sales (reverse Cr 1,200): 1,200</td><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Debtors (reverse Dr 2,000): 2,000</td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Cash/Bank: 10,000</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Delivery Van (at cost): 20,000</td></tr><tr><td class="p-2 border border-border" class="text-blue-700 dark:text-blue-400 font-semibold">Prov for Dep: 8,000</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">P&L Loss: 2,000</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-amber-700 dark:text-amber-400 font-semibold">Suspense (balancing): 800</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 4 — FIX (SHOULD minus DID):</strong>`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Journal Entry (Fix)</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Sales (reverse Cr 1,200): 1,200</td><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Debtors (reverse Dr 2,000): 2,000</td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Cash/Bank: 10,000</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Delivery Van (at cost): 20,000</td></tr><tr><td class="p-2 border border-border" class="text-blue-700 dark:text-blue-400 font-semibold">Prov for Dep: 8,000</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">P&L Loss: 2,000</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Suspense (balancing): 800</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 5",
         marks: 0,
-        explain: "Why Suspense = Dr 800? DID: Dr side 2,000, Cr side 1,200. Difference = 800 (Dr > Cr by 800). This 800 was the original TB imbalance from this error.P&L: Sales reversed (−1,200 from income), Loss on disposal (−2,000). Net: profit DECREASES.BS: Van removed, Dep removed, Cash +10,000, Debtors −2,000.",
-        content: ``,
-        mistakes: ["TRAPS: (1) Van must be removed at COST (€20,000), not book value. (2) Acc dep must be removed too (€8,000). (3) The Suspense entry is the net one-sided difference from the WRONG entries (2,000 − 1,200 = 800)."]
+        explain: `<strong>Why Suspense = Dr 800?</strong> DID: Dr side 2,000, Cr side 1,200. Difference = 800 (Dr > Cr by 800). This 800 was the original TB imbalance from this error.<br><br><strong>P&L:</strong> Sales reversed (−1,200 from income), Loss on disposal (−2,000). Net: profit DECREASES.<br><strong>BS:</strong> Van removed, Dep removed, Cash +10,000, Debtors −2,000.`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>TRAPS:</strong> (1) Van must be removed at COST (€20,000), not book value. (2) Acc dep must be removed too (€8,000). (3) The Suspense entry is the net one-sided difference from the WRONG entries (2,000 − 1,200 = 800).</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-sus-private-offset",
@@ -107,139 +107,139 @@ export const S2_ARCHETYPES: Archetype[] = [
     name: "Private Debt Offset Against Business Debt",
     year: 2025,
     source: "2022 Q6(iii)",
-    totalMarks: 12,
+    totalMarks: 0,
     category: "suspense",
-    desc: "A private debt of €400, owed to Power, had been offset in full settlement against a business debt of €425 owed by Power for garden utensils. No entry ...",
-    partSummary: ["Step 1 — Understand....", "Step 2 — DID...", "Step 3 — What...", "Step 4 — FIX..."],
+    desc: "A private debt of \u20ac400, owed to Power, had been offset in full settlement against a business debt of \u20ac425 owed by Power for garden utensils. No entry had been made. 2022 SEC Q6",
+    partSummary: ["Step 1 — Understand", "Step 2 — DID happen: Nothing", "Step 3 — What SHOULD happen:", "Step 4 — FIX = the SHOULD entry"],
     question: `<strong>A private debt of €400, owed to Power, had been offset in full settlement against a business debt of €425 owed by Power for garden utensils.</strong> No entry had been made. <em>2022 SEC Q6</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — Understand. Power owes a CREDITOR €425 for garden utensils (business debt). Power is also owed €400 privately (someone owes HIM personally). The private debt offsets against the business debt. Difference = €25 = discount received (the creditor accepts €400 to settle €425).",
+        explain: `<strong>Step 1 — Understand.</strong> Power owes a CREDITOR €425 for garden utensils (business debt). Power is also owed €400 privately (someone owes HIM personally). The private debt offsets against the business debt. Difference = €25 = discount received (the creditor accepts €400 to settle €425).`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — DID happen: Nothing. Complete omission.",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What DID Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">(Nothing recorded): —</td><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">(Nothing recorded): —</td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 2 — DID happen:</strong> Nothing. Complete omission.`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What DID Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">(Nothing recorded): —</td><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">(Nothing recorded): —</td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "Step 3 — What SHOULD happen:",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What SHOULD Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Creditors (clear business debt): 425</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Capital (private debt = drawings): 400</td></tr><tr><td class="p-2 border border-border"></td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Discount Received: 25</td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 3 — What SHOULD happen:</strong>`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What SHOULD Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Creditors (clear business debt): 425</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Capital (private debt = drawings): 400</td></tr><tr><td class="p-2 border border-border"></td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Discount Received: 25</td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 4",
         marks: 0,
-        explain: "Step 4 — FIX = the SHOULD entry. Dr Creditors 425, Cr Capital 400, Cr Discount 25.Marking scheme: Dr Creditors 1,660 [2], Cr Capital 1,500 [3], Cr Discount 160 [2].P&L: Discount received +€25 (increases profit). BS: Creditors −25, Capital +400 (private debt is effectively drawings from business). SUSPENSE: Error of Omission = does NOT affect Suspense.",
-        content: ``,
-        mistakes: ["KEY: The private debt is the owner's personal money used to clear a business debt. This = CAPITAL contribution (or reduce Drawings). The difference between the debts = Discount Received (P&L income)."]
+        explain: `<strong>Step 4 — FIX = the SHOULD entry.</strong> Dr Creditors 425, Cr Capital 400, Cr Discount 25.<br><br><strong>Marking scheme:</strong> Dr Creditors 1,660 [2], Cr Capital 1,500 [3], Cr Discount 160 [2].<br><br><strong>P&L:</strong> Discount received +€25 (increases profit). <strong>BS:</strong> Creditors −25, Capital +400 (private debt is effectively drawings from business). <strong>SUSPENSE:</strong> Error of Omission = does NOT affect Suspense.`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>KEY:</strong> The private debt is the owner's personal money used to clear a business debt. This = CAPITAL contribution (or reduce Drawings). The difference between the debts = Discount Received (P&L income).</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-sus-vat-purchase",
     type: "Suspense",
-    name: "VAT on Credit Purchase — Wrong Sides & Amounts",
+    name: "VAT on Credit Purchase \u2014 Wrong Sides & Amounts",
     year: 2025,
     source: "2024 Q6(ii)",
-    totalMarks: 15,
+    totalMarks: 0,
     category: "suspense",
-    desc: "Goods purchased on credit from a supplier for €4,000 plus VAT at 23%. The only entries were that the VAT inclusive figure (€4,920) was entered on the ...",
-    partSummary: ["Step 1 — Calculate...", "Step 2 — DID...", "Step 3 — What...", "Step 4 — FIX..."],
+    desc: "Goods purchased on credit from a supplier for \u20ac4,000 plus VAT at 23%. The only entries were that the VAT inclusive figure (\u20ac4,920) was entered on the debit side of the equipment account and the VAT ex",
+    partSummary: ["Step 1 — Calculate figures", "Step 2 — DID happen (WRONG):", "Step 3 — What SHOULD have happened:", "Step 4 — FIX (SHOULD minus DID):", "Why Suspense = Cr 920?DID: Dr 4,920, Cr 4,000"],
     question: `<strong>Goods purchased on credit from a supplier for €4,000 plus VAT at 23%.</strong> The only entries were that the VAT inclusive figure (€4,920) was entered on the debit side of the equipment account and the VAT exclusive figure (€4,000) was entered on the credit side of the supplier. <em>Variation from 2024 Q6, 2020, 2018</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — Calculate figures. Cost = €4,000. VAT = 23% × 4,000 = €920. Total inclusive = €4,920.",
+        explain: `<strong>Step 1 — Calculate figures.</strong> Cost = €4,000. VAT = 23% × 4,000 = €920. Total inclusive = €4,920.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — DID happen (WRONG):",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What DID Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Equipment (incl VAT — wrong account): 4,920</td><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Supplier (excl VAT — too low): 4,000</td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 2 — DID happen (WRONG):</strong>`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What DID Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Equipment (incl VAT — wrong account): 4,920</td><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Supplier (excl VAT — too low): 4,000</td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "Step 3 — What SHOULD have happened:",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What SHOULD Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Purchases (excl VAT): 4,000</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Supplier/Creditors (incl VAT): 4,920</td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">VAT: 920</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 3 — What SHOULD have happened:</strong>`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What SHOULD Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Purchases (excl VAT): 4,000</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Supplier/Creditors (incl VAT): 4,920</td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">VAT: 920</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 4",
         marks: 0,
-        explain: "Step 4 — FIX (SHOULD minus DID):",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Journal Entry (Fix)</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Purchases: 4,000</td><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Equipment (reverse wrong Dr): 4,920</td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">VAT: 920</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Supplier (extra €920 needed): 920</td></tr><tr><td class="p-2 border border-border"></td><td class="p-2 border border-border" class="text-amber-700 dark:text-amber-400 font-semibold">Suspense: 920</td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 4 — FIX (SHOULD minus DID):</strong>`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Journal Entry (Fix)</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Purchases: 4,000</td><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Equipment (reverse wrong Dr): 4,920</td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">VAT: 920</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Supplier (extra €920 needed): 920</td></tr><tr><td class="p-2 border border-border"></td><td class="p-2 border border-border">Suspense: 920</td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 5",
         marks: 0,
-        explain: "Why Suspense = Cr 920?DID: Dr 4,920, Cr 4,000. Difference = Dr > Cr by 920. So the TB had an excess €920 on the debit side. Suspense Cr 920 corrects this.P&L: Purchases +4,000 (decreases profit).BS: Equipment −4,920, VAT +920, Creditors +920.",
-        content: ``,
-        mistakes: ["TRAPS: (1) Equipment is WRONG account — should be Purchases. (2) Supplier had EXCLUSIVE figure — should be INCLUSIVE. (3) VAT was completely missed. (4) Three errors in one transaction = 3 things to fix."]
+        explain: `<strong>Why Suspense = Cr 920?</strong><br>DID: Dr 4,920, Cr 4,000. Difference = Dr > Cr by 920. So the TB had an excess €920 on the debit side. Suspense Cr 920 corrects this.<br><br><strong>P&L:</strong> Purchases +4,000 (decreases profit).<br><strong>BS:</strong> Equipment −4,920, VAT +920, Creditors +920.`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>TRAPS:</strong> (1) Equipment is WRONG account — should be Purchases. (2) Supplier had EXCLUSIVE figure — should be INCLUSIVE. (3) VAT was completely missed. (4) Three errors in one transaction = 3 things to fix.</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-sus-equip-wrong-side",
     type: "Suspense",
-    name: "Equipment on Credit — Wrong Side of Creditor + Wrong Account",
+    name: "Equipment on Credit \u2014 Wrong Side of Creditor + Wrong Account",
     year: 2025,
     source: "2020 Q6(iii)",
-    totalMarks: 15,
+    totalMarks: 0,
     category: "suspense",
-    desc: "Computer equipment bought on credit for €2,500 was entered on the incorrect side of the creditor's account and debited to the purchases account. These...",
-    partSummary: ["Step 1 — Understand....", "Step 2 — DID...", "Step 3 — What...", "Step 4 — FIX:..."],
+    desc: "Computer equipment bought on credit for \u20ac2,500 was entered on the incorrect side of the creditor's account and debited to the purchases account. These were the only two entries. 2020 SEC Q6",
+    partSummary: ["Step 1 — Understand", "Step 2 — DID happen (WRONG):", "Step 3 — What SHOULD have happened:", "Step 4 — FIX:", "Why Suspense = Dr 5,000?DID: Dr 2,500 (Purch) + Dr 2,500 (Cr"],
     question: `<strong>Computer equipment bought on credit for €2,500 was entered on the incorrect side of the creditor's account and debited to the purchases account.</strong> These were the only two entries. <em>2020 SEC Q6</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — Understand. TWO errors: (A) Creditor was DEBITED instead of CREDITED (reversal = 2× amount). (B) Purchases was debited instead of Equipment (wrong account).",
+        explain: `<strong>Step 1 — Understand.</strong> TWO errors: (A) Creditor was DEBITED instead of CREDITED (reversal = 2× amount). (B) Purchases was debited instead of Equipment (wrong account).`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — DID happen (WRONG):",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What DID Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Purchases (wrong account): 2,500</td><td class="p-2 border border-border">(nothing on credit side)</td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Creditors (WRONG SIDE — should be Cr): 2,500</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 2 — DID happen (WRONG):</strong>`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What DID Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Purchases (wrong account): 2,500</td><td class="p-2 border border-border">(nothing on credit side)</td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Creditors (WRONG SIDE — should be Cr): 2,500</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "Step 3 — What SHOULD have happened:",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What SHOULD Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Equipment (correct account): 2,500</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Creditors: 2,500</td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 3 — What SHOULD have happened:</strong>`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What SHOULD Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Equipment (correct account): 2,500</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Creditors: 2,500</td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 4",
         marks: 0,
-        explain: "Step 4 — FIX:",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Journal Entry (Fix)</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Equipment: 2,500</td><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Purchases (reverse wrong Dr): 2,500</td></tr><tr><td class="p-2 border border-border" class="text-amber-700 dark:text-amber-400 font-semibold">Suspense: 5,000</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Creditors (reverse Dr + correct Cr): 5,000</td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 4 — FIX:</strong>`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Journal Entry (Fix)</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Equipment: 2,500</td><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Purchases (reverse wrong Dr): 2,500</td></tr><tr><td class="p-2 border border-border">Suspense: 5,000</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Creditors (reverse Dr + correct Cr): 5,000</td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 5",
         marks: 0,
-        explain: "Why Suspense = Dr 5,000?DID: Dr 2,500 (Purch) + Dr 2,500 (Cred wrong side) = Dr total 5,000. Cr total = 0.SHOULD: Dr 2,500 (Equip), Cr 2,500 (Cred). Balanced.The TB had 5,000 excess on debit side. Creditors needs a swing of 5,000 (reverse the Dr 2,500 AND add the correct Cr 2,500).P&L: Purchases reversed = profit INCREASES by €2,500. Equipment is a BS item (no P&L effect).",
-        content: ``,
-        mistakes: ["KEY: When a creditor is DEBITED instead of CREDITED, the swing is 2× the amount (€5,000 here). This is a REVERSAL error on the creditor's account."]
+        explain: `<strong>Why Suspense = Dr 5,000?</strong><br>DID: Dr 2,500 (Purch) + Dr 2,500 (Cred wrong side) = Dr total 5,000. Cr total = 0.<br>SHOULD: Dr 2,500 (Equip), Cr 2,500 (Cred). Balanced.<br>The TB had 5,000 excess on debit side. Creditors needs a swing of 5,000 (reverse the Dr 2,500 AND add the correct Cr 2,500).<br><br><strong>P&L:</strong> Purchases reversed = profit INCREASES by €2,500. Equipment is a BS item (no P&L effect).`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>KEY:</strong> When a creditor is DEBITED instead of CREDITED, the swing is 2× the amount (€5,000 here). This is a REVERSAL error on the creditor's account.</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-sus-equip-to-creditor",
@@ -247,48 +247,48 @@ export const S2_ARCHETYPES: Archetype[] = [
     name: "Creditor Accepted Equipment as Debt Settlement",
     year: 2025,
     source: "2022 Q6(v)",
-    totalMarks: 15,
+    totalMarks: 0,
     category: "suspense",
-    desc: "A creditor owed €1,750 accepted equipment (BV €1,600, cost €3,500) in full settlement. The only entry made was that the creditor's account was credite...",
-    partSummary: ["Step 1 — Understand....", "Step 2 — DID...", "Step 3 — What...", "Step 4 — FIX:..."],
+    desc: "A creditor owed \u20ac1,750 accepted equipment (BV \u20ac1,600, cost \u20ac3,500) in full settlement. The only entry made was that the creditor's account was credited with \u20ac1,750. 2022 SEC Q6",
+    partSummary: ["Step 1 — Understand", "Step 2 — DID happen:", "Step 3 — What SHOULD happen (full disposal):", "Step 4 — FIX:", "Why Suspense = Cr 1,750? DID: Only Cr 1,750 (one-sided)"],
     question: `<strong>A creditor owed €1,750 accepted equipment (BV €1,600, cost €3,500) in full settlement.</strong> The only entry made was that the creditor's account was credited with €1,750. <em>2022 SEC Q6</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — Understand. Equipment given away to clear a debt. Profit on disposal = settlement value − BV = 1,750 − 1,600 = €150 profit. Acc dep on equipment = cost − BV = 3,500 − 1,600 = €1,900.",
+        explain: `<strong>Step 1 — Understand.</strong> Equipment given away to clear a debt. Profit on disposal = settlement value − BV = 1,750 − 1,600 = <strong>€150 profit</strong>. Acc dep on equipment = cost − BV = 3,500 − 1,600 = €1,900.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — DID happen:",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What DID Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border">(nothing on debit)</td><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Creditors: 1,750</td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 2 — DID happen:</strong>`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What DID Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border">(nothing on debit)</td><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Creditors: 1,750</td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "Step 3 — What SHOULD happen (full disposal):",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What SHOULD Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Creditors (clear debt): 1,750</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Equipment (at cost): 3,500</td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Provision for Depreciation: 1,900</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Profit on Disposal: 150</td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 3 — What SHOULD happen (full disposal):</strong>`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What SHOULD Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Creditors (clear debt): 1,750</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Equipment (at cost): 3,500</td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Provision for Depreciation: 1,900</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Profit on Disposal: 150</td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 4",
         marks: 0,
-        explain: "Step 4 — FIX:",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Journal Entry (Fix)</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-blue-700 dark:text-blue-400 font-semibold">Provision for Depreciation: 1,900</td><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Equipment (at cost): 3,500</td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Creditors (reverse Cr + correct Dr): 3,500</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Profit on Disposal: 150</td></tr><tr><td class="p-2 border border-border"></td><td class="p-2 border border-border" class="text-amber-700 dark:text-amber-400 font-semibold">Suspense: 1,750</td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 4 — FIX:</strong>`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Journal Entry (Fix)</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-blue-700 dark:text-blue-400 font-semibold">Provision for Depreciation: 1,900</td><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Equipment (at cost): 3,500</td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Creditors (reverse Cr + correct Dr): 3,500</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Profit on Disposal: 150</td></tr><tr><td class="p-2 border border-border"></td><td class="p-2 border border-border">Suspense: 1,750</td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 5",
         marks: 0,
-        explain: "Why Suspense = Cr 1,750? DID: Only Cr 1,750 (one-sided). SHOULD: balanced. The Cr 1,750 created a Cr excess in TB.P&L: Profit on disposal +€150 (increases profit).BS: Equipment −3,500, Acc Dep −1,900, Creditors −1,750 (debt cleared).",
-        content: ``,
-        mistakes: ["TRAPS: (1) The Cr 1,750 to creditors was the ONLY entry — but creditors should have been DEBITED (debt cleared). That's a swing of 3,500 (reverse 1,750 Cr + add 1,750 Dr). (2) Equipment removed at COST, not BV."]
+        explain: `<strong>Why Suspense = Cr 1,750?</strong> DID: Only Cr 1,750 (one-sided). SHOULD: balanced. The Cr 1,750 created a Cr excess in TB.<br><br><strong>P&L:</strong> Profit on disposal +€150 (increases profit).<br><strong>BS:</strong> Equipment −3,500, Acc Dep −1,900, Creditors −1,750 (debt cleared).`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>TRAPS:</strong> (1) The Cr 1,750 to creditors was the ONLY entry — but creditors should have been DEBITED (debt cleared). That's a swing of 3,500 (reverse 1,750 Cr + add 1,750 Dr). (2) Equipment removed at COST, not BV.</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-sus-dishonoured-capital",
@@ -296,230 +296,230 @@ export const S2_ARCHETYPES: Archetype[] = [
     name: "Dishonoured Cheque + Payment from Personal Bank",
     year: 2025,
     source: "2020 Q6(v)",
-    totalMarks: 12,
+    totalMarks: 0,
     category: "suspense",
-    desc: "A cheque for €920 in settlement of a €990 business debt was correctly recorded. However, no entry was made for the dishonouring of the cheque and the ...",
-    partSummary: ["Step 1 — Understand....", "Step 2 — DID...", "Step 3 — What...", "Net effect on Creditors:..."],
+    desc: "A cheque for \u20ac920 in settlement of a \u20ac990 business debt was correctly recorded. However, no entry was made for the dishonouring of the cheque and the subsequent payment in full by the owner from a per",
+    partSummary: ["Step 1 — Understand", "Step 2 — DID happen: Nothing recorded for the bounce or the ", "Step 3 — What SHOULD happen:A: Reverse the bounced cheque: D", "Net effect on Creditors: +990 − 990 = 0 (debt reinstated the"],
     question: `<strong>A cheque for €920 in settlement of a €990 business debt was correctly recorded.</strong> However, no entry was made for the dishonouring of the cheque and the subsequent payment in full by the owner from a personal bank account. <em>2020 SEC Q6</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — Understand. Original entry was correct: Dr Bank 920, Dr Discount 70, Cr Creditors 990. The cheque BOUNCED. Then the owner paid the FULL €990 from their PERSONAL bank (= Capital injection). Two omissions to fix.",
+        explain: `<strong>Step 1 — Understand.</strong> Original entry was correct: Dr Bank 920, Dr Discount 70, Cr Creditors 990. The cheque BOUNCED. Then the owner paid the FULL €990 from their PERSONAL bank (= Capital injection). Two omissions to fix.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — DID happen: Nothing recorded for the bounce or the personal payment.",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What DID Happen (for bounce)</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">(Nothing recorded): —</td><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">(Nothing recorded): —</td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 2 — DID happen:</strong> Nothing recorded for the bounce or the personal payment.`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What DID Happen (for bounce)</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">(Nothing recorded): —</td><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">(Nothing recorded): —</td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "Step 3 — What SHOULD happen:A: Reverse the bounced cheque: Dr Creditors 990, Cr Bank 920, Cr Discount 70.B: Record personal payment: Dr Creditors 990, Cr Capital 990.",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Journal Entry (Fix)</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Bank (reverse dishonoured): 920</td><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Creditors: 990</td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Creditors: 990</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Capital (personal bank = new capital): 990</td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Discount Allowed: 70</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 3 — What SHOULD happen:</strong><br>A: Reverse the bounced cheque: Dr Creditors 990, Cr Bank 920, Cr Discount 70.<br>B: Record personal payment: Dr Creditors 990, Cr Capital 990.`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Journal Entry (Fix)</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Bank (reverse dishonoured): 920</td><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Creditors: 990</td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Creditors: 990</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Capital (personal bank = new capital): 990</td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Discount Allowed: 70</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 4",
         marks: 0,
-        explain: "Net effect on Creditors: +990 − 990 = 0 (debt reinstated then cleared again).P&L: Discount reversed −70 (was an expense, now reversed = increases profit... actually discount was income that needs reversing).BS: Bank −920, Capital +990.SUSPENSE: Error of Omission = does NOT affect Suspense.",
-        content: ``,
-        mistakes: ["KEY: Payment from PERSONAL bank = CAPITAL, not Business Bank. The discount must be reversed because the cheque bounced — the settlement was never completed."]
+        explain: `<strong>Net effect on Creditors:</strong> +990 − 990 = 0 (debt reinstated then cleared again).<br><strong>P&L:</strong> Discount reversed −70 (was an expense, now reversed = increases profit... actually discount was income that needs reversing).<br><strong>BS:</strong> Bank −920, Capital +990.<br><strong>SUSPENSE:</strong> Error of Omission = does NOT affect Suspense.`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>KEY:</strong> Payment from PERSONAL bank = CAPITAL, not Business Bank. The discount must be reversed because the cheque bounced — the settlement was never completed.</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-sus-rent-prepaid",
     type: "Suspense",
-    name: "Rent Prepaid — Incorrect Calculation",
+    name: "Rent Prepaid \u2014 Incorrect Calculation",
     year: 2025,
     source: "2024 Q6(iii)",
-    totalMarks: 12,
+    totalMarks: 0,
     category: "suspense",
-    desc: "An 18-month payment of €3,600 for rent of a warehouse commenced on 01/01/2023. The payment was recorded correctly but the prepaid figure was incorrect...",
-    partSummary: ["Step 1 — Calculate...", "Step 2 — DID...", "Step 3 — What...", "Step 4 — FIX:..."],
+    desc: "An 18-month payment of \u20ac3,600 for rent of a warehouse commenced on 01/01/2023. The payment was recorded correctly but the prepaid figure was incorrectly calculated. TB shows Expenses Prepaid \u20ac650. 202",
+    partSummary: ["Step 1 — Calculate the correct prepaid", "Step 2 — DID happen: Prepaid recorded as €650 (too low)", "Step 3 — What SHOULD have happened:", "Step 4 — FIX: increase prepaid by €550"],
     question: `<strong>An 18-month payment of €3,600 for rent of a warehouse commenced on 01/01/2023.</strong> The payment was recorded correctly but the prepaid figure was incorrectly calculated. TB shows Expenses Prepaid €650. <em>2024 SEC Q6</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — Calculate the correct prepaid. Monthly rent = 3,600 ÷ 18 = €200/month. Year ended 31/12/2023 uses 12 months. Prepaid at year end = 6 months × 200 = €1,200. TB shows €650. Understated by €550.",
+        explain: `<strong>Step 1 — Calculate the correct prepaid.</strong> Monthly rent = 3,600 ÷ 18 = €200/month. Year ended 31/12/2023 uses 12 months. Prepaid at year end = 6 months × 200 = <strong>€1,200</strong>. TB shows €650. Understated by €550.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — DID happen: Prepaid recorded as €650 (too low). Bank and Rent account were correct.",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What DID Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Rent Prepaid (BS): 650</td><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Rent (P&L): 650</td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 2 — DID happen:</strong> Prepaid recorded as €650 (too low). Bank and Rent account were correct.`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What DID Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Rent Prepaid (BS): 650</td><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Rent (P&L): 650</td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "Step 3 — What SHOULD have happened:",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What SHOULD Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Rent Prepaid (BS): 1,200</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Rent (P&L): 1,200</td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 3 — What SHOULD have happened:</strong>`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What SHOULD Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Rent Prepaid (BS): 1,200</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Rent (P&L): 1,200</td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 4",
         marks: 0,
-        explain: "Step 4 — FIX: increase prepaid by €550. Dr Rent Prepaid 550, Cr Rent 550.P&L: Rent expense DECREASES by €550 (profit increases). BS: Rent prepaid increases by €550 (CA). SUSPENSE: Both sides adjusted equally = does NOT affect Suspense.",
-        content: ``,
-        mistakes: ["TRAP: This is a P&L/BS SPLIT error, not a one-sided error. The bank was correct, rent account was correct — only the prepaid SPLIT was wrong. No Suspense impact."]
+        explain: `<strong>Step 4 — FIX: increase prepaid by €550.</strong> Dr Rent Prepaid 550, Cr Rent 550.<br><br><strong>P&L:</strong> Rent expense DECREASES by €550 (profit increases). <strong>BS:</strong> Rent prepaid increases by €550 (CA). <strong>SUSPENSE:</strong> Both sides adjusted equally = does NOT affect Suspense.`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>TRAP:</strong> This is a P&L/BS SPLIT error, not a one-sided error. The bank was correct, rent account was correct — only the prepaid SPLIT was wrong. No Suspense impact.</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-sus-returns-partial",
     type: "Suspense",
-    name: "Goods Returned — Only Credit Entry Made",
+    name: "Goods Returned \u2014 Only Credit Entry Made",
     year: 2025,
     source: "2022 Q6(i)",
-    totalMarks: 15,
+    totalMarks: 0,
     category: "suspense",
-    desc: "Goods previously sold to Savers Supermarket Ltd for €800 had been returned but entered as €80 on the credit side of the customer's account with no oth...",
-    partSummary: ["Step 1 — Understand....", "Step 2 — DID...", "Step 3 — What...", "Step 4 — FIX:..."],
+    desc: "Goods previously sold to Savers Supermarket Ltd for \u20ac800 had been returned but entered as \u20ac80 on the credit side of the customer's account with no other entry being made. 2022 SEC Q6",
+    partSummary: ["Step 1 — Understand", "Step 2 — DID happen:", "Step 3 — What SHOULD happen:", "Step 4 — FIX:", "Why Suspense = Dr 80? DID: Cr 80 (one-sided)"],
     question: `<strong>Goods previously sold to Savers Supermarket Ltd for €800 had been returned</strong> but entered as €80 on the credit side of the customer's account with no other entry being made. <em>2022 SEC Q6</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — Understand. Customer returned €800 of goods. Only entry: Cr Debtors €80 (wrong amount AND incomplete — no Sales Returns entry). Two errors: wrong amount + missing debit.",
+        explain: `<strong>Step 1 — Understand.</strong> Customer returned €800 of goods. Only entry: Cr Debtors €80 (wrong amount AND incomplete — no Sales Returns entry). Two errors: wrong amount + missing debit.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — DID happen:",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What DID Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border">(nothing on debit)</td><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Debtors (wrong: €80 not €800): 80</td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 2 — DID happen:</strong>`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What DID Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border">(nothing on debit)</td><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Debtors (wrong: €80 not €800): 80</td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "Step 3 — What SHOULD happen:",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What SHOULD Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Sales Returns: 800</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Debtors: 800</td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 3 — What SHOULD happen:</strong>`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What SHOULD Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Sales Returns: 800</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Debtors: 800</td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 4",
         marks: 0,
-        explain: "Step 4 — FIX:",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Journal Entry (Fix)</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Sales Returns: 800</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Debtors (extra €720 needed): 720</td></tr><tr><td class="p-2 border border-border" class="text-amber-700 dark:text-amber-400 font-semibold">Suspense: 80</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 4 — FIX:</strong>`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Journal Entry (Fix)</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Sales Returns: 800</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Debtors (extra €720 needed): 720</td></tr><tr><td class="p-2 border border-border">Suspense: 80</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 5",
         marks: 0,
-        explain: "Why Suspense = Dr 80? DID: Cr 80 (one-sided). SHOULD: Dr 800, Cr 800 (balanced). The Cr 80 created a Cr excess. Suspense Dr 80 reverses it. Debtors needs Cr 720 more (was Cr 80, should be Cr 800).P&L: Sales Returns +800 (decreases profit). BS: Debtors −800.",
-        content: ``,
-        mistakes: ["TRAP: Two errors combined: (1) Wrong amount (80 vs 800). (2) Missing debit (Sales Returns). The Suspense entry = the one-sided Cr 80 that was the only entry made."]
+        explain: `<strong>Why Suspense = Dr 80?</strong> DID: Cr 80 (one-sided). SHOULD: Dr 800, Cr 800 (balanced). The Cr 80 created a Cr excess. Suspense Dr 80 reverses it. Debtors needs Cr 720 more (was Cr 80, should be Cr 800).<br><br><strong>P&L:</strong> Sales Returns +800 (decreases profit). <strong>BS:</strong> Debtors −800.`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>TRAP:</strong> Two errors combined: (1) Wrong amount (80 vs 800). (2) Missing debit (Sales Returns). The Suspense entry = the one-sided Cr 80 that was the only entry made.</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-sus-repairs-insurance",
     type: "Suspense",
-    name: "Repairs & Insurance — Credited to Wrong Accounts",
+    name: "Repairs & Insurance \u2014 Credited to Wrong Accounts",
     year: 2025,
     source: "2020 Q6(iv)",
-    totalMarks: 15,
+    totalMarks: 0,
     category: "suspense",
-    desc: "Payments from the business bank for repairs €1,000 and insurance of private dwelling €750 were entered correctly in the bank account but respectively ...",
-    partSummary: ["Step 1 — Understand....", "Step 2 — DID...", "Step 3 — What...", "Step 4 — FIX:..."],
+    desc: "Payments from the business bank for repairs \u20ac1,000 and insurance of private dwelling \u20ac750 were entered correctly in the bank account but respectively credited to creditors account and to the insurance",
+    partSummary: ["Step 1 — Understand", "Step 2 — DID happen:", "Step 3 — What SHOULD happen:", "Step 4 — FIX:", "Why Suspense = Cr 3,500? DID: Bank Cr 1,750 + Creditors Cr 1"],
     question: `<strong>Payments from the business bank for repairs €1,000 and insurance of private dwelling €750</strong> were entered correctly in the bank account but respectively credited to creditors account and to the insurance account. <em>2020 SEC Q6</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — Understand. Bank was DEBITED correctly (payments). But: Repairs went Cr Creditors (should be Dr Repairs). Insurance went Cr Insurance (should be Dr Drawings — it's PRIVATE).",
+        explain: `<strong>Step 1 — Understand.</strong> Bank was DEBITED correctly (payments). But: Repairs went Cr Creditors (should be Dr Repairs). Insurance went Cr Insurance (should be Dr Drawings — it's PRIVATE).`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — DID happen:",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What DID Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border">(nothing extra on debit)</td><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Creditors (wrong: should be Dr Repairs): 1,000</td></tr><tr><td class="p-2 border border-border"></td><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Insurance (wrong: should be Dr Drawings): 750</td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 2 — DID happen:</strong>`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What DID Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border">(nothing extra on debit)</td><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Creditors (wrong: should be Dr Repairs): 1,000</td></tr><tr><td class="p-2 border border-border"></td><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Insurance (wrong: should be Dr Drawings): 750</td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "Step 3 — What SHOULD happen:",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What SHOULD Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Repairs (business expense): 1,000</td><td class="p-2 border border-border" class="text-blue-700 dark:text-blue-400 font-semibold">Bank (already correct): 1,750</td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Drawings (private insurance): 750</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 3 — What SHOULD happen:</strong>`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What SHOULD Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Repairs (business expense): 1,000</td><td class="p-2 border border-border" class="text-blue-700 dark:text-blue-400 font-semibold">Bank (already correct): 1,750</td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Drawings (private insurance): 750</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 4",
         marks: 0,
-        explain: "Step 4 — FIX:",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Journal Entry (Fix)</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Creditors (reverse wrong Cr): 1,000</td><td class="p-2 border border-border" class="text-amber-700 dark:text-amber-400 font-semibold">Suspense: 3,500</td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Insurance (reverse wrong Cr): 750</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Repairs: 1,000</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Drawings: 750</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 4 — FIX:</strong>`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Journal Entry (Fix)</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Creditors (reverse wrong Cr): 1,000</td><td class="p-2 border border-border">Suspense: 3,500</td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Insurance (reverse wrong Cr): 750</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Repairs: 1,000</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Drawings: 750</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 5",
         marks: 0,
-        explain: "Why Suspense = Cr 3,500? DID: Bank Cr 1,750 + Creditors Cr 1,000 + Insurance Cr 750 = Total Cr 3,500 excess. SHOULD: Bank Cr 1,750 only. The extra Cr 1,750 from wrong accounts needs reversing, PLUS the missing Dr 1,750 (Repairs + Drawings).P&L: Repairs +1,000 (decreases profit), Insurance reversed (no longer an expense). BS: Creditors +1,000, Drawings +750.",
-        content: ``,
-        mistakes: ["KEY: Private insurance = DRAWINGS, not a business expense. Repairs should have been DEBITED, not credited to creditors."]
+        explain: `<strong>Why Suspense = Cr 3,500?</strong> DID: Bank Cr 1,750 + Creditors Cr 1,000 + Insurance Cr 750 = Total Cr 3,500 excess. SHOULD: Bank Cr 1,750 only. The extra Cr 1,750 from wrong accounts needs reversing, PLUS the missing Dr 1,750 (Repairs + Drawings).<br><br><strong>P&L:</strong> Repairs +1,000 (decreases profit), Insurance reversed (no longer an expense). <strong>BS:</strong> Creditors +1,000, Drawings +750.`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>KEY:</strong> Private insurance = DRAWINGS, not a business expense. Repairs should have been DEBITED, not credited to creditors.</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-sus-equip-purchases",
     type: "Suspense",
-    name: "Equipment Purchased — Credit on Wrong Side + Debited to Purchases",
+    name: "Equipment Purchased \u2014 Credit on Wrong Side + Debited to Purchases",
     year: 2025,
     source: "2020 Q6(i)",
-    totalMarks: 15,
+    totalMarks: 0,
     category: "suspense",
-    desc: "Equipment purchased on credit for €6,600 from P. Babb. Entered on the incorrect side of Babb's account as €6,060 and as €6,000 in the purchases accoun...",
-    partSummary: ["Step 1 — THREE...", "Step 2 — DID...", "Step 3 — What...", "Step 4 — FIX..."],
+    desc: "Equipment purchased on credit for \u20ac6,600 from P. Babb. Entered on the incorrect side of Babb's account as \u20ac6,060 and as \u20ac6,000 in the purchases account. 2020 SEC Q6",
+    partSummary: ["Step 1 — THREE errors in one", "Step 2 — DID happen:", "Step 3 — What SHOULD happen:", "Step 4 — FIX (from marking scheme):", "Why Suspense = Dr 12,060? DID: Dr 6,060 + Dr 6,000 = 12,060"],
     question: `<strong>Equipment purchased on credit for €6,600 from P. Babb.</strong> Entered on the incorrect side of Babb's account as €6,060 and as €6,000 in the purchases account. <em>2020 SEC Q6</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — THREE errors in one. (A) Wrong account: Purchases instead of Equipment. (B) Wrong side: Babb debited instead of credited. (C) Wrong amounts: €6,060 and €6,000 instead of €6,600.",
+        explain: `<strong>Step 1 — THREE errors in one.</strong> (A) Wrong account: Purchases instead of Equipment. (B) Wrong side: Babb debited instead of credited. (C) Wrong amounts: €6,060 and €6,000 instead of €6,600.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — DID happen:",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What DID Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Babb (WRONG SIDE: should be Cr): 6,060</td><td class="p-2 border border-border">(nothing)</td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Purchases (wrong account): 6,000</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 2 — DID happen:</strong>`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What DID Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Babb (WRONG SIDE: should be Cr): 6,060</td><td class="p-2 border border-border">(nothing)</td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Purchases (wrong account): 6,000</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "Step 3 — What SHOULD happen:",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What SHOULD Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Equipment: 6,600</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Creditors: Babb: 6,600</td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 3 — What SHOULD happen:</strong>`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">What SHOULD Happen</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Equipment: 6,600</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Creditors: Babb: 6,600</td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 4",
         marks: 0,
-        explain: "Step 4 — FIX (from marking scheme):",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Journal Entry (Fix)</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Equipment: 6,600</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Creditors: Babb: 6,060</td></tr><tr><td class="p-2 border border-border" class="text-amber-700 dark:text-amber-400 font-semibold">Suspense: 12,060</td><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Purchases: 6,000</td></tr><tr><td class="p-2 border border-border"></td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Creditors: Babb (correct entry): 6,600</td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 4 — FIX (from marking scheme):</strong>`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Journal Entry (Fix)</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Equipment: 6,600</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Creditors: Babb: 6,060</td></tr><tr><td class="p-2 border border-border">Suspense: 12,060</td><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Purchases: 6,000</td></tr><tr><td class="p-2 border border-border"></td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Creditors: Babb (correct entry): 6,600</td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 5",
         marks: 0,
-        explain: "Why Suspense = Dr 12,060? DID: Dr 6,060 + Dr 6,000 = 12,060. Cr = 0. Huge debit excess. SHOULD: Dr 6,600, Cr 6,600 (balanced).P&L: Purchases reversed +6,000 (increases profit). Equipment is BS item (no P&L effect).",
-        content: ``,
-        mistakes: ["TRAP: When a creditor is on the WRONG SIDE, the fix is: reverse the wrong debit AND add the correct credit = 2× the amount swing. Plus the wrong account (Purchases) must be reversed."]
+        explain: `<strong>Why Suspense = Dr 12,060?</strong> DID: Dr 6,060 + Dr 6,000 = 12,060. Cr = 0. Huge debit excess. SHOULD: Dr 6,600, Cr 6,600 (balanced).<br><br><strong>P&L:</strong> Purchases reversed +6,000 (increases profit). Equipment is BS item (no P&L effect).`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>TRAP:</strong> When a creditor is on the WRONG SIDE, the fix is: reverse the wrong debit AND add the correct credit = 2× the amount swing. Plus the wrong account (Purchases) must be reversed.</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-sus-tac-template",
@@ -527,34 +527,34 @@ export const S2_ARCHETYPES: Archetype[] = [
     name: "Suspense Account T-Account (Template)",
     year: 2025,
     source: "Every Year",
-    totalMarks: 9,
+    totalMarks: 0,
     category: "suspense",
-    desc: "Show the Suspense Account. The opening balance is the TB difference. Only ONE-SIDED errors go through Suspense. Complete omissions, errors of principl...",
-    partSummary: ["Step 1 — Which...", "Step 2 — The...", "Step 3 — The..."],
+    desc: "Show the Suspense Account. The opening balance is the TB difference. Only ONE-SIDED errors go through Suspense. Complete omissions, errors of principle, errors of commission, and compensating errors d",
+    partSummary: ["Step 1 — Which errors affect Suspense?• AFFECTS: Entry on wr", "Step 2 — The T-Account:", "Step 3 — The account MUST balance to ZERO"],
     question: `<strong>Show the Suspense Account.</strong> The opening balance is the TB difference. Only ONE-SIDED errors go through Suspense. Complete omissions, errors of principle, errors of commission, and compensating errors do NOT appear. <em>Required every year — 6-10 marks</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — Which errors affect Suspense?• AFFECTS: Entry on wrong side (reversal), wrong amount on one side, entry completely missing from one side, entry in Suspense itself.• DOES NOT AFFECT: Complete omission (both sides missing), Error of Principle (correct sides, wrong class), Error of Commission (correct class, wrong account), Compensating errors (cancel out).",
+        explain: `<strong>Step 1 — Which errors affect Suspense?</strong><br>• AFFECTS: Entry on wrong side (reversal), wrong amount on one side, entry completely missing from one side, entry in Suspense itself.<br>• DOES NOT AFFECT: Complete omission (both sides missing), Error of Principle (correct sides, wrong class), Error of Commission (correct class, wrong account), Compensating errors (cancel out).`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — The T-Account:",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Suspense Account</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-blue-700 dark:text-blue-400 font-semibold">Opening balance (if debits > credits): XXX</td><td class="p-2 border border-border" class="text-blue-700 dark:text-blue-400 font-semibold">Opening balance (if credits > debits): XXX</td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Entries that FIX the Cr side: XXX</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Entries that FIX the Dr side: XXX</td></tr><tr><td class="p-2 border border-border font-bold bg-muted">: XXX</td><td class="p-2 border border-border font-bold bg-muted">: XXX</td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 2 — The T-Account:</strong>`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Suspense Account</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-blue-700 dark:text-blue-400 font-semibold">Opening balance (if debits > credits): XXX</td><td class="p-2 border border-border" class="text-blue-700 dark:text-blue-400 font-semibold">Opening balance (if credits > debits): XXX</td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Entries that FIX the Cr side: XXX</td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Entries that FIX the Dr side: XXX</td></tr><tr><td class="p-2 border border-border" class="font-bold border-t-2 border-double bg-muted/40">XXX</td><td class="p-2 border border-border" class="font-bold border-t-2 border-double bg-muted/40">XXX</td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "Step 3 — The account MUST balance to ZERO. The closing balance is always zero because once all errors are corrected, the TB balances. If it doesn't balance, you've missed an error or made a calculation mistake.",
-        content: ``,
-        mistakes: ["EXAM TIP: Part (b)(ii) often asks \"Explain why there is no closing balance.\" Answer: \"The suspense account is a temporary account that holds the TB difference. Once all errors are corrected through the suspense account, the account should be clear because the trial balance now agrees.\""]
+        explain: `<strong>Step 3 — The account MUST balance to ZERO.</strong> The closing balance is always zero because once all errors are corrected, the TB balances. If it doesn't balance, you've missed an error or made a calculation mistake.`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>EXAM TIP:</strong> Part (b)(ii) often asks "Explain why there is no closing balance." Answer: "The suspense account is a temporary account that holds the TB difference. Once all errors are corrected through the suspense account, the account should be clear because the trial balance now agrees."</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-sus-cnp-template",
@@ -562,34 +562,34 @@ export const S2_ARCHETYPES: Archetype[] = [
     name: "Statement of Corrected Net Profit (Template)",
     year: 2025,
     source: "Every Year",
-    totalMarks: 9,
+    totalMarks: 0,
     category: "suspense",
-    desc: "Prepare the statement of corrected net profit. Start with original NP. Only adjust for errors that affect P&L accounts (expenses or income). BS-only e...",
-    partSummary: ["Step 1 — Which...", "Step 2 — Layout:...", "Step 3 — Work..."],
+    desc: "Prepare the statement of corrected net profit. Start with original NP. Only adjust for errors that affect P&L accounts (expenses or income). BS-only errors do NOT change profit. Required every year \u2014 ",
+    partSummary: ["Step 1 — Which errors change profit?CHANGES profit: Sales, P", "Step 2 — Layout:", "Step 3 — Work through each error systematically"],
     question: `<strong>Prepare the statement of corrected net profit.</strong> Start with original NP. Only adjust for errors that affect P&L accounts (expenses or income). BS-only errors do NOT change profit. <em>Required every year — 12-14 marks</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — Which errors change profit?CHANGES profit: Sales, Purchases, Returns, Expenses (rent, advertising, insurance, repairs), Bad debts recovered, Discount, Depreciation, Loss/Profit on disposal.DOES NOT change profit: Equipment, Debtors, Creditors, Bank, Cash, Drawings, Capital, VAT.",
+        explain: `<strong>Step 1 — Which errors change profit?</strong><br>CHANGES profit: Sales, Purchases, Returns, Expenses (rent, advertising, insurance, repairs), Bad debts recovered, Discount, Depreciation, Loss/Profit on disposal.<br>DOES NOT change profit: Equipment, Debtors, Creditors, Bank, Cash, Drawings, Capital, VAT.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — Layout:",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Statement of Corrected Net Profit</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border">Original Net Profit: XXX</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">ADD (increases profit):</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Expense overstated (reduce it): XXX</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Income understated (add it): XXX</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Purchases reversed: XXX</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">: XXX</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">LESS (decreases profit):</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Expense understated (add it): (XXX)</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Income overstated (reduce it): (XXX)</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">New expense discovered: (XXX)</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">: (XXX)</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border font-bold bg-muted">CORRECTED NET PROFIT: XXX</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 2 — Layout:</strong>`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Statement of Corrected Net Profit</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border">Original Net Profit: XXX</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">ADD (increases profit):</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Expense overstated (reduce it): XXX</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Income understated (add it): XXX</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Purchases reversed: XXX</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">XXX</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">LESS (decreases profit):</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Expense understated (add it): (XXX)</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Income overstated (reduce it): (XXX)</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">New expense discovered: (XXX)</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">(XXX)</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="font-bold border-t-2 border-double bg-muted/40">CORRECTED NET PROFIT: XXX</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "Step 3 — Work through each error systematically. For each error ask: \"Does this change an expense or income?\" If YES, it changes profit. If it only moves items between BS accounts (equipment, creditors, debtors, bank), it does NOT change profit.",
-        content: ``,
-        mistakes: ["COMMON ADDS: Purchases reversed, Bad debts recovered, Rent prepaid (expense reduced), Discount received, Sales understated.COMMON LESS: New expenses (advertising, repairs, insurance), Loss on disposal, Sales reversed, Discount allowed."]
+        explain: `<strong>Step 3 — Work through each error systematically.</strong> For each error ask: "Does this change an expense or income?" If YES, it changes profit. If it only moves items between BS accounts (equipment, creditors, debtors, bank), it does NOT change profit.`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>COMMON ADDS:</strong> Purchases reversed, Bad debts recovered, Rent prepaid (expense reduced), Discount received, Sales understated.<br><strong>COMMON LESS:</strong> New expenses (advertising, repairs, insurance), Loss on disposal, Sales reversed, Discount allowed.</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-sus-cbs-template",
@@ -597,90 +597,90 @@ export const S2_ARCHETYPES: Archetype[] = [
     name: "Corrected Balance Sheet (Template)",
     year: 2025,
     source: "Every Year",
-    totalMarks: 9,
+    totalMarks: 0,
     category: "suspense",
-    desc: "Prepare the corrected balance sheet. Take every BS figure from the original and adjust for each error. Remember: Corrected Net Profit replaces the ori...",
-    partSummary: ["Step 1 — Every...", "Step 2 — Key...", "The BS MUST balance...."],
+    desc: "Prepare the corrected balance sheet. Take every BS figure from the original and adjust for each error. Remember: Corrected Net Profit replaces the original. Required every year \u2014 20-22 marks",
+    partSummary: ["Step 1 — Every BS item may need adjusting", "Step 2 — Key adjustments to watch for:• Equipment: +/− at CO", "The BS MUST balance"],
     question: `<strong>Prepare the corrected balance sheet.</strong> Take every BS figure from the original and adjust for each error. Remember: Corrected Net Profit replaces the original. <em>Required every year — 20-22 marks</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — Every BS item may need adjusting. Go through each error and note which BS accounts change:• Fixed Assets: equipment added/removed, delivery vans, acc dep• Current Assets: debtors, cash, bank, stock, prepaid• Current Liabilities: creditors, bank OD, VAT, expenses due• Capital section: capital ± private payments, corrected NP, drawings",
+        explain: `<strong>Step 1 — Every BS item may need adjusting.</strong> Go through each error and note which BS accounts change:<br>• Fixed Assets: equipment added/removed, delivery vans, acc dep<br>• Current Assets: debtors, cash, bank, stock, prepaid<br>• Current Liabilities: creditors, bank OD, VAT, expenses due<br>• Capital section: capital ± private payments, corrected NP, drawings`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — Key adjustments to watch for:• Equipment: +/− at COST (show cost and dep separately)• Debtors: ± new debtors, ± bad debt adjustments (deduct Suspense if \"Debtors including Suspense\")• Creditors: ± per journal entries (deduct Suspense if \"Creditors including Suspense\")• Drawings: + private expenses (insurance, rent from private bank)• Net Profit: use the CORRECTED figure from part (c)",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Corrected Balance Sheet Layout</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border">Fixed Assets (at cost ± adj): XXX</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Less Acc Dep (± adj): (XXX)</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-blue-700 dark:text-blue-400 font-semibold">NBV: XXX</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Current Assets (± adj): XXX</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Less CL (± adj): (XXX)</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Total Assets less CL: XXX</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border"></td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Capital: XXX</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">+ Corrected Net Profit: XXX</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">− Drawings (± adj): (XXX)</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border font-bold bg-muted">Capital Employed: XXX</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 2 — Key adjustments to watch for:</strong><br>• Equipment: +/− at COST (show cost and dep separately)<br>• Debtors: ± new debtors, ± bad debt adjustments (deduct Suspense if "Debtors including Suspense")<br>• Creditors: ± per journal entries (deduct Suspense if "Creditors including Suspense")<br>• Drawings: + private expenses (insurance, rent from private bank)<br>• Net Profit: use the CORRECTED figure from part (c)`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Corrected Balance Sheet Layout</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border">Fixed Assets (at cost ± adj): XXX</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Less Acc Dep (± adj): (XXX)</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-blue-700 dark:text-blue-400 font-semibold">NBV: XXX</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Current Assets (± adj): XXX</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Less CL (± adj): (XXX)</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Total Assets less CL: XXX</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border"></td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Capital: XXX</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">+ Corrected Net Profit: XXX</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">− Drawings (± adj): (XXX)</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="font-bold border-t-2 border-double bg-muted/40">Capital Employed: XXX</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "The BS MUST balance. If it doesn't, check: (1) Did you use corrected NP? (2) Did you adjust drawings for private items? (3) Did you remove Suspense from debtors/creditors?",
-        content: ``,
-        mistakes: ["KEY: If the question says \"Debtors (including suspense)\" then the Suspense balance is INSIDE the debtors figure. You must subtract it. Same for \"Creditors (including suspense).\""]
+        explain: `<strong>The BS MUST balance.</strong> If it doesn't, check: (1) Did you use corrected NP? (2) Did you adjust drawings for private items? (3) Did you remove Suspense from debtors/creditors?`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>KEY:</strong> If the question says "Debtors (including suspense)" then the Suspense balance is INSIDE the debtors figure. You must subtract it. Same for "Creditors (including suspense)."</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-club-accfund",
     type: "Club",
-    name: "Accumulated Fund — Full Asset & Liability Statement",
+    name: "Accumulated Fund \u2014 Full Asset & Liability Statement",
     year: 2025,
     source: "Part (a)",
-    totalMarks: 18,
+    totalMarks: 0,
     category: "club",
-    desc: "Show the Accumulated Fund on 01/01/2021. Assets: Clubhouse €950,000 (cost), Equipment €42,000 (cost), Bar Stock €1,820, Bar Debtors €560, Life Members...",
-    partSummary: ["Step 1 — Why...", "Step 2 — Calculate...", "Step 3 — Two...", "Step 4 — List..."],
+    desc: "Show the Accumulated Fund on 01/01/2021. Assets: Clubhouse \u20ac950,000 (cost), Equipment \u20ac42,000 (cost), Bar Stock \u20ac1,820, Bar Debtors \u20ac560, Life Membership \u20ac48,000, Levy Reserve \u20ac50,000, Bar Creditors \u20ac",
+    partSummary: ["Step 1 — Why do we need the Accumulated Fund? A club has no ", "Step 2 — Calculate fixed asset NBVs FIRST", "Step 3 — Two items need WORKINGS before they can appear here", "Step 4 — List ALL assets (from marking scheme):", "Step 5 — List ALL liabilities:", "ACCUMULATED FUND = 960,050 − 363,300 = €596,750This figure a"],
     question: `<strong>Show the Accumulated Fund on 01/01/2021.</strong> Assets: Clubhouse €950,000 (cost), Equipment €42,000 (cost), Bar Stock €1,820, Bar Debtors €560, Life Membership €48,000, Levy Reserve €50,000, Bar Creditors €700, Subs in advance €1,000, Wages due €440, Investment income due €420. All FA have 3 years dep at 01/01. <em>2022 SEC Q7 — 30 marks</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — Why do we need the Accumulated Fund? A club has no \"Capital\" account like a sole trader. Instead, the Accumulated Fund is the club’s net worth at the start of the year. It’s calculated as: Total Assets − Total Liabilities. Think of it as the club’s \"opening equity.\"You MUST list every single asset and liability given in the question. Missing one = lost marks (1-2 marks each). The marking scheme awards marks for EVERY line item individually.",
+        explain: `<strong>Step 1 — Why do we need the Accumulated Fund?</strong> A club has no "Capital" account like a sole trader. Instead, the Accumulated Fund is the club’s net worth at the start of the year. It’s calculated as: Total Assets − Total Liabilities. Think of it as the club’s "opening equity."<br><br>You MUST list every single asset and liability given in the question. Missing one = lost marks (1-2 marks each). The marking scheme awards marks for EVERY line item individually.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — Calculate fixed asset NBVs FIRST. The question says \"3 years dep accumulated at 01/01.\" This means you need to work backwards:Clubhouse: 950,000 × 2% × 3 = 57,000 dep. NBV = 950,000 − 57,000 = €893,000 [4 marks]Equipment: 42,000 × 12.5% × 3 = 15,750 dep. NBV = 42,000 − 15,750 = €26,250 [4 marks]These go in the Assets column at their NBV, not cost. The marking scheme shows the calculation (cost − dep) beside each one.",
+        explain: `<strong>Step 2 — Calculate fixed asset NBVs FIRST.</strong> The question says "3 years dep accumulated at 01/01." This means you need to work backwards:<br><br><strong>Clubhouse:</strong> 950,000 × 2% × 3 = 57,000 dep. NBV = 950,000 − 57,000 = <strong>€893,000</strong> [4 marks]<br><strong>Equipment:</strong> 42,000 × 12.5% × 3 = 15,750 dep. NBV = 42,000 − 15,750 = <strong>€26,250</strong> [4 marks]<br><br>These go in the Assets column at their NBV, not cost. The marking scheme shows the calculation (cost − dep) beside each one.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "Step 3 — Two items need WORKINGS before they can appear here.Investments (W5): The question gives investment income received (€1,050 for 10 months) and the rate (5%). You must reverse-engineer the investment value = €25,200 (see W5 working). This goes in Assets.Loan (W8): The question gives a combined loan + interest repayment (€273,480). You must extract the loan amount = €258,000 and interest due = €5,160 (see W8 working). Both go in Liabilities.",
+        explain: `<strong>Step 3 — Two items need WORKINGS before they can appear here.</strong><br><br><strong>Investments (W5):</strong> The question gives investment income received (€1,050 for 10 months) and the rate (5%). You must reverse-engineer the investment value = <strong>€25,200</strong> (see W5 working). This goes in Assets.<br><br><strong>Loan (W8):</strong> The question gives a combined loan + interest repayment (€273,480). You must extract the loan amount = <strong>€258,000</strong> and interest due = <strong>€5,160</strong> (see W8 working). Both go in Liabilities.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 4",
         marks: 0,
-        explain: "Step 4 — List ALL assets (from marking scheme):",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Assets at 01/01/2021</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Clubhouse (950k − 57k): 893,000</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Equipment (42k − 15.75k): 26,250</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-blue-700 dark:text-blue-400 font-semibold">5% Investments (W5): 25,200</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Investment Income due: 420</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Bar Stock: 1,820</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Bar Debtors: 560</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-amber-700 dark:text-amber-400 font-semibold">Levy due (30 members overdue): 3,000</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Bank: 9,800</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border font-bold bg-muted">TOTAL ASSETS: 960,050</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 4 — List ALL assets (from marking scheme):</strong>`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Assets at 01/01/2021</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Clubhouse (950k − 57k): 893,000</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Equipment (42k − 15.75k): 26,250</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-blue-700 dark:text-blue-400 font-semibold">5% Investments (W5): 25,200</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Investment Income due: 420</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Bar Stock: 1,820</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Bar Debtors: 560</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Levy due (30 members overdue): 3,000</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Bank: 9,800</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="font-bold border-t-2 border-double bg-muted/40">TOTAL ASSETS: 960,050</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 5",
         marks: 0,
-        explain: "Step 5 — List ALL liabilities:",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Liabilities at 01/01/2021</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border">Life Membership: 48,000</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Levy Reserve Fund: 50,000</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-blue-700 dark:text-blue-400 font-semibold">Loan (W8): 258,000</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-blue-700 dark:text-blue-400 font-semibold">Loan Interest due (W8): 5,160</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Subs in advance: 1,000</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Wages due: 440</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Bar Creditors: 700</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border font-bold bg-muted">TOTAL LIABILITIES: 363,300</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 5 — List ALL liabilities:</strong>`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Liabilities at 01/01/2021</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border">Life Membership: 48,000</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Levy Reserve Fund: 50,000</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-blue-700 dark:text-blue-400 font-semibold">Loan (W8): 258,000</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-blue-700 dark:text-blue-400 font-semibold">Loan Interest due (W8): 5,160</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Subs in advance: 1,000</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Wages due: 440</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Bar Creditors: 700</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="font-bold border-t-2 border-double bg-muted/40">TOTAL LIABILITIES: 363,300</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 6",
         marks: 0,
-        explain: "ACCUMULATED FUND = 960,050 − 363,300 = €596,750This figure appears in the closing Balance Sheet under \"Financed By: Accumulated Fund/Capital.\"",
-        content: ``,
-        mistakes: ["COMMONLY MISSED ITEMS: (1) Levy due from previous year = ASSET (members who owe money TO the club). (2) Investment income due = ASSET. (3) Subs in advance = LIABILITY (received but not yet earned). (4) Loan interest due = separate LIABILITY from the loan itself. (5) Fixed assets at NBV not cost. (6) Investments need a working — the value is NOT given directly."]
+        explain: `<strong>ACCUMULATED FUND = 960,050 − 363,300 = €596,750</strong><br><br>This figure appears in the closing Balance Sheet under "Financed By: Accumulated Fund/Capital."`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>COMMONLY MISSED ITEMS:</strong> (1) <strong>Levy due from previous year</strong> = ASSET (members who owe money TO the club). (2) <strong>Investment income due</strong> = ASSET. (3) <strong>Subs in advance</strong> = LIABILITY (received but not yet earned). (4) <strong>Loan interest due</strong> = separate LIABILITY from the loan itself. (5) Fixed assets at <strong>NBV not cost</strong>. (6) Investments need a working — the value is NOT given directly.</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-club-invest",
@@ -688,76 +688,76 @@ export const S2_ARCHETYPES: Archetype[] = [
     name: "Investment Value (Reverse from Partial Income)",
     year: 2025,
     source: "W5",
-    totalMarks: 12,
+    totalMarks: 0,
     category: "club",
-    desc: "10 months interest on 5% investments received: €1,050. Investment income due at 01/01: €420. Find the investment value, annual income, and closing inc...",
-    partSummary: ["Step 1 — Why...", "Step 2 — Marking...", "Step 3 — Gross...", "Results:\\u2022 Investment value (BS):..."],
+    desc: "10 months interest on 5% investments received: \u20ac1,050. Investment income due at 01/01: \u20ac420. Find the investment value, annual income, and closing income due. 2022 SEC Q7 W5",
+    partSummary: ["Step 1 — Why is this tricky? The R&P shows €1,050 cash recei", "Step 2 — Marking scheme method:Cash received: €1,050Less: op", "Step 3 — Gross up to full year:6 months = €630 → 12 months =", "Results:\\u2022 Investment value (BS): €25,200 (Financial Ass"],
     question: `<strong>10 months interest on 5% investments received: €1,050. Investment income due at 01/01: €420.</strong> Find the investment value, annual income, and closing income due. <em>2022 SEC Q7 W5</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — Why is this tricky? The R&P shows €1,050 cash received — but this includes the €420 that was owed from LAST year (opening investment income due). So the €1,050 is NOT all current-year income. We must strip out the old amount first.",
+        explain: `<strong>Step 1 — Why is this tricky?</strong> The R&P shows €1,050 cash received — but this includes the <strong>€420 that was owed from LAST year</strong> (opening investment income due). So the €1,050 is NOT all current-year income. We must strip out the old amount first.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — Marking scheme method:Cash received: €1,050Less: opening amount due: (€420)= €630 of CURRENT YEAR income actually received.But €630 only covers SOME months of the year (not all 12). The interest was received \"for 10 months\" — meaning the payment covered 10 months total. Subtracting the 4 months from last year (the €420 opening due) leaves 6 months of current year income = €630.",
+        explain: `<strong>Step 2 — Marking scheme method:</strong><br><br>Cash received: €1,050<br>Less: opening amount due: (€420)<br>= €630 of CURRENT YEAR income actually received.<br><br>But €630 only covers SOME months of the year (not all 12). The interest was received "for 10 months" — meaning the payment covered 10 months total. Subtracting the 4 months from last year (the €420 opening due) leaves <strong>6 months of current year income = €630</strong>.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "Step 3 — Gross up to full year:6 months = €630 → 12 months = 630 × 2 = €1,260 annual income.Find investment value:1,260 = 5% of investmentInvestment = 1,260 ÷ 0.05 = €25,200",
+        explain: `<strong>Step 3 — Gross up to full year:</strong><br>6 months = €630 → 12 months = 630 × 2 = <strong>€1,260</strong> annual income.<br><br><strong>Find investment value:</strong><br>1,260 = 5% of investment<br>Investment = 1,260 ÷ 0.05 = <strong>€25,200</strong>`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 4",
         marks: 0,
-        explain: "Results:\u2022 Investment value (BS): €25,200 (Financial Assets)\u2022 I&E income: €1,260 (full year)\u2022 Closing income due: 1,260 − 630 = €630 (or 25,200 × 5% × 6/12 = €630)The closing amount due becomes a Current Asset on the Balance Sheet.",
-        content: ``,
-        mistakes: ["FORMULA: (Cash received − Opening due) × (12 ÷ months covered) = Annual income. Annual income ÷ rate = Investment value. This replaces the T-account method and is how the SEC marking scheme presents it."]
+        explain: `<strong>Results:</strong><br>\\u2022 <strong>Investment value (BS):</strong> €25,200 (Financial Assets)<br>\\u2022 <strong>I&E income:</strong> €1,260 (full year)<br>\\u2022 <strong>Closing income due:</strong> 1,260 − 630 = €630 (or 25,200 × 5% × 6/12 = €630)<br><br>The closing amount due becomes a Current Asset on the Balance Sheet.`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>FORMULA:</strong> (Cash received − Opening due) × (12 ÷ months covered) = Annual income. Annual income ÷ rate = Investment value. This replaces the T-account method and is how the SEC marking scheme presents it.</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-club-subs",
     type: "Club",
-    name: "Subscriptions (Linear List — SEC Method)",
+    name: "Subscriptions (Linear List \u2014 SEC Method)",
     year: 2025,
     source: "W6",
-    totalMarks: 9,
+    totalMarks: 0,
     category: "club",
-    desc: "Subscriptions received (R&P): €425,500. Includes: subs for 2022 €3,160 (in advance), levy 2021 on 650 members × €100, levy 2020 on 30 members × €100. ...",
-    partSummary: ["Step 1 — Why...", "Step 2 — The...", "Where does everything go?\\u2022..."],
+    desc: "Subscriptions received (R&P): \u20ac425,500. Includes: subs for 2022 \u20ac3,160 (in advance), levy 2021 on 650 members \u00d7 \u20ac100, levy 2020 on 30 members \u00d7 \u20ac100. Opening subs in advance: \u20ac1,000. 2022 SEC Q7 W6 \u2014 ",
+    partSummary: ["Step 1 — Why can’t we just use €425,500? Because the R&P fig", "Step 2 — The linear list (marking scheme method):The SEC doe", "Where does everything go?\\u2022 I&E: Subscriptions €355,340\\"],
     question: `<strong>Subscriptions received (R&P): €425,500.</strong> Includes: subs for 2022 €3,160 (in advance), levy 2021 on 650 members × €100, levy 2020 on 30 members × €100. Opening subs in advance: €1,000. <em>2022 SEC Q7 W6 — 6 marks</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — Why can’t we just use €425,500? Because the R&P figure includes items that are NOT ordinary membership subscriptions. The levies go to the Levy Reserve Fund (a separate BS item), and the advance subs belong to NEXT year. We need to strip out everything that isn’t 2021 subscription income.",
+        explain: `<strong>Step 1 — Why can’t we just use €425,500?</strong> Because the R&P figure includes items that are NOT ordinary membership subscriptions. The levies go to the Levy Reserve Fund (a separate BS item), and the advance subs belong to NEXT year. We need to strip out everything that isn’t 2021 subscription income.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — The linear list (marking scheme method):The SEC does NOT use a Subscriptions T-account. Instead, a simple addition/subtraction list:",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Subscriptions Working</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border">Received per R&P: 425,500</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">+ Prepaid b/d (last year’s advance is THIS year’s income): 1,000</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">− Prepaid c/d (2022 subs received early): (3,160)</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">− Levy 2021 (650 × €100): (65,000)</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">− Levy 2020 overdue (30 × €100): (3,000)</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border font-bold bg-muted">I&E SUBSCRIPTIONS: 355,340</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 2 — The linear list (marking scheme method):</strong><br><br>The SEC does NOT use a Subscriptions T-account. Instead, a simple addition/subtraction list:`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Subscriptions Working</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border">Received per R&P: 425,500</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">+ Prepaid b/d (last year’s advance is THIS year’s income): 1,000</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">− Prepaid c/d (2022 subs received early): (3,160)</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">− Levy 2021 (650 × €100): (65,000)</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">− Levy 2020 overdue (30 × €100): (3,000)</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="font-bold border-t-2 border-double bg-muted/40">I&E SUBSCRIPTIONS: 355,340</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "Where does everything go?\u2022 I&E: Subscriptions €355,340\u2022 BS — Levy Reserve Fund: 50,000 (opening) + 65,000 (2021 levy) = €115,000 (in \"Financed By\")\u2022 BS — Subs prepaid (CL): €3,160 (current liability)",
-        content: ``,
-        mistakes: ["RULES: (1) Levies → Levy Reserve Fund (BS), NOT I&E. (2) Life memberships → separate Life Membership account, NOT subs. (3) Subs in advance = liability (received but not yet earned). (4) Subs in arrears = asset (earned but not yet received) — but the SEC rarely includes arrears in modern papers."]
+        explain: `<strong>Where does everything go?</strong><br>\\u2022 <strong>I&E:</strong> Subscriptions €355,340<br>\\u2022 <strong>BS — Levy Reserve Fund:</strong> 50,000 (opening) + 65,000 (2021 levy) = €115,000 (in "Financed By")<br>\\u2022 <strong>BS — Subs prepaid (CL):</strong> €3,160 (current liability)`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>RULES:</strong> (1) <strong>Levies</strong> → Levy Reserve Fund (BS), NOT I&E. (2) <strong>Life memberships</strong> → separate Life Membership account, NOT subs. (3) <strong>Subs in advance</strong> = liability (received but not yet earned). (4) <strong>Subs in arrears</strong> = asset (earned but not yet received) — but the SEC rarely includes arrears in modern papers.</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-club-loan",
@@ -765,41 +765,41 @@ export const S2_ARCHETYPES: Archetype[] = [
     name: "Loan + Interest Backdating (Division Method)",
     year: 2025,
     source: "W8",
-    totalMarks: 12,
+    totalMarks: 0,
     category: "club",
-    desc: "Bank loan and 9 months interest at 8% p.a. repaid on 30/06/2021: €273,480. 2022 SEC Q7 W8 — 3 marks...",
-    partSummary: ["Step 1 — Why...", "Step 2 — Find...", "Step 3 — Split...", "Summary of destinations:\\u2022 Opening..."],
+    desc: "Bank loan and 9 months interest at 8% p.a. repaid on 30/06/2021: \u20ac273,480. 2022 SEC Q7 W8 \u2014 3 marks",
+    partSummary: ["Step 1 — Why is this a working? The R&P shows ONE combined p", "Step 2 — Find the loan (division method):Interest rate for 9", "Step 3 — Split the interest by time period", "Summary of destinations:\\u2022 Opening BS: Loan €258,000 (li"],
     question: `<strong>Bank loan and 9 months interest at 8% p.a. repaid on 30/06/2021: €273,480.</strong> <em>2022 SEC Q7 W8 — 3 marks</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — Why is this a working? The R&P shows ONE combined payment of €273,480. But this includes BOTH the loan repayment AND the interest. We need to separate them because: (A) The loan goes to the opening BS as a liability. (B) The interest is split between the opening BS (months before 01/01) and the I&E (months after 01/01).",
+        explain: `<strong>Step 1 — Why is this a working?</strong> The R&P shows ONE combined payment of €273,480. But this includes BOTH the loan repayment AND the interest. We need to separate them because: (A) The loan goes to the opening BS as a liability. (B) The interest is split between the opening BS (months before 01/01) and the I&E (months after 01/01).`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — Find the loan (division method):Interest rate for 9 months = 8% × 9/12 = 6%.The combined payment = 106% of the loan.Loan = 273,480 ÷ 1.06 = €258,000Total interest = 273,480 − 258,000 = €15,480.",
+        explain: `<strong>Step 2 — Find the loan (division method):</strong><br><br>Interest rate for 9 months = 8% × 9/12 = <strong>6%</strong>.<br>The combined payment = 106% of the loan.<br><strong>Loan = 273,480 ÷ 1.06 = €258,000</strong><br>Total interest = 273,480 − 258,000 = <strong>€15,480</strong>.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "Step 3 — Split the interest by time period.Repaid 30/06/2021. Loan was for 9 months → started 01/10/2020.Monthly interest = 15,480 ÷ 9 = €1,720/month.Before 01/01/2021 (Oct, Nov, Dec 2020 = 3 months):3 × 1,720 = €5,160 → Opening BS liability (interest due).After 01/01/2021 (Jan\u2013Jun 2021 = 6 months):6 × 1,720 = €10,320 → I&E expense.",
+        explain: `<strong>Step 3 — Split the interest by time period.</strong><br><br>Repaid 30/06/2021. Loan was for 9 months → started 01/10/2020.<br>Monthly interest = 15,480 ÷ 9 = <strong>€1,720/month</strong>.<br><br><strong>Before 01/01/2021</strong> (Oct, Nov, Dec 2020 = 3 months):<br>3 × 1,720 = <strong>€5,160</strong> → Opening BS liability (interest due).<br><br><strong>After 01/01/2021</strong> (Jan\\u2013Jun 2021 = 6 months):<br>6 × 1,720 = <strong>€10,320</strong> → I&E expense.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 4",
         marks: 0,
-        explain: "Summary of destinations:\u2022 Opening BS: Loan €258,000 (liability) + Interest due €5,160 (CL)\u2022 I&E: Loan interest €10,320 (expense)\u2022 Closing BS: Both = €0 (fully repaid 30/06/2021)",
-        content: ``,
-        mistakes: ["THE FORMULA: Combined ÷ (1 + rate × months/12) = Loan. No algebra needed. The SEC marking scheme uses this exact method: \"8% × 9/12 = 6%, 106% = 273,480, 100% = 258,000.\" Then split interest by counting months before and after 01/01."]
+        explain: `<strong>Summary of destinations:</strong><br>\\u2022 <strong>Opening BS:</strong> Loan €258,000 (liability) + Interest due €5,160 (CL)<br>\\u2022 <strong>I&E:</strong> Loan interest €10,320 (expense)<br>\\u2022 <strong>Closing BS:</strong> Both = €0 (fully repaid 30/06/2021)`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>THE FORMULA:</strong> Combined ÷ (1 + rate × months/12) = Loan. No algebra needed. The SEC marking scheme uses this exact method: "8% × 9/12 = 6%, 106% = 273,480, 100% = 258,000." Then split interest by counting months before and after 01/01.</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-club-bar",
@@ -807,41 +807,41 @@ export const S2_ARCHETYPES: Archetype[] = [
     name: "Bar Trading Account (Debtors & Creditors Adjustment)",
     year: 2025,
     source: "W9",
-    totalMarks: 12,
+    totalMarks: 0,
     category: "club",
-    desc: "Bar Receipts €73,600. Opening debtors €560, closing €780. Opening creditors €700, closing €1,100. Opening stock €1,820, closing €10,240. Bar purchases...",
-    partSummary: ["Step 1 — Why...", "Step 2 — Find...", "Step 4 — Build...", "Bar Profit = €38,040..."],
+    desc: "Bar Receipts \u20ac73,600. Opening debtors \u20ac560, closing \u20ac780. Opening creditors \u20ac700, closing \u20ac1,100. Opening stock \u20ac1,820, closing \u20ac10,240. Bar purchases paid \u20ac43,800. 2022 SEC Q7 W9",
+    partSummary: ["Step 1 — Why can’t we use R&P figures directly? The Receipts", "Step 2 — Find actual bar sales:Cash received €73,600− Openin", "Step 4 — Build the Bar Trading Account:", "Bar Profit = €38,040 → I&E income line"],
     question: `<strong>Bar Receipts €73,600. Opening debtors €560, closing €780. Opening creditors €700, closing €1,100. Opening stock €1,820, closing €10,240. Bar purchases paid €43,800.</strong> <em>2022 SEC Q7 W9</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — Why can’t we use R&P figures directly? The Receipts & Payments account shows CASH movements only. But if the bar sells on credit (bar debtors exist) or buys on credit (bar creditors exist), the actual sales/purchases differ from the cash received/paid. We must adjust to find the TRUE sales and TRUE purchases on an accruals basis.",
+        explain: `<strong>Step 1 — Why can’t we use R&P figures directly?</strong> The Receipts & Payments account shows CASH movements only. But if the bar sells on credit (bar debtors exist) or buys on credit (bar creditors exist), the actual sales/purchases differ from the cash received/paid. We must adjust to find the TRUE sales and TRUE purchases on an accruals basis.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — Find actual bar sales:Cash received €73,600− Opening debtors €560 (cash from last year’s sales)+ Closing debtors €780 (this year’s sales not yet collected)= €73,820 actual salesStep 3 — Find actual bar purchases:Cash paid €43,800− Opening creditors €700 (paying last year’s purchases)+ Closing creditors €1,100 (this year’s purchases not yet paid)= €44,200 actual purchases",
+        explain: `<strong>Step 2 — Find actual bar sales:</strong><br><br>Cash received €73,600<br>− Opening debtors €560 (cash from last year’s sales)<br>+ Closing debtors €780 (this year’s sales not yet collected)<br>= <strong>€73,820 actual sales</strong><br><br><strong>Step 3 — Find actual bar purchases:</strong><br>Cash paid €43,800<br>− Opening creditors €700 (paying last year’s purchases)<br>+ Closing creditors €1,100 (this year’s purchases not yet paid)<br>= <strong>€44,200 actual purchases</strong>`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "Step 4 — Build the Bar Trading Account:",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Bar Trading Account</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border">Bar Sales (adjusted)</td><td class="p-2 border border-border">Opening stock: 1,820</td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">: 73,820</td><td class="p-2 border border-border">Purchases (adjusted): 44,200</td></tr><tr><td class="p-2 border border-border"></td><td class="p-2 border border-border">Less closing stock: (10,240)</td></tr><tr><td class="p-2 border border-border"></td><td class="p-2 border border-border">Cost of Sales: (35,780)</td></tr><tr><td class="p-2 border border-border"></td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">BAR PROFIT: 38,040</td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 4 — Build the Bar Trading Account:</strong>`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Bar Trading Account</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border">Bar Sales (adjusted)</td><td class="p-2 border border-border">Opening stock: 1,820</td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">73,820</td><td class="p-2 border border-border">Purchases (adjusted): 44,200</td></tr><tr><td class="p-2 border border-border"></td><td class="p-2 border border-border">Less closing stock: (10,240)</td></tr><tr><td class="p-2 border border-border"></td><td class="p-2 border border-border">Cost of Sales: (35,780)</td></tr><tr><td class="p-2 border border-border"></td><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">BAR PROFIT: 38,040</td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 4",
         marks: 0,
-        explain: "Bar Profit = €38,040 → I&E income line.The closing bar stock (€10,240) and bar debtors (€780) are Current Assets on the BS. Bar creditors (€1,100) is a Current Liability.",
-        content: ``,
-        mistakes: ["ADJUSTMENT FORMULA: Actual figure = Cash − Opening balance + Closing balance. This works for BOTH sales (using debtors) and purchases (using creditors). If there are NO debtors/creditors, just use the R&P cash figures directly."]
+        explain: `<strong>Bar Profit = €38,040 → I&E income line.</strong><br><br>The closing bar stock (€10,240) and bar debtors (€780) are Current Assets on the BS. Bar creditors (€1,100) is a Current Liability.`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>ADJUSTMENT FORMULA:</strong> Actual figure = Cash − Opening balance + Closing balance. This works for BOTH sales (using debtors) and purchases (using creditors). If there are NO debtors/creditors, just use the R&P cash figures directly.</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-club-wages",
@@ -849,34 +849,34 @@ export const S2_ARCHETYPES: Archetype[] = [
     name: "Coaching Expenses & Wages (with Bonus)",
     year: 2025,
     source: "W10",
-    totalMarks: 9,
+    totalMarks: 0,
     category: "club",
-    desc: "R&P coaching expenses: €15,540. Opening wages due: €440 (2 weeks). Closing: provide for 3 weeks due with €30 bonus per week for each of the 3 weeks. 2...",
-    partSummary: ["Step 1 — What’s...", "Step 2 — Calculate...", "Step 3 — I&E..."],
+    desc: "R&P coaching expenses: \u20ac15,540. Opening wages due: \u20ac440 (2 weeks). Closing: provide for 3 weeks due with \u20ac30 bonus per week for each of the 3 weeks. 2022 SEC Q7 W10",
+    partSummary: ["Step 1 — What’s happening here? The R&P shows cash paid to c", "Step 2 — Calculate closing wages due", "Step 3 — I&E expense:I&E = Cash paid − Opening due + Closing"],
     question: `<strong>R&P coaching expenses: €15,540. Opening wages due: €440 (2 weeks). Closing: provide for 3 weeks due with €30 bonus per week for each of the 3 weeks.</strong> <em>2022 SEC Q7 W10</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — What’s happening here? The R&P shows cash paid to coaches (€15,540). But the I&E needs the EXPENSE for the year, which differs from cash because: (A) Some of the cash paid was for wages owed from LAST year (opening due). (B) Some wages earned THIS year haven’t been paid yet (closing due). We adjust using the accruals formula.",
+        explain: `<strong>Step 1 — What’s happening here?</strong> The R&P shows cash paid to coaches (€15,540). But the I&E needs the EXPENSE for the year, which differs from cash because: (A) Some of the cash paid was for wages owed from LAST year (opening due). (B) Some wages earned THIS year haven’t been paid yet (closing due). We adjust using the accruals formula.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — Calculate closing wages due.First, find the normal weekly wage: Opening due was €440 for 2 weeks → weekly = 440 ÷ 2 = €220.Closing due = 3 weeks × (normal wage + bonus) = 3 × (220 + 30) = 3 × 250 = €750.",
+        explain: `<strong>Step 2 — Calculate closing wages due.</strong><br><br>First, find the normal weekly wage: Opening due was €440 for 2 weeks → weekly = 440 ÷ 2 = <strong>€220</strong>.<br><br>Closing due = 3 weeks × (normal wage + bonus) = 3 × (220 + 30) = 3 × 250 = <strong>€750</strong>.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "Step 3 — I&E expense:I&E = Cash paid − Opening due + Closing due= 15,540 − 440 + 750 = €15,850I&E: Coaching expenses €15,850.BS: Wages due €750 (current liability).",
-        content: ``,
-        mistakes: ["ACCRUALS FORMULA: I&E = Cash paid − Opening due + Closing due. This is the universal formula for converting any R&P cash figure to an I&E accruals figure. Works for wages, insurance, rent, sundry expenses — ANY expense with opening/closing amounts due or prepaid."]
+        explain: `<strong>Step 3 — I&E expense:</strong><br><br>I&E = Cash paid − Opening due + Closing due<br>= 15,540 − 440 + 750 = <strong>€15,850</strong><br><br><strong>I&E:</strong> Coaching expenses €15,850.<br><strong>BS:</strong> Wages due €750 (current liability).`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>ACCRUALS FORMULA:</strong> I&E = Cash paid − Opening due + Closing due. This is the universal formula for converting any R&P cash figure to an I&E accruals figure. Works for wages, insurance, rent, sundry expenses — ANY expense with opening/closing amounts due or prepaid.</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-club-life",
@@ -884,34 +884,34 @@ export const S2_ARCHETYPES: Archetype[] = [
     name: "Life Membership Annual Write-Off",
     year: 2025,
     source: "W11",
-    totalMarks: 9,
+    totalMarks: 0,
     category: "club",
-    desc: "Opening Life Membership €48,000. New: €12,000 received during 2021. Written off over 10 years from 2019. 2022 SEC Q7 W11...",
-    partSummary: ["Step 1 — What...", "Step 2 — Calculate...", "Results:\\u2022 I&E income: €6,000..."],
+    desc: "Opening Life Membership \u20ac48,000. New: \u20ac12,000 received during 2021. Written off over 10 years from 2019. 2022 SEC Q7 W11",
+    partSummary: ["Step 1 — What is life membership? Members pay a one-off lump", "Step 2 — Calculate annual write-off", "Results:\\u2022 I&E income: €6,000 (annual write-off credited"],
     question: `<strong>Opening Life Membership €48,000. New: €12,000 received during 2021. Written off over 10 years from 2019.</strong> <em>2022 SEC Q7 W11</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — What is life membership? Members pay a one-off lump sum for lifetime membership instead of annual subs. But the club can’t recognise the FULL amount as income in year 1 — that would overstate income. Instead, it’s spread (amortised) over a set period, typically 10 years. The annual portion goes to I&E income. The unearned balance stays on the BS as a long-term liability.",
+        explain: `<strong>Step 1 — What is life membership?</strong> Members pay a one-off lump sum for lifetime membership instead of annual subs. But the club can’t recognise the FULL amount as income in year 1 — that would overstate income. Instead, it’s spread (amortised) over a set period, typically 10 years. The annual portion goes to I&E income. The unearned balance stays on the BS as a long-term liability.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — Calculate annual write-off.Total life membership = 48,000 + 12,000 = €60,000.Marking scheme: (60,000 − 12,000) ÷ 8 = €6,000 per year.Why ÷ 8? The existing €48,000 started in 2019 (10-year period). By 2021, 2 years are done (2019, 2020). 8 years remain. The new €12,000 is added and the total remaining is spread over the remaining 8 years.",
+        explain: `<strong>Step 2 — Calculate annual write-off.</strong><br><br>Total life membership = 48,000 + 12,000 = €60,000.<br>Marking scheme: (60,000 − 12,000) ÷ 8 = <strong>€6,000</strong> per year.<br><br>Why ÷ 8? The existing €48,000 started in 2019 (10-year period). By 2021, 2 years are done (2019, 2020). 8 years remain. The new €12,000 is added and the total remaining is spread over the remaining 8 years.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "Results:\u2022 I&E income: €6,000 (annual write-off credited to I&E)\u2022 BS: Life Membership = 48,000 + 12,000 − 6,000 = €54,000 − previous write-offs. Shown in \"Financed By\" (long-term obligation, NOT a current liability).",
-        content: ``,
-        mistakes: ["KEY: Life membership is DEFERRED INCOME (like rent received in advance). Only the annual slice goes to I&E. The rest stays on the BS. Some questions say \"credited to income over 10 years commencing in [year]\" — this tells you WHEN to start counting."]
+        explain: `<strong>Results:</strong><br>\\u2022 <strong>I&E income:</strong> €6,000 (annual write-off credited to I&E)<br>\\u2022 <strong>BS:</strong> Life Membership = 48,000 + 12,000 − 6,000 = €54,000 − previous write-offs. Shown in "Financed By" (long-term obligation, NOT a current liability).`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>KEY:</strong> Life membership is DEFERRED INCOME (like rent received in advance). Only the annual slice goes to I&E. The rest stays on the BS. Some questions say "credited to income over 10 years commencing in [year]" — this tells you WHEN to start counting.</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-club-dep",
@@ -919,34 +919,34 @@ export const S2_ARCHETYPES: Archetype[] = [
     name: "Equipment Depreciation (Year of Acquisition/Disposal Rule)",
     year: 2025,
     source: "W1",
-    totalMarks: 9,
+    totalMarks: 0,
     category: "club",
-    desc: "Equipment dep at 12.5% of cost. Full year in year of acquisition, none in year of disposal. Opening €42,000. Purchased €47,000 (mid-year). Disposed eq...",
-    partSummary: ["Step 1 — Understand...", "Step 2 — Calculate:Opening...", "Both go to I&E..."],
+    desc: "Equipment dep at 12.5% of cost. Full year in year of acquisition, none in year of disposal. Opening \u20ac42,000. Purchased \u20ac47,000 (mid-year). Disposed equipment cost \u20ac30,000. 2022 SEC Q7 W1",
+    partSummary: ["Step 1 — Understand the depreciation policy", "Step 2 — Calculate:Opening equipment (full year): (42,000 − ", "Both go to I&E as expenses:\\u2022 Depreciation: Equipment €7"],
     question: `<strong>Equipment dep at 12.5% of cost. Full year in year of acquisition, none in year of disposal.</strong> Opening €42,000. Purchased €47,000 (mid-year). Disposed equipment cost €30,000. <em>2022 SEC Q7 W1</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — Understand the depreciation policy. \"Full year in year of acquisition\" means NEW equipment gets a full year’s dep even if bought in December. \"None in year of disposal\" means SOLD equipment gets zero dep this year, even if sold in December. This is a common SEC policy — always read it carefully as some questions use the opposite.",
+        explain: `<strong>Step 1 — Understand the depreciation policy.</strong> "Full year in year of acquisition" means NEW equipment gets a full year’s dep even if bought in December. "None in year of disposal" means SOLD equipment gets zero dep this year, even if sold in December. This is a common SEC policy — always read it carefully as some questions use the opposite.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — Calculate:Opening equipment (full year): (42,000 − 30,000) = 12,000 still owned. 12,000 × 12.5% = €1,500.New equipment (full year per policy): 47,000 × 12.5% = €5,875.Disposed equipment: €0 (none in year of disposal).Total equipment dep = 1,500 + 5,875 = €7,375.Clubhouse dep = 950,000 × 2% = €19,000.",
+        explain: `<strong>Step 2 — Calculate:</strong><br><br>Opening equipment (full year): (42,000 − 30,000) = 12,000 still owned. 12,000 × 12.5% = <strong>€1,500</strong>.<br>New equipment (full year per policy): 47,000 × 12.5% = <strong>€5,875</strong>.<br>Disposed equipment: <strong>€0</strong> (none in year of disposal).<br><br>Total equipment dep = 1,500 + 5,875 = <strong>€7,375</strong>.<br>Clubhouse dep = 950,000 × 2% = <strong>€19,000</strong>.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "Both go to I&E as expenses:\u2022 Depreciation: Equipment €7,375\u2022 Depreciation: Clubhouse €19,000\u2022 Total dep charge = €26,375",
-        content: ``,
-        mistakes: ["WATCH OUT: If the policy says \"charged from month of acquisition, none in month of disposal\" then you must apportion by MONTHS. 47,000 × 12.5% × 6/12 = €2,937.50 for a mid-year purchase. Always check which policy the question uses."]
+        explain: `<strong>Both go to I&E as expenses:</strong><br>\\u2022 Depreciation: Equipment €7,375<br>\\u2022 Depreciation: Clubhouse €19,000<br>\\u2022 Total dep charge = €26,375`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>WATCH OUT:</strong> If the policy says "charged from month of acquisition, none in month of disposal" then you must apportion by MONTHS. 47,000 × 12.5% × 6/12 = €2,937.50 for a mid-year purchase. Always check which policy the question uses.</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-svc-loan",
@@ -954,41 +954,41 @@ export const S2_ARCHETYPES: Archetype[] = [
     name: "Loan Amount (Division Method)",
     year: 2025,
     source: "W2",
-    totalMarks: 12,
+    totalMarks: 0,
     category: "service",
-    desc: "Repayment of bank loan plus 16 months interest at 3% p.a. on 01/08/2022: €83,200. 2023 SEC Q7 W2...",
-    partSummary: ["Step 1 — What’s...", "Step 2 — Division...", "Step 3 — Split...", "Destinations:\\u2022 Opening BS: Loan..."],
+    desc: "Repayment of bank loan plus 16 months interest at 3% p.a. on 01/08/2022: \u20ac83,200. 2023 SEC Q7 W2",
+    partSummary: ["Step 1 — What’s the problem? The R&P shows ONE combined figu", "Step 2 — Division method (SEC marking scheme):Rate for perio", "Step 3 — Split interest by period", "Destinations:\\u2022 Opening BS: Loan €80,000 (liability) + I"],
     question: `<strong>Repayment of bank loan plus 16 months interest at 3% p.a. on 01/08/2022: €83,200.</strong> <em>2023 SEC Q7 W2</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — What’s the problem? The R&P shows ONE combined figure (€83,200) that includes both the loan repayment AND the accumulated interest. The SEC does not separate these for you — you must extract them. The loan goes to the opening BS. The interest splits between opening BS (months before 01/01) and I&E (months after 01/01).",
+        explain: `<strong>Step 1 — What’s the problem?</strong> The R&P shows ONE combined figure (€83,200) that includes both the loan repayment AND the accumulated interest. The SEC does not separate these for you — you must extract them. The loan goes to the opening BS. The interest splits between opening BS (months before 01/01) and I&E (months after 01/01).`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — Division method (SEC marking scheme):Rate for period = 3% × 16/12 = 4%Combined = 104% of loanLoan = 83,200 ÷ 1.04 = €80,000Interest = 83,200 − 80,000 = €3,200 for 16 monthsMonthly = 3,200 ÷ 16 = €200/month",
+        explain: `<strong>Step 2 — Division method (SEC marking scheme):</strong><br><br>Rate for period = 3% × 16/12 = <strong>4%</strong><br>Combined = 104% of loan<br><strong>Loan = 83,200 ÷ 1.04 = €80,000</strong><br>Interest = 83,200 − 80,000 = <strong>€3,200</strong> for 16 months<br>Monthly = 3,200 ÷ 16 = <strong>€200/month</strong>`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "Step 3 — Split interest by period.Loan started 16 months before 01/08/2022 = 01/04/2021.Months before 01/01/2022: Apr\u2013Dec 2021 = 9 months.Opening BS interest due = 9 × 200 = €1,800.Months in 2022: Jan\u2013Jul = 7 months.I&E interest charge = 7 × 200 = €1,400.",
+        explain: `<strong>Step 3 — Split interest by period.</strong><br><br>Loan started 16 months before 01/08/2022 = <strong>01/04/2021</strong>.<br>Months before 01/01/2022: Apr\\u2013Dec 2021 = <strong>9 months</strong>.<br>Opening BS interest due = 9 × 200 = <strong>€1,800</strong>.<br><br>Months in 2022: Jan\\u2013Jul = <strong>7 months</strong>.<br>I&E interest charge = 7 × 200 = <strong>€1,400</strong>.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 4",
         marks: 0,
-        explain: "Destinations:\u2022 Opening BS: Loan €80,000 (liability) + Interest due €1,800 (CL)\u2022 I&E expense: Loan interest €1,400\u2022 Closing BS: Both €0 (fully repaid)",
-        content: ``,
-        mistakes: ["IDENTICAL METHOD to Club loans. The formula works for any loan: Combined ÷ (1 + rate × months/12) = Loan. Then monthly interest = total ÷ months. Count months before and after 01/01 to split between BS and I&E."]
+        explain: `<strong>Destinations:</strong><br>\\u2022 <strong>Opening BS:</strong> Loan €80,000 (liability) + Interest due €1,800 (CL)<br>\\u2022 <strong>I&E expense:</strong> Loan interest €1,400<br>\\u2022 <strong>Closing BS:</strong> Both €0 (fully repaid)`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>IDENTICAL METHOD to Club loans.</strong> The formula works for any loan: Combined ÷ (1 + rate × months/12) = Loan. Then monthly interest = total ÷ months. Count months before and after 01/01 to split between BS and I&E.</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-svc-invest",
@@ -996,34 +996,34 @@ export const S2_ARCHETYPES: Archetype[] = [
     name: "Investment Value (from Partial-Year Income)",
     year: 2025,
     source: "W1/W5",
-    totalMarks: 9,
+    totalMarks: 0,
     category: "service",
-    desc: "Interest on 4% investments received: €1,600. Investment income due at opening: €800. 2023 SEC Q7 W1...",
-    partSummary: ["Step 1 — Same...", "Step 2 — SEC...", "Results:\\u2022 Investment value (BS):..."],
+    desc: "Interest on 4% investments received: \u20ac1,600. Investment income due at opening: \u20ac800. 2023 SEC Q7 W1",
+    partSummary: ["Step 1 — Same principle as Club investments", "Step 2 — SEC marking scheme method:1,600 × 3 = 4,800", "Results:\\u2022 Investment value (BS): €120,000\\u2022 I&E inc"],
     question: `<strong>Interest on 4% investments received: €1,600. Investment income due at opening: €800.</strong> <em>2023 SEC Q7 W1</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — Same principle as Club investments. The cash received (€1,600) includes the opening amount owed (€800). Strip it out first to find the current-year income received in cash. Then gross up to a full year and divide by the rate.",
+        explain: `<strong>Step 1 — Same principle as Club investments.</strong> The cash received (€1,600) includes the opening amount owed (€800). Strip it out first to find the current-year income received in cash. Then gross up to a full year and divide by the rate.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — SEC marking scheme method:1,600 × 3 = 4,800. Why × 3? The €1,600 covers 4 months of the current year. Multiplying by 3 gives 12 months (4 × 3 = 12).4,800 ÷ 0.04 = €120,000 investment value.",
+        explain: `<strong>Step 2 — SEC marking scheme method:</strong><br><br>1,600 × 3 = <strong>4,800</strong>. Why × 3? The €1,600 covers 4 months of the current year. Multiplying by 3 gives 12 months (4 × 3 = 12).<br><br>4,800 ÷ 0.04 = <strong>€120,000</strong> investment value.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "Results:\u2022 Investment value (BS): €120,000\u2022 I&E income: 120,000 × 4% = €4,800\u2022 Closing income due: €4,000 (6 months unpaid)",
-        content: ``,
-        mistakes: ["IDENTICAL METHOD to Club investments. Strip opening due → identify months covered → gross up to 12 months → divide by rate. This same technique appears in Club AND Service every time investments are mentioned."]
+        explain: `<strong>Results:</strong><br>\\u2022 <strong>Investment value (BS):</strong> €120,000<br>\\u2022 <strong>I&E income:</strong> 120,000 × 4% = €4,800<br>\\u2022 <strong>Closing income due:</strong> €4,000 (6 months unpaid)`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>IDENTICAL METHOD to Club investments.</strong> Strip opening due → identify months covered → gross up to 12 months → divide by rate. This same technique appears in Club AND Service every time investments are mentioned.</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-svc-supplies",
@@ -1031,41 +1031,41 @@ export const S2_ARCHETYPES: Archetype[] = [
     name: "Supplies Consumed (5-Item Linear Formula)",
     year: 2025,
     source: "W9",
-    totalMarks: 12,
+    totalMarks: 0,
     category: "service",
-    desc: "Dental supplies: Cash paid (R&P) €31,500. Opening stock €7,000. Closing stock €1,800. Opening creditors €3,000. Closing creditors €3,800. 2023 SEC Q7 ...",
-    partSummary: ["Step 1 — Why...", "Step 2 — Five-item...", "Step 3 — Why...", "I&E: Purchases of dental..."],
+    desc: "Dental supplies: Cash paid (R&P) \u20ac31,500. Opening stock \u20ac7,000. Closing stock \u20ac1,800. Opening creditors \u20ac3,000. Closing creditors \u20ac3,800. 2023 SEC Q7 W9",
+    partSummary: ["Step 1 — Why not just use €31,500? The R&P shows cash paid t", "Step 2 — Five-item formula (SEC marking scheme):Cash paid: 3", "Step 3 — Why does each adjustment work?\\u2022 + Opening stoc", "I&E: Purchases of dental supplies = €37,500"],
     question: `<strong>Dental supplies: Cash paid (R&P) €31,500. Opening stock €7,000. Closing stock €1,800. Opening creditors €3,000. Closing creditors €3,800.</strong> <em>2023 SEC Q7 W9</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — Why not just use €31,500? The R&P shows cash paid to suppliers. But the actual COST of supplies used differs because: (A) We used some opening stock (cost from last year). (B) We have closing stock left over (not yet used). (C) We owe more/less to creditors than last year (accruals adjustment). The linear formula handles ALL of these in one step.",
+        explain: `<strong>Step 1 — Why not just use €31,500?</strong> The R&P shows cash paid to suppliers. But the actual COST of supplies used differs because: (A) We used some opening stock (cost from last year). (B) We have closing stock left over (not yet used). (C) We owe more/less to creditors than last year (accruals adjustment). The linear formula handles ALL of these in one step.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — Five-item formula (SEC marking scheme):Cash paid: 31,500+ Opening stock: +7,000− Opening creditors: −3,000− Closing stock: −1,800+ Closing creditors: +3,800= €37,500 supplies consumed.",
+        explain: `<strong>Step 2 — Five-item formula (SEC marking scheme):</strong><br><br>Cash paid: 31,500<br>+ Opening stock: +7,000<br>− Opening creditors: −3,000<br>− Closing stock: −1,800<br>+ Closing creditors: +3,800<br>= <strong>€37,500</strong> supplies consumed.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "Step 3 — Why does each adjustment work?\u2022 + Opening stock: We had €7,000 of supplies at the start that we used this year but didn’t pay for this year.\u2022 − Opening creditors: Some of the cash we paid was for LAST year’s supplies (clearing old debts), not this year’s.\u2022 − Closing stock: We paid for supplies we haven’t used yet — remove them.\u2022 + Closing creditors: We received supplies we haven’t paid for yet — add them back.",
+        explain: `<strong>Step 3 — Why does each adjustment work?</strong><br><br>\\u2022 <strong>+ Opening stock:</strong> We had €7,000 of supplies at the start that we used this year but didn’t pay for this year.<br>\\u2022 <strong>− Opening creditors:</strong> Some of the cash we paid was for LAST year’s supplies (clearing old debts), not this year’s.<br>\\u2022 <strong>− Closing stock:</strong> We paid for supplies we haven’t used yet — remove them.<br>\\u2022 <strong>+ Closing creditors:</strong> We received supplies we haven’t paid for yet — add them back.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 4",
         marks: 0,
-        explain: "I&E: Purchases of dental supplies = €37,500.This single formula replaces what would otherwise need a Creditors Control T-Account AND a Trading Account. The SEC marking scheme uses this method consistently.",
-        content: ``,
-        mistakes: ["MEMORY AID: Cash + Opening stock − Opening creditors − Closing stock + Closing creditors. Remember: opening items are ADDED if assets, SUBTRACTED if liabilities. Closing items are the OPPOSITE."]
+        explain: `<strong>I&E: Purchases of dental supplies = €37,500.</strong><br><br>This single formula replaces what would otherwise need a Creditors Control T-Account AND a Trading Account. The SEC marking scheme uses this method consistently.`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>MEMORY AID:</strong> Cash + Opening stock − Opening creditors − Closing stock + Closing creditors. Remember: opening items are ADDED if assets, SUBTRACTED if liabilities. Closing items are the OPPOSITE.</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-svc-wages",
@@ -1073,34 +1073,34 @@ export const S2_ARCHETYPES: Archetype[] = [
     name: "Wages Split (Secretary Clinic vs Shop)",
     year: 2025,
     source: "W11",
-    totalMarks: 9,
+    totalMarks: 0,
     category: "service",
-    desc: "Total wages €72,000 includes €26,000 for secretary who also runs the shop. 30% of secretary salary attributable to shop. Also split: €1,150 insurance,...",
-    partSummary: ["Step 1 — Why...", "Step 2 — Wages...", "The shop gets: Wages..."],
+    desc: "Total wages \u20ac72,000 includes \u20ac26,000 for secretary who also runs the shop. 30% of secretary salary attributable to shop. Also split: \u20ac1,150 insurance, \u20ac1,500 light & heat, \u20ac600 telephone to shop. 2023",
+    partSummary: ["Step 1 — Why split? Service firms with a shop (common for de", "Step 2 — Wages calculation:Secretary to shop: 26,000 × 30% =", "The shop gets: Wages €7,800 + Insurance €1,150 + L&H €1,500 "],
     question: `<strong>Total wages €72,000 includes €26,000 for secretary who also runs the shop.</strong> 30% of secretary salary attributable to shop. Also split: €1,150 insurance, €1,500 light & heat, €600 telephone to shop. <em>2023 SEC Q7</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — Why split? Service firms with a shop (common for dentists, vets, pharmacists) must show a separate SHOP PROFIT/LOSS calculation. The secretary works in both the clinic and shop, so their salary must be allocated proportionally. Same for shared expenses like insurance, heating, and telephone.",
+        explain: `<strong>Step 1 — Why split?</strong> Service firms with a shop (common for dentists, vets, pharmacists) must show a separate SHOP PROFIT/LOSS calculation. The secretary works in both the clinic and shop, so their salary must be allocated proportionally. Same for shared expenses like insurance, heating, and telephone.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — Wages calculation:Secretary to shop: 26,000 × 30% = €7,800 (goes to Shop P&L).Clinic wages: 72,000 − 7,800 = €64,200 (goes to I&E).Other splits for shop:\u2022 Insurance: €1,150 (to shop), remainder to I&E\u2022 Light & heat: €1,500 (to shop), remainder to I&E\u2022 Telephone: €600 (to shop), remainder to I&E",
+        explain: `<strong>Step 2 — Wages calculation:</strong><br><br>Secretary to shop: 26,000 × 30% = <strong>€7,800</strong> (goes to Shop P&L).<br>Clinic wages: 72,000 − 7,800 = <strong>€64,200</strong> (goes to I&E).<br><br><strong>Other splits for shop:</strong><br>\\u2022 Insurance: €1,150 (to shop), remainder to I&E<br>\\u2022 Light & heat: €1,500 (to shop), remainder to I&E<br>\\u2022 Telephone: €600 (to shop), remainder to I&E`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "The shop gets: Wages €7,800 + Insurance €1,150 + L&H €1,500 + Telephone €600 = €11,050 total shop expenses.The main I&E gets the REMAINDER of each expense after the shop portion is deducted.",
-        content: ``,
-        mistakes: ["EXAM TIP: Part (b) specifically asks for \"Profit/Loss from the shop.\" You must calculate this separately: Shop Sales − Shop Cost of Sales − Shop Expenses = Shop Profit. The shop expenses are the split portions calculated here."]
+        explain: `<strong>The shop gets:</strong> Wages €7,800 + Insurance €1,150 + L&H €1,500 + Telephone €600 = <strong>€11,050</strong> total shop expenses.<br><br>The main I&E gets the REMAINDER of each expense after the shop portion is deducted.`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>EXAM TIP:</strong> Part (b) specifically asks for "Profit/Loss from the shop." You must calculate this separately: Shop Sales − Shop Cost of Sales − Shop Expenses = Shop Profit. The shop expenses are the split portions calculated here.</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-svc-bank",
@@ -1108,34 +1108,34 @@ export const S2_ARCHETYPES: Archetype[] = [
     name: "Bank Balance (Multiple Adjustments)",
     year: 2025,
     source: "W20",
-    totalMarks: 9,
+    totalMarks: 0,
     category: "service",
-    desc: "Closing bank per R&P: €142,000. Bank charges €90 not recorded. Dishonoured cheque €950 from patient. 2023 SEC Q7 W20...",
-    partSummary: ["Step 1 — Why...", "Step 2 — Adjusted...", "Where does everything go?\\u2022..."],
+    desc: "Closing bank per R&P: \u20ac142,000. Bank charges \u20ac90 not recorded. Dishonoured cheque \u20ac950 from patient. 2023 SEC Q7 W20",
+    partSummary: ["Step 1 — Why adjust the bank? The R&P closing balance (€142,", "Step 2 — Adjusted bank:R&P balance: 142,000− Bank charges: (", "Where does everything go?\\u2022 BS: Bank = €140,960 (reduced"],
     question: `<strong>Closing bank per R&P: €142,000. Bank charges €90 not recorded. Dishonoured cheque €950 from patient.</strong> <em>2023 SEC Q7 W20</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — Why adjust the bank? The R&P closing balance (€142,000) doesn’t account for (A) bank charges deducted by the bank but not yet recorded in the books, or (B) cheques that bounced after being deposited. Both reduce the actual bank balance.",
+        explain: `<strong>Step 1 — Why adjust the bank?</strong> The R&P closing balance (€142,000) doesn’t account for (A) bank charges deducted by the bank but not yet recorded in the books, or (B) cheques that bounced after being deposited. Both reduce the actual bank balance.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — Adjusted bank:R&P balance: 142,000− Bank charges: (90) → this is ALSO an I&E expense− Dishonoured cheque: (950) → this becomes a DEBTORCorrected bank = €140,960",
+        explain: `<strong>Step 2 — Adjusted bank:</strong><br><br>R&P balance: 142,000<br>− Bank charges: (90) → this is ALSO an I&E expense<br>− Dishonoured cheque: (950) → this becomes a DEBTOR<br>Corrected bank = <strong>€140,960</strong>`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "Where does everything go?\u2022 BS: Bank = €140,960 (reduced)\u2022 I&E: Bank fees €90 (new expense)\u2022 BS: Fees due from patients: +€950 (new debtor — patient still owes the money)The dishonoured cheque does NOT affect income. The fee was earned when the service was provided. The patient simply hasn’t paid yet.",
-        content: ``,
-        mistakes: ["KEY PRINCIPLE: A dishonoured cheque means: (1) REDUCE bank (money returned by bank). (2) INCREASE debtors (patient still owes). (3) Do NOT reduce income. If the question mentions \"contact was made with the patient to re-present the cheque\" — this confirms the debt is still valid."]
+        explain: `<strong>Where does everything go?</strong><br>\\u2022 <strong>BS:</strong> Bank = €140,960 (reduced)<br>\\u2022 <strong>I&E:</strong> Bank fees €90 (new expense)<br>\\u2022 <strong>BS:</strong> Fees due from patients: +€950 (new debtor — patient still owes the money)<br><br>The dishonoured cheque does NOT affect income. The fee was earned when the service was provided. The patient simply hasn’t paid yet.`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>KEY PRINCIPLE:</strong> A dishonoured cheque means: (1) REDUCE bank (money returned by bank). (2) INCREASE debtors (patient still owes). (3) Do NOT reduce income. If the question mentions "contact was made with the patient to re-present the cheque" — this confirms the debt is still valid.</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-pub-patent",
@@ -1143,41 +1143,41 @@ export const S2_ARCHETYPES: Archetype[] = [
     name: "Patent Amortisation (in Cost of Sales)",
     year: 2025,
     source: "Working A",
-    totalMarks: 12,
+    totalMarks: 0,
     category: "published",
-    desc: "Patent acquired 01/01/2018 for €171,000, amortised over 9 years in equal instalments. To be included in cost of sales. 2023 Navan plc (vi)...",
-    partSummary: ["Step 1 — What...", "Step 2 — Calculate:Annual...", "Step 3 — Patent...", "Also appears in Note..."],
+    desc: "Patent acquired 01/01/2018 for \u20ac171,000, amortised over 9 years in equal instalments. To be included in cost of sales. 2023 Navan plc (vi)",
+    partSummary: ["Step 1 — What is patent amortisation? A patent is an intangi", "Step 2 — Calculate:Annual amortisation = 171,000 ÷ 9 = €19,0", "Step 3 — Patent value on the Balance Sheet:Patent acquired 0", "Also appears in Note 2 (Operating Profit):\"Operating profit "],
     question: `<strong>Patent acquired 01/01/2018 for €171,000, amortised over 9 years in equal instalments. To be included in cost of sales.</strong> <em>2023 Navan plc (vi)</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — What is patent amortisation? A patent is an intangible fixed asset. Like depreciation on tangible assets, patents are \"used up\" over their useful life. The annual charge is called amortisation (same concept, different name). The SEC question tells you WHERE to put it — \"included in cost of sales\" means it goes in Working A, not admin.",
+        explain: `<strong>Step 1 — What is patent amortisation?</strong> A patent is an intangible fixed asset. Like depreciation on tangible assets, patents are "used up" over their useful life. The annual charge is called amortisation (same concept, different name). The SEC question tells you WHERE to put it — "included in cost of sales" means it goes in Working A, not admin.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — Calculate:Annual amortisation = 171,000 ÷ 9 = €19,000 per year.This is added to Cost of Sales in Working A (alongside purchases, opening stock, closing stock).",
+        explain: `<strong>Step 2 — Calculate:</strong><br><br>Annual amortisation = 171,000 ÷ 9 = <strong>€19,000</strong> per year.<br><br>This is added to Cost of Sales in Working A (alongside purchases, opening stock, closing stock).`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "Step 3 — Patent value on the Balance Sheet:Patent acquired 01/01/2018. Current year end = 31/12/2022 (5th year).Total amortised to date: 19,000 × 5 = 95,000.BS value = 171,000 − 95,000 = €76,000 (shown as Intangible Assets).After this year’s charge: 76,000 − 19,000 = €57,000 (if needed for next year).",
+        explain: `<strong>Step 3 — Patent value on the Balance Sheet:</strong><br><br>Patent acquired 01/01/2018. Current year end = 31/12/2022 (5th year).<br>Total amortised to date: 19,000 × 5 = 95,000.<br>BS value = 171,000 − 95,000 = <strong>€76,000</strong> (shown as Intangible Assets).<br><br>After this year’s charge: 76,000 − 19,000 = €57,000 (if needed for next year).`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 4",
         marks: 0,
-        explain: "Also appears in Note 2 (Operating Profit):\"Operating profit is arrived at after charging: Patents amortised €19,000.\"This is a DISCLOSURE note — it tells shareholders what charges reduced profit. Similar to depreciation disclosure.",
-        content: ``,
-        mistakes: ["PLACEMENT RULES: \"Included in cost of sales\" → Working A. \"Included in administrative expenses\" → Working C. \"Included in distribution costs\" → Working B. Always check the instruction — the SEC varies the placement."]
+        explain: `<strong>Also appears in Note 2 (Operating Profit):</strong><br>"Operating profit is arrived at after charging: Patents amortised €19,000."<br><br>This is a DISCLOSURE note — it tells shareholders what charges reduced profit. Similar to depreciation disclosure.`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>PLACEMENT RULES:</strong> "Included in cost of sales" → Working A. "Included in administrative expenses" → Working C. "Included in distribution costs" → Working B. Always check the instruction — the SEC varies the placement.</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-pub-commission",
@@ -1185,34 +1185,34 @@ export const S2_ARCHETYPES: Archetype[] = [
     name: "Commission Earned (Extract from Distribution)",
     year: 2025,
     source: "Working D",
-    totalMarks: 9,
+    totalMarks: 0,
     category: "published",
-    desc: "Included in distribution expenses is €14,000 for commission earned. 2023 Goodwin plc (iv)...",
-    partSummary: ["Step 1 — Why...", "Step 2 — The...", "This is one of..."],
+    desc: "Included in distribution expenses is \u20ac14,000 for commission earned. 2023 Goodwin plc (iv)",
+    partSummary: ["Step 1 — Why extract it? Commission earned is INCOME, but it", "Step 2 — The adjustment:Distribution Costs (Working B): REMO", "This is one of the highest-value adjustments in Published Ac"],
     question: `<strong>Included in distribution expenses is €14,000 for commission earned.</strong> <em>2023 Goodwin plc (iv)</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — Why extract it? Commission earned is INCOME, but it’s been lumped in with distribution costs (an expense). Leaving it there would: (A) overstate distribution costs by €14,000, and (B) miss €14,000 of income. Extracting it corrects BOTH problems, which is why it has a double impact on Operating Profit.",
+        explain: `<strong>Step 1 — Why extract it?</strong> Commission earned is INCOME, but it’s been lumped in with distribution costs (an expense). Leaving it there would: (A) overstate distribution costs by €14,000, and (B) miss €14,000 of income. Extracting it corrects BOTH problems, which is why it has a double impact on Operating Profit.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — The adjustment:Distribution Costs (Working B): REMOVE €14,000 (costs fall by 14k).Other Operating Income (Working D): ADD €14,000 (income rises by 14k).Net effect on Operating Profit: +€28,000.Costs down 14k = +14k to profit. Income up 14k = +14k to profit. Total = +28k.",
+        explain: `<strong>Step 2 — The adjustment:</strong><br><br>Distribution Costs (Working B): REMOVE €14,000 (costs fall by 14k).<br>Other Operating Income (Working D): ADD €14,000 (income rises by 14k).<br><br><strong>Net effect on Operating Profit: +€28,000.</strong><br>Costs down 14k = +14k to profit. Income up 14k = +14k to profit. Total = +28k.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "This is one of the highest-value adjustments in Published Accounts. A single extraction creates a €28,000 swing in Operating Profit. Students who miss this lose significant marks because the P&L, BS, and all notes will cascade from this error.",
-        content: ``,
-        mistakes: ["OTHER COMMON EXTRACTIONS: Patent royalties received (extract from admin → Other Operating Income). Profit on sale of land (extract from admin → show separately below Operating Profit). Rental income (extract from wherever it’s \"included in\"). The key phrase is always \"included in [expense category] is...\""]
+        explain: `<strong>This is one of the highest-value adjustments in Published Accounts.</strong> A single extraction creates a €28,000 swing in Operating Profit. Students who miss this lose significant marks because the P&L, BS, and all notes will cascade from this error.`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>OTHER COMMON EXTRACTIONS:</strong> Patent royalties received (extract from admin → Other Operating Income). Profit on sale of land (extract from admin → show separately below Operating Profit). Rental income (extract from wherever it’s "included in"). The key phrase is always "included in [expense category] is..."</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-pub-vehicles-rb",
@@ -1220,41 +1220,41 @@ export const S2_ARCHETYPES: Archetype[] = [
     name: "Vehicle Dep (Reducing Balance vs Straight Line)",
     year: 2025,
     source: "Note 3",
-    totalMarks: 12,
+    totalMarks: 0,
     category: "published",
-    desc: "Buildings at 2% straight line. Delivery vans at 20% reducing balance. Vans cost €150,000, acc dep €27,000. 2023 Navan plc (v)...",
-    partSummary: ["Step 1 — Two...", "Step 2 — Calculate...", "Step 3 — Split...", "Note 3 (Tangible Fixed..."],
+    desc: "Buildings at 2% straight line. Delivery vans at 20% reducing balance. Vans cost \u20ac150,000, acc dep \u20ac27,000. 2023 Navan plc (v)",
+    partSummary: ["Step 1 — Two different depreciation methods in one question", "Step 2 — Calculate each:Buildings (Straight Line): 2% × COST", "Step 3 — Split depreciation between Distribution and Admin", "Note 3 (Tangible Fixed Assets grid):Shows Cost, Acc Dep, and"],
     question: `<strong>Buildings at 2% straight line. Delivery vans at 20% reducing balance.</strong> Vans cost €150,000, acc dep €27,000. <em>2023 Navan plc (v)</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — Two different depreciation methods in one question. This is standard for Published Accounts. Buildings use straight line (same charge every year). Vehicles use reducing balance (charge decreases each year). You MUST use the correct method for each asset class.",
+        explain: `<strong>Step 1 — Two different depreciation methods in one question.</strong> This is standard for Published Accounts. Buildings use straight line (same charge every year). Vehicles use reducing balance (charge decreases each year). You MUST use the correct method for each asset class.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — Calculate each:Buildings (Straight Line): 2% × COST.If cost = 750,000 (before disposal): 750,000 × 2% = €15,000.After disposal of land: buildings remain at cost. Dep = €15,000 (or adjusted if buildings changed).Vehicles (Reducing Balance): 20% × NBV.NBV = 150,000 − 27,000 = €123,000.Dep charge = 20% × 123,000 = €24,600.",
+        explain: `<strong>Step 2 — Calculate each:</strong><br><br><strong>Buildings (Straight Line):</strong> 2% × COST.<br>If cost = 750,000 (before disposal): 750,000 × 2% = €15,000.<br>After disposal of land: buildings remain at cost. Dep = €15,000 (or adjusted if buildings changed).<br><br><strong>Vehicles (Reducing Balance):</strong> 20% × NBV.<br>NBV = 150,000 − 27,000 = <strong>€123,000</strong>.<br>Dep charge = 20% × 123,000 = <strong>€24,600</strong>.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "Step 3 — Split depreciation between Distribution and Admin.The question says: \"20% to distribution costs and 80% to administrative expenses.\"Buildings dep €15,000: Distribution = 3,000, Admin = 12,000.Vehicles dep €24,600: likely ALL to distribution (delivery vans = distribution asset).These split figures go into the relevant workings.",
+        explain: `<strong>Step 3 — Split depreciation between Distribution and Admin.</strong><br><br>The question says: "20% to distribution costs and 80% to administrative expenses."<br>Buildings dep €15,000: Distribution = 3,000, Admin = 12,000.<br>Vehicles dep €24,600: likely ALL to distribution (delivery vans = distribution asset).<br><br>These split figures go into the relevant workings.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 4",
         marks: 0,
-        explain: "Note 3 (Tangible Fixed Assets grid):Shows Cost, Acc Dep, and NBV for each asset class at start and end of year. Must account for: additions, disposals, revaluations. This is a standard grid format — practise drawing it.",
-        content: ``,
-        mistakes: ["CRITICAL: Straight Line = % × COST. Reducing Balance = % × NBV. If you use cost for reducing balance, you get a HIGHER (wrong) answer. The two methods give the same answer only in year 1."]
+        explain: `<strong>Note 3 (Tangible Fixed Assets grid):</strong><br>Shows Cost, Acc Dep, and NBV for each asset class at start and end of year. Must account for: additions, disposals, revaluations. This is a standard grid format — practise drawing it.`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>CRITICAL:</strong> Straight Line = % × COST. Reducing Balance = % × NBV. If you use cost for reducing balance, you get a HIGHER (wrong) answer. The two methods give the same answer only in year 1.</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-pub-wages-split",
@@ -1262,118 +1262,118 @@ export const S2_ARCHETYPES: Archetype[] = [
     name: "Wages & Expenses Split (Distribution vs Admin)",
     year: 2025,
     source: "Working B/C",
-    totalMarks: 12,
+    totalMarks: 0,
     category: "published",
-    desc: "Wages €71,000: 40% admin, 60% distribution. Also: directors’ fees €25,500, auditors’ fees €19,500, corporation tax €55,000. 2023 Navan plc...",
-    partSummary: ["Step 1 — Where...", "Step 2 — Fixed...", "Step 3 — Split...", "Note 2 (Operating Profit)..."],
+    desc: "Wages \u20ac71,000: 40% admin, 60% distribution. Also: directors\u2019 fees \u20ac25,500, auditors\u2019 fees \u20ac19,500, corporation tax \u20ac55,000. 2023 Navan plc",
+    partSummary: ["Step 1 — Where does each item go? Published Accounts require", "Step 2 — Fixed placements (ALWAYS the same):\\u2022 Directors", "Step 3 — Split items (per question instructions):Wages: Dist", "Note 2 (Operating Profit) must list:\\u2022 Depreciation €XXX"],
     question: `<strong>Wages €71,000: 40% admin, 60% distribution. Also: directors’ fees €25,500, auditors’ fees €19,500, corporation tax €55,000.</strong> <em>2023 Navan plc</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — Where does each item go? Published Accounts require expenses to be classified into Cost of Sales, Distribution Costs, Administrative Expenses, or Other Operating Income/Charges. Some items are always in the same category. Others must be split per the question’s instructions.",
+        explain: `<strong>Step 1 — Where does each item go?</strong> Published Accounts require expenses to be classified into Cost of Sales, Distribution Costs, Administrative Expenses, or Other Operating Income/Charges. Some items are always in the same category. Others must be split per the question’s instructions.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — Fixed placements (ALWAYS the same):\u2022 Directors’ fees €25,500: ALWAYS Admin (Working C) + Note 2\u2022 Auditors’ fees €19,500: ALWAYS Admin (Working C) + Note 2\u2022 Corporation tax €55,000: ALWAYS below Operating Profit (after interest)\u2022 Legal fees: ALWAYS Admin\u2022 Advertising: ALWAYS Distribution",
+        explain: `<strong>Step 2 — Fixed placements (ALWAYS the same):</strong><br><br>\\u2022 <strong>Directors’ fees €25,500:</strong> ALWAYS Admin (Working C) + Note 2<br>\\u2022 <strong>Auditors’ fees €19,500:</strong> ALWAYS Admin (Working C) + Note 2<br>\\u2022 <strong>Corporation tax €55,000:</strong> ALWAYS below Operating Profit (after interest)<br>\\u2022 <strong>Legal fees:</strong> ALWAYS Admin<br>\\u2022 <strong>Advertising:</strong> ALWAYS Distribution`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "Step 3 — Split items (per question instructions):Wages: Distribution (B) = 71,000 × 60% = €42,600. Admin (C) = 71,000 × 40% = €28,400.Building dep: per question split ratio.Insurance: per question split ratio.",
+        explain: `<strong>Step 3 — Split items (per question instructions):</strong><br><br>Wages: Distribution (B) = 71,000 × 60% = <strong>€42,600</strong>. Admin (C) = 71,000 × 40% = <strong>€28,400</strong>.<br>Building dep: per question split ratio.<br>Insurance: per question split ratio.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 4",
         marks: 0,
-        explain: "Note 2 (Operating Profit) must list:\u2022 Depreciation €XXX\u2022 Patents amortised €XXX\u2022 Auditors’ remuneration €19,500\u2022 Directors’ remuneration €25,500These are DISCLOSURE items required by the Companies Acts.",
-        content: ``,
-        mistakes: ["EXAM TIP: The Published P&L has a specific ORDER: Turnover → Cost of Sales → Gross Profit → Distribution → Admin → Other Operating Income/Charges → Operating Profit → Investment Income → Interest Payable → Profit before Tax → Tax → Retained Profit. Every item must go in the RIGHT place."]
+        explain: `<strong>Note 2 (Operating Profit) must list:</strong><br>\\u2022 Depreciation €XXX<br>\\u2022 Patents amortised €XXX<br>\\u2022 Auditors’ remuneration €19,500<br>\\u2022 Directors’ remuneration €25,500<br><br>These are DISCLOSURE items required by the Companies Acts.`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>EXAM TIP:</strong> The Published P&L has a specific ORDER: Turnover → Cost of Sales → Gross Profit → Distribution → Admin → Other Operating Income/Charges → Operating Profit → Investment Income → Interest Payable → Profit before Tax → Tax → Retained Profit. Every item must go in the RIGHT place.</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-pub-contingent",
     type: "Published",
-    name: "Contingent Liability (Lawsuit — Disclose vs Provide)",
+    name: "Contingent Liability (Lawsuit \u2014 Disclose vs Provide)",
     year: 2025,
     source: "Note 5",
-    totalMarks: 9,
+    totalMarks: 0,
     category: "published",
-    desc: "Company sued for €94,000 unfair dismissal. Legal advisors: unlikely compensation will be paid. Legal fees invoice €7,500 received. 2023 Navan plc (vii...",
-    partSummary: ["Step 1 — What...", "Step 2 — Apply...", "Note 5 wording: The company..."],
+    desc: "Company sued for \u20ac94,000 unfair dismissal. Legal advisors: unlikely compensation will be paid. Legal fees invoice \u20ac7,500 received. 2023 Navan plc (vii)",
+    partSummary: ["Step 1 — What is a contingent liability? It’s a possible obl", "Step 2 — Apply to this question", "Note 5 wording:\"The company is being sued by a former employ"],
     question: `<strong>Company sued for €94,000 unfair dismissal. Legal advisors: unlikely compensation will be paid. Legal fees invoice €7,500 received.</strong> <em>2023 Navan plc (vii)</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — What is a contingent liability? It’s a possible obligation that depends on a future event (the court case outcome). The accounting treatment depends on the PROBABILITY:\u2022 Probable: Make a provision (Dr P&L, Cr Provision for Liabilities). This reduces profit AND appears on the BS.\u2022 Possible but not probable: DISCLOSE in notes only. No provision. No P&L impact.\u2022 Remote: Ignore completely.",
+        explain: `<strong>Step 1 — What is a contingent liability?</strong> It’s a possible obligation that depends on a future event (the court case outcome). The accounting treatment depends on the PROBABILITY:<br><br>\\u2022 <strong>Probable:</strong> Make a provision (Dr P&L, Cr Provision for Liabilities). This reduces profit AND appears on the BS.<br>\\u2022 <strong>Possible but not probable:</strong> DISCLOSE in notes only. No provision. No P&L impact.<br>\\u2022 <strong>Remote:</strong> Ignore completely.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — Apply to this question.\"Legal advisors state it is unlikely compensation will have to be paid\" = possible but not probable.→ DISCLOSE ONLY in Note 5. Do NOT make a provision for €94,000.However, the legal fees of €7,500 ARE a real, definite expense regardless of the lawsuit outcome.→ €7,500 goes to Administrative Expenses (Working C).",
+        explain: `<strong>Step 2 — Apply to this question.</strong><br><br>"Legal advisors state it is unlikely compensation will have to be paid" = <strong>possible but not probable</strong>.<br>→ <strong>DISCLOSE ONLY</strong> in Note 5. Do NOT make a provision for €94,000.<br><br>However, the legal fees of €7,500 ARE a real, definite expense regardless of the lawsuit outcome.<br>→ €7,500 goes to <strong>Administrative Expenses (Working C)</strong>.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "Note 5 wording:\"The company is being sued by a former employee for €94,000 for unfair dismissal. The company’s legal advisors have stated that as all proper procedures were followed in the course of the dismissal, it is unlikely that any compensation will have to be paid to the former employee. No provision has been made in these accounts.\"",
-        content: ``,
-        mistakes: ["KEYWORDS: \"Unlikely\" / \"remote\" / \"improbable\" = disclose only. \"Probable\" / \"likely\" / \"expected\" = make a provision. The SEC tests this distinction regularly. Also: legal FEES are always an expense, even if you win the case."]
+        explain: `<strong>Note 5 wording:</strong><br>"The company is being sued by a former employee for €94,000 for unfair dismissal. The company’s legal advisors have stated that as all proper procedures were followed in the course of the dismissal, it is unlikely that any compensation will have to be paid to the former employee. No provision has been made in these accounts."`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>KEYWORDS:</strong> "Unlikely" / "remote" / "improbable" = disclose only. "Probable" / "likely" / "expected" = make a provision. The SEC tests this distinction regularly. Also: legal FEES are always an expense, even if you win the case.</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-cf-recon",
     type: "Cash Flow",
-    name: "Reconciliation — Operating Profit to Cash from Operations",
+    name: "Reconciliation \u2014 Operating Profit to Cash from Operations",
     year: 2025,
     source: "Section 1",
-    totalMarks: 12,
+    totalMarks: 0,
     category: "cashflow",
-    desc: "Operating Profit €205,410. Dep €45,000. Profit on disposal €14,000. Patent amortisation €10,000. Bad debt provision increase €450. Stock +17,600. Debt...",
-    partSummary: ["Step 1 — Why...", "Step 2 — Non-cash...", "Step 3 — Working...", "€209,380 feeds into Section..."],
+    desc: "Operating Profit \u20ac205,410. Dep \u20ac45,000. Profit on disposal \u20ac14,000. Patent amortisation \u20ac10,000. Bad debt provision increase \u20ac450. Stock +17,600. Debtors +15,000. Creditors \u22124,880. 2024 SEC Q6 \u2014 25 ma",
+    partSummary: ["Step 1 — Why do we need this reconciliation? Operating Profi", "Step 2 — Non-cash adjustments:", "Step 3 — Working capital changes", "€209,380 feeds into Section 1 of the Cash Flow Statement"],
     question: `<strong>Operating Profit €205,410. Dep €45,000. Profit on disposal €14,000. Patent amortisation €10,000. Bad debt provision increase €450. Stock +17,600. Debtors +15,000. Creditors −4,880.</strong> <em>2024 SEC Q6 — 25 marks</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — Why do we need this reconciliation? Operating Profit is calculated on an ACCRUALS basis (matching income and expenses to the period they relate to). But the Cash Flow Statement needs the actual CASH generated. They differ because: (A) Some expenses don’t involve cash (depreciation, amortisation, provisions). (B) Profits on disposal include the full gain but the cash is shown separately. (C) Working capital changes (stock, debtors, creditors) tie up or release cash.",
+        explain: `<strong>Step 1 — Why do we need this reconciliation?</strong> Operating Profit is calculated on an ACCRUALS basis (matching income and expenses to the period they relate to). But the Cash Flow Statement needs the actual CASH generated. They differ because: (A) Some expenses don’t involve cash (depreciation, amortisation, provisions). (B) Profits on disposal include the full gain but the cash is shown separately. (C) Working capital changes (stock, debtors, creditors) tie up or release cash.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — Non-cash adjustments:",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Non-Cash Items</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border">Operating Profit: 205,410</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">ADD: Depreciation (no cash left): 45,000</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">ADD: Patent amortisation (non-cash): 10,000</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">ADD: Bad debt provision increase: 450</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">LESS: Profit on disposal: (14,000)</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-blue-700 dark:text-blue-400 font-semibold">Adjusted profit: 246,860</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 2 — Non-cash adjustments:</strong>`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Non-Cash Items</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border">Operating Profit: 205,410</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">ADD: Depreciation (no cash left): 45,000</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">ADD: Patent amortisation (non-cash): 10,000</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">ADD: Bad debt provision increase: 450</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">LESS: Profit on disposal: (14,000)</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-blue-700 dark:text-blue-400 font-semibold">Adjusted profit: 246,860</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "Step 3 — Working capital changes.The logic: if STOCK increases, the company spent cash buying stock = cash OUTFLOW. If DEBTORS increase, customers owe MORE = cash NOT yet received = cash OUTFLOW. If CREDITORS decrease, the company PAID suppliers faster = cash OUTFLOW.",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Working Capital Changes</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Stock increase (cash spent buying): (17,600)</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Debtors increase (cash not received): (15,000)</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Creditors decrease (cash paid faster): (4,880)</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border"></td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border font-bold bg-muted">NET CASH FROM OPERATIONS: 209,380</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 3 — Working capital changes.</strong><br><br>The logic: if STOCK increases, the company spent cash buying stock = cash OUTFLOW. If DEBTORS increase, customers owe MORE = cash NOT yet received = cash OUTFLOW. If CREDITORS decrease, the company PAID suppliers faster = cash OUTFLOW.`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Working Capital Changes</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Stock increase (cash spent buying): (17,600)</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Debtors increase (cash not received): (15,000)</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Creditors decrease (cash paid faster): (4,880)</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border"></td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="font-bold border-t-2 border-double bg-muted/40">NET CASH FROM OPERATIONS: 209,380</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 4",
         marks: 0,
-        explain: "€209,380 feeds into Section 1 of the Cash Flow Statement.MEMORY AID for working capital:\u2022 Assets UP (stock/debtors) = cash OUT (subtract)\u2022 Assets DOWN = cash IN (add)\u2022 Liabilities UP (creditors) = cash IN (add)\u2022 Liabilities DOWN = cash OUT (subtract)",
-        content: ``,
-        mistakes: ["WHY subtract profit on disposal? The €14,000 profit is already in Operating Profit. But the actual cash (€35,000 proceeds) appears in Section 4. If we leave the profit here AND show the proceeds in Section 4, we’d double-count. So we remove the profit here and show the full cash in Section 4."]
+        explain: `<strong>€209,380</strong> feeds into Section 1 of the Cash Flow Statement.<br><br><strong>MEMORY AID for working capital:</strong><br>\\u2022 Assets UP (stock/debtors) = cash OUT (subtract)<br>\\u2022 Assets DOWN = cash IN (add)<br>\\u2022 Liabilities UP (creditors) = cash IN (add)<br>\\u2022 Liabilities DOWN = cash OUT (subtract)`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>WHY subtract profit on disposal?</strong> The €14,000 profit is already in Operating Profit. But the actual cash (€35,000 proceeds) appears in Section 4. If we leave the profit here AND show the proceeds in Section 4, we’d double-count. So we remove the profit here and show the full cash in Section 4.</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-cf-fa-purchases",
@@ -1381,34 +1381,34 @@ export const S2_ARCHETYPES: Archetype[] = [
     name: "Find Cash Paid for Fixed Assets",
     year: 2025,
     source: "Section 4",
-    totalMarks: 9,
+    totalMarks: 0,
     category: "cashflow",
-    desc: "Fixed assets at cost: Opening €610,000, Closing €730,000. Disposal at cost €60,000. Revaluation increase on land. 2024 SEC Q6...",
-    partSummary: ["Step 1 — What’s...", "Step 2 — T-Account...", "Section 4: Payments to..."],
+    desc: "Fixed assets at cost: Opening \u20ac610,000, Closing \u20ac730,000. Disposal at cost \u20ac60,000. Revaluation increase on land. 2024 SEC Q6",
+    partSummary: ["Step 1 — What’s the problem? The BS shows opening and closin", "Step 2 — T-Account method:Closing cost + Disposals (at cost)", "Section 4: Payments to acquire tangible fixed assets = €(155"],
     question: `<strong>Fixed assets at cost: Opening €610,000, Closing €730,000. Disposal at cost €60,000. Revaluation increase on land.</strong> <em>2024 SEC Q6</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — What’s the problem? The BS shows opening and closing FA values, but we need to find how much CASH was spent on NEW assets. The change in value includes: additions (cash), disposals (removed), and revaluations (non-cash). We must separate the cash portion.",
+        explain: `<strong>Step 1 — What’s the problem?</strong> The BS shows opening and closing FA values, but we need to find how much CASH was spent on NEW assets. The change in value includes: additions (cash), disposals (removed), and revaluations (non-cash). We must separate the cash portion.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — T-Account method:Closing cost + Disposals (at cost) − Opening cost = Total additions.730,000 + 60,000 − 610,000 = €180,000 total additions.But if €25,000 was a revaluation (non-cash):Cash paid = 180,000 − 25,000 = €155,000.",
+        explain: `<strong>Step 2 — T-Account method:</strong><br><br>Closing cost + Disposals (at cost) − Opening cost = Total additions.<br>730,000 + 60,000 − 610,000 = <strong>€180,000</strong> total additions.<br><br>But if €25,000 was a revaluation (non-cash):<br>Cash paid = 180,000 − 25,000 = <strong>€155,000</strong>.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "Section 4: Payments to acquire tangible fixed assets = €(155,000)The €25,000 revaluation appears NOWHERE in the cash flow statement because it’s not cash. It affects the BS (Revaluation Reserve +25,000) but not cash.",
-        content: ``,
-        mistakes: ["ALWAYS CHECK FOR: (1) Revaluations (non-cash — deduct). (2) Extensions to buildings (cash — include). (3) \"No purchase or sale of buildings during the year\" — if cost changed, the difference must be an extension or revaluation. (4) Disposals must be at COST when calculating additions, not at NBV."]
+        explain: `<strong>Section 4: Payments to acquire tangible fixed assets = €(155,000)</strong><br><br>The €25,000 revaluation appears NOWHERE in the cash flow statement because it’s not cash. It affects the BS (Revaluation Reserve +25,000) but not cash.`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>ALWAYS CHECK FOR:</strong> (1) Revaluations (non-cash — deduct). (2) Extensions to buildings (cash — include). (3) "No purchase or sale of buildings during the year" — if cost changed, the difference must be an extension or revaluation. (4) Disposals must be at COST when calculating additions, not at NBV.</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-cf-disposal",
@@ -1416,34 +1416,34 @@ export const S2_ARCHETYPES: Archetype[] = [
     name: "Disposal Proceeds (Cash Inflow)",
     year: 2025,
     source: "Section 4",
-    totalMarks: 9,
+    totalMarks: 0,
     category: "cashflow",
-    desc: "Plant cost €60,000 was sold for €35,000. Acc dep on the asset = €25,000. 2024 SEC Q6...",
-    partSummary: ["Step 1 — Understanding...", "Step 2 — What...", "The reason for this..."],
+    desc: "Plant cost \u20ac60,000 was sold for \u20ac35,000. Acc dep on the asset = \u20ac25,000. 2024 SEC Q6",
+    partSummary: ["Step 1 — Understanding the disposal", "Step 2 — What goes where in the Cash Flow Statement?\\u2022 S", "The reason for this split: We want to show the FULL cash inf"],
     question: `<strong>Plant cost €60,000 was sold for €35,000.</strong> Acc dep on the asset = €25,000. <em>2024 SEC Q6</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — Understanding the disposal.Cost: €60,000Acc dep: €25,000NBV: 60,000 − 25,000 = €35,000.Sold for: €35,000.Profit/Loss = 35,000 − 35,000 = €0. (In this case, no profit or loss. But if sold for €35,000 with NBV €49,000, loss = €14,000.)",
+        explain: `<strong>Step 1 — Understanding the disposal.</strong><br><br>Cost: €60,000<br>Acc dep: €25,000<br>NBV: 60,000 − 25,000 = €35,000.<br>Sold for: €35,000.<br>Profit/Loss = 35,000 − 35,000 = €0. (In this case, no profit or loss. But if sold for €35,000 with NBV €49,000, loss = €14,000.)`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — What goes where in the Cash Flow Statement?\u2022 Section 1 (Reconciliation): Profit on disposal is SUBTRACTED (or loss is ADDED). This removes the non-cash element.\u2022 Section 4: The ACTUAL CASH received (€35,000) is shown as an inflow.",
+        explain: `<strong>Step 2 — What goes where in the Cash Flow Statement?</strong><br><br>\\u2022 <strong>Section 1 (Reconciliation):</strong> Profit on disposal is SUBTRACTED (or loss is ADDED). This removes the non-cash element.<br>\\u2022 <strong>Section 4:</strong> The ACTUAL CASH received (€35,000) is shown as an inflow.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "The reason for this split: We want to show the FULL cash inflow in one place (Section 4) without double-counting any part of it. The reconciliation adjustment ensures the profit/loss doesn’t inflate/deflate the operating cash figure.",
-        content: ``,
-        mistakes: ["GOLDEN RULE: Section 4 always shows PROCEEDS (cash received). Never cost. Never NBV. The profit/loss is handled in Section 1. If you mix these up, you’ll double-count or miss cash."]
+        explain: `<strong>The reason for this split:</strong> We want to show the FULL cash inflow in one place (Section 4) without double-counting any part of it. The reconciliation adjustment ensures the profit/loss doesn’t inflate/deflate the operating cash figure.`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>GOLDEN RULE:</strong> Section 4 always shows PROCEEDS (cash received). Never cost. Never NBV. The profit/loss is handled in Section 1. If you mix these up, you’ll double-count or miss cash.</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-cf-tax-div",
@@ -1451,41 +1451,41 @@ export const S2_ARCHETYPES: Archetype[] = [
     name: "Interest, Tax & Dividends Paid",
     year: 2025,
     source: "Sections 2/3/5",
-    totalMarks: 12,
+    totalMarks: 0,
     category: "cashflow",
-    desc: "Interest payable: Opening €9,210, Closing €8,750. P&L charge €25,200. Tax: Opening €29,440, paid in full. Dividends paid €32,000. 2024 SEC Q6...",
-    partSummary: ["Step 1 — These...", "Step 2 — Interest...", "Step 3 — Tax...", "All are shown as..."],
+    desc: "Interest payable: Opening \u20ac9,210, Closing \u20ac8,750. P&L charge \u20ac25,200. Tax: Opening \u20ac29,440, paid in full. Dividends paid \u20ac32,000. 2024 SEC Q6",
+    partSummary: ["Step 1 — These three items each have their own section in th", "Step 2 — Interest paid (Section 2):Use the T-Account/formula", "Step 3 — Tax paid (Section 3):\"Tax due on 31/12/2022 was pai", "All are shown as outflows (negative/brackets)"],
     question: `<strong>Interest payable: Opening €9,210, Closing €8,750. P&L charge €25,200. Tax: Opening €29,440, paid in full. Dividends paid €32,000.</strong> <em>2024 SEC Q6</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — These three items each have their own section in the Cash Flow Statement. For each, we need to find the actual CASH paid during the year, which may differ from the P&L charge.",
+        explain: `<strong>Step 1 — These three items each have their own section in the Cash Flow Statement.</strong> For each, we need to find the actual CASH paid during the year, which may differ from the P&L charge.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — Interest paid (Section 2):Use the T-Account/formula: Opening due + P&L charge − Closing due = Cash paid.= 9,210 + 25,200 − 8,750 = €25,660 paid.Why? The €25,200 charge is the EXPENSE for the year. But we paid off last year’s outstanding interest (€9,210) and didn’t pay this year’s closing balance (€8,750) yet.",
+        explain: `<strong>Step 2 — Interest paid (Section 2):</strong><br><br>Use the T-Account/formula: Opening due + P&L charge − Closing due = Cash paid.<br>= 9,210 + 25,200 − 8,750 = <strong>€25,660 paid</strong>.<br><br>Why? The €25,200 charge is the EXPENSE for the year. But we paid off last year’s outstanding interest (€9,210) and didn’t pay this year’s closing balance (€8,750) yet.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "Step 3 — Tax paid (Section 3):\"Tax due on 31/12/2022 was paid in full\" = Opening balance = €29,440 paid.The current year’s tax charge (€23,450) will be paid NEXT year — it’s not cash yet.Step 4 — Dividends paid (Section 5):\"Dividends paid during the year amounted to €32,000\" = already a cash figure = €32,000.",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Cash Flow Sections</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">S2: Interest Paid: (25,660)</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">S3: Tax Paid: (29,440)</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">S5: Dividends Paid: (32,000)</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 3 — Tax paid (Section 3):</strong><br><br>"Tax due on 31/12/2022 was paid in full" = Opening balance = <strong>€29,440 paid</strong>.<br>The current year’s tax charge (€23,450) will be paid NEXT year — it’s not cash yet.<br><br><strong>Step 4 — Dividends paid (Section 5):</strong><br>"Dividends paid during the year amounted to €32,000" = already a cash figure = <strong>€32,000</strong>.`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Cash Flow Sections</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">S2: Interest Paid: (25,660)</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">S3: Tax Paid: (29,440)</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">S5: Dividends Paid: (32,000)</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 4",
         marks: 0,
-        explain: "All are shown as outflows (negative/brackets).The T-Account formula: Cash paid = Opening + Charge − Closing. This works for interest, tax, and dividends. If \"paid in full during the year\" = just use the opening figure.",
-        content: ``,
-        mistakes: ["COMMON MISTAKE: Using the P&L charge (€25,200) as the cash paid for interest. The P&L charge is the EXPENSE for the year. The CASH paid also includes paying off last year’s outstanding amount and excludes this year’s unpaid portion."]
+        explain: `<strong>All are shown as outflows (negative/brackets).</strong><br><br><strong>The T-Account formula:</strong> Cash paid = Opening + Charge − Closing. This works for interest, tax, and dividends. If "paid in full during the year" = just use the opening figure.`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>COMMON MISTAKE:</strong> Using the P&L charge (€25,200) as the cash paid for interest. The P&L charge is the EXPENSE for the year. The CASH paid also includes paying off last year’s outstanding amount and excludes this year’s unpaid portion.</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
   {
     id: "s2-cf-financing",
@@ -1493,33 +1493,33 @@ export const S2_ARCHETYPES: Archetype[] = [
     name: "Liquid Resources & Financing (Shares, Debentures)",
     year: 2025,
     source: "Sections 7/8",
-    totalMarks: 9,
+    totalMarks: 0,
     category: "cashflow",
-    desc: "50,000 shares issued at €1.20 (nominal €1). Debentures redeemed €70,000. Government securities purchased €30,000. 2024 SEC Q6...",
-    partSummary: ["Step 1 — Management...", "Step 2 — Financing...", "Final calculation: Decrease in..."],
+    desc: "50,000 shares issued at \u20ac1.20 (nominal \u20ac1). Debentures redeemed \u20ac70,000. Government securities purchased \u20ac30,000. 2024 SEC Q6",
+    partSummary: ["Step 1 — Management of Liquid Resources (Section 7)", "Step 2 — Financing (Section 8)", "Final calculation: Decrease in Cash"],
     question: `<strong>50,000 shares issued at €1.20 (nominal €1). Debentures redeemed €70,000. Government securities purchased €30,000.</strong> <em>2024 SEC Q6</em>`,
     steps: [
       {
         title: "Step 1",
         marks: 0,
-        explain: "Step 1 — Management of Liquid Resources (Section 7).Liquid resources = short-term investments that can be quickly converted to cash (government securities, quoted investments held as liquid assets). Purchasing them = cash OUTFLOW. Selling them = cash INFLOW.Government securities purchased: €(30,000) outflow.",
+        explain: `<strong>Step 1 — Management of Liquid Resources (Section 7).</strong><br><br>Liquid resources = short-term investments that can be quickly converted to cash (government securities, quoted investments held as liquid assets). Purchasing them = cash OUTFLOW. Selling them = cash INFLOW.<br><br>Government securities purchased: €(30,000) outflow.`,
         content: ``,
-        mistakes: []
+        mistakes: [],
       },
       {
         title: "Step 2",
         marks: 0,
-        explain: "Step 2 — Financing (Section 8).Share issue: 50,000 shares × €1.20 = €60,000 total received.Split: Nominal (50,000 × €1) = €50,000 → Financing inflow.Premium (50,000 × €0.20) = €10,000 → Financing inflow (separate line).Debenture redemption: €(70,000) outflow.",
-        content: `<table class="w-full text-sm border-collapse"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Financing Section</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Receipts from share issue: 50,000</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Share premium received: 10,000</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Repayment of debentures: (70,000)</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Net Financing: (10,000)</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
-        mistakes: []
+        explain: `<strong>Step 2 — Financing (Section 8).</strong><br><br>Share issue: 50,000 shares × €1.20 = €60,000 total received.<br>Split: Nominal (50,000 × €1) = <strong>€50,000</strong> → Financing inflow.<br>Premium (50,000 × €0.20) = <strong>€10,000</strong> → Financing inflow (separate line).<br><br>Debenture redemption: <strong>€(70,000)</strong> outflow.`,
+        content: `<table class="w-full text-sm border-collapse my-2"><thead><tr class="bg-muted"><th class="text-left p-2 border border-border" colspan="2">Financing Section</th></tr><tr><td class="p-2 border border-border font-bold">Debit</td><td class="p-2 border border-border font-bold">Credit</td></tr></thead><tbody><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Receipts from share issue: 50,000</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-green-700 dark:text-green-400 font-semibold">Share premium received: 10,000</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border" class="text-red-600 dark:text-red-400 font-semibold">Repayment of debentures: (70,000)</td><td class="p-2 border border-border"></td></tr><tr><td class="p-2 border border-border">Net Financing: (10,000)</td><td class="p-2 border border-border"></td></tr></tbody></table>`,
+        mistakes: [],
       },
       {
         title: "Step 3",
         marks: 0,
-        explain: "Final calculation: Decrease in Cash.Sum ALL sections:S1 Operating: 209,380S2 Interest: (25,660)S3 Tax: (29,440)S4 Capital: (120,000) [including disposal proceeds]S5 Dividends: (32,000)S7 Liquid Resources: (30,000)S8 Financing: (10,000)Total = Decrease/Increase in Cash.CHECK: This should equal: Closing bank − Opening bank (or vice versa for overdraft changes).",
-        content: ``,
-        mistakes: ["SECTIONS IN ORDER: 1. Operating Activities → 2. Returns on Investment (interest) → 3. Taxation → 4. Capital Expenditure → 5. Equity Dividends → 6. (Acquisitions — rare) → 7. Liquid Resources → 8. Financing → Decrease/Increase in Cash. This order is FIXED by the accounting standard."]
+        explain: `<strong>Final calculation: Decrease in Cash.</strong><br><br>Sum ALL sections:<br>S1 Operating: 209,380<br>S2 Interest: (25,660)<br>S3 Tax: (29,440)<br>S4 Capital: (120,000) [including disposal proceeds]<br>S5 Dividends: (32,000)<br>S7 Liquid Resources: (30,000)<br>S8 Financing: (10,000)<br><br>Total = Decrease/Increase in Cash.<br><br><strong>CHECK:</strong> This should equal: Closing bank − Opening bank (or vice versa for overdraft changes).`,
+        content: `<div class="mt-3 p-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-xs leading-relaxed"><strong>SECTIONS IN ORDER:</strong> 1. Operating Activities → 2. Returns on Investment (interest) → 3. Taxation → 4. Capital Expenditure → 5. Equity Dividends → 6. (Acquisitions — rare) → 7. Liquid Resources → 8. Financing → Decrease/Increase in Cash. This order is FIXED by the accounting standard.</div>`,
+        mistakes: [],
       },
-    ]
+    ],
   },
 ];
