@@ -2099,9 +2099,13 @@ export const CHAPTERS: Chapter[] = [
     estimatedMinutes: 30,
     related: [20, 21, 22, 23],
     examPointers: [
+      'Q9 (cash budget / flexible budget) — appears periodically; ~30% probability for full question',
+      '2024 Q9 (a) — Advantages of preparing a cash budget',
       '2022 Q9 (b) — Define standard costing and explain how variances arise',
+      '2019 Q9 (b) — Limitations of budgeting and possible behavioural problems',
       '2017 Q9 (a) — Material price vs material usage variance: meaning and causes',
       '2013 Q9 (b) — Benefits of standard costing as a management control tool',
+      '2010 Q9 (a) — Distinguish a fixed budget from a flexible budget',
     ],
     sections: [
       {
