@@ -63,7 +63,7 @@ export default function WorkingsPage({ title, subtitle, sectionLabel, accentColo
                 {activeArch.type}
               </span>
             </div>
-            <p className="text-xs text-muted-foreground">{activeArch.source} · {activeArch.totalMarks} marks</p>
+            <p className="text-xs text-muted-foreground">{activeArch.year}</p>
           </div>
         </div>
 
@@ -129,9 +129,6 @@ export default function WorkingsPage({ title, subtitle, sectionLabel, accentColo
         <Card className="mb-4 border-border overflow-hidden">
           <div className="bg-muted/50 border-b border-border px-5 py-3 flex justify-between items-center">
             <h4 className="font-display text-sm font-bold">{step.title}</h4>
-            <Badge variant="outline" className="font-mono text-xs" style={{ color: archColor, borderColor: archColor + "44" }}>
-              {typeof step.marks === "number" ? `${step.marks} marks` : step.marks}
-            </Badge>
           </div>
           <CardContent className="p-5">
             {/* Explanation */}
@@ -243,7 +240,7 @@ export default function WorkingsPage({ title, subtitle, sectionLabel, accentColo
                   )}
                 </div>
                 <h3 className="font-display text-sm font-bold mb-1">{arch.name}</h3>
-                <p className="font-mono text-[11px] mb-2" style={{ color: cardColor }}>{arch.source} · {arch.totalMarks} marks</p>
+                <p className="font-mono text-[11px] mb-2" style={{ color: cardColor }}>{arch.year}</p>
                 <p className="text-xs text-muted-foreground font-light leading-relaxed mb-3">{arch.desc}</p>
                 <div className="flex gap-1.5 flex-wrap">
                   {arch.partSummary.slice(0, 3).map(p => (
