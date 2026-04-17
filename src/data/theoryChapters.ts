@@ -1827,9 +1827,9 @@ export const CHAPTERS: Chapter[] = [
     estimatedMinutes: 12,
     related: [1, 21],
     examPointers: [
-      '2022 Q9 (a) — Distinguish fixed costs vs variable costs (with examples)',
-      '2017 Q9 (b) — Define direct vs indirect costs and product vs period costs',
-      '2012 Q9 (a) — Behaviour of semi-variable costs and how they are split',
+      '2018 Q9 (b) — Distinguish financial accounting from management accounting',
+      '2014 Q9 (a) — Outline the role of the management accountant in planning, control and decision-making',
+      '2010 Q9 (b) — Qualities of useful management information (timely, relevant, reliable, comparable)',
     ],
     sections: [
       {
