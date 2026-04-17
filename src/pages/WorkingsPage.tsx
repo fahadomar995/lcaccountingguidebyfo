@@ -63,9 +63,10 @@ export default function WorkingsPage({ title, subtitle, sectionLabel, accentColo
                 {activeArch.type}
               </span>
             </div>
-            <p className="text-xs text-muted-foreground">{activeArch.year}</p>
           </div>
         </div>
+        {/* removed year subtitle — workings span multiple SEC years */}
+        <div className="hidden">{activeArch.year}</div>
 
         {/* Progress bar */}
         <div className="h-1 bg-muted rounded-full overflow-hidden mb-5">
@@ -240,7 +241,6 @@ export default function WorkingsPage({ title, subtitle, sectionLabel, accentColo
                   )}
                 </div>
                 <h3 className="font-display text-sm font-bold mb-1">{arch.name}</h3>
-                <p className="font-mono text-[11px] mb-2" style={{ color: cardColor }}>{arch.year}</p>
                 <p className="text-xs text-muted-foreground font-light leading-relaxed mb-3">{arch.desc}</p>
                 <div className="flex gap-1.5 flex-wrap">
                   {arch.partSummary.slice(0, 3).map(p => (
