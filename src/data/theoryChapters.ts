@@ -1623,6 +1623,12 @@ export const CHAPTERS: Chapter[] = [
     description: 'FRS 1 Revised format, reconciliation notes, operating activities, investing, financing.',
     estimatedMinutes: 35,
     related: [9, 10, 18],
+    examPointers: [
+      'Q6 (cash flow statement) — appears in most years, 60 marks',
+      '2023 Q9 (a) — Reasons why profit ≠ cash (depreciation, debtors, stock movements)',
+      '2018 Q9 (b) — Purpose of a Cash Flow Statement and its three sections',
+      '2014 Q9 (a) — Information provided by a Cash Flow Statement that is not in the P&L',
+    ],
     sections: [
       {
         id: '17.1', title: 'Purpose & Structure',
@@ -1693,6 +1699,12 @@ export const CHAPTERS: Chapter[] = [
     description: 'Profitability, liquidity, activity, gearing, and investment ratios with interpretation.',
     estimatedMinutes: 40,
     related: [9, 10, 17],
+    examPointers: [
+      'Q7 (interpretation of accounts) — appears in most years, 100 marks',
+      '2024 Q9 (b) — Limitations of ratio analysis (4 points)',
+      '2020 Q9 (a) — Define gearing and explain its significance to lenders',
+      '2016 Q9 (b) — Stakeholder report: explain ratios to a prospective shareholder',
+    ],
     sections: [
       {
         id: '18.1', title: 'Part A: Ratio Formulas',
@@ -1781,6 +1793,11 @@ export const CHAPTERS: Chapter[] = [
     description: 'Effects of transactions on the balance sheet \u2014 assets, liabilities, and capital.',
     estimatedMinutes: 15,
     related: [1, 2, 6],
+    examPointers: [
+      'Tabular statements — frequent component of Q1 and Q4',
+      '2019 Q4 — Effect of transactions on assets, liabilities and capital (full tabular)',
+      '2013 Q9 (b) — Explain the accounting equation and its application',
+    ],
     sections: [
       {
         id: '19.1', title: 'Tabular Statements',
@@ -1809,6 +1826,11 @@ export const CHAPTERS: Chapter[] = [
     description: 'Role of management accounting, planning, control, decision-making.',
     estimatedMinutes: 12,
     related: [1, 21],
+    examPointers: [
+      '2022 Q9 (a) — Distinguish fixed costs vs variable costs (with examples)',
+      '2017 Q9 (b) — Define direct vs indirect costs and product vs period costs',
+      '2012 Q9 (a) — Behaviour of semi-variable costs and how they are split',
+    ],
     sections: [
       {
         id: '20.1', title: 'Management Accounting',
@@ -1836,6 +1858,12 @@ export const CHAPTERS: Chapter[] = [
     description: 'Fixed, variable, semi-variable, direct, indirect costs; cost behaviour and the high-low method.',
     estimatedMinutes: 22,
     related: [20, 22, 23],
+    examPointers: [
+      'Q8 (product costing / overhead absorption) — alternates with Q9 marginal costing',
+      '2021 Q9 (a) — Bases of overhead absorption (machine-hour vs labour-hour)',
+      '2015 Q9 (b) — Define under- and over-absorption of overheads and their treatment',
+      '2009 Q9 (a) — Distinguish allocation, apportionment and absorption',
+    ],
     sections: [
       {
         id: '21.1', title: 'Types of Cost',
@@ -1889,6 +1917,12 @@ export const CHAPTERS: Chapter[] = [
     description: 'Stock valuation (FIFO, LIFO, weighted average), absorption costing, apportionment.',
     estimatedMinutes: 30,
     related: [11, 21, 23],
+    examPointers: [
+      'Q9 (marginal costing / break-even) — alternates with Q8; ~50% probability',
+      '2023 Q9 (b) — Limitations of break-even analysis (4 assumptions that may not hold)',
+      '2018 Q9 (a) — Define contribution and explain its uses in decision-making',
+      '2011 Q9 (b) — Margin of safety: definition and significance',
+    ],
     sections: [
       {
         id: '22.1', title: 'Part A: Stock Valuation',
@@ -1937,6 +1971,12 @@ export const CHAPTERS: Chapter[] = [
     description: 'Break-even analysis, contribution, marginal vs absorption comparison, special decisions.',
     estimatedMinutes: 28,
     related: [21, 22, 24],
+    examPointers: [
+      'Q9 (cash budget) — appears periodically; ~30% probability for full question',
+      '2024 Q9 (a) — Advantages of preparing a cash budget',
+      '2019 Q9 (b) — Limitations of budgeting and possible behavioural problems',
+      '2010 Q9 (a) — Distinguish a fixed budget from a flexible budget',
+    ],
     sections: [
       {
         id: '23.1', title: 'Marginal Costing',
@@ -1998,6 +2038,11 @@ export const CHAPTERS: Chapter[] = [
     description: 'Manufacturing budgets, cash budgets, flexible budgets, variance analysis.',
     estimatedMinutes: 30,
     related: [20, 21, 22, 23],
+    examPointers: [
+      '2022 Q9 (b) — Define standard costing and explain how variances arise',
+      '2017 Q9 (a) — Material price vs material usage variance: meaning and causes',
+      '2013 Q9 (b) — Benefits of standard costing as a management control tool',
+    ],
     sections: [
       {
         id: '24.1', title: 'Part A: Manufacturing Budgets',
