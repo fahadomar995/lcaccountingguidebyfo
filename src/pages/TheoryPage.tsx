@@ -101,12 +101,7 @@ export default function TheoryPage() {
     setScores(prev => ({ ...prev, [i]: score }));
   };
 
-  // Frequency analysis
-  const freqData = useMemo(() => {
-    const map: Record<string, number> = {};
-    THEORY_BANK.forEach(q => { map[q.topic] = (map[q.topic] || 0) + 1; });
-    return Object.entries(map).sort((a, b) => b[1] - a[1]);
-  }, []);
+  // (Frequency analytics moved to FrequencyTracker / TheoryPredictions components below)
 
   const uniqueYears = useMemo(() => new Set(THEORY_BANK.map(q => q.year)).size, []);
   const uniqueSubTopics = useMemo(() => new Set(THEORY_BANK.flatMap(q => q.tags)).size, []);
