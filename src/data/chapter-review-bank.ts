@@ -625,11 +625,11 @@ export const REVIEW_BANK: Record<number, ReviewItem[]> = {
       sectionLink: '7.1.2',
     },
     {
-      id: 'r7-18', chapterId: 7, sectionId: '7.5', type: 'true-false',
+      id: 'r7-18', chapterId: 7, sectionId: '7.2', type: 'true-false',
       prompt: 'True or false?',
       itemData: { type: 'true-false', data: { statement: 'Once all errors are corrected, the suspense account should have a zero balance.', isTrue: true, followUp: { prompt: 'What does it mean if a balance remains?', chips: ['Errors are still outstanding', 'The accounts are correct', 'Profit must be increased'], correctChip: 'Errors are still outstanding' } } },
       explanation: 'A residual suspense balance signals undetected errors. The account must clear before the final accounts can be considered reliable.',
-      sectionLink: '7.5.1',
+      sectionLink: '7.2.1',
     },
   ],
 
