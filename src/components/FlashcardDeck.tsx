@@ -165,7 +165,7 @@ export default function FlashcardDeck({ cards, storageKey = "lc-flash-status-v2"
                 <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Know</div>
               </div>
               <div>
-                <div className="font-mono text-2xl font-bold text-amber-600">{stillLearning}</div>
+                <div className="font-mono text-2xl font-bold" style={{ color: "hsl(var(--tier-po))" }}>{stillLearning}</div>
                 <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Learning</div>
               </div>
               <div>
@@ -205,7 +205,7 @@ export default function FlashcardDeck({ cards, storageKey = "lc-flash-status-v2"
         <span className="text-muted-foreground">{pos + 1} / {total}</span>
         <div className="flex gap-3">
           <span className="text-primary font-bold">{knownCount} know</span>
-          <span className="text-amber-600 font-bold">{learningCount} learning</span>
+          <span className="font-bold" style={{ color: "hsl(var(--tier-po))" }}>{learningCount} learning</span>
           <span className="text-muted-foreground">{remainingCount} left</span>
         </div>
       </div>
@@ -224,12 +224,22 @@ export default function FlashcardDeck({ cards, storageKey = "lc-flash-status-v2"
         style={{ minHeight: 240 }}
         onClick={() => setFlipped(f => !f)}
       >
-        <Card className={`p-8 text-center transition-all duration-300 ${flipped ? "bg-sage-bg" : "bg-card"} ${status === "know" ? "border-primary/40" : status === "learning" ? "border-amber-500/40" : ""}`}>
+        <Card
+          className={`p-8 text-center transition-all duration-300 ${flipped ? "bg-sage-bg" : "bg-card"} ${status === "know" ? "border-primary/40" : ""}`}
+          style={status === "learning" ? { borderColor: "hsl(var(--tier-po) / 0.4)" } : undefined}
+        >
           <CardContent className="p-0 flex flex-col justify-center" style={{ minHeight: 180 }}>
             <div className="flex justify-center gap-2 mb-4">
               <Badge variant="outline" className="text-[10px]">{current.topic}</Badge>
               {status === "know" && <Badge className="text-[10px] bg-primary/15 text-primary border-primary/30">Know</Badge>}
-              {status === "learning" && <Badge className="text-[10px] bg-amber-500/15 text-amber-700 border-amber-500/30">Learning</Badge>}
+              {status === "learning" && (
+                <Badge
+                  className="text-[10px]"
+                  style={{ background: "hsl(var(--tier-po) / 0.15)", color: "hsl(var(--tier-po))", borderColor: "hsl(var(--tier-po) / 0.3)" }}
+                >
+                  Learning
+                </Badge>
+              )}
             </div>
             {!flipped ? (
               <p className="font-display text-lg font-bold">{current.term}</p>
@@ -248,7 +258,8 @@ export default function FlashcardDeck({ cards, storageKey = "lc-flash-status-v2"
         <Button
           variant="outline"
           onClick={() => markStatus("learning")}
-          className="h-12 border-amber-500/40 text-amber-700 hover:bg-amber-500/10 hover:text-amber-700"
+          className="h-12"
+          style={{ borderColor: "hsl(var(--tier-po) / 0.4)", color: "hsl(var(--tier-po))" }}
         >
           <X className="h-4 w-4 mr-2" />
           Still learning

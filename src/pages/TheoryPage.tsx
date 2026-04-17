@@ -7,6 +7,7 @@ import { THEORY_BANK, THEORY_FLASHCARDS, THEORY_TOPICS } from "@/data/theory";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { Eye, EyeOff, RotateCcw, Check, X, Minus, ChevronLeft, ChevronRight, BarChart3, Shuffle, BookOpen } from "lucide-react";
 import TheoryLearnMode from "@/components/TheoryLearnMode";
+import FlashcardDeck from "@/components/FlashcardDeck";
 
 type Score = "got" | "partial" | "missed";
 const PAGE_SIZE = 20;
@@ -311,10 +312,12 @@ export default function TheoryPage() {
           )}
         </TabsContent>
 
-        {/* FLASHCARDS */}
+        {/* FLASHCARDS — Quizlet-style deck with per-card progress */}
         <TabsContent value="flashcards">
-          <FilterBar topics={THEORY_TOPICS} active={flashTopic} onSelect={(t) => { setFlashTopic(t); setFlashIndex(0); setFlipped(false); }} />
-          {flashFiltered.length > 0 ? (
+          <FilterBar topics={THEORY_TOPICS} active={flashTopic} onSelect={(t) => setFlashTopic(t)} />
+          <FlashcardDeck cards={flashFiltered} />
+        </TabsContent>
+        {flashFiltered.length === -1 ? (
             <div className="max-w-[500px] mx-auto">
               <p className="text-xs text-muted-foreground mb-3 text-center">
                 {flashIndex + 1} of {flashFiltered.length} · {known.length} known

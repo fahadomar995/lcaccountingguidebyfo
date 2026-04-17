@@ -15,9 +15,13 @@ function useDashboardStats() {
       const attempted = Object.keys(scores).length;
       const gotCount = Object.values(scores).filter(s => s === "got").length;
 
-      // Flashcards known
-      const knownRaw = localStorage.getItem("lc-flash-known");
-      const known: string[] = knownRaw ? JSON.parse(knownRaw) : [];
+      // Flashcards known (v2 per-card status map; falls back to legacy v1 array)
+      const statusRaw = localStorage.getItem("lc-flash-status-v2");
+      const statusMap: Record<string, string> = statusRaw ? JSON.parse(statusRaw) : {};
+      const v2Known = Object.values(statusMap).filter(s => s === "know").length;
+      const legacyRaw = localStorage.getItem("lc-flash-known");
+      const legacy: string[] = legacyRaw ? JSON.parse(legacyRaw) : [];
+      const known: { length: number } = { length: v2Known > 0 ? v2Known : legacy.length };
 
       // Classify best
       const classifyBest = Number(localStorage.getItem("lc-classify-best")) || 0;
