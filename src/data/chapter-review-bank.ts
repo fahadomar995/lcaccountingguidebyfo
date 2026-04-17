@@ -549,6 +549,43 @@ export const REVIEW_BANK: Record<number, ReviewItem[]> = {
       explanation: 'Errors that affect the trial balance involve the suspense account. Errors that don\u2019t affect the trial balance (principle, complete reversal) are corrected without suspense.',
       sectionLink: '7.2.2',
     },
+    {
+      id: 'r7-13',
+      chapterId: 7,
+      sectionId: '7.4',
+      type: 'mcq',
+      prompt: 'Which statement best explains why a trial balance that balances does NOT prove the books are correct?',
+      itemData: {
+        type: 'mcq',
+        data: {
+          options: [
+            'It only checks that the totals match \u2014 six error types still slip through',
+            'Trial balances always have errors',
+            'It does not include the bank account',
+            'It only checks debtor balances',
+          ],
+          correctIndex: 0,
+        },
+      },
+      explanation: 'Errors of omission, commission, principle, original entry, compensating and complete reversal all leave the trial balance balanced. This is a key Q7 theory question.',
+      sectionLink: '7.4.1',
+    },
+    {
+      id: 'r7-14',
+      chapterId: 7,
+      sectionId: '7.4',
+      type: 'true-false',
+      prompt: 'True or false?',
+      itemData: {
+        type: 'true-false',
+        data: {
+          statement: 'A suspense account allows final accounts to be prepared while errors are still being investigated.',
+          isTrue: true,
+        },
+      },
+      explanation: 'The suspense account temporarily holds the trial-balance difference so that final accounts are not delayed. It must clear to zero once all errors are corrected.',
+      sectionLink: '7.4.2',
+    },
   ],
 
   // ────────────────────────────────────────────
@@ -1391,7 +1428,7 @@ export const REVIEW_BANK: Record<number, ReviewItem[]> = {
       prompt: 'Total rent \u20ac30,000. Factory occupies 70% of floor area. What goes to the Manufacturing Account?',
       itemData: { type: 'mcq', data: { options: ['\u20ac9,000', '\u20ac21,000', '\u20ac30,000', '\u20ac15,000'], correctIndex: 1 } },
       explanation: '70% \u00d7 \u20ac30,000 = \u20ac21,000 to factory. The remaining \u20ac9,000 goes to expenses in the P&L.',
-      sectionLink: '11.4.2',
+      sectionLink: '11.4.3',
     },
     {
       id: 'r11-08', chapterId: 11, sectionId: '11.3', type: 'fill-chip',
@@ -1433,9 +1470,9 @@ export const REVIEW_BANK: Record<number, ReviewItem[]> = {
     },
     {
       id: 'r11-12', chapterId: 11, sectionId: '11.4', type: 'mcq',
-      prompt: 'Prime Cost \u20ac168,500 + Factory Overhead \u20ac35,800 + Opening WIP \u20ac7,500 \u2212 Closing WIP \u20ac9,200. Cost of Manufacture?',
-      itemData: { type: 'mcq', data: { options: ['\u20ac204,300', '\u20ac202,600', '\u20ac211,800', '\u20ac195,100'], correctIndex: 1 } },
-      explanation: '\u20ac168,500 + \u20ac35,800 + \u20ac7,500 \u2212 \u20ac9,200 = \u20ac202,600.',
+      prompt: 'Which of the following is a DIRECT cost of production?',
+      itemData: { type: 'mcq', data: { options: ['Factory rent', 'Royalties paid per unit produced', 'Factory supervisor\u2019s salary', 'Depreciation of factory machinery'], correctIndex: 1 } },
+      explanation: 'Royalties paid per unit are a direct expense \u2014 they vary with production and can be traced to each unit. The other three are indirect (factory overhead).',
       sectionLink: '11.4.1',
     },
     {
@@ -2643,6 +2680,25 @@ export const REVIEW_BANK: Record<number, ReviewItem[]> = {
       explanation: 'The closing balance of the control account should equal the total of all individual balances in the subsidiary (personal) ledger.',
       sectionLink: '5.1.1',
     },
+    {
+      id: 'r5-09', chapterId: 5, sectionId: '5.2', type: 'mcq',
+      prompt: 'Which of the following is NOT an advantage of using control accounts?',
+      itemData: { type: 'mcq', data: { options: ['Locating errors quickly', 'Internal check on staff', 'Eliminating the need for personal accounts', 'Speeding up the trial balance'], correctIndex: 2 } },
+      explanation: 'Personal accounts are still needed for individual debtors and creditors. Control accounts summarise them \u2014 they do not replace them.',
+      sectionLink: '5.2.1',
+    },
+    {
+      id: 'r5-10', chapterId: 5, sectionId: '5.2', type: 'sort',
+      prompt: 'Sort each issue: would it cause a difference between the Debtors Control Account and the list of debtors?',
+      itemData: { type: 'sort', data: { buckets: ['Causes a difference', 'No difference'], items: [
+        { label: 'Sales day book undercast', correctBucket: 'Causes a difference' },
+        { label: 'Bad debt written off in personal account only', correctBucket: 'Causes a difference' },
+        { label: 'Cash sale recorded in cash book', correctBucket: 'No difference' },
+        { label: 'Different amount posted to control vs personal account', correctBucket: 'Causes a difference' },
+      ] } },
+      explanation: 'Cash sales bypass debtors entirely. Errors in either the day-book casting, the personal account or the control account will cause the two figures to disagree.',
+      sectionLink: '5.2.2',
+    },
   ],
 
   // ────────────────────────────────────────────
@@ -2952,6 +3008,37 @@ export const REVIEW_BANK: Record<number, ReviewItem[]> = {
       explanation: 'The Companies Registration Office (CRO) is where companies file their annual returns and accounts.',
       sectionLink: '8.1.1',
     },
+    {
+      id: 'r8-13', chapterId: 8, sectionId: '8.4', type: 'match',
+      prompt: 'Match each feature to External or Internal audit.',
+      itemData: { type: 'match', data: { pairs: [
+        { term: 'Required by Companies Act', definition: 'External audit' },
+        { term: 'Performed by employees of the company', definition: 'Internal audit' },
+        { term: 'Reports to shareholders at the AGM', definition: 'External audit' },
+        { term: 'Focuses on internal controls and efficiency', definition: 'Internal audit' },
+      ] } },
+      explanation: 'External audit is statutory and reports to shareholders; internal audit is voluntary and reports to management on systems and controls.',
+      sectionLink: '8.4.1',
+    },
+    {
+      id: 'r8-14', chapterId: 8, sectionId: '8.4', type: 'mcq',
+      prompt: 'Which of the following is NOT a quality of a good auditor?',
+      itemData: { type: 'mcq', data: { options: ['Independence', 'Professional competence', 'Loyalty to the directors', 'Due care and diligence'], correctIndex: 2 } },
+      explanation: 'An auditor must NOT be loyal to directors \u2014 they must be independent and willing to challenge management.',
+      sectionLink: '8.4.2',
+    },
+    {
+      id: 'r8-15', chapterId: 8, sectionId: '8.4', type: 'sort',
+      prompt: 'Sort each scenario as a threat or NOT a threat to auditor independence.',
+      itemData: { type: 'sort', data: { buckets: ['Threat to independence', 'NOT a threat'], items: [
+        { label: 'Auditor owns shares in the client company', correctBucket: 'Threat to independence' },
+        { label: 'Audit firm prepared the accounts they are now auditing', correctBucket: 'Threat to independence' },
+        { label: 'Auditor uses sampling to check transactions', correctBucket: 'NOT a threat' },
+        { label: 'Auditor has been close personal friends with the FD for 20 years', correctBucket: 'Threat to independence' },
+      ] } },
+      explanation: 'Self-interest, self-review and familiarity are all threats to independence. Sampling is a normal audit technique, not a threat.',
+      sectionLink: '8.4.3',
+    },
   ],
 
   // ────────────────────────────────────────────
@@ -3053,6 +3140,20 @@ export const REVIEW_BANK: Record<number, ReviewItem[]> = {
       itemData: { type: 'mcq', data: { options: ['Assess department performance', 'Decide on expanding or closing departments', 'Calculate corporation tax', 'Determine departmental contribution'], correctIndex: 2 } },
       explanation: 'Corporation tax is calculated on total company profit, not departmental profit. Departmental accounts aid internal management decisions.',
       sectionLink: '12.1.1',
+    },
+    {
+      id: 'r12-13', chapterId: 12, sectionId: '12.2', type: 'mcq',
+      prompt: 'Which of the following is a DISADVANTAGE of preparing departmental accounts?',
+      itemData: { type: 'mcq', data: { options: ['Performance can be measured per department', 'Apportionment of shared costs is subjective', 'Loss-making departments can be identified', 'Managers can be set targets'], correctIndex: 1 } },
+      explanation: 'Apportionment relies on a chosen basis (floor area, turnover etc.) which is inherently subjective and can distort the result.',
+      sectionLink: '12.2.1',
+    },
+    {
+      id: 'r12-14', chapterId: 12, sectionId: '12.2', type: 'true-false',
+      prompt: 'True or false?',
+      itemData: { type: 'true-false', data: { statement: 'Advertising spent only on Department A should be apportioned across all departments using the turnover ratio.', isTrue: false, followUp: { prompt: 'How should it be treated?', chips: ['Allocated 100% to Department A', 'Spread across all departments equally', 'Treated as a fixed asset'], correctChip: 'Allocated 100% to Department A' } } },
+      explanation: 'A cost that benefits only one department is a DIRECT cost \u2014 allocate it 100% to that department. Apportionment is only used for shared costs.',
+      sectionLink: '12.2.2',
     },
   ],
 
