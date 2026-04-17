@@ -753,6 +753,25 @@ export const CHAPTERS: Chapter[] = [
           },
         ]
       },
+      {
+        id: '7.4', title: 'Theory of Errors',
+        subTopics: [
+          {
+            id: '7.4.1', title: 'Effect of Errors on the Final Accounts',
+            body: [
+              { type: 'concept', variant: 'red', title: 'Why Errors Matter', html: '<p>Even errors that do NOT cause a trial balance imbalance can <strong>materially distort</strong> the final accounts. The most damaging is the <strong>Error of Principle</strong>: capital expenditure recorded as revenue (or vice versa). This causes profit to be misstated AND the Balance Sheet to be wrong.</p><p>Other errors (commission, debtor name swaps, complete reversals between two BS items) do not affect profit but mislead users about who owes what.</p>' },
+              { type: 'concept', variant: 'blue', title: 'The Limitation of the Trial Balance', html: '<p>A trial balance that balances does <strong>not</strong> prove the books are correct. Six categories of error remain undetected: omission, commission, principle, original entry, compensating, and complete reversal.</p><p>This is a classic Q7 theory question \u2014 "State two limitations of the trial balance as a check on accuracy".</p>' },
+            ]
+          },
+          {
+            id: '7.4.2', title: 'Why a Suspense Account Is Used',
+            body: [
+              { type: 'concept', variant: 'green', title: 'Purpose of the Suspense Account', html: '<p>1. To allow the books to be <strong>balanced temporarily</strong> while errors are investigated.</p><p>2. So that <strong>final accounts can be prepared</strong> without delay (the suspense balance appears on the Balance Sheet pending investigation).</p><p>3. To <strong>force a systematic search</strong> for errors \u2014 every correction either clears the suspense or proves the error did not affect the trial balance.</p>' },
+              { type: 'watchout', title: 'Suspense on the Balance Sheet', html: '<p>If errors have not been fully cleared by the year end, the residual suspense balance appears on the Balance Sheet \u2014 as a current asset (debit balance) or current liability (credit balance). After all errors are corrected, suspense should be zero.</p>' },
+            ]
+          },
+        ]
+      },
     ]
   },
 
@@ -819,6 +838,35 @@ export const CHAPTERS: Chapter[] = [
             ],
             body: [
               { type: 'concept', variant: 'green', title: 'Five Ethical Principles', html: '<p><strong>Integrity</strong> \u2014 honest and straightforward.<br/><strong>Objectivity</strong> \u2014 not influenced by bias.<br/><strong>Professional competence</strong> \u2014 maintain knowledge and skills.<br/><strong>Confidentiality</strong> \u2014 do not disclose without authority.<br/><strong>Professional behaviour</strong> \u2014 comply with laws and standards.</p>' },
+            ]
+          },
+        ]
+      },
+      {
+        id: '8.4', title: 'The Auditor in Depth',
+        subTopics: [
+          {
+            id: '8.4.1', title: 'Purpose of an Audit',
+            keyTerms: [
+              { term: 'External Audit', definition: 'An independent examination by an auditor from outside the company, required by the Companies Act for non-exempt companies.' },
+              { term: 'Internal Audit', definition: 'An ongoing review carried out by employees of the company to monitor systems and controls.' },
+            ],
+            body: [
+              { type: 'concept', variant: 'blue', title: 'Why Are Companies Audited?', html: '<p>1. <strong>Statutory requirement</strong> under the Companies Act 2014 (audit-exempt rules apply to small companies).</p><p>2. To give <strong>shareholders</strong> independent assurance the directors\u2019 accounts are true and fair.</p><p>3. To deter and detect <strong>fraud and error</strong>.</p><p>4. To support <strong>lenders, Revenue, suppliers</strong> who rely on the published accounts.</p><p>5. To strengthen the company\u2019s <strong>credibility</strong> with investors and the public.</p>' },
+              { type: 'table', html: '<table class="learn-table"><thead><tr><th></th><th>External Audit</th><th>Internal Audit</th></tr></thead><tbody><tr><td>Performed by</td><td>Independent auditor</td><td>Employees of the company</td></tr><tr><td>Required by</td><td>Companies Act</td><td>Directors\u2019 choice</td></tr><tr><td>Reports to</td><td>Shareholders (AGM)</td><td>Management / audit committee</td></tr><tr><td>Focus</td><td>Truth and fairness of accounts</td><td>Internal controls and efficiency</td></tr><tr><td>Frequency</td><td>Annual</td><td>Continuous</td></tr></tbody></table>' },
+            ]
+          },
+          {
+            id: '8.4.2', title: 'Qualities of a Good Auditor',
+            body: [
+              { type: 'concept', variant: 'green', title: 'Five Qualities', html: '<p><strong>Independence</strong> \u2014 free from any relationship that could compromise judgement.</p><p><strong>Competence</strong> \u2014 professionally qualified (e.g. ACA, ACCA, CPA) and up to date.</p><p><strong>Integrity</strong> \u2014 honest, straightforward, willing to challenge directors.</p><p><strong>Due care and diligence</strong> \u2014 thorough, methodical, well-documented work.</p><p><strong>Confidentiality</strong> \u2014 does not disclose information except where legally required.</p>' },
+            ]
+          },
+          {
+            id: '8.4.3', title: 'Why Independence Matters',
+            body: [
+              { type: 'concept', variant: 'amber', title: 'Threats to Independence', html: '<p>An auditor must avoid:</p><p>1. <strong>Self-interest</strong> \u2014 holding shares in the company.</p><p>2. <strong>Self-review</strong> \u2014 auditing accounts they helped prepare.</p><p>3. <strong>Familiarity</strong> \u2014 long-standing close relationships with directors.</p><p>4. <strong>Intimidation</strong> \u2014 pressure or threats from the client.</p><p>5. <strong>Advocacy</strong> \u2014 acting publicly on behalf of the client.</p>' },
+              { type: 'examtip', title: 'Exam Theory', html: '<p>"Why is it important the auditor is independent?" \u2014 expected answers cover: credibility of audit opinion, protection of shareholder interests, public confidence in financial reporting, compliance with ethical standards.</p>' },
             ]
           },
         ]
@@ -1171,6 +1219,25 @@ export const CHAPTERS: Chapter[] = [
             body: [
               { type: 'concept', variant: 'amber', title: 'Should a Loss-Making Department Close?', html: '<p>A department making a <strong>net loss</strong> should NOT necessarily be closed. If it makes a <strong>positive contribution</strong> (revenue exceeds directly identifiable costs), it helps cover shared overheads.</p><p>Closing it would mean its contribution is lost \u2014 remaining departments would have to cover more overheads, potentially reducing overall profit.</p>' },
               { type: 'examtip', title: 'Exam Tip', html: '<p>Always calculate the <strong>contribution</strong> (revenue minus directly identifiable costs). If positive, closing would reduce overall profit.</p>' },
+            ]
+          },
+        ]
+      },
+      {
+        id: '12.2', title: 'Theory of Departmental Accounts',
+        subTopics: [
+          {
+            id: '12.2.1', title: 'Advantages & Disadvantages',
+            body: [
+              { type: 'concept', variant: 'green', title: 'Advantages', html: '<p>1. <strong>Performance measurement</strong> \u2014 management can see which departments are profitable.</p><p>2. <strong>Comparison</strong> between departments and against prior years.</p><p>3. <strong>Better decision-making</strong> \u2014 expand profitable departments, investigate or close loss-makers (subject to contribution analysis).</p><p>4. <strong>Staff motivation</strong> \u2014 departmental managers can be set targets and rewarded on results.</p><p>5. <strong>Accurate stock control</strong> per department.</p>' },
+              { type: 'concept', variant: 'amber', title: 'Disadvantages', html: '<p>1. <strong>Apportionment is subjective</strong> \u2014 the chosen basis can distort the result.</p><p>2. <strong>More book-keeping work</strong> \u2014 increases cost of accounting.</p><p>3. <strong>Inter-departmental disputes</strong> over the share of common costs.</p><p>4. Risk of <strong>wrong closure decisions</strong> if managers focus on net profit instead of contribution.</p>' },
+            ]
+          },
+          {
+            id: '12.2.2', title: 'Choice of Apportionment Basis',
+            body: [
+              { type: 'concept', variant: 'blue', title: 'Picking the Right Basis', html: '<p>The basis must reflect <strong>how the cost is incurred</strong>:</p><p>\u2022 If the cost relates to <strong>space</strong> (rent, rates, light & heat) \u2192 floor area.</p><p>\u2022 If the cost relates to <strong>asset value</strong> (insurance of equipment, depreciation) \u2192 book value of assets.</p><p>\u2022 If the cost relates to <strong>people</strong> (canteen, welfare) \u2192 number of employees.</p><p>\u2022 If the cost relates to <strong>activity</strong> (general advertising, head-office charges) \u2192 turnover ratio.</p>' },
+              { type: 'watchout', title: 'Common Trap', html: '<p>Examiners regularly include a cost that <strong>only benefits one department</strong> (e.g. advertising for Dept A only). This is a <strong>direct</strong> cost \u2014 do NOT apportion. Allocate it 100% to that department.</p>' },
             ]
           },
         ]
