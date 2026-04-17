@@ -133,9 +133,10 @@ export default function WorkingsPage({ title, subtitle, sectionLabel, accentColo
           </div>
           <CardContent className="p-5">
             {/* Explanation */}
-            <div className="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg p-3 mb-4 text-sm leading-relaxed">
-              {step.explain}
-            </div>
+            <div
+              className="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg p-3 mb-4 text-sm leading-relaxed"
+              dangerouslySetInnerHTML={{ __html: step.explain }}
+            />
 
             {/* Content (HTML tables / fallback for workings without T-accounts) */}
             <div className="prose prose-sm max-w-none dark:prose-invert overflow-x-auto t-accounts-container" dangerouslySetInnerHTML={{ __html: step.content }} />
