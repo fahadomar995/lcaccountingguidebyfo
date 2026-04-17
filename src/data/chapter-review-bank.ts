@@ -586,6 +586,51 @@ export const REVIEW_BANK: Record<number, ReviewItem[]> = {
       explanation: 'The suspense account temporarily holds the trial-balance difference so that final accounts are not delayed. It must clear to zero once all errors are corrected.',
       sectionLink: '7.4.2',
     },
+    // ── New theory-reinforcement items (David Wilson PDF) ──
+    {
+      id: 'r7-15', chapterId: 7, sectionId: '7.1', type: 'sort',
+      prompt: 'Sort each error: does it affect the trial balance, or is it hidden from it?',
+      itemData: { type: 'sort', data: { buckets: ['Affects TB', 'Hidden from TB'], items: [
+        { label: 'Sale of €450 omitted entirely from the books', correctBucket: 'Hidden from TB' },
+        { label: 'Wages €800 debited as €80 only', correctBucket: 'Affects TB' },
+        { label: 'Insurance posted to motor expenses (same side)', correctBucket: 'Hidden from TB' },
+        { label: 'Discount allowed posted to credit side of discount account', correctBucket: 'Affects TB' },
+        { label: 'Two errors that cancel each other out', correctBucket: 'Hidden from TB' },
+      ] } },
+      explanation: 'Errors of omission, commission, principle, original entry, compensating and reversal of entries are all hidden from the TB. Only single-sided or unequal postings disturb the balance.',
+      sectionLink: '7.1.1',
+    },
+    {
+      id: 'r7-16', chapterId: 7, sectionId: '7.4', type: 'mcq',
+      prompt: 'Why is a Suspense Account opened?',
+      itemData: { type: 'mcq', data: { options: [
+        'To record cash transactions before they are posted',
+        'To temporarily hold the difference on the trial balance until errors are located',
+        'To record provisions for future bad debts',
+        'To track unpaid creditors at year end',
+      ], correctIndex: 1 } },
+      explanation: 'A suspense account is a temporary holding account. It is debited or credited with the TB difference so the books balance and final accounts can be prepared while errors are investigated.',
+      sectionLink: '7.4.1',
+    },
+    {
+      id: 'r7-17', chapterId: 7, sectionId: '7.1', type: 'match',
+      prompt: 'Match each error type to its example:',
+      itemData: { type: 'match', data: { pairs: [
+        { term: 'Error of omission', definition: 'A credit sale of €600 not entered in the books at all' },
+        { term: 'Error of commission', definition: 'A payment to J. Murphy posted to the account of P. Murphy' },
+        { term: 'Error of principle', definition: 'Purchase of a delivery van debited to motor expenses' },
+        { term: 'Compensating error', definition: 'Sales overstated by €100 and purchases also overstated by €100' },
+      ] } },
+      explanation: 'These four are the most-tested error types under the David Wilson framework — none of them affect the trial balance.',
+      sectionLink: '7.1.2',
+    },
+    {
+      id: 'r7-18', chapterId: 7, sectionId: '7.5', type: 'true-false',
+      prompt: 'True or false?',
+      itemData: { type: 'true-false', data: { statement: 'Once all errors are corrected, the suspense account should have a zero balance.', isTrue: true, followUp: { prompt: 'What does it mean if a balance remains?', chips: ['Errors are still outstanding', 'The accounts are correct', 'Profit must be increased'], correctChip: 'Errors are still outstanding' } } },
+      explanation: 'A residual suspense balance signals undetected errors. The account must clear before the final accounts can be considered reliable.',
+      sectionLink: '7.5.1',
+    },
   ],
 
   // ────────────────────────────────────────────
@@ -2699,6 +2744,53 @@ export const REVIEW_BANK: Record<number, ReviewItem[]> = {
       explanation: 'Cash sales bypass debtors entirely. Errors in either the day-book casting, the personal account or the control account will cause the two figures to disagree.',
       sectionLink: '5.2.2',
     },
+    // ── New theory-reinforcement items (David Wilson PDF) ──
+    {
+      id: 'r5-15', chapterId: 5, sectionId: '5.1', type: 'sort',
+      prompt: 'Which of these are advantages of preparing control accounts?',
+      itemData: { type: 'sort', data: { buckets: ['Advantage', 'Not an advantage'], items: [
+        { label: 'Provides an arithmetical check on the ledger', correctBucket: 'Advantage' },
+        { label: 'Helps locate errors quickly to a specific ledger', correctBucket: 'Advantage' },
+        { label: 'Acts as a deterrent to fraud (separation of duties)', correctBucket: 'Advantage' },
+        { label: 'Total debtors and creditors figures available immediately', correctBucket: 'Advantage' },
+        { label: 'Replaces the need for individual personal accounts', correctBucket: 'Not an advantage' },
+        { label: 'Eliminates all errors from the ledger', correctBucket: 'Not an advantage' },
+      ] } },
+      explanation: 'Control accounts give an internal check, locate errors, deter fraud and provide instant totals — but they do NOT replace personal accounts and do not catch every error (e.g. errors of omission).',
+      sectionLink: '5.1.2',
+    },
+    {
+      id: 'r5-16', chapterId: 5, sectionId: '5.1', type: 'mcq',
+      prompt: 'A debtors control account total is €48,500 but the personal accounts add to €48,200. Which is the MOST likely reason?',
+      itemData: { type: 'mcq', data: { options: [
+        'A discount allowed entered only in the personal account',
+        'Cash sales not recorded',
+        'A provision for bad debts created',
+        'Stock figure overstated',
+      ], correctIndex: 0 } },
+      explanation: 'A discount allowed entered ONLY in the personal account but not in the discount allowed/control entries causes the two totals to diverge. Cash sales and stock issues do not pass through debtors.',
+      sectionLink: '5.2.2',
+    },
+    {
+      id: 'r5-17', chapterId: 5, sectionId: '5.1', type: 'true-false',
+      prompt: 'True or false?',
+      itemData: { type: 'true-false', data: { statement: 'Control accounts allow the work of the sales/purchases ledger to be separated from the work of writing up the control account, helping prevent fraud.', isTrue: true, followUp: { prompt: 'Which principle does this support?', chips: ['Internal control / separation of duties', 'Going concern', 'Realisation'], correctChip: 'Internal control / separation of duties' } } },
+      explanation: 'Separation of duties is a fundamental internal-control principle. Different staff handle the personal accounts vs. the control account, making collusion necessary for fraud.',
+      sectionLink: '5.1.2',
+    },
+    {
+      id: 'r5-18', chapterId: 5, sectionId: '5.2', type: 'order',
+      prompt: 'Put the steps in order to RECONCILE a control account that disagrees with the ledger:',
+      itemData: { type: 'order', data: { steps: [
+        'Recast the day-books to verify their totals',
+        'Re-add the list of personal account balances',
+        'Compare each personal balance against postings to identify omissions or errors',
+        'Make corrections in the relevant ledger or control account',
+        'Re-extract the totals and confirm they agree',
+      ] } },
+      explanation: 'Reconciliation works from the casting of the day-books down to individual postings. Always finish by re-extracting both totals to confirm agreement.',
+      sectionLink: '5.2.2',
+    },
   ],
 
   // ────────────────────────────────────────────
@@ -3039,6 +3131,52 @@ export const REVIEW_BANK: Record<number, ReviewItem[]> = {
       explanation: 'Self-interest, self-review and familiarity are all threats to independence. Sampling is a normal audit technique, not a threat.',
       sectionLink: '8.4.3',
     },
+    // ── New theory-reinforcement items (David Wilson PDF) ──
+    {
+      id: 'r8-15', chapterId: 8, sectionId: '8.4', type: 'match',
+      prompt: 'Match each threat to auditor independence with the correct example:',
+      itemData: { type: 'match', data: { pairs: [
+        { term: 'Self-interest threat', definition: 'Audit firm holds a significant shareholding in the client' },
+        { term: 'Self-review threat', definition: 'Audit firm prepared the financial statements they are now auditing' },
+        { term: 'Familiarity threat', definition: 'Lead auditor has been on the same engagement for 12 years' },
+        { term: 'Intimidation threat', definition: 'Client threatens to dismiss the auditor unless a clean opinion is given' },
+      ] } },
+      explanation: 'These are the four classic threats identified in the auditor’s ethical framework. Safeguards include rotation, separation of duties and independent review.',
+      sectionLink: '8.4.3',
+    },
+    {
+      id: 'r8-16', chapterId: 8, sectionId: '8.3', type: 'sort',
+      prompt: 'Sort each feature: is it a feature of an INTERNAL or EXTERNAL audit?',
+      itemData: { type: 'sort', data: { buckets: ['Internal', 'External'], items: [
+        { label: 'Carried out by an employee of the company', correctBucket: 'Internal' },
+        { label: 'Required by the Companies Act for most companies', correctBucket: 'External' },
+        { label: 'Reports primarily to management/audit committee', correctBucket: 'Internal' },
+        { label: 'Reports to the shareholders', correctBucket: 'External' },
+        { label: 'Focus is on operational efficiency and internal controls', correctBucket: 'Internal' },
+        { label: 'Focus is on the truth & fairness of the financial statements', correctBucket: 'External' },
+      ] } },
+      explanation: 'The internal auditor is an employee focused on controls and efficiency; the external auditor is independent, statutory, and reports to shareholders on the financial statements.',
+      sectionLink: '8.3.1',
+    },
+    {
+      id: 'r8-17', chapterId: 8, sectionId: '8.4', type: 'mcq',
+      prompt: 'Which of the following is NOT a quality required of an external auditor?',
+      itemData: { type: 'mcq', data: { options: [
+        'Independence',
+        'Integrity',
+        'Professional competence',
+        'Long personal friendship with the directors',
+      ], correctIndex: 3 } },
+      explanation: 'Independence, integrity and competence are core qualities. A long personal friendship with the directors creates a familiarity threat — the opposite of what is required.',
+      sectionLink: '8.4.1',
+    },
+    {
+      id: 'r8-18', chapterId: 8, sectionId: '8.2', type: 'true-false',
+      prompt: 'True or false?',
+      itemData: { type: 'true-false', data: { statement: 'The external auditor’s primary duty is to detect every fraud and error in the company’s books.', isTrue: false, followUp: { prompt: 'What is the auditor’s actual primary duty?', chips: ['To express an opinion on whether the accounts give a true and fair view', 'To prepare the accounts', 'To advise on tax planning'], correctChip: 'To express an opinion on whether the accounts give a true and fair view' } } },
+      explanation: 'The auditor expresses an OPINION on the truth and fairness of the accounts — they are not a fraud-detection service. Detection is a by-product, not the primary objective.',
+      sectionLink: '8.2.1',
+    },
   ],
 
   // ────────────────────────────────────────────
@@ -3152,8 +3290,55 @@ export const REVIEW_BANK: Record<number, ReviewItem[]> = {
       id: 'r12-14', chapterId: 12, sectionId: '12.2', type: 'true-false',
       prompt: 'True or false?',
       itemData: { type: 'true-false', data: { statement: 'Advertising spent only on Department A should be apportioned across all departments using the turnover ratio.', isTrue: false, followUp: { prompt: 'How should it be treated?', chips: ['Allocated 100% to Department A', 'Spread across all departments equally', 'Treated as a fixed asset'], correctChip: 'Allocated 100% to Department A' } } },
-      explanation: 'A cost that benefits only one department is a DIRECT cost \u2014 allocate it 100% to that department. Apportionment is only used for shared costs.',
+      explanation: 'A cost that benefits only one department is a DIRECT cost — allocate it 100% to that department. Apportionment is only used for shared costs.',
       sectionLink: '12.2.2',
+    },
+    // ── New theory-reinforcement items (David Wilson PDF) ──
+    {
+      id: 'r12-15', chapterId: 12, sectionId: '12.2', type: 'match',
+      prompt: 'Match each shared overhead to the MOST appropriate apportionment basis:',
+      itemData: { type: 'match', data: { pairs: [
+        { term: 'Rent and rates', definition: 'Floor area occupied' },
+        { term: 'Light and heat', definition: 'Floor area or volume (m³)' },
+        { term: 'Insurance of stock', definition: 'Average value of stock held' },
+        { term: 'Canteen costs', definition: 'Number of employees per department' },
+        { term: 'Depreciation of equipment', definition: 'Value of equipment in each department' },
+      ] } },
+      explanation: 'The apportionment basis must reflect WHAT CAUSES the cost. Floor area drives rent; headcount drives canteen; stock value drives stock insurance.',
+      sectionLink: '12.2.2',
+    },
+    {
+      id: 'r12-16', chapterId: 12, sectionId: '12.1', type: 'sort',
+      prompt: 'Identify whether each statement is an ADVANTAGE or DISADVANTAGE of departmental accounts:',
+      itemData: { type: 'sort', data: { buckets: ['Advantage', 'Disadvantage'], items: [
+        { label: 'Identifies the most and least profitable departments', correctBucket: 'Advantage' },
+        { label: 'Helps decide whether to expand, contract or close a department', correctBucket: 'Advantage' },
+        { label: 'Provides a basis for departmental staff bonuses', correctBucket: 'Advantage' },
+        { label: 'Apportionment of overheads is partly subjective', correctBucket: 'Disadvantage' },
+        { label: 'Extra time and cost involved in record-keeping', correctBucket: 'Disadvantage' },
+        { label: 'Can demoralise staff in less profitable departments', correctBucket: 'Disadvantage' },
+      ] } },
+      explanation: 'Departmental accounts aid decision-making but require subjective apportionment and additional cost. The David Wilson PDF emphasises both sides for the 10-mark theory part.',
+      sectionLink: '12.1.2',
+    },
+    {
+      id: 'r12-17', chapterId: 12, sectionId: '12.1', type: 'mcq',
+      prompt: 'A department shows a NEGATIVE net profit but a POSITIVE contribution. What is the MOST appropriate decision?',
+      itemData: { type: 'mcq', data: { options: [
+        'Close the department immediately',
+        'Keep the department open — it still covers its variable costs and contributes to fixed overheads',
+        'Double the department’s prices',
+        'Move all overheads to other departments to make it look profitable',
+      ], correctIndex: 1 } },
+      explanation: 'If a department covers its variable costs (positive contribution), closing it would mean losing that contribution to total fixed overheads — overall profit would FALL.',
+      sectionLink: '12.3.2',
+    },
+    {
+      id: 'r12-18', chapterId: 12, sectionId: '12.2', type: 'fill-chip',
+      prompt: 'Complete the principle:',
+      itemData: { type: 'fill-chip', data: { sentence: 'Costs that benefit ONLY one department are ___; costs that benefit SEVERAL departments are apportioned.', chips: ['allocated', 'depreciated', 'capitalised', 'reversed'], correctChip: 'allocated' } },
+      explanation: 'Allocation = whole cost to one department (it is a direct cost). Apportionment = sharing a common cost across departments using a fair basis.',
+      sectionLink: '12.2.1',
     },
   ],
 
