@@ -1325,6 +1325,12 @@ export const CHAPTERS: Chapter[] = [
     description: 'Receipts & payments account, income & expenditure account, accumulated fund, bar trading.',
     estimatedMinutes: 35,
     related: [6, 14],
+    examPointers: [
+      'Q5 (club accounts) — appears periodically; ~30% probability for full question',
+      '2022 Q9 (a) — Distinguish Receipts & Payments account vs Income & Expenditure account',
+      '2018 Q9 (b) — Treatment of life membership and capital grants in club accounts',
+      '2010 Q9 (b) — Calculate accumulated fund and explain its meaning',
+    ],
     sections: [
       {
         id: '13.1', title: 'Club Accounts Structure',
@@ -1422,6 +1428,11 @@ export const CHAPTERS: Chapter[] = [
     description: 'Fee income, service firm P&L layout, HL adjustments for professional practices.',
     estimatedMinutes: 30,
     related: [6, 13],
+    examPointers: [
+      '2024 Q9 (a) — Explain Work in Progress and its treatment in a service firm',
+      '2019 Q9 (b) — Distinguish a service firm’s P&L from a trading firm’s P&L',
+      '2015 Q9 (a) — Why service firms have no Trading Account',
+    ],
     sections: [
       {
         id: '14.1', title: 'Service Firm Structure',
@@ -1458,11 +1469,14 @@ export const CHAPTERS: Chapter[] = [
             ]
           },
           {
-            id: '14.3.2', title: 'Worked SEC-Style Question',
+            id: '14.3.2', title: 'Work-in-Progress (WIP) in a Professional Practice',
+            keyTerms: [
+              { term: 'Work in Progress (WIP)', definition: 'Services partially completed at year-end but not yet invoiced — valued at the cost of the time/expense already incurred.' },
+            ],
             body: [
-              { type: 'example', title: 'Byrne & Associates — Veterinary Practice (Full Question)', html: '<p><strong>Trial Balance at 31/12/2024:</strong></p><table class="learn-table"><thead><tr><th>Account</th><th>Dr €</th><th>Cr €</th></tr></thead><tbody><tr><td>Premises at cost</td><td>280,000</td><td></td></tr><tr><td>Equipment at cost</td><td>95,000</td><td></td></tr><tr><td>Motor vehicles at cost</td><td>48,000</td><td></td></tr><tr><td>Acc. dep\'n — Premises</td><td></td><td>28,000</td></tr><tr><td>Acc. dep\'n — Equipment</td><td></td><td>38,000</td></tr><tr><td>Acc. dep\'n — Motor vehicles</td><td></td><td>24,000</td></tr><tr><td>Fees received</td><td></td><td>395,000</td></tr><tr><td>Salaries</td><td>142,000</td><td></td></tr><tr><td>Rent & rates</td><td>18,500</td><td></td></tr><tr><td>Insurance</td><td>9,600</td><td></td></tr><tr><td>Light & heat</td><td>7,200</td><td></td></tr><tr><td>Motor expenses</td><td>12,400</td><td></td></tr><tr><td>General expenses</td><td>8,800</td><td></td></tr><tr><td>Bad debts</td><td>3,200</td><td></td></tr><tr><td>Provision for bad debts</td><td></td><td>2,800</td></tr><tr><td>Fee debtors</td><td>34,000</td><td></td></tr><tr><td>Creditors</td><td></td><td>11,500</td></tr><tr><td>Bank</td><td>15,600</td><td></td></tr><tr><td>WIP at 01/01/2024</td><td>18,500</td><td></td></tr><tr><td>Capital</td><td></td><td>194,500</td></tr><tr><td>Drawings</td><td>29,500</td><td></td></tr><tr><td></td><td>722,300</td><td>722,300</td></tr></tbody></table><p><strong>Notes:</strong></p><p>(i) Fees accrued at 31/12/2024: €14,200. Fees prepaid by clients at 31/12/2024: €3,400.</p><p>(ii) Closing WIP at 31/12/2024: €21,800.</p><p>(iii) Depreciation: Premises 2% straight line; Equipment 15% of NBV; Motor vehicles 20% straight line.</p><p>(iv) Insurance prepaid at 31/12/2024: €1,200.</p><p>(v) Light & heat accrued at 31/12/2024: €1,800.</p><p>(vi) Provision for bad debts to be adjusted to 5% of fee debtors.</p>' },
-              { type: 'solution', title: 'Solution — Workings', html: '<p><strong>W1: Fee Income</strong><br/>Fees received: 395,000 + Accrued end 14,200 − Prepaid by clients 3,400 = <strong>€405,800</strong></p><p><strong>W2: WIP Adjustment</strong><br/>+ Closing WIP 21,800 − Opening WIP 18,500 = + <strong>€3,300</strong></p><p><strong>W3: Adjusted Fee Income</strong> = 405,800 + 3,300 = <strong>€409,100</strong></p><p><strong>W4: Depreciation</strong><br/>Premises: 280,000 × 2% = €5,600<br/>Equipment: (95,000 − 38,000) × 15% = €8,550<br/>Motor vehicles: 48,000 × 20% = €9,600<br/>Total depreciation = <strong>€23,750</strong></p><p><strong>W5: Insurance</strong> = 9,600 − 1,200 = <strong>€8,400</strong></p><p><strong>W6: Light & Heat</strong> = 7,200 + 1,800 = <strong>€9,000</strong></p><p><strong>W7: Provision for bad debts</strong><br/>Required: 5% × (34,000 + 14,200) = 5% × 48,200 = <strong>€2,410</strong><br/>Existing: €2,800. Decrease: 2,800 − 2,410 = €390 (reduce expenses by €390).</p><p>Note: Fee debtors for provision = TB debtors + accrued fees (these are all amounts owed to the firm).</p>' },
-              { type: 'solution', title: 'Solution — P&L', html: '<p><strong>Income Statement of Byrne & Associates for year ended 31/12/2024</strong></p><table class="learn-table"><tbody><tr><td>Fee Income (W1)</td><td></td><td>405,800</td></tr><tr><td>Add: Closing WIP</td><td></td><td>21,800</td></tr><tr><td>Less: Opening WIP</td><td></td><td>(18,500)</td></tr><tr><td><strong>Adjusted Fee Income</strong></td><td></td><td><strong>409,100</strong></td></tr><tr><td colspan="3"><strong>Less Expenses:</strong></td></tr><tr><td>Salaries</td><td>142,000</td><td></td></tr><tr><td>Rent & rates</td><td>18,500</td><td></td></tr><tr><td>Insurance (W5)</td><td>8,400</td><td></td></tr><tr><td>Light & heat (W6)</td><td>9,000</td><td></td></tr><tr><td>Motor expenses</td><td>12,400</td><td></td></tr><tr><td>General expenses</td><td>8,800</td><td></td></tr><tr><td>Bad debts</td><td>3,200</td><td></td></tr><tr><td>Less: Decrease in provision</td><td>(390)</td><td></td></tr><tr><td>Depreciation (W4)</td><td>23,750</td><td></td></tr><tr><td><strong>Total Expenses</strong></td><td></td><td><strong>(225,660)</strong></td></tr><tr><td><strong>Net Profit</strong></td><td></td><td><strong>183,440</strong></td></tr></tbody></table>' },
+              { type: 'concept', variant: 'blue', title: 'Why WIP Matters', html: '<p>Professional services (solicitors, accountants, architects, vets) often have jobs that span the year-end. The work has been started but not invoiced.</p><p>To match revenue with the period in which the work was performed (the <strong>matching concept</strong>), an adjustment is made:</p><p><strong>+ Closing WIP</strong> (work done this year, not yet invoiced — to be billed next year)</p><p><strong>− Opening WIP</strong> (work invoiced this year that was actually performed last year)</p><p>The net adjustment is added to fee income.</p>' },
+              { type: 'concept', variant: 'green', title: 'Treatment in the Accounts', html: '<p><strong>Income Statement:</strong> Closing WIP added to fee income; Opening WIP deducted.</p><p><strong>Balance Sheet:</strong> Closing WIP shown as a <strong>current asset</strong> (similar to closing stock in a trading firm).</p><p><strong>Valuation rule:</strong> at the lower of cost or net realisable value — the prudence concept applies.</p>' },
+              { type: 'examtip', title: 'Common Theory Question', html: '<p>"Explain the term Work in Progress and outline its accounting treatment in the financial statements of a professional firm." (worth ~10 marks in Q9 short questions when service firms appear).</p>' },
             ]
           },
         ]
@@ -1477,6 +1491,11 @@ export const CHAPTERS: Chapter[] = [
     description: 'Enterprise analysis, stock valuation, terms associated with farm accounting.',
     estimatedMinutes: 20,
     related: [6, 21],
+    examPointers: [
+      '2016 Q9 (b) — Define enterprise analysis and outline its benefits to a farmer',
+      '2011 Q9 (a) — Treatment of farm produce consumed by the household',
+      'Note: Farm accounts have not appeared as a full SEC question — primarily a Q9 short-theory topic',
+    ],
     sections: [
       {
         id: '15.1', title: 'Farm Accounts Structure',
@@ -1524,6 +1543,11 @@ export const CHAPTERS: Chapter[] = [
     description: 'Reconstructing accounts when full double-entry records are not available.',
     estimatedMinutes: 30,
     related: [2, 5, 6],
+    examPointers: [
+      '2020 Q9 (a) — Distinguish mark-up from margin (with worked illustration)',
+      '2014 Q9 (b) — Methods of estimating profit when records are incomplete',
+      '2009 Q9 (a) — Net Worth method: formula and when it is used',
+    ],
     sections: [
       {
         id: '16.1', title: 'Overview',
