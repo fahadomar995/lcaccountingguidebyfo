@@ -46,7 +46,7 @@ function useDashboardStats() {
 }
 
 const TOOLS = [
-  { href: "/theory", name: "Theory Revision", desc: "24-chapter study hub with Learn mode, past exam questions, practice mode, flashcards, and frequency analysis.", stat: `${THEORY_BANK.length}+ questions`, color: "bg-sage-bg border-sage" },
+  { href: "/theory", name: "Theory Revision", desc: "24-chapter study hub with Learn mode, past exam questions, chapter review quizzes, flashcards, and frequency analysis.", stat: `24 chapters · ${THEORY_BANK.length}+ questions`, color: "bg-sage-bg border-sage" },
   { href: "/q1-workings", name: "Q1 Workings", desc: "37 step-by-step adjustment walkthroughs with T-accounts. Every Q1 adjustment type covered.", stat: "37 archetypes", color: "bg-blue-bg border-blue" },
   { href: "/s2-workings", name: "S2 Workings", desc: "37 Section 2 walkthroughs covering Suspense, Club, Service, Published, and Cash Flow accounts.", stat: "37 archetypes", color: "bg-rose-bg border-rose" },
   { href: "/ratios", name: "Q5 Ratios Hub", desc: "Practice papers, formula quiz, Part (b) report guide, sector notes. Q5 appears every year.", stat: "5 papers, 19 formulas", color: "bg-lavender-bg border-lavender" },

@@ -2331,6 +2331,49 @@ export const REVIEW_BANK: Record<number, ReviewItem[]> = {
       explanation: 'Farm produce used in house reduces sales. Then cost of sales is calculated as normal to arrive at gross farm profit.',
       sectionLink: '15.2.1',
     },
+    {
+      id: 'r15-11', chapterId: 15, sectionId: '15.1', type: 'mcq',
+      prompt: 'Which of the following is NOT typically classified as a farm expense?',
+      itemData: { type: 'mcq', data: { options: ['Veterinary fees', 'Fertiliser used on crops', 'Purchase of breeding cows (herd basis)', 'Contractor charges'], correctIndex: 2 } },
+      explanation: 'Under the herd basis, breeding livestock are fixed assets — not expenses. Vet fees, fertiliser and contractor charges are revenue expenses.',
+      sectionLink: '15.1.1',
+    },
+    {
+      id: 'r15-12', chapterId: 15, sectionId: '15.1', type: 'true-false',
+      prompt: 'True or false?',
+      itemData: { type: 'true-false', data: {
+        statement: 'A single farm trading account can show separate gross profits for dairy, tillage and beef enterprises.',
+        isTrue: true,
+        followUp: {
+          prompt: 'What format is used?',
+          chips: ['Columnar (one column per enterprise)', 'Single combined column', 'Vertical statement only'],
+          correctChip: 'Columnar (one column per enterprise)',
+        },
+      } },
+      explanation: 'Enterprise analysis uses a columnar trading account so the farmer can compare profitability of each activity.',
+      sectionLink: '15.1.2',
+    },
+    {
+      id: 'r15-13', chapterId: 15, sectionId: '15.2', type: 'fill-chip',
+      prompt: 'Complete the statement.',
+      itemData: { type: 'fill-chip', data: {
+        sentence: 'Single Farm Payment and other EU subsidies are shown as ___ in the farm Profit & Loss Account.',
+        chips: ['other income', 'sales', 'a deduction from expenses', 'a fixed asset'],
+        correctChip: 'other income',
+      } },
+      explanation: 'Subsidies are classified as other income below gross profit — not as part of farm sales.',
+      sectionLink: '15.1.1',
+    },
+    {
+      id: 'r15-14', chapterId: 15, sectionId: '15.1', type: 'define',
+      prompt: 'Define: Herd Basis',
+      itemData: { type: 'define', data: {
+        term: 'Herd Basis',
+        modelDefinition: 'A method of accounting where breeding livestock (e.g. dairy cows, breeding ewes) are treated as fixed assets rather than stock, with depreciation rather than valuation changes affecting profit.',
+      } },
+      explanation: 'The herd basis recognises that production livestock are kept long-term, similar to plant and machinery.',
+      sectionLink: '15.1.1',
+    },
   ],
 
   // ────────────────────────────────────────────
@@ -3070,6 +3113,53 @@ export const REVIEW_BANK: Record<number, ReviewItem[]> = {
       prompt: 'Unpresented cheques are added in the Bank Reconciliation Statement.',
       itemData: { type: 'true-false', data: { statement: 'Unpresented cheques are added in the Bank Reconciliation Statement.', isTrue: false, followUp: { prompt: 'What happens?', chips: ['They are deducted', 'They are ignored', 'They adjust the bank account'], correctChip: 'They are deducted' } } },
       explanation: 'Unpresented cheques are payments already recorded in the cash book but not yet on the bank statement. They are DEDUCTED from the bank statement balance in the BRS.',
+      sectionLink: '3.1.1',
+    },
+    {
+      id: 'r3-11', chapterId: 3, sectionId: '3.1', type: 'fill-chip',
+      prompt: 'Complete the statement about credit transfers.',
+      itemData: { type: 'fill-chip', data: {
+        sentence: 'A credit transfer received from a debtor and shown only on the bank statement is recorded by ___ the Bank Account.',
+        chips: ['debiting', 'crediting', 'ignoring', 'reversing'],
+        correctChip: 'debiting',
+      } },
+      explanation: 'Receipts increase the bank balance — debit the Bank Account and credit the debtor. The item adjusts the cash book because the business did not know about it.',
+      sectionLink: '3.1.1',
+    },
+    {
+      id: 'r3-12', chapterId: 3, sectionId: '3.1', type: 'mcq',
+      prompt: 'The adjusted Bank Account balance on 31/12 is €4,200 Dr. Unpresented cheques total €600 and uncredited lodgements total €900. What balance should appear on the bank statement?',
+      itemData: { type: 'mcq', data: { options: ['€3,900', '€4,500', '€4,800', '€3,300'], correctIndex: 0 } },
+      explanation: 'Bank statement balance = adjusted bank balance + unpresented cheques − uncredited lodgements = 4,200 + 600 − 900 = €3,900.',
+      sectionLink: '3.1.1',
+    },
+    {
+      id: 'r3-13', chapterId: 3, sectionId: '3.1', type: 'true-false',
+      prompt: 'True or false?',
+      itemData: { type: 'true-false', data: {
+        statement: 'Bank charges and interest on overdraft must be entered in the cash book before the Bank Reconciliation Statement is prepared.',
+        isTrue: true,
+        followUp: {
+          prompt: 'On which side of the Bank Account?',
+          chips: ['Credit (payment out)', 'Debit (receipt in)', 'They are not entered'],
+          correctChip: 'Credit (payment out)',
+        },
+      } },
+      explanation: 'Bank charges and overdraft interest are payments — credit the Bank Account so the cash book reflects all transactions before reconciling.',
+      sectionLink: '3.1.1',
+    },
+    {
+      id: 'r3-14', chapterId: 3, sectionId: '3.1', type: 'sort',
+      prompt: 'Sort each scenario: does the item appear on the DEBIT or CREDIT side of the adjusted Bank Account?',
+      itemData: { type: 'sort', data: { buckets: ['Debit (Receipt)', 'Credit (Payment)'], items: [
+        { label: 'Credit transfer from customer', correctBucket: 'Debit (Receipt)' },
+        { label: 'Standing order to insurance company', correctBucket: 'Credit (Payment)' },
+        { label: 'Interest credited by bank', correctBucket: 'Debit (Receipt)' },
+        { label: 'Direct debit for ESB', correctBucket: 'Credit (Payment)' },
+        { label: 'Bank charges', correctBucket: 'Credit (Payment)' },
+        { label: 'Dividend received directly into bank', correctBucket: 'Debit (Receipt)' },
+      ] } },
+      explanation: 'Receipts increase the bank balance (debit). Payments reduce the bank balance (credit). The cash book mirrors the bank\'s view.',
       sectionLink: '3.1.1',
     },
   ],
