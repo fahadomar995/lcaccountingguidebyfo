@@ -173,6 +173,12 @@ export const CHAPTERS: Chapter[] = [
     description: 'Double-entry, books of first entry, VAT, trial balance, final accounts, capital vs revenue, statutory deductions, accruals, prepayments, bad debts.',
     estimatedMinutes: 55,
     related: [1, 3, 5, 6],
+    examPointers: [
+      '2022 Q9 (a) — Errors NOT revealed by the trial balance (list six)',
+      '2018 Q9 (b) — Purpose of the trial balance and its limitations',
+      '2015 Q9 (a) — Books of first entry: name and purpose of each daybook',
+      '2013 Q9 (b) — VAT explanation: input, output, and net VAT due',
+    ],
     sections: [
       {
         id: '2.1', title: 'Part A: Double-Entry & Books of First Entry',
@@ -364,6 +370,11 @@ export const CHAPTERS: Chapter[] = [
     description: 'Purpose, procedure, adjusted bank account, and reconciliation statement preparation.',
     estimatedMinutes: 18,
     related: [2, 7],
+    examPointers: [
+      '2021 Q9 (b) — Reasons for differences between bank statement and cash book',
+      '2017 Q9 (b) — Purpose & advantages of bank reconciliation',
+      '2012 Q9 (a) — Treatment of unpresented cheques and lodgements not credited',
+    ],
     sections: [
       {
         id: '3.1', title: 'Bank Reconciliation',
@@ -402,6 +413,12 @@ export const CHAPTERS: Chapter[] = [
     description: 'Straight-line and reducing balance methods, scrap value, disposal accounts, and revaluation.',
     estimatedMinutes: 35,
     related: [2, 6, 9],
+    examPointers: [
+      '2024 Q9 (a) — Causes of depreciation (physical wear, obsolescence, depletion, time)',
+      '2020 Q9 (b) — Justify Straight Line vs Reducing Balance method',
+      '2016 Q9 (a) — Reasons for providing depreciation in the accounts',
+      '2011 Q9 (b) — Definition of depreciation and which concept it satisfies (matching)',
+    ],
     sections: [
       {
         id: '4.1', title: 'Part A: Depreciation Methods',
@@ -500,6 +517,11 @@ export const CHAPTERS: Chapter[] = [
     description: 'Debtors and creditors control accounts, reconciliation of control accounts with subsidiary ledger.',
     estimatedMinutes: 20,
     related: [2, 3, 7],
+    examPointers: [
+      '2023 Q9 (a) — Advantages of preparing control accounts',
+      '2019 Q9 (b) — Reasons for differences between control account and ledger total',
+      '2014 Q9 (b) — How control accounts assist in the location of errors',
+    ],
     sections: [
       {
         id: '5.1', title: 'Control Accounts',
@@ -560,6 +582,12 @@ export const CHAPTERS: Chapter[] = [
     description: 'Trading, Profit & Loss Account and Balance Sheet preparation from a trial balance with adjustments.',
     estimatedMinutes: 60,
     related: [2, 4, 7, 9],
+    examPointers: [
+      'Q1 (sole trader final accounts) — appears EVERY year, 120 marks',
+      '2022 Q9 (a) — Distinguish capital expenditure vs revenue expenditure (with examples)',
+      '2018 Q9 (b) — Purpose of preparing final accounts (stewardship & decision-making)',
+      '2010 Q9 (b) — Treatment of accruals and prepayments and the matching concept',
+    ],
     sections: [
       {
         id: '6.1', title: 'Structure of Final Accounts',
@@ -695,6 +723,11 @@ export const CHAPTERS: Chapter[] = [
     description: 'Types of errors, journal entries for correction, suspense accounts, statement of revised profit.',
     estimatedMinutes: 28,
     related: [2, 5, 6],
+    examPointers: [
+      '2021 Q9 (a) — Limitations of the trial balance (errors not detected)',
+      '2017 Q9 (b) — Purpose and use of a Suspense Account',
+      '2013 Q9 (a) — Effect of correction of errors on net profit (recalculation)',
+    ],
     sections: [
       {
         id: '7.1', title: 'Types of Errors',
@@ -789,6 +822,12 @@ export const CHAPTERS: Chapter[] = [
     description: 'Accounting obligations, regulatory agencies, the audit process, ethical standards.',
     estimatedMinutes: 18,
     related: [1, 10],
+    examPointers: [
+      '2024 Q9 (b) — Distinguish internal vs external auditor (4 points)',
+      '2020 Q9 (a) — Qualities required of an auditor (independence, integrity, competence)',
+      '2015 Q9 (b) — Threats to auditor independence and safeguards',
+      '2009 Q9 (a) — Purpose of an external audit and the auditor’s report',
+    ],
     sections: [
       {
         id: '8.1', title: 'Accounting Obligations',
@@ -889,6 +928,12 @@ export const CHAPTERS: Chapter[] = [
     description: 'Limited companies, sources of finance, appropriation account, difficult adjustments.',
     estimatedMinutes: 55,
     related: [6, 10, 17, 18],
+    examPointers: [
+      'Q2 (company final accounts) — appears in most years, 60 marks',
+      '2022 Q9 (b) — Authorised vs Issued Share Capital; Ordinary vs Preference shares',
+      '2016 Q9 (a) — Distinguish a Reserve from a Provision',
+      '2014 Q9 (b) — Advantages and disadvantages of incorporation',
+    ],
     sections: [
       {
         id: '9.1', title: 'Limited Companies',
@@ -1015,6 +1060,12 @@ export const CHAPTERS: Chapter[] = [
     description: 'Directors\' report, published P&L and Balance Sheet templates, explanatory notes, FRS 102.',
     estimatedMinutes: 35,
     related: [8, 9, 18],
+    examPointers: [
+      '2023 Q9 (b) — Users of published accounts and their information needs',
+      '2019 Q9 (a) — Qualitative characteristics of useful financial info (FRS 102)',
+      '2012 Q9 (b) — Purpose of the Directors’ Report and items it must contain',
+      '2008 Q9 (a) — Companies Act regulatory framework and audit requirement',
+    ],
     sections: [
       {
         id: '10.1', title: 'Published Financial Statements',
@@ -1115,6 +1166,12 @@ export const CHAPTERS: Chapter[] = [
     description: 'Prime cost, factory overhead, cost of manufacture, work in progress, apportionment.',
     estimatedMinutes: 45,
     related: [6, 9, 22],
+    examPointers: [
+      'Q3 (manufacturing final accounts) — alternates with Q2; ~50% probability',
+      '2021 Q9 (a) — Direct vs Indirect costs (with examples for a manufacturer)',
+      '2017 Q9 (b) — Three types of stock held by a manufacturer (RM, WIP, FG)',
+      '2013 Q9 (a) — Prime cost vs Factory cost: definitions and components',
+    ],
     sections: [
       {
         id: '11.1', title: 'Manufacturing Account Structure',
@@ -1207,6 +1264,11 @@ export const CHAPTERS: Chapter[] = [
     description: 'Allocation and apportionment of income and expenses across departments.',
     estimatedMinutes: 18,
     related: [6, 11, 22],
+    examPointers: [
+      '2020 Q9 (a) — Advantages of preparing departmental accounts',
+      '2018 Q9 (b) — Bases of apportionment for common overheads (with reasoning)',
+      '2011 Q9 (b) — Distinguish between gross profit and contribution by department',
+    ],
     sections: [
       {
         id: '12.1', title: 'Departmental Accounts',
