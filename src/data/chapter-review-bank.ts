@@ -1666,6 +1666,38 @@ export const REVIEW_BANK: Record<number, ReviewItem[]> = {
       explanation: 'The Directors’ Report sits alongside the audited accounts. Its required contents are set out in the Companies Act — David Wilson 2012 Q9 (b).',
       sectionLink: '10.4.1',
     },
+    {
+      id: 'r10-19', chapterId: 10, sectionId: '10.5', type: 'sort',
+      prompt: 'Sort each item: must appear in the Directors\' Report or NOT required?',
+      itemData: { type: 'sort', data: { buckets: ['Required in Directors\' Report', 'Not required'], items: [
+        { label: 'Principal activities of the company', correctBucket: 'Required in Directors\' Report' },
+        { label: 'Recommended final dividend', correctBucket: 'Required in Directors\' Report' },
+        { label: 'Names of directors who served during the year', correctBucket: 'Required in Directors\' Report' },
+        { label: 'Likely future developments', correctBucket: 'Required in Directors\' Report' },
+        { label: 'Each employee\'s personal salary', correctBucket: 'Not required' },
+        { label: 'List of every supplier and the amount owed', correctBucket: 'Not required' },
+      ] } },
+      explanation: 'The Directors\' Report covers activities, performance, dividends, directors\' details and future developments — not employee or supplier-level data.',
+      sectionLink: '10.5.3',
+    },
+    {
+      id: 'r10-20', chapterId: 10, sectionId: '10.5', type: 'mcq',
+      prompt: 'A company has turnover €620,000, balance sheet total €310,000 and 8 employees. Which framework MAY it use?',
+      itemData: { type: 'mcq', data: { options: ['IFRS only', 'FRS 102 only', 'FRS 105 (micro-entity regime)', 'No framework — it is too small to file accounts'], correctIndex: 2 } },
+      explanation: 'It meets all three micro-entity tests (turnover ≤ €700k, BS total ≤ €350k, employees ≤ 10) so it may opt for FRS 105.',
+      sectionLink: '10.5.3',
+    },
+    {
+      id: 'r10-21', chapterId: 10, sectionId: '10.5', type: 'true-false',
+      prompt: 'True or false?',
+      itemData: { type: 'true-false', data: {
+        statement: 'A company using FRS 105 must still prepare a Cash Flow Statement.',
+        isTrue: false,
+        followUp: { prompt: 'What is the FRS 105 rule on the Cash Flow Statement?', chips: ['Not required at all', 'Required but only every 3 years', 'Required only for plcs'], correctChip: 'Not required at all' },
+      } },
+      explanation: 'A key FRS 105 simplification is removing the cash flow statement requirement.',
+      sectionLink: '10.5.3',
+    },
   ],
 
   // ────────────────────────────────────────────
