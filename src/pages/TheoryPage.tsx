@@ -365,24 +365,14 @@ export default function TheoryPage() {
           )}
         </TabsContent>
 
-        {/* FREQUENCY */}
+        {/* FREQUENCY TRACKER */}
         <TabsContent value="frequency">
-          <p className="text-xs text-muted-foreground mb-4">How often each topic appears as a theory question in the HL exam.</p>
-          <div className="space-y-2">
-            {freqData.map(([topic, count]) => (
-              <div key={topic} className="flex items-center gap-3">
-                <span className="text-sm font-medium w-44 shrink-0">{topic}</span>
-                <div className="flex-1 bg-muted rounded-full h-5 overflow-hidden">
-                  <div
-                    className="h-full bg-primary/80 rounded-full flex items-center justify-end pr-2 transition-all"
-                    style={{ width: `${(count / freqData[0][1]) * 100}%` }}
-                  >
-                    <span className="text-[10px] font-mono font-bold text-primary-foreground">{count}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <FrequencyTracker />
+        </TabsContent>
+
+        {/* THEORY PREDICTIONS */}
+        <TabsContent value="predictions">
+          <TheoryPredictions />
         </TabsContent>
       </Tabs>
     </div>
