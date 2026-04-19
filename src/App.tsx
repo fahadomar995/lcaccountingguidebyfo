@@ -28,6 +28,10 @@ import WalkthroughMode from "./components/WalkthroughMode";
 import { Q1_ARCHETYPES, Q1_CATEGORIES } from "./data/q1Workings";
 import { S2_ARCHETYPES, S2_CATEGORIES } from "./data/s2Workings";
 import { WALKTHROUGHS } from "./data/walkthroughData";
+import { BANK_REC_ARCHETYPES, BANK_REC_CATEGORIES } from "./data/bankRecWorkings";
+import { IR_ARCHETYPES, IR_CATEGORIES } from "./data/incompleteRecordsWorkings";
+import { FARM_DEPT_ARCHETYPES, FARM_DEPT_CATEGORIES } from "./data/farmDeptWorkings";
+import TabularStatementsPage from "./pages/TabularStatementsPage";
 
 const queryClient = new QueryClient();
 
@@ -96,6 +100,40 @@ const App = () => (
               />
             } />
             <Route path="/walkthroughs" element={<WalkthroughMode walkthroughs={WALKTHROUGHS} />} />
+            <Route path="/bank-rec" element={
+              <WorkingsPage
+                title="Bank Reconciliation Walkthroughs"
+                subtitle="Adjusted cash book, reconciliation statement, error hunts and overdrawn balances — covering SEC §8.3.2."
+                sectionLabel="Section 1 / 2 — Bank Reconciliation"
+                accentColor="hsl(217, 91%, 60%)"
+                archetypes={BANK_REC_ARCHETYPES}
+                categories={BANK_REC_CATEGORIES}
+                categoryColors={{ standard: "#1d4ed8", advanced: "#7c3aed" }}
+              />
+            } />
+            <Route path="/incomplete-records" element={
+              <WorkingsPage
+                title="Incomplete Records Walkthroughs"
+                subtitle="Net worth method, control accounts for missing sales / purchases, and a full conversion to double-entry — SEC §8.7."
+                sectionLabel="Section 2 — Question 4"
+                accentColor="hsl(280, 60%, 50%)"
+                archetypes={IR_ARCHETYPES}
+                categories={IR_CATEGORIES}
+                categoryColors={{ networth: "#7c3aed", control: "#0891b2", conversion: "#dc2626" }}
+              />
+            } />
+            <Route path="/farm-departmental" element={
+              <WorkingsPage
+                title="Farm & Departmental Accounts"
+                subtitle="Enterprise analysis, analysed receipts & payments, departmental trading, and the close-a-department decision — SEC §8.6.4–8.6.5."
+                sectionLabel="Section 2 — Q5"
+                accentColor="hsl(142, 72%, 29%)"
+                archetypes={FARM_DEPT_ARCHETYPES}
+                categories={FARM_DEPT_CATEGORIES}
+                categoryColors={{ farm: "#2d6a4f", dept: "#d97706" }}
+              />
+            } />
+            <Route path="/tabular-statements" element={<TabularStatementsPage />} />
             <Route path="/study-tools" element={<StudyToolsPage />} />
             <Route path="/ratios" element={<RatiosPage />} />
             <Route path="/past-papers" element={<PastPapersPage />} />

@@ -1,7 +1,7 @@
 import {
   Home, BookOpen, GraduationCap, Layers, FileText, Calculator,
   ClipboardList, BarChart3, PenTool, Grid3X3, HelpCircle,
-  Factory, Coins, Wrench, TrendingUp, Mail
+  Factory, Coins, Wrench, TrendingUp, Mail, Banknote, FileSearch, Sprout, Table2
 } from "lucide-react";
 
 export interface NavItem {
@@ -46,6 +46,10 @@ export const NAV_SECTIONS: NavSection[] = [
       { title: "S2 Workings", url: "/s2-workings", icon: Grid3X3 },
       { title: "Q8 Costing", url: "/q8-costing", icon: Factory },
       { title: "Q9 Budgeting", url: "/q9-budgeting", icon: Coins },
+      { title: "Bank Reconciliation", url: "/bank-rec", icon: Banknote },
+      { title: "Incomplete Records", url: "/incomplete-records", icon: FileSearch },
+      { title: "Farm & Departmental", url: "/farm-departmental", icon: Sprout },
+      { title: "Tabular Statements", url: "/tabular-statements", icon: Table2 },
     ],
   },
   {
