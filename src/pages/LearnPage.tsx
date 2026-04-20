@@ -3,11 +3,12 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { LEARN_MODULES_DATA, type LearnModuleDef } from "@/data/learnContent";
-import { ArrowLeft, Check, ChevronRight, AlertTriangle, Users, Briefcase, FileText, Banknote } from "lucide-react";
+import { ArrowLeft, Check, ChevronRight, AlertTriangle, Users, Briefcase, FileText, Banknote, GraduationCap, BookOpen, Building2, Layers } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 const ICON_MAP: Record<string, LucideIcon> = {
   AlertTriangle, Users, Briefcase, FileText, Banknote,
+  GraduationCap, BookOpen, Building2, Layers,
 };
 
 export default function LearnPage() {

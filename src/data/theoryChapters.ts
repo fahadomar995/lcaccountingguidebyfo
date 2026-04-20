@@ -2170,6 +2170,113 @@ export const CHAPTERS: Chapter[] = [
       },
     ]
   },
+  // ──────────────────────────────────────────────────
+  // BLOCK C — INTERPRETATION (Chapter 25 — Q5(b) model answers)
+  // ──────────────────────────────────────────────────
+  {
+    id: 25, block: 'C',
+    title: 'Q5(b) Interpretation — Model Answers',
+    description: 'Bank-able phrasing for "comment on", "would you invest", and other interpretation questions.',
+    estimatedMinutes: 28,
+    related: [16, 17],
+    examPointers: [
+      '2023 Q5(b) — Comment on liquidity and gearing',
+      '2022 Q5(b) — Would you invest? Justify with reference to ratios',
+      '2019 Q5(b) — Profitability + dividend policy commentary',
+    ],
+    sections: [
+      {
+        id: '25.1', title: 'The Universal Answer Template',
+        subTopics: [
+          {
+            id: '25.1.1', title: 'The 4-component formula',
+            keyTerms: [
+              { term: 'Quote the figure', definition: 'Always cite the actual ratio value (e.g. "Current Ratio of 1.8:1") — do not just name the ratio.' },
+              { term: 'Compare', definition: 'Compare to last year, an industry norm, or the rule of thumb (e.g. "ideal is 2:1").' },
+              { term: 'Interpret', definition: 'State whether this is favourable or unfavourable, and what it means for the business in plain English.' },
+              { term: 'Recommend', definition: 'Conclude with a decision or action linked to the figure.' },
+            ],
+            body: [
+              { type: 'concept', variant: 'blue', title: 'The 4-step formula', html: '<p>Every interpretation answer follows the same structure:</p><p><strong>1. Quote the figure</strong> — "The Current Ratio of <em>1.8:1</em>…"</p><p><strong>2. Compare</strong> — "…has improved from last year\'s <em>1.4:1</em> and is approaching the textbook norm of <em>2:1</em>…"</p><p><strong>3. Interpret</strong> — "…indicating that the firm now has €1.80 of current assets for every €1 of current liabilities — a comfortable short-term position."</p><p><strong>4. Recommend</strong> — "I would therefore recommend extending limited short-term credit to this firm because liquidity has clearly strengthened."</p>' },
+              { type: 'examtip', variant: 'green', title: 'Exam tip', html: '<p>Hit all 4 components and you score full marks every single time, regardless of the specific ratio. Markers tick off the 4 elements explicitly.</p>' },
+            ]
+          },
+        ]
+      },
+      {
+        id: '25.2', title: 'Liquidity Commentary',
+        subTopics: [
+          {
+            id: '25.2.1', title: '"Comment on the firm\'s liquidity"',
+            body: [
+              { type: 'concept', variant: 'blue', title: 'Two ratios to quote', html: '<p><strong>Current Ratio</strong> = Current Assets ÷ Current Liabilities (norm: 2:1)</p><p><strong>Acid Test (Quick) Ratio</strong> = (CA − Stock) ÷ CL (norm: 1:1)</p>' },
+              { type: 'example', variant: 'amber', title: 'Strong liquidity model answer', html: '<p>"<em>The firm\'s liquidity is strong. The Current Ratio of <strong>2.3:1</strong> exceeds the recommended norm of 2:1 and has improved from <strong>1.9:1</strong> last year. The Acid Test Ratio of <strong>1.4:1</strong> also exceeds the norm of 1:1, indicating the firm could meet its short-term debts even without selling stock. Working capital is therefore healthy and short-term creditors and lenders should have full confidence in the firm.</em>"</p>' },
+              { type: 'example', variant: 'red', title: 'Weak liquidity model answer', html: '<p>"<em>The firm\'s liquidity is poor. The Current Ratio of <strong>1.1:1</strong> is well below the norm of 2:1 and has deteriorated from <strong>1.6:1</strong> last year. The Acid Test of <strong>0.6:1</strong> is below the 1:1 norm — the firm could not meet its short-term debts without selling stock. There is a serious risk of insolvency. I would recommend the firm urgently secure long-term finance, reduce stock levels, or chase outstanding debtors to ease cashflow.</em>"</p>' },
+              { type: 'watchout', variant: 'amber', title: 'Watch out', html: '<p>A Current Ratio that is <strong>too high</strong> (e.g. 4:1) is also unfavourable — it means assets are tied up in stock or debtors instead of being invested productively.</p>' },
+            ]
+          },
+        ]
+      },
+      {
+        id: '25.3', title: 'Profitability Commentary',
+        subTopics: [
+          {
+            id: '25.3.1', title: '"Comment on profitability"',
+            body: [
+              { type: 'concept', variant: 'blue', title: 'Three ratios to quote', html: '<p><strong>Gross Profit Margin</strong> = (Gross Profit ÷ Sales) × 100</p><p><strong>Net Profit Margin</strong> = (Net Profit ÷ Sales) × 100</p><p><strong>Return on Capital Employed (ROCE)</strong> = (Net Profit before interest ÷ Capital Employed) × 100</p>' },
+              { type: 'example', variant: 'green', title: 'Strong profitability model answer', html: '<p>"<em>The firm is highly profitable. Gross Profit Margin of <strong>42%</strong> has improved from <strong>38%</strong>, suggesting better purchasing or pricing strategy. Net Profit Margin of <strong>18%</strong> shows that overheads are well controlled. ROCE of <strong>22%</strong> easily exceeds the current risk-free rate (~3%) and the cost of borrowing (~7%), meaning the owner is being well rewarded for the risk of running the business. I would therefore recommend continuing the current strategy.</em>"</p>' },
+              { type: 'example', variant: 'red', title: 'Weak profitability model answer', html: '<p>"<em>Profitability is concerning. The Gross Profit Margin has fallen from <strong>35% to 28%</strong>, indicating either rising cost prices or unsustainable discounting. Net Profit Margin of <strong>4%</strong> leaves little buffer for adverse trading. ROCE of <strong>5%</strong> is below the current cost of borrowing (~7%), meaning shareholder funds would earn more if the business were closed and the cash invested. I would recommend a full review of the cost base and pricing strategy.</em>"</p>' },
+            ]
+          },
+        ]
+      },
+      {
+        id: '25.4', title: 'Gearing & Long-term Solvency',
+        subTopics: [
+          {
+            id: '25.4.1', title: '"Comment on gearing / long-term solvency"',
+            body: [
+              { type: 'concept', variant: 'blue', title: 'Two ratios to quote', html: '<p><strong>Gearing (Debt/Equity)</strong> = (Long-term Debt ÷ Capital Employed) × 100. Above 50% = high gearing.</p><p><strong>Interest Cover</strong> = Operating Profit ÷ Interest. Below 3 times = risky.</p>' },
+              { type: 'example', variant: 'green', title: 'Low-gearing model answer', html: '<p>"<em>The firm has low gearing of <strong>25%</strong>, well below the 50% high-gearing benchmark. Interest Cover of <strong>8 times</strong> means the firm could comfortably absorb a fall in profits and still meet interest payments. The firm has further capacity to borrow if expansion is required and presents low risk to long-term lenders.</em>"</p>' },
+              { type: 'example', variant: 'red', title: 'High-gearing model answer', html: '<p>"<em>The firm is highly geared at <strong>68%</strong>, well above the 50% benchmark. Interest Cover of <strong>1.8 times</strong> is dangerously low — a small fall in operating profit could leave the firm unable to service its debts. Long-term lenders would be reluctant to advance further finance and shareholders face significant risk. I would recommend issuing equity to repay debt and reduce financial risk.</em>"</p>' },
+            ]
+          },
+        ]
+      },
+      {
+        id: '25.5', title: 'Investor Decisions',
+        subTopics: [
+          {
+            id: '25.5.1', title: '"Would you invest in this firm?"',
+            body: [
+              { type: 'concept', variant: 'blue', title: 'The 5-point framework', html: '<p>Always structure investor questions across five themes — quote one ratio per theme:</p><p><strong>1. Profitability</strong> — Net Margin / ROCE</p><p><strong>2. Liquidity</strong> — Current / Acid Test</p><p><strong>3. Gearing</strong> — Debt/Equity %</p><p><strong>4. Dividend Policy</strong> — Dividend Cover / Yield</p><p><strong>5. Sector Outlook</strong> — Brief comment on the industry</p>' },
+              { type: 'example', variant: 'green', title: 'Positive investment model answer', html: '<p>"<em>I would invest in this firm. <strong>Profitability</strong> is strong (ROCE 22% vs cost of borrowing 7%). <strong>Liquidity</strong> is healthy (CR 2.1:1, AT 1.2:1) — no short-term risk. <strong>Gearing</strong> at 30% is conservative — low risk to my capital. <strong>Dividend Cover</strong> of 3 times means dividends are sustainable from current profits. The <strong>industry outlook</strong> is favourable. The combination of strong returns, low risk, and reliable dividends makes this a sound investment.</em>"</p>' },
+              { type: 'example', variant: 'red', title: 'Negative investment model answer', html: '<p>"<em>I would not invest in this firm. <strong>Profitability</strong> is weak (Net Margin 3%, ROCE below cost of borrowing). <strong>Liquidity</strong> is precarious (CR 1.1:1, AT 0.5:1) — the firm risks insolvency. <strong>Gearing</strong> at 70% is high — interest payments dominate profits. <strong>Dividend Cover</strong> of 0.8 times means dividends are paid out of reserves, not current profits — unsustainable. Until the firm restructures debt and improves margins, I would invest my capital elsewhere.</em>"</p>' },
+              { type: 'examtip', variant: 'amber', title: 'Comparison rates to know', html: '<p>Always benchmark ROCE against:</p><p><strong>Risk-free rate</strong> (deposit account / Govt bond): ~3%</p><p><strong>Cost of borrowing</strong>: ~7%</p><p>If ROCE is below the cost of borrowing, the firm should NOT borrow to expand. If ROCE is below the risk-free rate, the owner should close down and deposit the cash.</p>' },
+            ]
+          },
+        ]
+      },
+      {
+        id: '25.6', title: 'Sector & Working Capital',
+        subTopics: [
+          {
+            id: '25.6.1', title: 'Sector / industry outlook commentary',
+            body: [
+              { type: 'concept', variant: 'blue', title: 'Sector phrasing bank', html: '<p>If the question gives the sector (e.g. "operates in retail"), incorporate one sentence:</p><p><strong>Retail</strong> — "Retail is highly competitive with thin margins; the firm\'s 30% GP margin is reasonable for the sector."</p><p><strong>Manufacturing</strong> — "Capital-intensive sector; high fixed assets and long stock-holding periods are normal."</p><p><strong>Service</strong> — "Low fixed assets but heavy reliance on debtors; quick collection of receivables is critical."</p><p><strong>Hospitality / leisure</strong> — "Seasonal demand; cashflow management between peaks is essential."</p>' },
+            ]
+          },
+          {
+            id: '25.6.2', title: 'Working capital cycle commentary',
+            body: [
+              { type: 'concept', variant: 'blue', title: 'Three days-ratios', html: '<p><strong>Stock turnover days</strong> = (Avg Stock ÷ Cost of Sales) × 365</p><p><strong>Debtors collection period</strong> = (Debtors ÷ Credit Sales) × 365</p><p><strong>Creditors payment period</strong> = (Creditors ÷ Credit Purchases) × 365</p>' },
+              { type: 'example', variant: 'amber', title: 'Working capital model answer', html: '<p>"<em>The firm holds stock for <strong>72 days</strong> on average — high for the retail sector and tying up cash. Debtors take <strong>45 days</strong> to pay (compared to typical 30-day terms) — indicating weak credit control. Creditors are paid in <strong>28 days</strong> — earlier than the firm itself collects, worsening cashflow. I would recommend tightening credit control and negotiating longer creditor terms to improve the working capital cycle.</em>"</p>' },
+            ]
+          },
+        ]
+      },
+    ]
+  },
 ];
 
 // ═══════════════════════════════════════════════════════════════════
