@@ -4,6 +4,7 @@ export const MODULE: LearnModuleDef = {
     id: "club",
     name: "Club Accounts",
     icon: "Users",
+    category: "final-accounts",
     lessons: [
       {
         t: "R&P vs I&E: The Key Difference",

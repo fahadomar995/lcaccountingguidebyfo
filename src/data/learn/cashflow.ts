@@ -4,6 +4,7 @@ export const MODULE: LearnModuleDef = {
     id: "cashflow",
     name: "Cash Flow Statements",
     icon: "Banknote",
+    category: "final-accounts",
     lessons: [
       {
         t: "Why Accruals ≠ Cash",

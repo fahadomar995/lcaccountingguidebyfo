@@ -4,6 +4,7 @@ export const MODULE: LearnModuleDef = {
     id: "service",
     name: "Service Firms",
     icon: "Briefcase",
+    category: "final-accounts",
     lessons: [
       {
         t: "Structure & Key Differences",

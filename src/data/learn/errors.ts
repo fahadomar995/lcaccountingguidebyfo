@@ -4,6 +4,7 @@ export const MODULE: LearnModuleDef = {
     id: "errors",
     name: "Error Types & Suspense",
     icon: "AlertTriangle",
+    category: "final-accounts",
     lessons: [
       {
         t: "The 7 Error Types",

@@ -4,6 +4,7 @@ export const MODULE: LearnModuleDef = {
     id: "published",
     name: "Published Accounts",
     icon: "FileText",
+    category: "final-accounts",
     lessons: [
       {
         t: "Annotating the Trial Balance",
