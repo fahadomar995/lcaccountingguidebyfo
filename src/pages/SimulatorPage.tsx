@@ -9,6 +9,7 @@ import {
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { PdfPageView } from "@/components/PdfPageView";
 import {
   questionIndex, filterQuestions, uniqueTopics, type ExamQuestion,
 } from "@/data/questionIndex";
@@ -250,10 +251,10 @@ function ActiveStage({
   const handleSubmit = useCallback(() => onSubmit(elapsed), [onSubmit, elapsed]);
 
   return (
-    <div className="max-w-[1400px] mx-auto px-4 sm:px-7 py-6 pb-16">
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-6">
+    <div className="max-w-[1700px] mx-auto px-4 sm:px-7 py-6 pb-16">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6">
         {/* LEFT — question */}
-        <div className={paused ? "opacity-40 pointer-events-none transition-opacity" : "transition-opacity relative"}>
+        <div className={"relative transition-opacity " + (paused ? "opacity-40 pointer-events-none" : "")}>
           {paused && (
             <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
               <div className="font-display text-5xl font-bold text-amber-600">PAUSED</div>
@@ -270,10 +271,10 @@ function ActiveStage({
               This question is from the <strong className="text-foreground">{question.year}</strong> Leaving Certificate Higher Level Accounting paper, Question {question.questionNumber}. Open the question in the viewer below and work through it on paper or on the scratchpad.
             </p>
           </div>
-          <iframe
-            src={`${question.paperUrl}#page=${question.paperPage}`}
-            className="w-full rounded-lg border border-border bg-card"
-            style={{ height: "780px" }}
+          <PdfPageView
+            url={question.paperUrl}
+            page={question.paperPage}
+            scale={1.7}
             title={`${question.year} Q${question.questionNumber}`}
           />
           <a
@@ -425,10 +426,11 @@ function ResultsStage({
       <h3 className="font-display text-lg font-semibold text-foreground mb-3">
         Official SEC Marking Scheme — {question.year} Q{question.questionNumber}
       </h3>
-      <iframe
-        src={`${question.markingSchemeUrl}#page=${question.markingSchemePage}`}
-        className="w-full rounded-lg border border-border bg-card mb-2"
-        style={{ height: "700px" }}
+      <PdfPageView
+        url={question.markingSchemeUrl}
+        page={question.markingSchemePage}
+        scale={1.6}
+        className="mb-2"
         title={`${question.year} Q${question.questionNumber} marking scheme`}
       />
       <a
