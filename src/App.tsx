@@ -32,6 +32,7 @@ import { BANK_REC_ARCHETYPES, BANK_REC_CATEGORIES } from "./data/bankRecWorkings
 import { IR_ARCHETYPES, IR_CATEGORIES } from "./data/incompleteRecordsWorkings";
 import { FARM_DEPT_ARCHETYPES, FARM_DEPT_CATEGORIES } from "./data/farmDeptWorkings";
 import TabularStatementsPage from "./pages/TabularStatementsPage";
+import SimulatorPage from "./pages/SimulatorPage";
 
 const queryClient = new QueryClient();
 
@@ -134,6 +135,7 @@ const App = () => (
               />
             } />
             <Route path="/tabular-statements" element={<TabularStatementsPage />} />
+            <Route path="/simulator" element={<SimulatorPage />} />
             <Route path="/study-tools" element={<StudyToolsPage />} />
             <Route path="/ratios" element={<RatiosPage />} />
             <Route path="/past-papers" element={<PastPapersPage />} />
