@@ -52,7 +52,9 @@ export function PdfPageView({ url, page, scale = 1.6, className, title }: PdfPag
         canvas.style.width = `${viewport.width / dpr}px`;
         canvas.style.height = `${viewport.height / dpr}px`;
 
-        await pdfPage.render({ canvasContext: ctx, viewport, canvas }).promise;
+        // pdfjs v4 — `canvasContext` is the canonical input; `canvas` is unused at runtime
+        // and rejected by older type defs, so we omit it.
+        await pdfPage.render({ canvasContext: ctx, viewport } as Parameters<typeof pdfPage.render>[0]).promise;
         if (!cancelled) setStatus("ready");
       } catch (e) {
         if (cancelled) return;
