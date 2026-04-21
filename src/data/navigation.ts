@@ -1,7 +1,7 @@
 import {
   Home, BookOpen, GraduationCap, Layers, FileText, Calculator,
   ClipboardList, BarChart3, PenTool, Grid3X3, HelpCircle,
-  Factory, Coins, Wrench, TrendingUp, Mail, Banknote, FileSearch, Sprout, Table2
+  Factory, Coins, Wrench, TrendingUp, Mail, Banknote, FileSearch, Sprout, Table2, Timer
 } from "lucide-react";
 
 export interface NavItem {
@@ -55,6 +55,7 @@ export const NAV_SECTIONS: NavSection[] = [
   {
     label: "Predictions",
     items: [
+      { title: "Exam Simulator", url: "/simulator", icon: Timer },
       { title: "Predictions", url: "/predictions", icon: TrendingUp },
     ],
   },
