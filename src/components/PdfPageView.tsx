@@ -28,7 +28,6 @@ export function PdfPageView({ url, page, scale = 1.6, className, title }: PdfPag
 
   useEffect(() => {
     let cancelled = false;
-    let renderTask: ReturnType<ReturnType<typeof pdfjsLib.getDocument>["promise"]["then"]> extends infer T ? T : never;
 
     (async () => {
       setStatus("loading");
