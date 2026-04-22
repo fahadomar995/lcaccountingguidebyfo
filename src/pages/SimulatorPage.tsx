@@ -300,13 +300,14 @@ function ActiveStage({
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const startedAt = useRef<Date>(new Date());
   const checkpoints = useMemo(() => buildCheckpoints(question.marks), [question.marks]);
+  const questionImageSrc = getSimulatorImageSrc(question.id, "question");
+  const markingImageSrc = getSimulatorImageSrc(question.id, "marking");
 
-  // Preload the marking scheme PDF in the background so Stage 3 is instant.
+  // Preload images in the background so transitions feel instant.
   useEffect(() => {
-    preloadPdfPage(question.markingSchemeUrl, question.markingSchemePage);
-    // Also preload the next page of the question paper in case it spills over.
-    preloadPdfPage(question.paperUrl, question.paperPage + 1);
-  }, [question]);
+    preloadImage(questionImageSrc);
+    preloadImage(markingImageSrc);
+  }, [questionImageSrc, markingImageSrc]);
 
   // Timer — interval ref guards against stale closures
   useEffect(() => {
@@ -475,10 +476,9 @@ function ActiveStage({
             </Button>
           </div>
 
-          <PdfPageView
-            url={question.paperUrl}
-            page={question.paperPage}
-            scale={zoom}
+          <ScreenshotPageView
+            src={questionImageSrc}
+            zoom={zoom}
             fitToWidth={fitMode}
             title={`${question.year} Q${question.questionNumber}`}
           />
@@ -653,10 +653,10 @@ function ResultsStage({
       <h3 className="font-display text-lg font-semibold text-foreground mb-3">
         Official SEC Marking Scheme — {question.year} Q{question.questionNumber}
       </h3>
-      <PdfPageView
-        url={question.markingSchemeUrl}
-        page={question.markingSchemePage}
-        scale={1.6}
+      <ScreenshotPageView
+        src={getSimulatorImageSrc(question.id, "marking")}
+        zoom={1.6}
+        fitToWidth={true}
         className="mb-2"
         title={`${question.year} Q${question.questionNumber} marking scheme`}
       />
