@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import {
-  Clock, ExternalLink, Play, Check, AlertCircle,
+  Clock, ExternalLink, Play, Pause, Check, AlertCircle,
   ChevronDown, ChevronUp, RotateCcw, Square,
   ZoomIn, ZoomOut, Maximize2, Minimize2, Eye, EyeOff, Flag,
 } from "lucide-react";
