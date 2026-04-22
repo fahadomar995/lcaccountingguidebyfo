@@ -298,14 +298,21 @@ function ActiveStage({
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const startedAt = useRef<Date>(new Date());
   const checkpoints = useMemo(() => buildCheckpoints(question.marks), [question.marks]);
-  const questionImageSrc = getSimulatorImageSrc(question.id, "question");
-  const markingImageSrc = getSimulatorImageSrc(question.id, "marking");
+  const questionSources = useMemo(() => {
+    const arr = [getSimulatorImageSrc(question.id, "question", 1)];
+    if (question.paperPageCount === 2) arr.push(getSimulatorImageSrc(question.id, "question", 2));
+    return arr;
+  }, [question.id, question.paperPageCount]);
+  const markingSources = useMemo(() => {
+    const arr = [getSimulatorImageSrc(question.id, "marking", 1)];
+    if (question.markingPageCount === 2) arr.push(getSimulatorImageSrc(question.id, "marking", 2));
+    return arr;
+  }, [question.id, question.markingPageCount]);
 
   // Preload images in the background so transitions feel instant.
   useEffect(() => {
-    preloadImage(questionImageSrc);
-    preloadImage(markingImageSrc);
-  }, [questionImageSrc, markingImageSrc]);
+    [...questionSources, ...markingSources].forEach(preloadImage);
+  }, [questionSources, markingSources]);
 
   // Timer — interval ref guards against stale closures
   useEffect(() => {
