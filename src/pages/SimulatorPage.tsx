@@ -76,8 +76,8 @@ function MarksBadge({ marks }: { marks: number }) {
   );
 }
 
-function getSimulatorImageSrc(id: string, kind: "question" | "marking") {
-  return `/simulator-pages/${id}-${kind}.png`;
+function getSimulatorImageSrc(id: string, kind: "question" | "marking", page: 1 | 2 = 1) {
+  return `/simulator-pages/${id}-${kind}-${page}.png`;
 }
 
 function preloadImage(src: string) {
@@ -86,43 +86,41 @@ function preloadImage(src: string) {
 }
 
 function ScreenshotPageView({
-  src,
+  sources,
   title,
   zoom,
   fitToWidth,
   className,
 }: {
-  src: string;
+  sources: string[];
   title: string;
   zoom: number;
   fitToWidth: boolean;
   className?: string;
 }) {
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    setLoaded(false);
-  }, [src]);
-
   return (
     <div className={`relative bg-card border border-border rounded-lg overflow-hidden ${className ?? ""}`}>
-      {!loaded && (
-        <div className="absolute inset-0 z-10 flex items-center justify-center bg-card/80">
-          <div className="text-xs font-body text-muted-foreground">Loading page…</div>
-        </div>
-      )}
-      <div className="bg-muted/30 overflow-auto p-3 flex justify-center">
-        <div className="relative">
-          <img
-            src={src}
-            alt={title}
-            onLoad={() => setLoaded(true)}
-            onError={() => setLoaded(true)}
-            className="block h-auto shadow-sm border border-border bg-card"
-            style={{ width: fitToWidth ? "100%" : `${Math.round(zoom * 100)}%`, minWidth: fitToWidth ? undefined : "900px" }}
-          />
-          {fitToWidth && <div className="w-[min(1100px,100vw-4rem)]" aria-hidden="true" />}
-        </div>
+      <div className="bg-muted/30 overflow-auto p-3 flex flex-col items-center gap-3">
+        {sources.map((src, i) => (
+          <div key={src} className="relative w-full flex justify-center">
+            {sources.length > 1 && (
+              <div className="absolute -top-1 left-2 z-10 px-2 py-0.5 rounded bg-card border border-border text-[10px] font-mono text-muted-foreground shadow-sm">
+                Page {i + 1} of {sources.length}
+              </div>
+            )}
+            <img
+              src={src}
+              alt={`${title} — page ${i + 1}`}
+              loading={i === 0 ? "eager" : "lazy"}
+              className="block h-auto shadow-sm border border-border bg-card"
+              style={{
+                width: fitToWidth ? "100%" : `${Math.round(zoom * 100)}%`,
+                minWidth: fitToWidth ? undefined : "900px",
+                maxWidth: fitToWidth ? "100%" : undefined,
+              }}
+            />
+          </div>
+        ))}
       </div>
     </div>
   );
