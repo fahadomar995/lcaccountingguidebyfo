@@ -49,6 +49,20 @@ function Pill({ active, onClick, children }: { active: boolean; onClick: () => v
   );
 }
 
+// ───────────── Pause glyph ─────────────
+/**
+ * Twin-bar pause icon rendered with currentColor + sage-green accent stripes.
+ * Used inside the timer when the session is paused, plus on the Pause button.
+ */
+function PauseGlyph({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden="true">
+      <rect x="6"  y="4" width="4" height="16" rx="1.2" fill="currentColor" />
+      <rect x="14" y="4" width="4" height="16" rx="1.2" fill="currentColor" />
+    </svg>
+  );
+}
+
 // ───────────── Marks badge ─────────────
 function MarksBadge({ marks }: { marks: number }) {
   const colour =
