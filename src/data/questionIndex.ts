@@ -1,170 +1,206 @@
 // ═══════════════════════════════════════════════════════════════════
 // EXAM SIMULATOR — QUESTION INDEX
-// Single source of truth. Add new entries below — no code changes needed.
+// Single source of truth. Every entry has been audited against the
+// real SEC PDF — page numbers refer to the page where the question
+// physically begins. Most questions span two pages; the simulator
+// renders both via /public/simulator-pages/<id>-{question,marking}-{1,2}.png
 // ═══════════════════════════════════════════════════════════════════
 
 export interface ExamQuestion {
-  id: string;                  // unique identifier e.g. "2019_Q6_suspense"
+  id: string;
   year: number;
   questionNumber: number;
   section: 1 | 2 | 3;
   marks: 60 | 80 | 100 | 120;
-  topic: string;               // broad topic
-  subtopic: string;            // specific
-  paperUrl: string;            // PDF url (SEC = external, mocks = /papers/...)
-  paperPage: number;           // page number of the question
+  topic: string;
+  subtopic: string;
+  /** External SEC URL — used as the "Open PDF" fallback link only. */
+  paperUrl: string;
+  /** Page number where the question starts in the original SEC PDF. */
+  paperPage: number;
   markingSchemeUrl: string;
   markingSchemePage: number;
-  timingMinutes: number;       // marks × 0.45, rounded
+  /** Number of physical pages the question occupies (1 or 2). */
+  paperPageCount: 1 | 2;
+  /** Number of physical pages the marking-scheme answer occupies (1 or 2). */
+  markingPageCount: 1 | 2;
+  /** Recommended timing, mins. SEC pace is ~0.45 min per mark. */
+  timingMinutes: number;
   notes: string;
 }
 
-// SEC papers are hosted externally — we reuse the same URL pattern as
-// src/data/pastPapers.ts so iframes resolve to a real PDF.
 const secPaper = (year: number) =>
   `https://www.studystrivers.ie/exampaperfiles/higher/accounting/accounting${year}.pdf`;
 const secMs = (year: number) =>
   `https://www.studystrivers.ie/markingschemefiles/higher/accounting/accounting${year}.pdf`;
 
 export const questionIndex: ExamQuestion[] = [
+  // ─── 2019 ─────────────────────────────────────────────────────────
+  { id: "2019_Q2_creditors", year: 2019, questionNumber: 2, section: 1, marks: 60,
+    topic: "Control Accounts", subtopic: "Creditors Control Account",
+    paperUrl: secPaper(2019), paperPage: 4, paperPageCount: 1,
+    markingSchemeUrl: secMs(2019), markingSchemePage: 6, markingPageCount: 1,
+    timingMinutes: 27, notes: "Creditors control account with adjustments" },
 
-  // ─── CORRECTION OF ERRORS / SUSPENSE ──────────────────────────────
-  {
-    id: "2023_Q6_suspense",
-    year: 2023, questionNumber: 6, section: 2, marks: 100,
-    topic: "Correction of Errors", subtopic: "Suspense Account",
-    paperUrl: secPaper(2023), paperPage: 5,
-    markingSchemeUrl: secMs(2023), markingSchemePage: 12,
-    timingMinutes: 45, notes: "Six errors, suspense account required",
-  },
-  {
-    id: "2021_Q6_suspense",
-    year: 2021, questionNumber: 6, section: 2, marks: 100,
-    topic: "Correction of Errors", subtopic: "Suspense Account",
-    paperUrl: secPaper(2021), paperPage: 5,
-    markingSchemeUrl: secMs(2021), markingSchemePage: 11,
-    timingMinutes: 45, notes: "Corrected profit and balance sheet required",
-  },
-
-  // ─── TABULAR STATEMENTS ───────────────────────────────────────────
-  {
-    id: "2022_Q6_tabular",
-    year: 2022, questionNumber: 6, section: 2, marks: 100,
+  { id: "2019_Q4_tabular", year: 2019, questionNumber: 4, section: 1, marks: 60,
     topic: "Tabular Statements", subtopic: "Tabular Statement",
-    paperUrl: secPaper(2022), paperPage: 5,
-    markingSchemeUrl: secMs(2022), markingSchemePage: 11,
-    timingMinutes: 45, notes: "Balance sheet effects of multiple transactions",
-  },
+    paperUrl: secPaper(2019), paperPage: 6, paperPageCount: 2,
+    markingSchemeUrl: secMs(2019), markingSchemePage: 10, markingPageCount: 1,
+    timingMinutes: 27, notes: "Miller Ltd — eight transactions over the year" },
 
-  // ─── CLUB ACCOUNTS ────────────────────────────────────────────────
-  {
-    id: "2022_Q7_club",
-    year: 2022, questionNumber: 7, section: 2, marks: 100,
+  { id: "2019_Q5_interpretation", year: 2019, questionNumber: 5, section: 2, marks: 100,
+    topic: "Interpretation of Accounts", subtopic: "Ratio Analysis",
+    paperUrl: secPaper(2019), paperPage: 8, paperPageCount: 2,
+    markingSchemeUrl: secMs(2019), markingSchemePage: 11, markingPageCount: 2,
+    timingMinutes: 45, notes: "Shareholder perspective — full ratio set" },
+
+  { id: "2019_Q6_club", year: 2019, questionNumber: 6, section: 2, marks: 100,
     topic: "Club Accounts", subtopic: "Club Accounts",
-    paperUrl: secPaper(2022), paperPage: 7,
-    markingSchemeUrl: secMs(2022), markingSchemePage: 15,
-    timingMinutes: 45, notes: "Accumulated fund, income and expenditure account",
-  },
-  {
-    id: "2019_Q7_club",
-    year: 2019, questionNumber: 7, section: 2, marks: 100,
-    topic: "Club Accounts", subtopic: "Club Accounts",
-    paperUrl: secPaper(2019), paperPage: 7,
-    markingSchemeUrl: secMs(2019), markingSchemePage: 14,
-    timingMinutes: 45, notes: "Accumulated fund, bar account, income and expenditure",
-  },
+    paperUrl: secPaper(2019), paperPage: 10, paperPageCount: 2,
+    markingSchemeUrl: secMs(2019), markingSchemePage: 14, markingPageCount: 2,
+    timingMinutes: 45, notes: "Crest Wood Golf Club — bar trading + I&E" },
 
-  // ─── INTERPRETATION OF ACCOUNTS — Q5 ──────────────────────────────
-  {
-    id: "2023_Q5_interpretation",
-    year: 2023, questionNumber: 5, section: 2, marks: 100,
-    topic: "Interpretation of Accounts", subtopic: "Ratio Analysis",
-    paperUrl: secPaper(2023), paperPage: 4,
-    markingSchemeUrl: secMs(2023), markingSchemePage: 9,
-    timingMinutes: 45, notes: "Debenture holder perspective, Part B and C included",
-  },
-  {
-    id: "2022_Q5_interpretation",
-    year: 2022, questionNumber: 5, section: 2, marks: 100,
-    topic: "Interpretation of Accounts", subtopic: "Ratio Analysis",
-    paperUrl: secPaper(2022), paperPage: 4,
-    markingSchemeUrl: secMs(2022), markingSchemePage: 9,
-    timingMinutes: 45, notes: "Shareholder perspective, profitability and dividend ratios",
-  },
-  {
-    id: "2021_Q5_interpretation",
-    year: 2021, questionNumber: 5, section: 2, marks: 100,
-    topic: "Interpretation of Accounts", subtopic: "Ratio Analysis",
-    paperUrl: secPaper(2021), paperPage: 4,
-    markingSchemeUrl: secMs(2021), markingSchemePage: 9,
-    timingMinutes: 45, notes: "Bank manager perspective, liquidity ratios",
-  },
+  { id: "2019_Q7_cashflow", year: 2019, questionNumber: 7, section: 2, marks: 100,
+    topic: "Cash Flow", subtopic: "Cash Flow Statement",
+    paperUrl: secPaper(2019), paperPage: 12, paperPageCount: 2,
+    markingSchemeUrl: secMs(2019), markingSchemePage: 18, markingPageCount: 2,
+    timingMinutes: 45, notes: "Jackson plc — cash flow + reconciliation" },
 
-  // ─── MARGINAL COSTING — Q8 ────────────────────────────────────────
-  {
-    id: "2023_Q8_marginal",
-    year: 2023, questionNumber: 8, section: 3, marks: 80,
-    topic: "Costing", subtopic: "Marginal Costing",
-    paperUrl: secPaper(2023), paperPage: 8,
-    markingSchemeUrl: secMs(2023), markingSchemePage: 17,
-    timingMinutes: 36, notes: "Marginal costing statement, BEP, margin of safety",
-  },
-  {
-    id: "2020_Q8_marginal",
-    year: 2020, questionNumber: 8, section: 3, marks: 80,
-    topic: "Costing", subtopic: "Marginal Costing",
-    paperUrl: secPaper(2020), paperPage: 8,
-    markingSchemeUrl: secMs(2020), markingSchemePage: 16,
-    timingMinutes: 36, notes: "Marginal vs absorption comparison",
-  },
+  { id: "2019_Q8_jobcosting", year: 2019, questionNumber: 8, section: 3, marks: 80,
+    topic: "Costing", subtopic: "Overhead Apportionment / Job Costing",
+    paperUrl: secPaper(2019), paperPage: 14, paperPageCount: 2,
+    markingSchemeUrl: secMs(2019), markingSchemePage: 21, markingPageCount: 2,
+    timingMinutes: 36, notes: "Service-dept reapportionment + job costing" },
 
-  // ─── JOB COSTING — Q8 ─────────────────────────────────────────────
-  {
-    id: "2022_Q8_jobcosting",
-    year: 2022, questionNumber: 8, section: 3, marks: 80,
-    topic: "Costing", subtopic: "Job Costing",
-    paperUrl: secPaper(2022), paperPage: 8,
-    markingSchemeUrl: secMs(2022), markingSchemePage: 17,
-    timingMinutes: 36, notes: "Job cost statement with overhead absorption",
-  },
+  { id: "2019_Q9_production", year: 2019, questionNumber: 9, section: 3, marks: 80,
+    topic: "Budgeting", subtopic: "Production Budgeting",
+    paperUrl: secPaper(2019), paperPage: 16, paperPageCount: 1,
+    markingSchemeUrl: secMs(2019), markingSchemePage: 25, markingPageCount: 2,
+    timingMinutes: 36, notes: "Two-product production + cost budget" },
 
-  // ─── CASH BUDGET — Q9 ─────────────────────────────────────────────
-  {
-    id: "2023_Q9_cashbudget",
-    year: 2023, questionNumber: 9, section: 3, marks: 80,
-    topic: "Budgeting", subtopic: "Cash Budget",
-    paperUrl: secPaper(2023), paperPage: 9,
-    markingSchemeUrl: secMs(2023), markingSchemePage: 19,
-    timingMinutes: 36, notes: "Three-month cash budget with debtors and creditors lag",
-  },
-  {
-    id: "2022_Q9_flexiblebudget",
-    year: 2022, questionNumber: 9, section: 3, marks: 80,
-    topic: "Budgeting", subtopic: "Flexible Budget",
-    paperUrl: secPaper(2022), paperPage: 9,
-    markingSchemeUrl: secMs(2022), markingSchemePage: 19,
-    timingMinutes: 36, notes: "Flexible budget with variance analysis",
-  },
+  // ─── 2020 ─────────────────────────────────────────────────────────
+  { id: "2020_Q3_incomplete", year: 2020, questionNumber: 3, section: 1, marks: 60,
+    topic: "Incomplete Records", subtopic: "Sole Trader Incomplete Records",
+    paperUrl: secPaper(2020), paperPage: 6, paperPageCount: 1,
+    markingSchemeUrl: secMs(2020), markingSchemePage: 9, markingPageCount: 2,
+    timingMinutes: 27, notes: "S. Staunton — opening capital + adjustments" },
 
-  // ─── CONTROL ACCOUNTS ─────────────────────────────────────────────
-  {
-    id: "2022_Q2_control",
-    year: 2022, questionNumber: 2, section: 1, marks: 60,
+  { id: "2020_Q6_suspense", year: 2020, questionNumber: 6, section: 2, marks: 100,
+    topic: "Correction of Errors", subtopic: "Suspense Account",
+    paperUrl: secPaper(2020), paperPage: 10, paperPageCount: 2,
+    markingSchemeUrl: secMs(2020), markingSchemePage: 19, markingPageCount: 2,
+    timingMinutes: 45, notes: "J. Beglin — six errors + corrected balance sheet" },
+
+  { id: "2020_Q8_marginal", year: 2020, questionNumber: 8, section: 3, marks: 80,
+    topic: "Costing", subtopic: "Marginal vs Absorption Costing",
+    paperUrl: secPaper(2020), paperPage: 14, paperPageCount: 2,
+    markingSchemeUrl: secMs(2020), markingSchemePage: 26, markingPageCount: 2,
+    timingMinutes: 36, notes: "Aldridge Ltd — BEP, MoS, marginal vs absorption" },
+
+  { id: "2020_Q9_cashbudget", year: 2020, questionNumber: 9, section: 3, marks: 80,
+    topic: "Budgeting", subtopic: "Production & Cash Budget",
+    paperUrl: secPaper(2020), paperPage: 16, paperPageCount: 1,
+    markingSchemeUrl: secMs(2020), markingSchemePage: 30, markingPageCount: 2,
+    timingMinutes: 36, notes: "Houghton Ltd — six-month cash budget" },
+
+  // ─── 2021 ─────────────────────────────────────────────────────────
+  { id: "2021_Q2_tabular", year: 2021, questionNumber: 2, section: 1, marks: 60,
+    topic: "Tabular Statements", subtopic: "Tabular Statement",
+    paperUrl: secPaper(2021), paperPage: 6, paperPageCount: 2,
+    markingSchemeUrl: secMs(2021), markingSchemePage: 10, markingPageCount: 1,
+    timingMinutes: 27, notes: "Tabular statement of effects" },
+
+  { id: "2021_Q3_depreciation", year: 2021, questionNumber: 3, section: 1, marks: 60,
+    topic: "Depreciation", subtopic: "Depreciation of Fixed Assets",
+    paperUrl: secPaper(2021), paperPage: 8, paperPageCount: 1,
+    markingSchemeUrl: secMs(2021), markingSchemePage: 11, markingPageCount: 2,
+    timingMinutes: 27, notes: "Straight-line + asset disposal + theory" },
+
+  { id: "2021_Q4_debtors", year: 2021, questionNumber: 4, section: 1, marks: 60,
     topic: "Control Accounts", subtopic: "Debtors Control Account",
-    paperUrl: secPaper(2022), paperPage: 2,
-    markingSchemeUrl: secMs(2022), markingSchemePage: 4,
-    timingMinutes: 27, notes: "Debtors control with contra entries",
-  },
+    paperUrl: secPaper(2021), paperPage: 9, paperPageCount: 1,
+    markingSchemeUrl: secMs(2021), markingSchemePage: 13, markingPageCount: 1,
+    timingMinutes: 27, notes: "Debtors control with contra entries" },
 
-  // ─── DEPRECIATION ─────────────────────────────────────────────────
-  {
-    id: "2021_Q3_depreciation",
-    year: 2021, questionNumber: 3, section: 1, marks: 60,
-    topic: "Depreciation", subtopic: "Depreciation and Disposal",
-    paperUrl: secPaper(2021), paperPage: 2,
-    markingSchemeUrl: secMs(2021), markingSchemePage: 5,
-    timingMinutes: 27, notes: "Straight line and reducing balance, asset disposal",
-  },
+  { id: "2021_Q5_interpretation", year: 2021, questionNumber: 5, section: 2, marks: 100,
+    topic: "Interpretation of Accounts", subtopic: "Ratio Analysis",
+    paperUrl: secPaper(2021), paperPage: 11, paperPageCount: 1,
+    markingSchemeUrl: secMs(2021), markingSchemePage: 14, markingPageCount: 2,
+    timingMinutes: 45, notes: "Bank manager perspective — gearing focus" },
+
+  { id: "2021_Q7_cashflow", year: 2021, questionNumber: 7, section: 2, marks: 100,
+    topic: "Cash Flow", subtopic: "Cash Flow Statement",
+    paperUrl: secPaper(2021), paperPage: 14, paperPageCount: 2,
+    markingSchemeUrl: secMs(2021), markingSchemePage: 22, markingPageCount: 2,
+    timingMinutes: 45, notes: "Reid plc — cash flow + reconciliation" },
+
+  { id: "2021_Q9_flexible", year: 2021, questionNumber: 9, section: 3, marks: 80,
+    topic: "Budgeting", subtopic: "Flexible Budget",
+    paperUrl: secPaper(2021), paperPage: 18, paperPageCount: 1,
+    markingSchemeUrl: secMs(2021), markingSchemePage: 28, markingPageCount: 2,
+    timingMinutes: 36, notes: "Flex budget at 90% activity, marginal format" },
+
+  // ─── 2022 ─────────────────────────────────────────────────────────
+  { id: "2022_Q2_cashflow", year: 2022, questionNumber: 2, section: 1, marks: 60,
+    topic: "Cash Flow", subtopic: "Cash Flow Statement",
+    paperUrl: secPaper(2022), paperPage: 6, paperPageCount: 2,
+    markingSchemeUrl: secMs(2022), markingSchemePage: 10, markingPageCount: 2,
+    timingMinutes: 27, notes: "Puspure plc — short-form cash flow" },
+
+  { id: "2022_Q3_suspense", year: 2022, questionNumber: 3, section: 1, marks: 60,
+    topic: "Correction of Errors", subtopic: "Suspense Account",
+    paperUrl: secPaper(2022), paperPage: 8, paperPageCount: 1,
+    markingSchemeUrl: secMs(2022), markingSchemePage: 13, markingPageCount: 2,
+    timingMinutes: 27, notes: "Fletcher Ltd — six errors" },
+
+  { id: "2022_Q5_interpretation", year: 2022, questionNumber: 5, section: 2, marks: 100,
+    topic: "Interpretation of Accounts", subtopic: "Ratio Analysis",
+    paperUrl: secPaper(2022), paperPage: 11, paperPageCount: 1,
+    markingSchemeUrl: secMs(2022), markingSchemePage: 19, markingPageCount: 2,
+    timingMinutes: 45, notes: "Watson plc — bank-manager perspective" },
+
+  { id: "2022_Q6_incomplete", year: 2022, questionNumber: 6, section: 2, marks: 100,
+    topic: "Incomplete Records", subtopic: "Incomplete Records",
+    paperUrl: secPaper(2022), paperPage: 12, paperPageCount: 2,
+    markingSchemeUrl: secMs(2022), markingSchemePage: 23, markingPageCount: 2,
+    timingMinutes: 45, notes: "McSharry — full statement + corrected accounts" },
+
+  { id: "2022_Q7_club", year: 2022, questionNumber: 7, section: 2, marks: 100,
+    topic: "Club Accounts", subtopic: "Club Accounts",
+    paperUrl: secPaper(2022), paperPage: 14, paperPageCount: 2,
+    markingSchemeUrl: secMs(2022), markingSchemePage: 28, markingPageCount: 2,
+    timingMinutes: 45, notes: "Abbey Hockey Club — accumulated fund + I&E" },
+
+  { id: "2022_Q9_budgeting", year: 2022, questionNumber: 9, section: 3, marks: 80,
+    topic: "Budgeting", subtopic: "Production / Cost / Cash Budget",
+    paperUrl: secPaper(2022), paperPage: 18, paperPageCount: 1,
+    markingSchemeUrl: secMs(2022), markingSchemePage: 36, markingPageCount: 2,
+    timingMinutes: 36, notes: "Harrington Ltd — production budget + variances" },
+
+  // ─── 2023 ─────────────────────────────────────────────────────────
+  { id: "2023_Q4_tabular", year: 2023, questionNumber: 4, section: 1, marks: 60,
+    topic: "Tabular Statements", subtopic: "Tabular Statement",
+    paperUrl: secPaper(2023), paperPage: 8, paperPageCount: 2,
+    markingSchemeUrl: secMs(2023), markingSchemePage: 13, markingPageCount: 1,
+    timingMinutes: 27, notes: "Tabular statement of effects" },
+
+  { id: "2023_Q5_interpretation", year: 2023, questionNumber: 5, section: 2, marks: 100,
+    topic: "Interpretation of Accounts", subtopic: "Ratio Analysis",
+    paperUrl: secPaper(2023), paperPage: 11, paperPageCount: 1,
+    markingSchemeUrl: secMs(2023), markingSchemePage: 14, markingPageCount: 2,
+    timingMinutes: 45, notes: "Debenture-holder perspective — Goodwin plc" },
+
+  { id: "2023_Q7_service", year: 2023, questionNumber: 7, section: 2, marks: 100,
+    topic: "Service Firm", subtopic: "Service Firm Final Accounts",
+    paperUrl: secPaper(2023), paperPage: 14, paperPageCount: 2,
+    markingSchemeUrl: secMs(2023), markingSchemePage: 23, markingPageCount: 2,
+    timingMinutes: 45, notes: "Dental practice — service firm final accounts" },
+
+  { id: "2023_Q9_budgeting", year: 2023, questionNumber: 9, section: 3, marks: 80,
+    topic: "Budgeting", subtopic: "Cash Budget",
+    paperUrl: secPaper(2023), paperPage: 18, paperPageCount: 1,
+    markingSchemeUrl: secMs(2023), markingSchemePage: 30, markingPageCount: 2,
+    timingMinutes: 36, notes: "Lupin Ltd — six-month cash budget" },
 ];
 
 // ═══════════════════════════════════════════════════════════════════
