@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import {
-  Clock, Timer, ExternalLink, Play, Pause, Check, AlertCircle,
-  ChevronDown, ChevronUp, RotateCcw, Square, X
+  Clock, ExternalLink, Play, Check, AlertCircle,
+  ChevronDown, ChevronUp, RotateCcw, Square,
+  ZoomIn, ZoomOut, Maximize2, Minimize2, Eye, EyeOff, Flag,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,7 +10,7 @@ import {
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { PdfPageView } from "@/components/PdfPageView";
+import { PdfPageView, preloadPdfPage } from "@/components/PdfPageView";
 import {
   questionIndex, filterQuestions, uniqueTopics, type ExamQuestion,
 } from "@/data/questionIndex";
