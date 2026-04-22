@@ -482,7 +482,7 @@ function ActiveStage({
           </div>
 
           <ScreenshotPageView
-            src={questionImageSrc}
+            sources={questionSources}
             zoom={zoom}
             fitToWidth={fitMode}
             title={`${question.year} Q${question.questionNumber}`}
