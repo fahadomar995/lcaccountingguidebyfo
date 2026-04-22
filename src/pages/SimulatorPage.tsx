@@ -659,7 +659,12 @@ function ResultsStage({
         Official SEC Marking Scheme — {question.year} Q{question.questionNumber}
       </h3>
       <ScreenshotPageView
-        sources={markingSources}
+        sources={[
+          getSimulatorImageSrc(question.id, "marking", 1),
+          ...(question.markingPageCount === 2
+            ? [getSimulatorImageSrc(question.id, "marking", 2)]
+            : []),
+        ]}
         zoom={1.6}
         fitToWidth={true}
         className="mb-2"
