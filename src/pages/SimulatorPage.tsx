@@ -10,7 +10,6 @@ import {
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { PdfPageView, preloadPdfPage } from "@/components/PdfPageView";
 import {
   questionIndex, filterQuestions, uniqueTopics, type ExamQuestion,
 } from "@/data/questionIndex";
@@ -74,6 +73,58 @@ function MarksBadge({ marks }: { marks: number }) {
     <span className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-mono font-semibold border ${colour}`}>
       {marks} marks
     </span>
+  );
+}
+
+function getSimulatorImageSrc(id: string, kind: "question" | "marking") {
+  return `/simulator-pages/${id}-${kind}.png`;
+}
+
+function preloadImage(src: string) {
+  const img = new Image();
+  img.src = src;
+}
+
+function ScreenshotPageView({
+  src,
+  title,
+  zoom,
+  fitToWidth,
+  className,
+}: {
+  src: string;
+  title: string;
+  zoom: number;
+  fitToWidth: boolean;
+  className?: string;
+}) {
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    setLoaded(false);
+  }, [src]);
+
+  return (
+    <div className={`relative bg-card border border-border rounded-lg overflow-hidden ${className ?? ""}`}>
+      {!loaded && (
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-card/80">
+          <div className="text-xs font-body text-muted-foreground">Loading page…</div>
+        </div>
+      )}
+      <div className="bg-muted/30 overflow-auto p-3 flex justify-center">
+        <div className="relative">
+          <img
+            src={src}
+            alt={title}
+            onLoad={() => setLoaded(true)}
+            onError={() => setLoaded(true)}
+            className="block h-auto shadow-sm border border-border bg-card"
+            style={{ width: fitToWidth ? "100%" : `${Math.round(zoom * 100)}%`, minWidth: fitToWidth ? undefined : "900px" }}
+          />
+          {fitToWidth && <div className="w-[min(1100px,100vw-4rem)]" aria-hidden="true" />}
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -249,13 +300,14 @@ function ActiveStage({
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const startedAt = useRef<Date>(new Date());
   const checkpoints = useMemo(() => buildCheckpoints(question.marks), [question.marks]);
+  const questionImageSrc = getSimulatorImageSrc(question.id, "question");
+  const markingImageSrc = getSimulatorImageSrc(question.id, "marking");
 
-  // Preload the marking scheme PDF in the background so Stage 3 is instant.
+  // Preload images in the background so transitions feel instant.
   useEffect(() => {
-    preloadPdfPage(question.markingSchemeUrl, question.markingSchemePage);
-    // Also preload the next page of the question paper in case it spills over.
-    preloadPdfPage(question.paperUrl, question.paperPage + 1);
-  }, [question]);
+    preloadImage(questionImageSrc);
+    preloadImage(markingImageSrc);
+  }, [questionImageSrc, markingImageSrc]);
 
   // Timer — interval ref guards against stale closures
   useEffect(() => {
@@ -424,10 +476,9 @@ function ActiveStage({
             </Button>
           </div>
 
-          <PdfPageView
-            url={question.paperUrl}
-            page={question.paperPage}
-            scale={zoom}
+          <ScreenshotPageView
+            src={questionImageSrc}
+            zoom={zoom}
             fitToWidth={fitMode}
             title={`${question.year} Q${question.questionNumber}`}
           />
@@ -602,10 +653,10 @@ function ResultsStage({
       <h3 className="font-display text-lg font-semibold text-foreground mb-3">
         Official SEC Marking Scheme — {question.year} Q{question.questionNumber}
       </h3>
-      <PdfPageView
-        url={question.markingSchemeUrl}
-        page={question.markingSchemePage}
-        scale={1.6}
+      <ScreenshotPageView
+        src={getSimulatorImageSrc(question.id, "marking")}
+        zoom={1.6}
+        fitToWidth={true}
         className="mb-2"
         title={`${question.year} Q${question.questionNumber} marking scheme`}
       />
