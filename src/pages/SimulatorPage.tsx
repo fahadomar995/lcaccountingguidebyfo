@@ -659,7 +659,7 @@ function ResultsStage({
         Official SEC Marking Scheme — {question.year} Q{question.questionNumber}
       </h3>
       <ScreenshotPageView
-        src={getSimulatorImageSrc(question.id, "marking")}
+        sources={markingSources}
         zoom={1.6}
         fitToWidth={true}
         className="mb-2"
