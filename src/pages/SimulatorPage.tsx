@@ -77,7 +77,7 @@ function MarksBadge({ marks }: { marks: number }) {
   );
 }
 
-function getSimulatorImageSrc(id: string, kind: "question" | "marking", page: 1 | 2 = 1) {
+function getSimulatorImageSrc(id: string, kind: "question" | "marking", page: number = 1) {
   return `/simulator-pages/${id}-${kind}-${page}.png`;
 }
 
@@ -300,14 +300,14 @@ function ActiveStage({
   const startedAt = useRef<Date>(new Date());
   const checkpoints = useMemo(() => buildCheckpoints(question.marks), [question.marks]);
   const questionSources = useMemo(() => {
-    const arr = [getSimulatorImageSrc(question.id, "question", 1)];
-    if (question.paperPageCount === 2) arr.push(getSimulatorImageSrc(question.id, "question", 2));
-    return arr;
+    return Array.from({ length: question.paperPageCount }, (_, i) =>
+      getSimulatorImageSrc(question.id, "question", i + 1)
+    );
   }, [question.id, question.paperPageCount]);
   const markingSources = useMemo(() => {
-    const arr = [getSimulatorImageSrc(question.id, "marking", 1)];
-    if (question.markingPageCount === 2) arr.push(getSimulatorImageSrc(question.id, "marking", 2));
-    return arr;
+    return Array.from({ length: question.markingPageCount }, (_, i) =>
+      getSimulatorImageSrc(question.id, "marking", i + 1)
+    );
   }, [question.id, question.markingPageCount]);
 
   // Preload images in the background so transitions feel instant.
@@ -660,12 +660,9 @@ function ResultsStage({
         Official SEC Marking Scheme — {question.year} Q{question.questionNumber}
       </h3>
       <ScreenshotPageView
-        sources={[
-          getSimulatorImageSrc(question.id, "marking", 1),
-          ...(question.markingPageCount === 2
-            ? [getSimulatorImageSrc(question.id, "marking", 2)]
-            : []),
-        ]}
+        sources={Array.from({ length: question.markingPageCount }, (_, i) =>
+          getSimulatorImageSrc(question.id, "marking", i + 1)
+        )}
         zoom={1.6}
         fitToWidth={true}
         className="mb-2"
