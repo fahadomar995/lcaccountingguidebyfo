@@ -10,6 +10,7 @@ import {
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useSidebar } from "@/components/ui/sidebar";
 import {
   questionIndex, filterQuestions, uniqueTopics, type ExamQuestion,
 } from "@/data/questionIndex";
