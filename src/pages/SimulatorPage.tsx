@@ -700,6 +700,14 @@ export default function SimulatorPage() {
   const [active, setActive] = useState<ExamQuestion | null>(null);
   const [actualSeconds, setActualSeconds] = useState(0);
   const [history, setHistory] = useLocalStorage<HistoryEntry[]>(HISTORY_KEY, []);
+  const { setOpen } = useSidebar();
+
+  // Auto-collapse the sidebar whenever an exam is active so the candidate
+  // gets maximum reading width. Restore it once they leave the active stage.
+  useEffect(() => {
+    if (stage === "active") setOpen(false);
+    else setOpen(true);
+  }, [stage, setOpen]);
 
   const handleStart = (q: ExamQuestion) => {
     setActive(q);
