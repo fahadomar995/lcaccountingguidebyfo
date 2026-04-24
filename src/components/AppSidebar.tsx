@@ -1,9 +1,8 @@
 import { useLocation } from "react-router-dom";
-import { Moon, Sun, TrendingUp, X } from "lucide-react";
-import { useState } from "react";
+import { Moon, Sun } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useTheme } from "@/hooks/useTheme";
-import { NAV_SECTIONS, PREDICTION_PAGES } from "@/data/navigation";
+import { NAV_SECTIONS } from "@/data/navigation";
 import {
   Sidebar,
   SidebarContent,
@@ -17,14 +16,12 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
 export function AppSidebar() {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
   const location = useLocation();
   const { isDark, toggle } = useTheme();
-  const [predOpen, setPredOpen] = useState(false);
 
   return (
     <>
@@ -69,47 +66,6 @@ export function AppSidebar() {
             </SidebarGroup>
           ))}
 
-          {/* Predictions button */}
-          <SidebarGroup>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                <SidebarMenuItem>
-                  <Sheet open={predOpen} onOpenChange={setPredOpen}>
-                    <SheetTrigger asChild>
-                      <SidebarMenuButton className="cursor-pointer hover:bg-sidebar-accent/50">
-                        <TrendingUp className="h-4 w-4 shrink-0" />
-                        {!collapsed && <span>Predictions</span>}
-                      </SidebarMenuButton>
-                    </SheetTrigger>
-                    <SheetContent side="left" className="w-80 p-0">
-                      <SheetHeader className="p-5 pb-3">
-                        <SheetTitle className="font-display text-lg">Prediction Engine</SheetTitle>
-                        <p className="text-xs text-muted-foreground font-light">
-                          Statistical forecasting tools powered by 25 years of HL exam data.
-                        </p>
-                      </SheetHeader>
-                      <nav className="flex flex-col">
-                        {PREDICTION_PAGES.map((page) => (
-                          <NavLink
-                            key={page.url}
-                            to={page.url}
-                            className="block px-5 py-3 text-sm font-medium text-muted-foreground border-b border-border hover:bg-muted hover:text-foreground transition-colors"
-                            activeClassName="text-primary font-bold bg-blue-bg border-l-[3px] border-l-primary"
-                            onClick={() => setPredOpen(false)}
-                          >
-                            {page.title}
-                          </NavLink>
-                        ))}
-                      </nav>
-                      <div className="mt-auto p-4 text-[10px] text-muted-foreground font-light leading-relaxed border-t border-border">
-                        Model: 2nd-order Markov + exponential decay + MRI gap scoring + Pearson correlations.
-                      </div>
-                    </SheetContent>
-                  </Sheet>
-                </SidebarMenuItem>
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
         </SidebarContent>
 
         <SidebarFooter className="p-3">
