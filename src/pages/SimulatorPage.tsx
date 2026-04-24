@@ -294,7 +294,7 @@ function ActiveStage({
   const [paused, setPaused] = useState(false);
   const [confirmAbandon, setConfirmAbandon] = useState(false);
   const [zoom, setZoom] = useState(1.7);
-  const [fitMode, setFitMode] = useState(false);
+  const [fitMode, setFitMode] = useState(true);
   const [readingMode, setReadingMode] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const startedAt = useRef<Date>(new Date());
