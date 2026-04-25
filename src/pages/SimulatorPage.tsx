@@ -95,26 +95,153 @@ function ScreenshotPageView({
   zoom,
   fitToWidth,
   className,
+  enableThumbnails = false,
 }: {
   sources: string[];
   title: string;
   zoom: number;
   fitToWidth: boolean;
   className?: string;
+  enableThumbnails?: boolean;
 }) {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const pageRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [activePage, setActivePage] = useState(0);
+  const [autoAdvance, setAutoAdvance] = useState(false);
+  const [autoSeconds, setAutoSeconds] = useState(20);
+
+  // Label each page. For a 2-page question, page 2 is the "Required info" page
+  // (the part (a)/(b)/(c) requirements). Page 1 is "Data".
+  const labelFor = (i: number) => {
+    if (sources.length === 2) return i === 0 ? "Data" : "Required info";
+    if (i === 0) return "Page 1";
+    if (i === sources.length - 1) return "Required info";
+    return `Page ${i + 1}`;
+  };
+
+  // Scroll a thumbnail into view
+  const goToPage = useCallback((idx: number) => {
+    const el = pageRefs.current[idx];
+    const container = containerRef.current;
+    if (!el || !container) return;
+    const top = el.offsetTop - container.offsetTop - 8;
+    container.scrollTo({ top, behavior: "smooth" });
+    setActivePage(idx);
+  }, []);
+
+  // Auto-advance interval — cycles through pages every N seconds.
+  useEffect(() => {
+    if (!autoAdvance || sources.length < 2) return;
+    const id = setInterval(() => {
+      setActivePage((prev) => {
+        const next = (prev + 1) % sources.length;
+        const el = pageRefs.current[next];
+        const container = containerRef.current;
+        if (el && container) {
+          const top = el.offsetTop - container.offsetTop - 8;
+          container.scrollTo({ top, behavior: "smooth" });
+        }
+        return next;
+      });
+    }, autoSeconds * 1000);
+    return () => clearInterval(id);
+  }, [autoAdvance, autoSeconds, sources.length]);
+
+  // Track scroll position to keep activePage in sync with manual scrolling
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container || sources.length < 2) return;
+    const onScroll = () => {
+      const tops = pageRefs.current.map((el) =>
+        el ? Math.abs(el.offsetTop - container.offsetTop - container.scrollTop) : Infinity,
+      );
+      const closest = tops.indexOf(Math.min(...tops));
+      if (closest >= 0) setActivePage(closest);
+    };
+    container.addEventListener("scroll", onScroll, { passive: true });
+    return () => container.removeEventListener("scroll", onScroll);
+  }, [sources.length]);
+
+  const showThumbs = enableThumbnails && sources.length >= 2;
+
   return (
     <div className={`relative bg-card border border-border rounded-lg overflow-hidden ${className ?? ""}`}>
-      <div className="bg-muted/30 overflow-auto p-3 flex flex-col items-center gap-3">
+      {showThumbs && (
+        <div className="flex items-center gap-3 px-3 py-2 border-b border-border bg-card">
+          <div className="flex items-center gap-2">
+            {sources.map((src, i) => (
+              <button
+                key={src}
+                onClick={() => goToPage(i)}
+                className={
+                  "group flex items-center gap-2 px-2 py-1 rounded border text-[11px] font-medium transition-colors " +
+                  (activePage === i
+                    ? "border-primary bg-primary/10 text-primary"
+                    : "border-border bg-card text-muted-foreground hover:text-foreground hover:border-primary/50")
+                }
+                aria-label={`Go to ${labelFor(i)}`}
+              >
+                <span className="relative w-10 h-12 overflow-hidden border border-border bg-muted/30 rounded-sm">
+                  <img
+                    src={src}
+                    alt=""
+                    loading="eager"
+                    className="absolute inset-0 w-full h-full object-cover object-top"
+                  />
+                </span>
+                <span className="flex flex-col items-start leading-tight">
+                  <span className="font-mono text-[10px] text-muted-foreground">P{i + 1}</span>
+                  <span>{labelFor(i)}</span>
+                </span>
+              </button>
+            ))}
+          </div>
+          <div className="ml-auto flex items-center gap-2">
+            <label className="flex items-center gap-1.5 text-[11px] font-body text-muted-foreground cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={autoAdvance}
+                onChange={(e) => setAutoAdvance(e.target.checked)}
+                className="h-3.5 w-3.5 accent-primary"
+              />
+              Auto-advance
+            </label>
+            {autoAdvance && (
+              <select
+                value={autoSeconds}
+                onChange={(e) => setAutoSeconds(Number(e.target.value))}
+                className="text-[11px] font-mono bg-card border border-border rounded px-1.5 py-0.5 text-foreground"
+                aria-label="Auto-advance interval"
+              >
+                <option value={10}>10s</option>
+                <option value={20}>20s</option>
+                <option value={30}>30s</option>
+                <option value={60}>60s</option>
+              </select>
+            )}
+          </div>
+        </div>
+      )}
+      <div
+        ref={containerRef}
+        className="bg-muted/30 overflow-auto p-3 flex flex-col items-center gap-3"
+        style={showThumbs ? { maxHeight: "calc(100vh - 220px)" } : undefined}
+      >
         {sources.map((src, i) => (
-          <div key={src} className="relative w-full flex justify-center">
+          <div
+            key={src}
+            ref={(el) => (pageRefs.current[i] = el)}
+            className="relative w-full flex justify-center scroll-mt-2"
+            data-page-index={i}
+          >
             {sources.length > 1 && (
               <div className="absolute -top-1 left-2 z-10 px-2 py-0.5 rounded bg-card border border-border text-[10px] font-mono text-muted-foreground shadow-sm">
-                Page {i + 1} of {sources.length}
+                {labelFor(i)} · Page {i + 1} of {sources.length}
               </div>
             )}
             <img
               src={src}
-              alt={`${title} — page ${i + 1}`}
+              alt={`${title} — ${labelFor(i)}`}
               loading={i === 0 ? "eager" : "lazy"}
               className="block h-auto shadow-sm border border-border bg-card"
               style={{
@@ -565,6 +692,7 @@ function ActiveStage({
             zoom={zoom}
             fitToWidth={fitMode}
             title={`${question.year} Q${question.questionNumber}`}
+            enableThumbnails
           />
           <a
             href={`${question.paperUrl}#page=${question.paperPage}`}
