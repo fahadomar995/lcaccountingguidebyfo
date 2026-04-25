@@ -2,9 +2,10 @@ import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import {
   Clock, ExternalLink, Play, Pause, Check, AlertCircle,
   ChevronDown, ChevronUp, RotateCcw, Square,
-  ZoomIn, ZoomOut, Maximize2, Minimize2, Eye, EyeOff, Flag,
+  ZoomIn, ZoomOut, Maximize2, Minimize2, Eye, EyeOff, Flag, Award, TrendingUp,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
@@ -28,6 +29,8 @@ interface HistoryEntry {
   actualSeconds: number;
   completedAt: string;
   withinTarget: boolean;
+  marksEarned?: number;
+  percentage?: number;
 }
 
 const HISTORY_KEY = "lca_simulator_history";
@@ -142,12 +145,79 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
     [topicFilter, marksFilter],
   );
 
+  // ── Mark progress aggregates ──────────────────────────────
+  const scored = history.filter((h) => typeof h.marksEarned === "number");
+  const totalEarned = scored.reduce((s, h) => s + (h.marksEarned ?? 0), 0);
+  const totalAvailable = scored.reduce((s, h) => s + h.marks, 0);
+  const avgPct = totalAvailable > 0 ? Math.round((totalEarned / totalAvailable) * 100) : 0;
+  const bestByTopic = useMemo(() => {
+    const map: Record<string, { best: number; attempts: number }> = {};
+    for (const h of scored) {
+      const pct = Math.round(((h.marksEarned ?? 0) / h.marks) * 100);
+      if (!map[h.subtopic]) map[h.subtopic] = { best: pct, attempts: 1 };
+      else {
+        map[h.subtopic].best = Math.max(map[h.subtopic].best, pct);
+        map[h.subtopic].attempts += 1;
+      }
+    }
+    return Object.entries(map).sort((a, b) => b[1].best - a[1].best);
+  }, [scored]);
+
   return (
     <div className="max-w-[1200px] mx-auto px-4 sm:px-7 py-8 pb-16">
       <h1 className="font-display text-3xl sm:text-4xl font-bold text-foreground mb-2">Exam Simulator</h1>
       <p className="text-sm text-muted-foreground font-body leading-relaxed mb-8 max-w-2xl">
         Select a question type and mark allocation. The timer starts the moment you confirm your selection.
       </p>
+
+      {/* ── Mark progress tracker ── */}
+      {scored.length > 0 && (
+        <div className="mb-8 bg-card border border-border rounded-lg p-5 shadow-sm">
+          <div className="flex items-center gap-2 mb-3">
+            <Award className="h-4 w-4 text-primary" />
+            <h2 className="font-display text-base font-semibold text-foreground">Your progress</h2>
+            <span className="ml-auto text-[11px] font-mono text-muted-foreground">
+              {scored.length} graded {scored.length === 1 ? "question" : "questions"}
+            </span>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
+            <div>
+              <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-0.5">Marks earned</div>
+              <div className="font-mono text-2xl text-primary">{totalEarned}<span className="text-muted-foreground text-base"> / {totalAvailable}</span></div>
+            </div>
+            <div>
+              <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-0.5">Average</div>
+              <div className={`font-mono text-2xl ${avgPct >= 70 ? "text-green-700" : avgPct >= 50 ? "text-amber-600" : "text-red-600"}`}>{avgPct}%</div>
+            </div>
+            <div>
+              <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-0.5">Sessions</div>
+              <div className="font-mono text-2xl text-foreground">{history.length}</div>
+            </div>
+            <div>
+              <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-0.5">Best topic</div>
+              <div className="font-display text-sm font-semibold text-foreground truncate">{bestByTopic[0]?.[0] ?? "—"}</div>
+              <div className="text-[11px] font-mono text-muted-foreground">{bestByTopic[0]?.[1].best ?? 0}%</div>
+            </div>
+          </div>
+          {/* per-topic bars */}
+          <div className="space-y-1.5">
+            {bestByTopic.slice(0, 8).map(([topic, s]) => (
+              <div key={topic} className="flex items-center gap-3">
+                <span className="text-xs text-foreground w-44 truncate">{topic}</span>
+                <div className="flex-1 h-1.5 bg-muted rounded-full overflow-hidden">
+                  <div
+                    className={`h-full ${s.best >= 70 ? "bg-primary" : s.best >= 50 ? "bg-amber-500" : "bg-red-500"}`}
+                    style={{ width: `${s.best}%` }}
+                  />
+                </div>
+                <span className="text-[11px] font-mono text-muted-foreground w-20 text-right">
+                  {s.best}% · {s.attempts}×
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Filter row 1 — topic */}
       <div className="mb-3">
@@ -237,6 +307,7 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
                       <th className="py-2 pr-4">Year & Q</th>
                       <th className="py-2 pr-4">Marks</th>
                       <th className="py-2 pr-4">Time</th>
+                      <th className="py-2 pr-4">Score</th>
                       <th className="py-2">vs Target</th>
                     </tr>
                   </thead>
@@ -248,6 +319,13 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
                         <td className="py-2 pr-4 font-mono">{h.year} · Q{questionIndex.find(q => q.id === h.id)?.questionNumber ?? "—"}</td>
                         <td className="py-2 pr-4 font-mono">{h.marks}</td>
                         <td className="py-2 pr-4 font-mono">{Math.floor(h.actualSeconds / 60)}:{String(h.actualSeconds % 60).padStart(2, "0")}</td>
+                        <td className="py-2 pr-4 font-mono">
+                          {typeof h.marksEarned === "number"
+                            ? <span className={h.percentage! >= 70 ? "text-green-700" : h.percentage! >= 50 ? "text-amber-600" : "text-red-600"}>
+                                {h.marksEarned}/{h.marks} ({h.percentage}%)
+                              </span>
+                            : <span className="text-muted-foreground">—</span>}
+                        </td>
                         <td className="py-2">
                           {h.withinTarget
                             ? <Check className="h-4 w-4 text-green-600" />
@@ -606,21 +684,73 @@ function ActiveStage({
 //  STAGE 3 — RESULTS
 // ─────────────────────────────────────────
 function ResultsStage({
-  question, actualSeconds, onAgain, onAnother,
+  question, actualSeconds, onAgain, onAnother, onSaveMark, savedMark,
 }: {
   question: ExamQuestion;
   actualSeconds: number;
   onAgain: () => void;
   onAnother: () => void;
+  onSaveMark: (earned: number) => void;
+  savedMark?: number;
 }) {
   const targetSeconds = question.timingMinutes * 60;
   const within = actualSeconds <= targetSeconds;
   const mins = Math.floor(actualSeconds / 60);
   const secs = actualSeconds % 60;
+  const [markInput, setMarkInput] = useState<string>(savedMark != null ? String(savedMark) : "");
+  const [saved, setSaved] = useState<boolean>(savedMark != null);
+  const parsed = parseInt(markInput, 10);
+  const validMark = !isNaN(parsed) && parsed >= 0 && parsed <= question.marks;
+  const pct = validMark ? Math.round((parsed / question.marks) * 100) : 0;
+
+  const handleSaveMark = () => {
+    if (!validMark) return;
+    onSaveMark(parsed);
+    setSaved(true);
+  };
 
   return (
     <div className="max-w-[1200px] mx-auto px-4 sm:px-7 py-8 pb-16">
       <h2 className="font-display text-3xl font-bold text-foreground mb-6">Session Complete</h2>
+
+      {/* ── Mark entry card ── */}
+      <div className="bg-card border border-border rounded-lg p-5 mb-6 shadow-sm">
+        <div className="flex items-center gap-2 mb-2">
+          <Award className="h-4 w-4 text-primary" />
+          <h3 className="font-display text-base font-semibold text-foreground">Record your mark</h3>
+          {saved && <span className="ml-2 text-[11px] font-mono text-green-700 inline-flex items-center gap-1"><Check className="h-3 w-3" /> saved</span>}
+        </div>
+        <p className="text-xs text-muted-foreground mb-3">
+          After grading against the marking scheme below, enter the marks you earned. Your score will be tracked across sessions.
+        </p>
+        <div className="flex flex-wrap items-center gap-3">
+          <Input
+            type="number"
+            min={0}
+            max={question.marks}
+            value={markInput}
+            onChange={(e) => { setMarkInput(e.target.value); setSaved(false); }}
+            className="w-24 font-mono"
+            placeholder="0"
+          />
+          <span className="text-sm font-mono text-muted-foreground">/ {question.marks} marks</span>
+          {validMark && (
+            <span className={`font-mono text-sm font-semibold ${pct >= 70 ? "text-green-700" : pct >= 50 ? "text-amber-600" : "text-red-600"}`}>
+              {pct}%
+            </span>
+          )}
+          <Button
+            onClick={handleSaveMark}
+            disabled={!validMark || saved}
+            className="bg-primary hover:bg-primary/90 text-primary-foreground"
+          >
+            <TrendingUp className="h-4 w-4" /> {saved ? "Update saved" : "Save to progress"}
+          </Button>
+        </div>
+        {markInput && !validMark && (
+          <p className="text-[11px] text-red-600 mt-2">Enter a number between 0 and {question.marks}.</p>
+        )}
+      </div>
 
       <div className="bg-card border border-border rounded-lg p-6 mb-6 shadow-sm">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -698,6 +828,7 @@ export default function SimulatorPage() {
   const [actualSeconds, setActualSeconds] = useState(0);
   const [history, setHistory] = useLocalStorage<HistoryEntry[]>(HISTORY_KEY, []);
   const { setOpen } = useSidebar();
+  const [lastEntryAt, setLastEntryAt] = useState<string | null>(null);
 
   // Auto-collapse the sidebar whenever an exam is active so the candidate
   // gets maximum reading width. Restore it once they leave the active stage.
@@ -731,9 +862,26 @@ export default function SimulatorPage() {
       const next = [entry, ...prev];
       return next.slice(0, 50);
     });
+    setLastEntryAt(entry.completedAt);
     setStage("results");
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  const handleSaveMark = (earned: number) => {
+    if (!active || !lastEntryAt) return;
+    const pct = Math.round((earned / active.marks) * 100);
+    setHistory((prev) =>
+      prev.map((h) =>
+        h.completedAt === lastEntryAt
+          ? { ...h, marksEarned: earned, percentage: pct }
+          : h,
+      ),
+    );
+  };
+
+  const savedMark = lastEntryAt
+    ? history.find((h) => h.completedAt === lastEntryAt)?.marksEarned
+    : undefined;
 
   const handleAbandon = () => {
     setActive(null);
@@ -764,6 +912,8 @@ export default function SimulatorPage() {
         actualSeconds={actualSeconds}
         onAgain={handleAgain}
         onAnother={handleAnother}
+        onSaveMark={handleSaveMark}
+        savedMark={savedMark}
       />
     );
   }
