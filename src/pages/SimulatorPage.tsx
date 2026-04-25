@@ -2,9 +2,10 @@ import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import {
   Clock, ExternalLink, Play, Pause, Check, AlertCircle,
   ChevronDown, ChevronUp, RotateCcw, Square,
-  ZoomIn, ZoomOut, Maximize2, Minimize2, Eye, EyeOff, Flag,
+  ZoomIn, ZoomOut, Maximize2, Minimize2, Eye, EyeOff, Flag, Award, TrendingUp,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
@@ -28,6 +29,8 @@ interface HistoryEntry {
   actualSeconds: number;
   completedAt: string;
   withinTarget: boolean;
+  marksEarned?: number;
+  percentage?: number;
 }
 
 const HISTORY_KEY = "lca_simulator_history";
