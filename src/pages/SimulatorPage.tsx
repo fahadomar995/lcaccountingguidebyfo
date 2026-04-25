@@ -307,6 +307,7 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
                       <th className="py-2 pr-4">Year & Q</th>
                       <th className="py-2 pr-4">Marks</th>
                       <th className="py-2 pr-4">Time</th>
+                      <th className="py-2 pr-4">Score</th>
                       <th className="py-2">vs Target</th>
                     </tr>
                   </thead>
@@ -318,6 +319,13 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
                         <td className="py-2 pr-4 font-mono">{h.year} · Q{questionIndex.find(q => q.id === h.id)?.questionNumber ?? "—"}</td>
                         <td className="py-2 pr-4 font-mono">{h.marks}</td>
                         <td className="py-2 pr-4 font-mono">{Math.floor(h.actualSeconds / 60)}:{String(h.actualSeconds % 60).padStart(2, "0")}</td>
+                        <td className="py-2 pr-4 font-mono">
+                          {typeof h.marksEarned === "number"
+                            ? <span className={h.percentage! >= 70 ? "text-green-700" : h.percentage! >= 50 ? "text-amber-600" : "text-red-600"}>
+                                {h.marksEarned}/{h.marks} ({h.percentage}%)
+                              </span>
+                            : <span className="text-muted-foreground">—</span>}
+                        </td>
                         <td className="py-2">
                           {h.withinTarget
                             ? <Check className="h-4 w-4 text-green-600" />
