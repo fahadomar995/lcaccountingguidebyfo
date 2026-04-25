@@ -371,6 +371,26 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
         </div>
       )}
 
+      {/* Quick presets */}
+      <div className="mb-4">
+        <div className="flex items-center justify-between mb-2">
+          <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Quick presets</div>
+          {filtersActive && (
+            <button
+              onClick={resetFilters}
+              className="text-[11px] font-mono text-primary hover:underline"
+            >
+              Clear filters
+            </button>
+          )}
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {presets.map((p) => (
+            <Pill key={p.label} active={activePreset(p)} onClick={() => applyPreset(p)}>{p.label}</Pill>
+          ))}
+        </div>
+      </div>
+
       {/* Filter row 1 — topic */}
       <div className="mb-3">
         <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2">Topic</div>
@@ -382,8 +402,19 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
         </div>
       </div>
 
-      {/* Filter row 2 — marks */}
-      <div className="mb-6">
+      {/* Filter row 2 — paper section */}
+      <div className="mb-3">
+        <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2">Paper section</div>
+        <div className="flex flex-wrap gap-2">
+          <Pill active={sectionFilter === "ALL"} onClick={() => setSectionFilter("ALL")}>All Sections</Pill>
+          <Pill active={sectionFilter === 1} onClick={() => setSectionFilter(1)}>Section 1 · Financial</Pill>
+          <Pill active={sectionFilter === 2} onClick={() => setSectionFilter(2)}>Section 2 · Financial Acc.</Pill>
+          <Pill active={sectionFilter === 3} onClick={() => setSectionFilter(3)}>Section 3 · Management</Pill>
+        </div>
+      </div>
+
+      {/* Filter row 3 — marks */}
+      <div className="mb-3">
         <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2">Marks</div>
         <div className="flex flex-wrap gap-2">
           <Pill active={marksFilter === "ALL"} onClick={() => setMarksFilter("ALL")}>All Marks</Pill>
@@ -393,6 +424,11 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
             </Pill>
           ))}
         </div>
+      </div>
+
+      {/* Result count */}
+      <div className="text-[11px] font-mono text-muted-foreground mb-4">
+        {filtered.length} question{filtered.length === 1 ? "" : "s"} match
       </div>
 
       {/* Question grid */}
