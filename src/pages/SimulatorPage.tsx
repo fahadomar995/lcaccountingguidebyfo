@@ -145,12 +145,79 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
     [topicFilter, marksFilter],
   );
 
+  // ── Mark progress aggregates ──────────────────────────────
+  const scored = history.filter((h) => typeof h.marksEarned === "number");
+  const totalEarned = scored.reduce((s, h) => s + (h.marksEarned ?? 0), 0);
+  const totalAvailable = scored.reduce((s, h) => s + h.marks, 0);
+  const avgPct = totalAvailable > 0 ? Math.round((totalEarned / totalAvailable) * 100) : 0;
+  const bestByTopic = useMemo(() => {
+    const map: Record<string, { best: number; attempts: number }> = {};
+    for (const h of scored) {
+      const pct = Math.round(((h.marksEarned ?? 0) / h.marks) * 100);
+      if (!map[h.subtopic]) map[h.subtopic] = { best: pct, attempts: 1 };
+      else {
+        map[h.subtopic].best = Math.max(map[h.subtopic].best, pct);
+        map[h.subtopic].attempts += 1;
+      }
+    }
+    return Object.entries(map).sort((a, b) => b[1].best - a[1].best);
+  }, [scored]);
+
   return (
     <div className="max-w-[1200px] mx-auto px-4 sm:px-7 py-8 pb-16">
       <h1 className="font-display text-3xl sm:text-4xl font-bold text-foreground mb-2">Exam Simulator</h1>
       <p className="text-sm text-muted-foreground font-body leading-relaxed mb-8 max-w-2xl">
         Select a question type and mark allocation. The timer starts the moment you confirm your selection.
       </p>
+
+      {/* ── Mark progress tracker ── */}
+      {scored.length > 0 && (
+        <div className="mb-8 bg-card border border-border rounded-lg p-5 shadow-sm">
+          <div className="flex items-center gap-2 mb-3">
+            <Award className="h-4 w-4 text-primary" />
+            <h2 className="font-display text-base font-semibold text-foreground">Your progress</h2>
+            <span className="ml-auto text-[11px] font-mono text-muted-foreground">
+              {scored.length} graded {scored.length === 1 ? "question" : "questions"}
+            </span>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
+            <div>
+              <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-0.5">Marks earned</div>
+              <div className="font-mono text-2xl text-primary">{totalEarned}<span className="text-muted-foreground text-base"> / {totalAvailable}</span></div>
+            </div>
+            <div>
+              <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-0.5">Average</div>
+              <div className={`font-mono text-2xl ${avgPct >= 70 ? "text-green-700" : avgPct >= 50 ? "text-amber-600" : "text-red-600"}`}>{avgPct}%</div>
+            </div>
+            <div>
+              <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-0.5">Sessions</div>
+              <div className="font-mono text-2xl text-foreground">{history.length}</div>
+            </div>
+            <div>
+              <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-0.5">Best topic</div>
+              <div className="font-display text-sm font-semibold text-foreground truncate">{bestByTopic[0]?.[0] ?? "—"}</div>
+              <div className="text-[11px] font-mono text-muted-foreground">{bestByTopic[0]?.[1].best ?? 0}%</div>
+            </div>
+          </div>
+          {/* per-topic bars */}
+          <div className="space-y-1.5">
+            {bestByTopic.slice(0, 8).map(([topic, s]) => (
+              <div key={topic} className="flex items-center gap-3">
+                <span className="text-xs text-foreground w-44 truncate">{topic}</span>
+                <div className="flex-1 h-1.5 bg-muted rounded-full overflow-hidden">
+                  <div
+                    className={`h-full ${s.best >= 70 ? "bg-primary" : s.best >= 50 ? "bg-amber-500" : "bg-red-500"}`}
+                    style={{ width: `${s.best}%` }}
+                  />
+                </div>
+                <span className="text-[11px] font-mono text-muted-foreground w-20 text-right">
+                  {s.best}% · {s.attempts}×
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Filter row 1 — topic */}
       <div className="mb-3">
