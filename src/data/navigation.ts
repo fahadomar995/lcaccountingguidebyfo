@@ -51,13 +51,13 @@ export const NAV_SECTIONS: NavSection[] = [
   {
     label: "Predictions",
     items: [
-      { title: "Exam Simulator", url: "/simulator", icon: Timer },
       { title: "Predictions", url: "/predictions", icon: TrendingUp },
     ],
   },
   {
     label: "Tools",
     items: [
+      { title: "Exam Simulator", url: "/simulator", icon: Timer },
       { title: "Past Papers", url: "/past-papers", icon: FileText },
       { title: "Study Tools", url: "/study-tools", icon: Wrench },
       { title: "Q5 Ratios", url: "/ratios", icon: BarChart3 },
