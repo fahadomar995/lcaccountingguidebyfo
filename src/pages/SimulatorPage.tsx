@@ -684,21 +684,73 @@ function ActiveStage({
 //  STAGE 3 — RESULTS
 // ─────────────────────────────────────────
 function ResultsStage({
-  question, actualSeconds, onAgain, onAnother,
+  question, actualSeconds, onAgain, onAnother, onSaveMark, savedMark,
 }: {
   question: ExamQuestion;
   actualSeconds: number;
   onAgain: () => void;
   onAnother: () => void;
+  onSaveMark: (earned: number) => void;
+  savedMark?: number;
 }) {
   const targetSeconds = question.timingMinutes * 60;
   const within = actualSeconds <= targetSeconds;
   const mins = Math.floor(actualSeconds / 60);
   const secs = actualSeconds % 60;
+  const [markInput, setMarkInput] = useState<string>(savedMark != null ? String(savedMark) : "");
+  const [saved, setSaved] = useState<boolean>(savedMark != null);
+  const parsed = parseInt(markInput, 10);
+  const validMark = !isNaN(parsed) && parsed >= 0 && parsed <= question.marks;
+  const pct = validMark ? Math.round((parsed / question.marks) * 100) : 0;
+
+  const handleSaveMark = () => {
+    if (!validMark) return;
+    onSaveMark(parsed);
+    setSaved(true);
+  };
 
   return (
     <div className="max-w-[1200px] mx-auto px-4 sm:px-7 py-8 pb-16">
       <h2 className="font-display text-3xl font-bold text-foreground mb-6">Session Complete</h2>
+
+      {/* ── Mark entry card ── */}
+      <div className="bg-card border border-border rounded-lg p-5 mb-6 shadow-sm">
+        <div className="flex items-center gap-2 mb-2">
+          <Award className="h-4 w-4 text-primary" />
+          <h3 className="font-display text-base font-semibold text-foreground">Record your mark</h3>
+          {saved && <span className="ml-2 text-[11px] font-mono text-green-700 inline-flex items-center gap-1"><Check className="h-3 w-3" /> saved</span>}
+        </div>
+        <p className="text-xs text-muted-foreground mb-3">
+          After grading against the marking scheme below, enter the marks you earned. Your score will be tracked across sessions.
+        </p>
+        <div className="flex flex-wrap items-center gap-3">
+          <Input
+            type="number"
+            min={0}
+            max={question.marks}
+            value={markInput}
+            onChange={(e) => { setMarkInput(e.target.value); setSaved(false); }}
+            className="w-24 font-mono"
+            placeholder="0"
+          />
+          <span className="text-sm font-mono text-muted-foreground">/ {question.marks} marks</span>
+          {validMark && (
+            <span className={`font-mono text-sm font-semibold ${pct >= 70 ? "text-green-700" : pct >= 50 ? "text-amber-600" : "text-red-600"}`}>
+              {pct}%
+            </span>
+          )}
+          <Button
+            onClick={handleSaveMark}
+            disabled={!validMark || saved}
+            className="bg-primary hover:bg-primary/90 text-primary-foreground"
+          >
+            <TrendingUp className="h-4 w-4" /> {saved ? "Update saved" : "Save to progress"}
+          </Button>
+        </div>
+        {markInput && !validMark && (
+          <p className="text-[11px] text-red-600 mt-2">Enter a number between 0 and {question.marks}.</p>
+        )}
+      </div>
 
       <div className="bg-card border border-border rounded-lg p-6 mb-6 shadow-sm">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
