@@ -263,14 +263,39 @@ function ScreenshotPageView({
 function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
   const [topicFilter, setTopicFilter] = useState<string | "ALL">("ALL");
   const [marksFilter, setMarksFilter] = useState<MarksFilter>("ALL");
+  const [sectionFilter, setSectionFilter] = useState<ExamQuestion["section"] | "ALL">("ALL");
   const [historyOpen, setHistoryOpen] = useState(false);
   const [history] = useLocalStorage<HistoryEntry[]>(HISTORY_KEY, []);
 
   const topics = useMemo(() => uniqueTopics(questionIndex), []);
   const filtered = useMemo(
-    () => filterQuestions(questionIndex, topicFilter, marksFilter),
-    [topicFilter, marksFilter],
+    () => filterQuestions(questionIndex, topicFilter, marksFilter, sectionFilter),
+    [topicFilter, marksFilter, sectionFilter],
   );
+
+  // Quick presets — common exam combos the user reaches for most.
+  const presets: { label: string; topic: string | "ALL"; marks: MarksFilter; section: ExamQuestion["section"] | "ALL" }[] = [
+    { label: "Cash Flow · 100m",        topic: "Cash Flow",          marks: 100, section: "ALL" },
+    { label: "Job Costing",             topic: "Costing",            marks: "ALL", section: 3 },
+    { label: "Final Accounts · S1 60m", topic: "ALL",                marks: 60,  section: 1 },
+    { label: "Published · 100m",        topic: "Published Accounts", marks: 100, section: "ALL" },
+    { label: "Club · 100m",             topic: "Club",               marks: 100, section: "ALL" },
+    { label: "Suspense · 100m",         topic: "Correction of Errors", marks: 100, section: "ALL" },
+    { label: "Service · 100m",          topic: "Service Firm",       marks: 100, section: "ALL" },
+  ];
+  const activePreset = (p: typeof presets[number]) =>
+    topicFilter === p.topic && marksFilter === p.marks && sectionFilter === p.section;
+  const applyPreset = (p: typeof presets[number]) => {
+    setTopicFilter(p.topic);
+    setMarksFilter(p.marks);
+    setSectionFilter(p.section);
+  };
+  const resetFilters = () => {
+    setTopicFilter("ALL");
+    setMarksFilter("ALL");
+    setSectionFilter("ALL");
+  };
+  const filtersActive = topicFilter !== "ALL" || marksFilter !== "ALL" || sectionFilter !== "ALL";
 
   // ── Mark progress aggregates ──────────────────────────────
   const scored = history.filter((h) => typeof h.marksEarned === "number");
