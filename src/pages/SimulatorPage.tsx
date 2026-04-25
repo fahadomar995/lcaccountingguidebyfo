@@ -263,14 +263,39 @@ function ScreenshotPageView({
 function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
   const [topicFilter, setTopicFilter] = useState<string | "ALL">("ALL");
   const [marksFilter, setMarksFilter] = useState<MarksFilter>("ALL");
+  const [sectionFilter, setSectionFilter] = useState<ExamQuestion["section"] | "ALL">("ALL");
   const [historyOpen, setHistoryOpen] = useState(false);
   const [history] = useLocalStorage<HistoryEntry[]>(HISTORY_KEY, []);
 
   const topics = useMemo(() => uniqueTopics(questionIndex), []);
   const filtered = useMemo(
-    () => filterQuestions(questionIndex, topicFilter, marksFilter),
-    [topicFilter, marksFilter],
+    () => filterQuestions(questionIndex, topicFilter, marksFilter, sectionFilter),
+    [topicFilter, marksFilter, sectionFilter],
   );
+
+  // Quick presets — common exam combos the user reaches for most.
+  const presets: { label: string; topic: string | "ALL"; marks: MarksFilter; section: ExamQuestion["section"] | "ALL" }[] = [
+    { label: "Cash Flow · 100m",        topic: "Cash Flow",          marks: 100, section: "ALL" },
+    { label: "Job Costing",             topic: "Costing",            marks: "ALL", section: 3 },
+    { label: "Final Accounts · S1 60m", topic: "ALL",                marks: 60,  section: 1 },
+    { label: "Published · 100m",        topic: "Published Accounts", marks: 100, section: "ALL" },
+    { label: "Club · 100m",             topic: "Club",               marks: 100, section: "ALL" },
+    { label: "Suspense · 100m",         topic: "Correction of Errors", marks: 100, section: "ALL" },
+    { label: "Service · 100m",          topic: "Service Firm",       marks: 100, section: "ALL" },
+  ];
+  const activePreset = (p: typeof presets[number]) =>
+    topicFilter === p.topic && marksFilter === p.marks && sectionFilter === p.section;
+  const applyPreset = (p: typeof presets[number]) => {
+    setTopicFilter(p.topic);
+    setMarksFilter(p.marks);
+    setSectionFilter(p.section);
+  };
+  const resetFilters = () => {
+    setTopicFilter("ALL");
+    setMarksFilter("ALL");
+    setSectionFilter("ALL");
+  };
+  const filtersActive = topicFilter !== "ALL" || marksFilter !== "ALL" || sectionFilter !== "ALL";
 
   // ── Mark progress aggregates ──────────────────────────────
   const scored = history.filter((h) => typeof h.marksEarned === "number");
@@ -346,6 +371,26 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
         </div>
       )}
 
+      {/* Quick presets */}
+      <div className="mb-4">
+        <div className="flex items-center justify-between mb-2">
+          <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Quick presets</div>
+          {filtersActive && (
+            <button
+              onClick={resetFilters}
+              className="text-[11px] font-mono text-primary hover:underline"
+            >
+              Clear filters
+            </button>
+          )}
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {presets.map((p) => (
+            <Pill key={p.label} active={activePreset(p)} onClick={() => applyPreset(p)}>{p.label}</Pill>
+          ))}
+        </div>
+      </div>
+
       {/* Filter row 1 — topic */}
       <div className="mb-3">
         <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2">Topic</div>
@@ -357,8 +402,19 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
         </div>
       </div>
 
-      {/* Filter row 2 — marks */}
-      <div className="mb-6">
+      {/* Filter row 2 — paper section */}
+      <div className="mb-3">
+        <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2">Paper section</div>
+        <div className="flex flex-wrap gap-2">
+          <Pill active={sectionFilter === "ALL"} onClick={() => setSectionFilter("ALL")}>All Sections</Pill>
+          <Pill active={sectionFilter === 1} onClick={() => setSectionFilter(1)}>Section 1 · Financial</Pill>
+          <Pill active={sectionFilter === 2} onClick={() => setSectionFilter(2)}>Section 2 · Financial Acc.</Pill>
+          <Pill active={sectionFilter === 3} onClick={() => setSectionFilter(3)}>Section 3 · Management</Pill>
+        </div>
+      </div>
+
+      {/* Filter row 3 — marks */}
+      <div className="mb-3">
         <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2">Marks</div>
         <div className="flex flex-wrap gap-2">
           <Pill active={marksFilter === "ALL"} onClick={() => setMarksFilter("ALL")}>All Marks</Pill>
@@ -368,6 +424,11 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
             </Pill>
           ))}
         </div>
+      </div>
+
+      {/* Result count */}
+      <div className="text-[11px] font-mono text-muted-foreground mb-4">
+        {filtered.length} question{filtered.length === 1 ? "" : "s"} match
       </div>
 
       {/* Question grid */}

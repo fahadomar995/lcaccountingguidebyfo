@@ -395,10 +395,12 @@ export function filterQuestions(
   all: ExamQuestion[],
   topic: string | "ALL",
   marks: ExamQuestion["marks"] | "ALL",
+  section: ExamQuestion["section"] | "ALL" = "ALL",
 ): ExamQuestion[] {
   return all.filter((q) => {
     if (topic !== "ALL" && q.topic !== topic) return false;
     if (marks !== "ALL" && q.marks !== marks) return false;
+    if (section !== "ALL" && q.section !== section) return false;
     return true;
   });
 }
