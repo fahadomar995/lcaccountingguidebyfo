@@ -828,6 +828,7 @@ export default function SimulatorPage() {
   const [actualSeconds, setActualSeconds] = useState(0);
   const [history, setHistory] = useLocalStorage<HistoryEntry[]>(HISTORY_KEY, []);
   const { setOpen } = useSidebar();
+  const [lastEntryAt, setLastEntryAt] = useState<string | null>(null);
 
   // Auto-collapse the sidebar whenever an exam is active so the candidate
   // gets maximum reading width. Restore it once they leave the active stage.
@@ -861,9 +862,26 @@ export default function SimulatorPage() {
       const next = [entry, ...prev];
       return next.slice(0, 50);
     });
+    setLastEntryAt(entry.completedAt);
     setStage("results");
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  const handleSaveMark = (earned: number) => {
+    if (!active || !lastEntryAt) return;
+    const pct = Math.round((earned / active.marks) * 100);
+    setHistory((prev) =>
+      prev.map((h) =>
+        h.completedAt === lastEntryAt
+          ? { ...h, marksEarned: earned, percentage: pct }
+          : h,
+      ),
+    );
+  };
+
+  const savedMark = lastEntryAt
+    ? history.find((h) => h.completedAt === lastEntryAt)?.marksEarned
+    : undefined;
 
   const handleAbandon = () => {
     setActive(null);
@@ -894,6 +912,8 @@ export default function SimulatorPage() {
         actualSeconds={actualSeconds}
         onAgain={handleAgain}
         onAnother={handleAnother}
+        onSaveMark={handleSaveMark}
+        savedMark={savedMark}
       />
     );
   }
