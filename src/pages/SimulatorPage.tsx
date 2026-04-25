@@ -692,6 +692,7 @@ function ActiveStage({
             zoom={zoom}
             fitToWidth={fitMode}
             title={`${question.year} Q${question.questionNumber}`}
+            enableThumbnails
           />
           <a
             href={`${question.paperUrl}#page=${question.paperPage}`}
