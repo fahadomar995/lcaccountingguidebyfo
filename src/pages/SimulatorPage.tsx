@@ -878,6 +878,9 @@ function ActiveStage({
             </div>
           )}
 
+          {/* Surface past mistakes for this topic so the candidate is primed */}
+          <MistakeTracker topic={question.topic} mode="reminder" />
+
           {/* Reading-mode highlight strip */}
           {readingMode && (
             <div className="mb-3 px-4 py-2 bg-primary/10 border-l-4 border-primary rounded-r flex items-center gap-3">
