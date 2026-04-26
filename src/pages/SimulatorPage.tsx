@@ -1110,6 +1110,13 @@ function ResultsStage({
         )}
       </div>
 
+      {/* ── Mistake tracker — log errors for next time ── */}
+      <MistakeTracker
+        topic={question.topic}
+        questionId={question.id}
+        mode="editor"
+      />
+
       <div className="bg-card border border-border rounded-lg p-6 mb-6 shadow-sm">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           <div>
