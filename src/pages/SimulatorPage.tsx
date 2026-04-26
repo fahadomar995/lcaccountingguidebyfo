@@ -3,7 +3,7 @@ import {
   Clock, ExternalLink, Play, Pause, Check, AlertCircle,
   ChevronDown, ChevronUp, RotateCcw, Square,
   ZoomIn, ZoomOut, Maximize2, Minimize2, Eye, EyeOff, Flag, Award, TrendingUp,
-  Plus, X, Lightbulb,
+  Plus, X, Lightbulb, Filter, BookOpen, PenSquare, Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -45,6 +45,84 @@ interface MistakeEntry {
 
 const HISTORY_KEY = "lca_simulator_history";
 const MISTAKES_KEY = "lca_simulator_mistakes";
+const ONBOARDING_KEY = "lca_simulator_onboarding_dismissed";
+
+// ───────────── Onboarding tooltip ─────────────
+/**
+ * 30-second walkthrough shown the first time a student lands on the Simulator.
+ * Dismissed permanently once closed (stored in localStorage). A "Show again"
+ * button in the page header brings it back.
+ */
+function OnboardingCard({ onDismiss }: { onDismiss: () => void }) {
+  const steps = [
+    {
+      icon: Filter,
+      title: "1. Pick a topic",
+      body: "Use the quick presets or filter by topic, section and marks to find the question you want to practise.",
+    },
+    {
+      icon: BookOpen,
+      title: "2. Open the viewer",
+      body: "The timer starts when you hit Start. Read the data and required-info pages, then work it on paper or the scratchpad.",
+    },
+    {
+      icon: PenSquare,
+      title: "3. Enter your results",
+      body: "Submit to reveal the marking scheme, log the marks you earned, and note any mistakes for next time.",
+    },
+  ];
+  return (
+    <div className="relative mb-8 bg-gradient-to-br from-primary/10 via-card to-card border border-primary/30 rounded-lg p-5 shadow-sm">
+      <button
+        onClick={onDismiss}
+        aria-label="Dismiss onboarding"
+        className="absolute top-3 right-3 text-muted-foreground hover:text-foreground transition-colors"
+      >
+        <X className="h-4 w-4" />
+      </button>
+      <div className="flex items-center gap-2 mb-1">
+        <Sparkles className="h-4 w-4 text-primary" />
+        <h2 className="font-display text-base font-semibold text-foreground">
+          New here? 30-second tour
+        </h2>
+      </div>
+      <p className="text-xs text-muted-foreground font-body mb-4">
+        Three steps to a full timed practice session.
+      </p>
+      <ol className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        {steps.map((s) => (
+          <li
+            key={s.title}
+            className="bg-card border border-border rounded-md p-3"
+          >
+            <div className="flex items-center gap-2 mb-1.5">
+              <s.icon className="h-4 w-4 text-primary" />
+              <span className="font-display text-sm font-semibold text-foreground">
+                {s.title}
+              </span>
+            </div>
+            <p className="text-[11px] leading-snug font-body text-muted-foreground">
+              {s.body}
+            </p>
+          </li>
+        ))}
+      </ol>
+      <div className="mt-4 flex items-center justify-between gap-3">
+        <p className="text-[11px] font-mono text-muted-foreground">
+          Tip: presets like <strong className="text-foreground">Cash Flow · 100m</strong> jump
+          you straight to the most-asked question types.
+        </p>
+        <Button
+          size="sm"
+          onClick={onDismiss}
+          className="bg-primary hover:bg-primary/90 text-primary-foreground shrink-0"
+        >
+          Got it
+        </Button>
+      </div>
+    </div>
+  );
+}
 
 // ───────────── Pill button ─────────────
 function Pill({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
@@ -432,6 +510,7 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
   const [sectionFilter, setSectionFilter] = useState<ExamQuestion["section"] | "ALL">("ALL");
   const [historyOpen, setHistoryOpen] = useState(false);
   const [history] = useLocalStorage<HistoryEntry[]>(HISTORY_KEY, []);
+  const [onboardingDismissed, setOnboardingDismissed] = useLocalStorage<boolean>(ONBOARDING_KEY, false);
 
   const topics = useMemo(() => uniqueTopics(questionIndex), []);
   const filtered = useMemo(
@@ -483,10 +562,24 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
 
   return (
     <div className="max-w-[1200px] mx-auto px-4 sm:px-7 py-8 pb-16">
-      <h1 className="font-display text-3xl sm:text-4xl font-bold text-foreground mb-2">Exam Simulator</h1>
+      <div className="flex items-start justify-between gap-4 mb-2">
+        <h1 className="font-display text-3xl sm:text-4xl font-bold text-foreground">Exam Simulator</h1>
+        {onboardingDismissed && (
+          <button
+            onClick={() => setOnboardingDismissed(false)}
+            className="mt-2 inline-flex items-center gap-1.5 text-[11px] font-mono text-primary hover:underline shrink-0"
+          >
+            <Sparkles className="h-3 w-3" /> Show tour
+          </button>
+        )}
+      </div>
       <p className="text-sm text-muted-foreground font-body leading-relaxed mb-8 max-w-2xl">
         Select a question type and mark allocation. The timer starts the moment you confirm your selection.
       </p>
+
+      {!onboardingDismissed && (
+        <OnboardingCard onDismiss={() => setOnboardingDismissed(true)} />
+      )}
 
       {/* ── Mark progress tracker ── */}
       {scored.length > 0 && (
