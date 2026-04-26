@@ -510,6 +510,7 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
   const [sectionFilter, setSectionFilter] = useState<ExamQuestion["section"] | "ALL">("ALL");
   const [historyOpen, setHistoryOpen] = useState(false);
   const [history] = useLocalStorage<HistoryEntry[]>(HISTORY_KEY, []);
+  const [onboardingDismissed, setOnboardingDismissed] = useLocalStorage<boolean>(ONBOARDING_KEY, false);
 
   const topics = useMemo(() => uniqueTopics(questionIndex), []);
   const filtered = useMemo(
@@ -561,10 +562,24 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
 
   return (
     <div className="max-w-[1200px] mx-auto px-4 sm:px-7 py-8 pb-16">
-      <h1 className="font-display text-3xl sm:text-4xl font-bold text-foreground mb-2">Exam Simulator</h1>
+      <div className="flex items-start justify-between gap-4 mb-2">
+        <h1 className="font-display text-3xl sm:text-4xl font-bold text-foreground">Exam Simulator</h1>
+        {onboardingDismissed && (
+          <button
+            onClick={() => setOnboardingDismissed(false)}
+            className="mt-2 inline-flex items-center gap-1.5 text-[11px] font-mono text-primary hover:underline shrink-0"
+          >
+            <Sparkles className="h-3 w-3" /> Show tour
+          </button>
+        )}
+      </div>
       <p className="text-sm text-muted-foreground font-body leading-relaxed mb-8 max-w-2xl">
         Select a question type and mark allocation. The timer starts the moment you confirm your selection.
       </p>
+
+      {!onboardingDismissed && (
+        <OnboardingCard onDismiss={() => setOnboardingDismissed(true)} />
+      )}
 
       {/* ── Mark progress tracker ── */}
       {scored.length > 0 && (
