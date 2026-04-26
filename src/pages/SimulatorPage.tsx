@@ -3,9 +3,11 @@ import {
   Clock, ExternalLink, Play, Pause, Check, AlertCircle,
   ChevronDown, ChevronUp, RotateCcw, Square,
   ZoomIn, ZoomOut, Maximize2, Minimize2, Eye, EyeOff, Flag, Award, TrendingUp,
+  Plus, X, Lightbulb,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
@@ -33,7 +35,16 @@ interface HistoryEntry {
   percentage?: number;
 }
 
+interface MistakeEntry {
+  id: string;
+  topic: string;          // exam topic key (e.g. "Cash Flow")
+  text: string;
+  createdAt: string;
+  questionId?: string;    // year + Q reference where logged
+}
+
 const HISTORY_KEY = "lca_simulator_history";
+const MISTAKES_KEY = "lca_simulator_mistakes";
 
 // ───────────── Pill button ─────────────
 function Pill({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
