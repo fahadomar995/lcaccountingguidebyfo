@@ -556,7 +556,7 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
   const [sectionFilter, setSectionFilter] = useState<ExamQuestion["section"] | "ALL">("ALL");
   const [historyOpen, setHistoryOpen] = useState(false);
   const [history] = useLocalStorage<HistoryEntry[]>(HISTORY_KEY, []);
-  const [onboardingDismissed, setOnboardingDismissed] = useLocalStorage<boolean>(ONBOARDING_KEY, false);
+  const [onboardingDismissed, setOnboardingDismissed, onboardingMode, setOnboardingMode] = useOnboardingDismissed();
 
   const topics = useMemo(() => uniqueTopics(questionIndex), []);
   const filtered = useMemo(
@@ -610,14 +610,44 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
     <div className="max-w-[1200px] mx-auto px-4 sm:px-7 py-8 pb-16">
       <div className="flex items-start justify-between gap-4 mb-2">
         <h1 className="font-display text-3xl sm:text-4xl font-bold text-foreground">Exam Simulator</h1>
-        {onboardingDismissed && (
-          <button
-            onClick={() => setOnboardingDismissed(false)}
-            className="mt-2 inline-flex items-center gap-1.5 text-[11px] font-mono text-primary hover:underline shrink-0"
+        <div className="mt-2 flex items-center gap-3 shrink-0">
+          {/* Persistence preference for the onboarding tour. */}
+          <div
+            className="hidden sm:inline-flex items-center gap-1 rounded-md border border-border bg-card p-0.5"
+            role="group"
+            aria-label="Onboarding tour memory"
+            title="Choose whether the tour stays dismissed forever or comes back next visit"
           >
-            <Sparkles className="h-3 w-3" /> Show tour
-          </button>
-        )}
+            <button
+              onClick={() => setOnboardingMode("persist")}
+              className={`px-2 py-0.5 text-[10px] font-mono rounded ${
+                onboardingMode === "persist"
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Remember dismissal
+            </button>
+            <button
+              onClick={() => setOnboardingMode("session")}
+              className={`px-2 py-0.5 text-[10px] font-mono rounded ${
+                onboardingMode === "session"
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Reset on return
+            </button>
+          </div>
+          {onboardingDismissed && (
+            <button
+              onClick={() => setOnboardingDismissed(false)}
+              className="inline-flex items-center gap-1.5 text-[11px] font-mono text-primary hover:underline"
+            >
+              <Sparkles className="h-3 w-3" /> Show tour
+            </button>
+          )}
+        </div>
       </div>
       <p className="text-sm text-muted-foreground font-body leading-relaxed mb-8 max-w-2xl">
         Select a question type and mark allocation. The timer starts the moment you confirm your selection.
