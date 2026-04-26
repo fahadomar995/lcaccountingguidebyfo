@@ -46,6 +46,52 @@ interface MistakeEntry {
 const HISTORY_KEY = "lca_simulator_history";
 const MISTAKES_KEY = "lca_simulator_mistakes";
 const ONBOARDING_KEY = "lca_simulator_onboarding_dismissed";
+const ONBOARDING_MODE_KEY = "lca_simulator_onboarding_mode"; // "persist" | "session"
+
+type OnboardingMode = "persist" | "session";
+
+/**
+ * Reads the user's preferred persistence mode for the onboarding tour.
+ * - "persist" (default): dismissal saved in localStorage, remembered forever.
+ * - "session": dismissal saved in sessionStorage, resets next time the
+ *   site is opened in a new browser session.
+ */
+function useOnboardingDismissed(): [boolean, (next: boolean) => void, OnboardingMode, (m: OnboardingMode) => void] {
+  const [mode, setModeRaw] = useLocalStorage<OnboardingMode>(ONBOARDING_MODE_KEY, "persist");
+
+  const read = useCallback((m: OnboardingMode) => {
+    try {
+      const store = m === "session" ? sessionStorage : localStorage;
+      return store.getItem(ONBOARDING_KEY) === "true";
+    } catch { return false; }
+  }, []);
+
+  const [dismissed, setDismissed] = useState<boolean>(() => read(mode));
+
+  // When mode changes, re-read from the matching store so the UI updates.
+  useEffect(() => { setDismissed(read(mode)); }, [mode, read]);
+
+  const writeDismissed = useCallback((next: boolean) => {
+    try {
+      const store = mode === "session" ? sessionStorage : localStorage;
+      if (next) store.setItem(ONBOARDING_KEY, "true");
+      else store.removeItem(ONBOARDING_KEY);
+    } catch {}
+    setDismissed(next);
+  }, [mode]);
+
+  const setMode = useCallback((next: OnboardingMode) => {
+    // Switching modes: clear the *other* store so the preference takes
+    // effect immediately and we don't leak a stale dismissal.
+    try {
+      const other = next === "session" ? localStorage : sessionStorage;
+      other.removeItem(ONBOARDING_KEY);
+    } catch {}
+    setModeRaw(next);
+  }, [setModeRaw]);
+
+  return [dismissed, writeDismissed, mode, setMode];
+}
 
 // ───────────── Onboarding tooltip ─────────────
 /**
