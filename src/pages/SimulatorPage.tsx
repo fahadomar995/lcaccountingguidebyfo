@@ -95,6 +95,161 @@ function getSimulatorImageSrc(id: string, kind: "question" | "marking", page: nu
   return `/simulator-pages/${id}-${kind}-${page}.png`;
 }
 
+// ───────────── Mistake tracker ─────────────
+/**
+ * Topic-scoped notebook of mistakes the student wants to remember.
+ * - In `reminder` mode: shown above the active question as a "watch out for" panel.
+ * - In `editor` mode: shown on the results page so they can add fresh mistakes
+ *   after marking, and prune ones they've now mastered.
+ * Both modes are backed by the same localStorage key, so edits in one place
+ * appear in the other immediately.
+ */
+function MistakeTracker({
+  topic,
+  questionId,
+  mode,
+}: {
+  topic: string;
+  questionId?: string;
+  mode: "reminder" | "editor";
+}) {
+  const [allMistakes, setAllMistakes] = useLocalStorage<MistakeEntry[]>(MISTAKES_KEY, []);
+  const [draft, setDraft] = useState("");
+  const topicMistakes = useMemo(
+    () => allMistakes.filter((m) => m.topic === topic),
+    [allMistakes, topic],
+  );
+
+  const addMistake = () => {
+    const text = draft.trim();
+    if (!text) return;
+    const entry: MistakeEntry = {
+      id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+      topic,
+      text,
+      createdAt: new Date().toISOString(),
+      questionId,
+    };
+    setAllMistakes((prev) => [entry, ...prev]);
+    setDraft("");
+  };
+
+  const removeMistake = (id: string) => {
+    setAllMistakes((prev) => prev.filter((m) => m.id !== id));
+  };
+
+  // Reminder mode is read-only-ish — showing past mistakes before the timer
+  // gets going. We still allow quick removal so they can prune things they
+  // no longer need.
+  if (mode === "reminder") {
+    if (topicMistakes.length === 0) return null;
+    return (
+      <div className="mb-3 bg-amber-50 dark:bg-amber-950/20 border border-amber-300/60 dark:border-amber-700/40 rounded-lg p-4">
+        <div className="flex items-center gap-2 mb-2">
+          <Lightbulb className="h-4 w-4 text-amber-700 dark:text-amber-400" />
+          <h3 className="font-display text-sm font-semibold text-amber-900 dark:text-amber-200">
+            Watch out — past mistakes in {topic}
+          </h3>
+          <span className="ml-auto text-[10px] font-mono text-amber-700/70 dark:text-amber-400/70">
+            {topicMistakes.length} logged
+          </span>
+        </div>
+        <ul className="space-y-1.5">
+          {topicMistakes.map((m) => (
+            <li
+              key={m.id}
+              className="flex items-start gap-2 text-xs font-body text-amber-900 dark:text-amber-100 leading-snug"
+            >
+              <span className="mt-1 inline-block w-1.5 h-1.5 rounded-full bg-amber-600 shrink-0" />
+              <span className="flex-1">{m.text}</span>
+              <button
+                onClick={() => removeMistake(m.id)}
+                aria-label="Remove mistake"
+                className="text-amber-700/60 hover:text-red-600 transition-colors"
+              >
+                <X className="h-3.5 w-3.5" />
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
+
+  // Editor mode — full add/remove UI for after grading.
+  return (
+    <div className="bg-card border border-border rounded-lg p-5 mb-6 shadow-sm">
+      <div className="flex items-center gap-2 mb-2">
+        <Lightbulb className="h-4 w-4 text-amber-600" />
+        <h3 className="font-display text-base font-semibold text-foreground">
+          Mistakes to remember — {topic}
+        </h3>
+        <span className="ml-auto text-[11px] font-mono text-muted-foreground">
+          {topicMistakes.length} logged
+        </span>
+      </div>
+      <p className="text-xs text-muted-foreground mb-3">
+        Note any errors you made on this question. They'll appear automatically the next
+        time you start a <strong>{topic}</strong> question so you can avoid repeating them.
+      </p>
+
+      <div className="flex flex-col sm:flex-row gap-2 mb-4">
+        <Textarea
+          value={draft}
+          onChange={(e) => setDraft(e.target.value)}
+          placeholder={`e.g. Forgot to add back depreciation in operating activities`}
+          className="flex-1 min-h-[60px] text-sm"
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
+              e.preventDefault();
+              addMistake();
+            }
+          }}
+        />
+        <Button
+          onClick={addMistake}
+          disabled={!draft.trim()}
+          className="bg-primary hover:bg-primary/90 text-primary-foreground sm:self-start"
+        >
+          <Plus className="h-4 w-4" /> Add mistake
+        </Button>
+      </div>
+
+      {topicMistakes.length === 0 ? (
+        <p className="text-xs text-muted-foreground italic">
+          No mistakes logged for {topic} yet.
+        </p>
+      ) : (
+        <ul className="space-y-1.5">
+          {topicMistakes.map((m) => (
+            <li
+              key={m.id}
+              className="flex items-start gap-2 text-xs font-body text-foreground leading-snug bg-muted/40 border border-border rounded px-3 py-2"
+            >
+              <span className="mt-1 inline-block w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />
+              <span className="flex-1">
+                {m.text}
+                {m.questionId && (
+                  <span className="ml-2 font-mono text-[10px] text-muted-foreground">
+                    · {m.questionId.split("_").slice(0, 2).join(" ")}
+                  </span>
+                )}
+              </span>
+              <button
+                onClick={() => removeMistake(m.id)}
+                aria-label="Remove mistake"
+                className="text-muted-foreground hover:text-red-600 transition-colors"
+              >
+                <X className="h-3.5 w-3.5" />
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
 function preloadImage(src: string) {
   const img = new Image();
   img.src = src;
