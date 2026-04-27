@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import {
   Clock, ExternalLink, Play, Pause, Check, AlertCircle,
   ChevronDown, ChevronUp, RotateCcw, Square,
-  ZoomIn, ZoomOut, Maximize2, Minimize2, Flag, Award, TrendingUp,
+  ZoomIn, ZoomOut, Maximize2, Minimize2, Eye, EyeOff, Flag, Award, TrendingUp,
   Plus, X, Lightbulb, Filter, BookOpen, PenSquare, Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -171,18 +171,42 @@ function OnboardingCard({ onDismiss }: { onDismiss: () => void }) {
 }
 
 // ───────────── Pill button ─────────────
-function Pill({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
+function Pill({
+  active,
+  onClick,
+  children,
+  disabled = false,
+  count,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+  disabled?: boolean;
+  count?: number;
+}) {
+  // When `disabled` is true the pill represents a filter combination that
+  // would yield zero matching questions — we grey it out instead of hiding
+  // it so students still see the option exists.
+  const base = "px-3 py-1.5 rounded-full text-xs font-medium font-body border transition-colors inline-flex items-center gap-1.5";
+  const variant = disabled
+    ? "bg-muted text-muted-foreground border-border opacity-50 cursor-not-allowed"
+    : active
+      ? "bg-primary text-primary-foreground border-primary"
+      : "bg-card text-primary border-primary hover:bg-primary/10";
   return (
     <button
       onClick={onClick}
-      className={
-        "px-3 py-1.5 rounded-full text-xs font-medium font-body border transition-colors " +
-        (active
-          ? "bg-primary text-primary-foreground border-primary"
-          : "bg-card text-primary border-primary hover:bg-primary/10")
-      }
+      disabled={disabled}
+      aria-disabled={disabled}
+      title={disabled ? "No questions match this with current filters" : undefined}
+      className={`${base} ${variant}`}
     >
-      {children}
+      <span>{children}</span>
+      {typeof count === "number" && (
+        <span className={`font-mono text-[10px] ${active && !disabled ? "text-primary-foreground/80" : "text-muted-foreground"}`}>
+          {count}
+        </span>
+      )}
     </button>
   );
 }
@@ -564,6 +588,35 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
     [topicFilter, marksFilter, sectionFilter],
   );
 
+  // ── Counts for each filter option, holding the *other* two filters fixed.
+  // This lets us grey out impossible combinations (e.g. picking "Tabular
+  // Statements" disables 80m / 120m if no such question exists).
+  const topicCounts = useMemo(() => {
+    const map: Record<string, number> = { ALL: filterQuestions(questionIndex, "ALL", marksFilter, sectionFilter).length };
+    for (const t of topics) {
+      map[t] = filterQuestions(questionIndex, t, marksFilter, sectionFilter).length;
+    }
+    return map;
+  }, [topics, marksFilter, sectionFilter]);
+
+  const sectionCounts = useMemo(() => {
+    const sections: (ExamQuestion["section"] | "ALL")[] = ["ALL", 1, 2, 3];
+    const map: Record<string, number> = {};
+    for (const s of sections) {
+      map[String(s)] = filterQuestions(questionIndex, topicFilter, marksFilter, s).length;
+    }
+    return map;
+  }, [topicFilter, marksFilter]);
+
+  const marksCounts = useMemo(() => {
+    const allMarks: MarksFilter[] = ["ALL", 60, 80, 100, 120];
+    const map: Record<string, number> = {};
+    for (const m of allMarks) {
+      map[String(m)] = filterQuestions(questionIndex, topicFilter, m, sectionFilter).length;
+    }
+    return map;
+  }, [topicFilter, sectionFilter]);
+
   // Quick presets — common exam combos the user reaches for most.
   const presets: { label: string; topic: string | "ALL"; marks: MarksFilter; section: ExamQuestion["section"] | "ALL" }[] = [
     { label: "Cash Flow · 100m",        topic: "Cash Flow",          marks: 100, section: "ALL" },
@@ -730,10 +783,27 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
       <div className="mb-3">
         <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2">Topic</div>
         <div className="flex flex-wrap gap-2">
-          <Pill active={topicFilter === "ALL"} onClick={() => setTopicFilter("ALL")}>All Topics</Pill>
-          {topics.map((t) => (
-            <Pill key={t} active={topicFilter === t} onClick={() => setTopicFilter(t)}>{t}</Pill>
-          ))}
+          <Pill
+            active={topicFilter === "ALL"}
+            onClick={() => setTopicFilter("ALL")}
+            count={topicCounts["ALL"]}
+          >
+            All Topics
+          </Pill>
+          {topics.map((t) => {
+            const c = topicCounts[t] ?? 0;
+            return (
+              <Pill
+                key={t}
+                active={topicFilter === t}
+                disabled={c === 0 && topicFilter !== t}
+                count={c}
+                onClick={() => setTopicFilter(t)}
+              >
+                {t}
+              </Pill>
+            );
+          })}
         </div>
       </div>
 
@@ -741,10 +811,22 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
       <div className="mb-3">
         <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2">Paper section</div>
         <div className="flex flex-wrap gap-2">
-          <Pill active={sectionFilter === "ALL"} onClick={() => setSectionFilter("ALL")}>All Sections</Pill>
-          <Pill active={sectionFilter === 1} onClick={() => setSectionFilter(1)}>Section 1 · Financial</Pill>
-          <Pill active={sectionFilter === 2} onClick={() => setSectionFilter(2)}>Section 2 · Financial Acc.</Pill>
-          <Pill active={sectionFilter === 3} onClick={() => setSectionFilter(3)}>Section 3 · Management</Pill>
+          <Pill active={sectionFilter === "ALL"} onClick={() => setSectionFilter("ALL")} count={sectionCounts["ALL"]}>All Sections</Pill>
+          {([1, 2, 3] as const).map((s) => {
+            const labels = { 1: "Section 1 · Financial", 2: "Section 2 · Financial Acc.", 3: "Section 3 · Management" } as const;
+            const c = sectionCounts[String(s)] ?? 0;
+            return (
+              <Pill
+                key={s}
+                active={sectionFilter === s}
+                disabled={c === 0 && sectionFilter !== s}
+                count={c}
+                onClick={() => setSectionFilter(s)}
+              >
+                {labels[s]}
+              </Pill>
+            );
+          })}
         </div>
       </div>
 
@@ -752,12 +834,21 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
       <div className="mb-3">
         <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2">Marks</div>
         <div className="flex flex-wrap gap-2">
-          <Pill active={marksFilter === "ALL"} onClick={() => setMarksFilter("ALL")}>All Marks</Pill>
-          {[60, 80, 100, 120].map((m) => (
-            <Pill key={m} active={marksFilter === m} onClick={() => setMarksFilter(m as ExamQuestion["marks"])}>
-              {m} marks
-            </Pill>
-          ))}
+          <Pill active={marksFilter === "ALL"} onClick={() => setMarksFilter("ALL")} count={marksCounts["ALL"]}>All Marks</Pill>
+          {[60, 80, 100, 120].map((m) => {
+            const c = marksCounts[String(m)] ?? 0;
+            return (
+              <Pill
+                key={m}
+                active={marksFilter === m}
+                disabled={c === 0 && marksFilter !== m}
+                count={c}
+                onClick={() => setMarksFilter(m as ExamQuestion["marks"])}
+              >
+                {m} marks
+              </Pill>
+            );
+          })}
         </div>
       </div>
 
@@ -896,6 +987,7 @@ function ActiveStage({
   const [confirmAbandon, setConfirmAbandon] = useState(false);
   const [zoom, setZoom] = useState(1.7);
   const [fitMode, setFitMode] = useState(true);
+  const [readingMode, setReadingMode] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const startedAt = useRef<Date>(new Date());
   const checkpoints = useMemo(() => buildCheckpoints(question.marks), [question.marks]);
@@ -934,167 +1026,247 @@ function ActiveStage({
   const elapsedPct = 1 - pct;
   // Mark progress = elapsed time mapped onto marks earned at recommended pace.
   const marksEarned = Math.min(question.marks, Math.round(question.marks * elapsedPct));
+  const colourClass =
+    pct > 0.5 ? "stroke-primary text-primary"
+    : pct > 0.25 ? "stroke-amber-600 text-amber-600"
+    : "stroke-red-600 text-red-600";
   const expired = remaining === 0;
 
   const mins = Math.floor(remaining / 60);
   const secs = remaining % 60;
+  const elapsedM = Math.floor(elapsed / 60);
+  const elapsedS = elapsed % 60;
   const timeStr = `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+
+  // SVG circular progress — radius 70.
+  const circ = 2 * Math.PI * 70;
+  const offset = circ * (1 - pct);
 
   const handleSubmit = useCallback(() => onSubmit(elapsed), [onSubmit, elapsed]);
 
   // Zoom controls
   const zoomIn  = () => { setFitMode(false); setZoom((z) => Math.min(3.0, +(z + 0.2).toFixed(2))); };
   const zoomOut = () => { setFitMode(false); setZoom((z) => Math.max(0.8, +(z - 0.2).toFixed(2))); };
+  const zoomReset = () => { setFitMode(false); setZoom(1.7); };
   const toggleFit = () => setFitMode((f) => !f);
 
   return (
-    <div className="w-full mx-auto px-3 sm:px-5 py-3 pb-12">
-      {/* ─── Compact sticky control bar — everything in one slim row ─── */}
-      <div className="sticky top-0 z-20 mb-2 bg-card/95 backdrop-blur border border-border rounded-md shadow-sm">
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 px-3 py-1.5">
-          {/* Question label */}
-          <div className="flex items-center gap-1.5 min-w-0">
-            <Flag className="h-3.5 w-3.5 text-primary shrink-0" />
-            <span className="font-display text-xs font-semibold text-foreground truncate">
-              {question.year} · Q{question.questionNumber} · {question.subtopic}
-            </span>
-          </div>
-
-          <span className="hidden sm:inline w-px h-4 bg-border" />
-
-          {/* Timer */}
-          <div className="flex items-center gap-1.5">
-            <Clock className={`h-3.5 w-3.5 ${pct > 0.5 ? "text-primary" : pct > 0.25 ? "text-amber-600" : "text-red-600"}`} />
-            <span className={`font-mono text-base font-bold leading-none ${paused ? "text-amber-600" : expired ? "text-red-600 animate-pulse" : "text-foreground"}`}>
+    <div className="max-w-[1800px] mx-auto px-3 sm:px-5 py-4 pb-12">
+      {/* ─── Header: timer line + pace + reading mode toggle ─── */}
+      <div className="mb-3 bg-card border border-border rounded-lg shadow-sm overflow-hidden">
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 px-4 py-2">
+          <div className="flex items-center gap-2">
+            <Clock className={`h-4 w-4 ${pct > 0.5 ? "text-primary" : pct > 0.25 ? "text-amber-600" : "text-red-600"}`} />
+            <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Remaining</span>
+            <span className={`font-mono text-base font-bold ${paused ? "text-amber-600" : expired ? "text-red-600" : "text-foreground"}`}>
               {paused ? "PAUSED" : timeStr}
             </span>
-            <span className="font-mono text-[10px] text-muted-foreground leading-none">
-              / {question.timingMinutes}m
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Elapsed</span>
+            <span className="font-mono text-sm text-foreground">
+              {String(elapsedM).padStart(2, "0")}:{String(elapsedS).padStart(2, "0")}
             </span>
           </div>
-
-          {/* Marks pace */}
-          <div className="hidden md:flex items-center gap-1.5">
+          <div className="flex items-center gap-2">
+            <Flag className="h-3.5 w-3.5 text-primary" />
             <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Pace</span>
-            <span className="font-mono text-xs text-foreground">{marksEarned}/{question.marks}</span>
+            <span className="font-mono text-sm text-foreground">{marksEarned} / {question.marks}</span>
           </div>
-
-          {/* Right cluster — actions */}
-          <div className="ml-auto flex items-center gap-1.5">
-            {/* Zoom — icon-only buttons to save space */}
-            <Button size="sm" variant="outline" className="h-7 w-7 p-0" onClick={zoomOut} aria-label="Zoom out">
-              <ZoomOut className="h-3.5 w-3.5" />
-            </Button>
-            <span className="font-mono text-[10px] text-muted-foreground w-10 text-center">
-              {fitMode ? "FIT" : `${Math.round(zoom * 100)}%`}
-            </span>
-            <Button size="sm" variant="outline" className="h-7 w-7 p-0" onClick={zoomIn} aria-label="Zoom in">
-              <ZoomIn className="h-3.5 w-3.5" />
-            </Button>
-            <Button
-              size="sm"
-              variant={fitMode ? "default" : "outline"}
-              onClick={toggleFit}
-              aria-label={fitMode ? "Use fixed zoom" : "Fit to container"}
-              className={`h-7 w-7 p-0 ${fitMode ? "bg-primary text-primary-foreground" : ""}`}
-            >
-              {fitMode ? <Minimize2 className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}
-            </Button>
-
-            <span className="w-px h-4 bg-border mx-0.5" />
-
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={() => setPaused((p) => !p)}
-              className="h-7 px-2 text-xs"
-            >
-              {paused
-                ? <><Play className="h-3.5 w-3.5" /> Resume</>
-                : <><PauseGlyph className="h-3.5 w-3.5 text-primary" /> Pause</>
-              }
-            </Button>
-            <Button
-              size="sm"
-              onClick={handleSubmit}
-              className={`h-7 px-2.5 text-xs bg-primary hover:bg-primary/90 text-primary-foreground ${expired ? "animate-pulse" : ""}`}
-            >
-              <Check className="h-3.5 w-3.5" /> Submit
-            </Button>
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={() => setConfirmAbandon(true)}
-              className="h-7 w-7 p-0 text-muted-foreground hover:text-destructive"
-              aria-label="Abandon question"
-            >
-              <Square className="h-3.5 w-3.5" />
+          <div className="ml-auto flex items-center gap-2">
+            <Button size="sm" variant="outline" onClick={() => setReadingMode((r) => !r)} className="h-7 px-2 text-xs">
+              {readingMode ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+              {readingMode ? "Exit reading mode" : "Reading mode"}
             </Button>
           </div>
         </div>
 
-        {/* Slim progress bar */}
-        <div className="relative h-1 bg-muted">
-          <div
-            className={`absolute left-0 top-0 h-full transition-all duration-1000 ease-linear ${
-              pct > 0.5 ? "bg-primary" : pct > 0.25 ? "bg-amber-500" : "bg-red-500"
-            }`}
-            style={{ width: `${elapsedPct * 100}%` }}
-          />
+        {/* Progress bar with checkpoint dots */}
+        <div className="relative h-5 px-4 pb-2">
+          <div className="relative h-1.5 bg-muted rounded-full overflow-hidden">
+            <div
+              className={`absolute left-0 top-0 h-full transition-all duration-1000 ease-linear ${
+                pct > 0.5 ? "bg-primary" : pct > 0.25 ? "bg-amber-500" : "bg-red-500"
+              }`}
+              style={{ width: `${elapsedPct * 100}%` }}
+            />
+          </div>
           {checkpoints.map((cp, i) => {
             const reached = elapsedPct >= cp.pctOfTime - 0.01;
             return (
               <div
                 key={i}
-                className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2"
-                style={{ left: `${cp.pctOfTime * 100}%` }}
-                title={`${cp.label} (${cp.marks}m)`}
+                className="absolute top-0 -translate-x-1/2 flex flex-col items-center"
+                style={{ left: `calc(${cp.pctOfTime * 100}% + 16px - ${cp.pctOfTime * 32}px)` }}
+                title={cp.label}
               >
-                <div className={`w-1.5 h-1.5 rounded-full ${reached ? "bg-primary" : "bg-card border border-border"}`} />
+                <div className={`w-2 h-2 rounded-full border-2 ${
+                  reached ? "bg-primary border-primary" : "bg-card border-border"
+                }`} />
               </div>
             );
           })}
         </div>
       </div>
 
-      {/* ─── Viewer takes full width ─── */}
-      <div className={
-        "relative transition-all " +
-        (paused ? "opacity-40 pointer-events-none " : "")
-      }>
-        {paused && (
-          <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
-            <div className="flex flex-col items-center gap-2">
-              <PauseGlyph className="h-16 w-16 text-amber-600" />
-              <div className="font-display text-3xl font-bold text-amber-600 tracking-widest">PAUSED</div>
+      {/* ─── Two-column layout: bigger viewer + slim sidebar ─── */}
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-4">
+        {/* LEFT — question viewer (gets the lion's share) */}
+        <div className={
+          "relative transition-all " +
+          (paused ? "opacity-40 pointer-events-none " : "") +
+          (readingMode ? "ring-4 ring-primary/30 rounded-xl bg-card p-2" : "")
+        }>
+          {paused && (
+            <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
+              <div className="flex flex-col items-center gap-2">
+                <PauseGlyph className="h-16 w-16 text-amber-600" />
+                <div className="font-display text-3xl font-bold text-amber-600 tracking-widest">PAUSED</div>
+              </div>
+            </div>
+          )}
+          {expired && (
+            <div className="mb-2 px-3 py-1.5 bg-destructive/10 border border-destructive/30 rounded text-destructive font-body text-xs flex items-center gap-2">
+              <AlertCircle className="h-3.5 w-3.5" />
+              Time is up — submit when ready.
+            </div>
+          )}
+
+          {/* Surface past mistakes for this topic so the candidate is primed */}
+          <MistakeTracker topic={question.topic} mode="reminder" />
+
+          {readingMode && (
+            <div className="mb-2 px-3 py-1.5 bg-primary/10 border-l-4 border-primary rounded-r flex items-center gap-3">
+              <Flag className="h-4 w-4 text-primary" />
+              <span className="font-display text-sm font-semibold text-foreground">
+                {question.year} · Q{question.questionNumber} · {question.subtopic}
+              </span>
+              <span className="ml-auto text-[11px] font-mono text-muted-foreground">
+                {question.marks} marks · {question.timingMinutes} min target
+              </span>
+            </div>
+          )}
+
+          {/* Zoom toolbar */}
+          <div className="flex items-center gap-2 mb-2 px-1">
+            <Button size="sm" variant="outline" onClick={zoomOut} aria-label="Zoom out" className="h-7 w-7 p-0">
+              <ZoomOut className="h-3.5 w-3.5" />
+            </Button>
+            <span className="font-mono text-xs text-muted-foreground w-12 text-center">
+              {fitMode ? "FIT" : `${Math.round(zoom * 100)}%`}
+            </span>
+            <Button size="sm" variant="outline" onClick={zoomIn} aria-label="Zoom in" className="h-7 w-7 p-0">
+              <ZoomIn className="h-3.5 w-3.5" />
+            </Button>
+            <Button size="sm" variant="outline" onClick={zoomReset} className="h-7 px-2 text-xs">Reset</Button>
+            <Button
+              size="sm"
+              variant={fitMode ? "default" : "outline"}
+              onClick={toggleFit}
+              className={`h-7 px-2 text-xs ${fitMode ? "bg-primary text-primary-foreground" : ""}`}
+            >
+              {fitMode ? <Minimize2 className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}
+              {fitMode ? "Fixed size" : "Fit to container"}
+            </Button>
+          </div>
+
+          <ScreenshotPageView
+            sources={questionSources}
+            zoom={zoom}
+            fitToWidth={fitMode}
+            title={`${question.year} Q${question.questionNumber}`}
+            enableThumbnails
+          />
+          <a
+            href={`${question.paperUrl}#page=${question.paperPage}`}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-2 inline-flex items-center gap-1.5 text-xs font-body text-primary hover:underline"
+          >
+            <ExternalLink className="h-3.5 w-3.5" /> Open PDF in new tab
+          </a>
+        </div>
+
+        {/* RIGHT — sidebar with circular timer + actions */}
+        <div className="lg:sticky lg:top-4 lg:self-start space-y-3">
+          <div className="bg-card border border-border rounded-lg p-4 shadow-sm">
+            <div className="flex justify-center mb-2">
+              <div className="relative" style={{ width: 160, height: 160 }}>
+                <svg width="160" height="160" className="-rotate-90" viewBox="0 0 180 180">
+                  <circle cx="90" cy="90" r="70" fill="none" strokeWidth="8" className="stroke-border" />
+                  <circle
+                    cx="90" cy="90" r="70" fill="none" strokeWidth="8"
+                    strokeLinecap="round"
+                    strokeDasharray={circ}
+                    strokeDashoffset={offset}
+                    className={`${colourClass} transition-all duration-1000 ease-linear ${expired ? "animate-pulse" : ""}`}
+                  />
+                </svg>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  {paused ? (
+                    <PauseGlyph className="h-10 w-10 text-amber-600" />
+                  ) : (
+                    <div className={`font-mono text-[32px] font-bold ${expired ? "text-red-600" : "text-foreground"}`}>
+                      {timeStr}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="text-center text-[11px] font-body text-muted-foreground mb-3">
+              {question.timingMinutes} min target · {question.marks} marks
+            </div>
+
+            <div className="space-y-2">
+              <Button
+                variant="outline"
+                onClick={() => setPaused((p) => !p)}
+                className="w-full h-8 text-xs"
+              >
+                {paused
+                  ? <><Play className="h-4 w-4" /> Continue</>
+                  : <><PauseGlyph className="h-4 w-4 text-primary" /> Pause</>
+                }
+              </Button>
+              <Button
+                onClick={handleSubmit}
+                className={`w-full h-8 text-xs bg-primary hover:bg-primary/90 text-primary-foreground ${expired ? "animate-pulse" : ""}`}
+              >
+                <Check className="h-4 w-4" /> Submit & Mark
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setConfirmAbandon(true)}
+                className="w-full h-7 text-xs text-muted-foreground hover:text-destructive"
+              >
+                <Square className="h-3.5 w-3.5" /> Abandon
+              </Button>
             </div>
           </div>
-        )}
-        {expired && (
-          <div className="mb-2 px-3 py-1.5 bg-destructive/10 border border-destructive/30 rounded text-destructive font-body text-xs flex items-center gap-2">
-            <AlertCircle className="h-3.5 w-3.5" />
-            Time is up — submit when ready.
+
+          <div className="bg-card border border-border rounded-lg p-3 text-[11px] font-body space-y-1.5">
+            <div className="flex justify-between"><span className="text-muted-foreground">Topic</span><span className="text-foreground font-medium text-right">{question.subtopic}</span></div>
+            <div className="flex justify-between"><span className="text-muted-foreground">Year & Q</span><span className="font-mono text-foreground">{question.year} · Q{question.questionNumber}</span></div>
+            <div className="flex justify-between"><span className="text-muted-foreground">Started</span><span className="font-mono text-foreground">{startedAt.current.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span></div>
+            <div className="pt-2 mt-2 border-t border-border">
+              <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1.5">Mark checkpoints</div>
+              <ul className="space-y-1">
+                {checkpoints.map((cp, i) => {
+                  const reached = elapsedPct >= cp.pctOfTime - 0.01;
+                  return (
+                    <li key={i} className="flex items-center gap-2">
+                      <span className={`w-2 h-2 rounded-full ${reached ? "bg-primary" : "bg-border"}`} />
+                      <span className={reached ? "text-foreground" : "text-muted-foreground"}>
+                        {cp.label} <span className="font-mono">({cp.marks}m)</span>
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
           </div>
-        )}
-
-        {/* Surface past mistakes for this topic so the candidate is primed */}
-        <MistakeTracker topic={question.topic} mode="reminder" />
-
-        <ScreenshotPageView
-          sources={questionSources}
-          zoom={zoom}
-          fitToWidth={fitMode}
-          title={`${question.year} Q${question.questionNumber}`}
-          enableThumbnails
-        />
-        <a
-          href={`${question.paperUrl}#page=${question.paperPage}`}
-          target="_blank"
-          rel="noreferrer"
-          className="mt-2 inline-flex items-center gap-1.5 text-xs font-body text-primary hover:underline"
-        >
-          <ExternalLink className="h-3.5 w-3.5" /> Open PDF in new tab
-        </a>
+        </div>
       </div>
 
       <AlertDialog open={confirmAbandon} onOpenChange={setConfirmAbandon}>
