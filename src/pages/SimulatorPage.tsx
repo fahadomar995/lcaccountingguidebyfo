@@ -783,10 +783,27 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
       <div className="mb-3">
         <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2">Topic</div>
         <div className="flex flex-wrap gap-2">
-          <Pill active={topicFilter === "ALL"} onClick={() => setTopicFilter("ALL")}>All Topics</Pill>
-          {topics.map((t) => (
-            <Pill key={t} active={topicFilter === t} onClick={() => setTopicFilter(t)}>{t}</Pill>
-          ))}
+          <Pill
+            active={topicFilter === "ALL"}
+            onClick={() => setTopicFilter("ALL")}
+            count={topicCounts["ALL"]}
+          >
+            All Topics
+          </Pill>
+          {topics.map((t) => {
+            const c = topicCounts[t] ?? 0;
+            return (
+              <Pill
+                key={t}
+                active={topicFilter === t}
+                disabled={c === 0 && topicFilter !== t}
+                count={c}
+                onClick={() => setTopicFilter(t)}
+              >
+                {t}
+              </Pill>
+            );
+          })}
         </div>
       </div>
 
@@ -794,10 +811,22 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
       <div className="mb-3">
         <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2">Paper section</div>
         <div className="flex flex-wrap gap-2">
-          <Pill active={sectionFilter === "ALL"} onClick={() => setSectionFilter("ALL")}>All Sections</Pill>
-          <Pill active={sectionFilter === 1} onClick={() => setSectionFilter(1)}>Section 1 · Financial</Pill>
-          <Pill active={sectionFilter === 2} onClick={() => setSectionFilter(2)}>Section 2 · Financial Acc.</Pill>
-          <Pill active={sectionFilter === 3} onClick={() => setSectionFilter(3)}>Section 3 · Management</Pill>
+          <Pill active={sectionFilter === "ALL"} onClick={() => setSectionFilter("ALL")} count={sectionCounts["ALL"]}>All Sections</Pill>
+          {([1, 2, 3] as const).map((s) => {
+            const labels = { 1: "Section 1 · Financial", 2: "Section 2 · Financial Acc.", 3: "Section 3 · Management" } as const;
+            const c = sectionCounts[String(s)] ?? 0;
+            return (
+              <Pill
+                key={s}
+                active={sectionFilter === s}
+                disabled={c === 0 && sectionFilter !== s}
+                count={c}
+                onClick={() => setSectionFilter(s)}
+              >
+                {labels[s]}
+              </Pill>
+            );
+          })}
         </div>
       </div>
 
@@ -805,12 +834,21 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
       <div className="mb-3">
         <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2">Marks</div>
         <div className="flex flex-wrap gap-2">
-          <Pill active={marksFilter === "ALL"} onClick={() => setMarksFilter("ALL")}>All Marks</Pill>
-          {[60, 80, 100, 120].map((m) => (
-            <Pill key={m} active={marksFilter === m} onClick={() => setMarksFilter(m as ExamQuestion["marks"])}>
-              {m} marks
-            </Pill>
-          ))}
+          <Pill active={marksFilter === "ALL"} onClick={() => setMarksFilter("ALL")} count={marksCounts["ALL"]}>All Marks</Pill>
+          {[60, 80, 100, 120].map((m) => {
+            const c = marksCounts[String(m)] ?? 0;
+            return (
+              <Pill
+                key={m}
+                active={marksFilter === m}
+                disabled={c === 0 && marksFilter !== m}
+                count={c}
+                onClick={() => setMarksFilter(m as ExamQuestion["marks"])}
+              >
+                {m} marks
+              </Pill>
+            );
+          })}
         </div>
       </div>
 
