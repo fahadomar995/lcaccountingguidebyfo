@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import {
   Clock, ExternalLink, Play, Pause, Check, AlertCircle,
   ChevronDown, ChevronUp, RotateCcw, Square,
-  ZoomIn, ZoomOut, Maximize2, Minimize2, Eye, EyeOff, Flag, Award, TrendingUp,
+  ZoomIn, ZoomOut, Maximize2, Minimize2, Flag, Award, TrendingUp,
   Plus, X, Lightbulb, Filter, BookOpen, PenSquare, Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -515,7 +515,7 @@ function ScreenshotPageView({
       <div
         ref={containerRef}
         className="bg-muted/30 overflow-auto p-3 flex flex-col items-center gap-3"
-        style={showThumbs ? { maxHeight: "calc(100vh - 220px)" } : undefined}
+        style={showThumbs ? { maxHeight: "calc(100vh - 130px)" } : undefined}
       >
         {sources.map((src, i) => (
           <div
@@ -896,7 +896,6 @@ function ActiveStage({
   const [confirmAbandon, setConfirmAbandon] = useState(false);
   const [zoom, setZoom] = useState(1.7);
   const [fitMode, setFitMode] = useState(true);
-  const [readingMode, setReadingMode] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const startedAt = useRef<Date>(new Date());
   const checkpoints = useMemo(() => buildCheckpoints(question.marks), [question.marks]);
@@ -935,258 +934,167 @@ function ActiveStage({
   const elapsedPct = 1 - pct;
   // Mark progress = elapsed time mapped onto marks earned at recommended pace.
   const marksEarned = Math.min(question.marks, Math.round(question.marks * elapsedPct));
-  const colourClass =
-    pct > 0.5 ? "stroke-primary text-primary"
-    : pct > 0.25 ? "stroke-amber-600 text-amber-600"
-    : "stroke-red-600 text-red-600";
   const expired = remaining === 0;
 
   const mins = Math.floor(remaining / 60);
   const secs = remaining % 60;
-  const elapsedM = Math.floor(elapsed / 60);
-  const elapsedS = elapsed % 60;
   const timeStr = `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
-
-  // SVG circular progress
-  const circ = 2 * Math.PI * 70; // radius 70
-  const offset = circ * (1 - pct);
 
   const handleSubmit = useCallback(() => onSubmit(elapsed), [onSubmit, elapsed]);
 
   // Zoom controls
   const zoomIn  = () => { setFitMode(false); setZoom((z) => Math.min(3.0, +(z + 0.2).toFixed(2))); };
   const zoomOut = () => { setFitMode(false); setZoom((z) => Math.max(0.8, +(z - 0.2).toFixed(2))); };
-  const zoomReset = () => { setFitMode(false); setZoom(1.7); };
   const toggleFit = () => setFitMode((f) => !f);
 
   return (
-    <div className="max-w-[1700px] mx-auto px-4 sm:px-7 py-6 pb-16">
-      {/* ─── Persistent timer & progress header ─── */}
-      <div className="mb-4 bg-card border border-border rounded-lg shadow-sm overflow-hidden">
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-3 px-5 py-3">
-          <div className="flex items-center gap-2">
-            <Clock className={`h-4 w-4 ${pct > 0.5 ? "text-primary" : pct > 0.25 ? "text-amber-600" : "text-red-600"}`} />
-            <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Remaining</span>
-            <span className={`font-mono text-lg font-bold ${paused ? "text-amber-600" : expired ? "text-red-600" : "text-foreground"}`}>
+    <div className="w-full mx-auto px-3 sm:px-5 py-3 pb-12">
+      {/* ─── Compact sticky control bar — everything in one slim row ─── */}
+      <div className="sticky top-0 z-20 mb-2 bg-card/95 backdrop-blur border border-border rounded-md shadow-sm">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 px-3 py-1.5">
+          {/* Question label */}
+          <div className="flex items-center gap-1.5 min-w-0">
+            <Flag className="h-3.5 w-3.5 text-primary shrink-0" />
+            <span className="font-display text-xs font-semibold text-foreground truncate">
+              {question.year} · Q{question.questionNumber} · {question.subtopic}
+            </span>
+          </div>
+
+          <span className="hidden sm:inline w-px h-4 bg-border" />
+
+          {/* Timer */}
+          <div className="flex items-center gap-1.5">
+            <Clock className={`h-3.5 w-3.5 ${pct > 0.5 ? "text-primary" : pct > 0.25 ? "text-amber-600" : "text-red-600"}`} />
+            <span className={`font-mono text-base font-bold leading-none ${paused ? "text-amber-600" : expired ? "text-red-600 animate-pulse" : "text-foreground"}`}>
               {paused ? "PAUSED" : timeStr}
             </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Elapsed</span>
-            <span className="font-mono text-sm text-foreground">
-              {String(elapsedM).padStart(2, "0")}:{String(elapsedS).padStart(2, "0")}
+            <span className="font-mono text-[10px] text-muted-foreground leading-none">
+              / {question.timingMinutes}m
             </span>
           </div>
-          <div className="flex items-center gap-2">
-            <Flag className="h-3.5 w-3.5 text-primary" />
-            <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Marks pace</span>
-            <span className="font-mono text-sm text-foreground">{marksEarned} / {question.marks}</span>
+
+          {/* Marks pace */}
+          <div className="hidden md:flex items-center gap-1.5">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Pace</span>
+            <span className="font-mono text-xs text-foreground">{marksEarned}/{question.marks}</span>
           </div>
-          <div className="ml-auto flex items-center gap-2">
-            <Button size="sm" variant="outline" onClick={() => setReadingMode((r) => !r)}>
-              {readingMode ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
-              {readingMode ? "Exit reading mode" : "Reading mode"}
+
+          {/* Right cluster — actions */}
+          <div className="ml-auto flex items-center gap-1.5">
+            {/* Zoom — icon-only buttons to save space */}
+            <Button size="sm" variant="outline" className="h-7 w-7 p-0" onClick={zoomOut} aria-label="Zoom out">
+              <ZoomOut className="h-3.5 w-3.5" />
+            </Button>
+            <span className="font-mono text-[10px] text-muted-foreground w-10 text-center">
+              {fitMode ? "FIT" : `${Math.round(zoom * 100)}%`}
+            </span>
+            <Button size="sm" variant="outline" className="h-7 w-7 p-0" onClick={zoomIn} aria-label="Zoom in">
+              <ZoomIn className="h-3.5 w-3.5" />
+            </Button>
+            <Button
+              size="sm"
+              variant={fitMode ? "default" : "outline"}
+              onClick={toggleFit}
+              aria-label={fitMode ? "Use fixed zoom" : "Fit to container"}
+              className={`h-7 w-7 p-0 ${fitMode ? "bg-primary text-primary-foreground" : ""}`}
+            >
+              {fitMode ? <Minimize2 className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}
+            </Button>
+
+            <span className="w-px h-4 bg-border mx-0.5" />
+
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => setPaused((p) => !p)}
+              className="h-7 px-2 text-xs"
+            >
+              {paused
+                ? <><Play className="h-3.5 w-3.5" /> Resume</>
+                : <><PauseGlyph className="h-3.5 w-3.5 text-primary" /> Pause</>
+              }
+            </Button>
+            <Button
+              size="sm"
+              onClick={handleSubmit}
+              className={`h-7 px-2.5 text-xs bg-primary hover:bg-primary/90 text-primary-foreground ${expired ? "animate-pulse" : ""}`}
+            >
+              <Check className="h-3.5 w-3.5" /> Submit
+            </Button>
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={() => setConfirmAbandon(true)}
+              className="h-7 w-7 p-0 text-muted-foreground hover:text-destructive"
+              aria-label="Abandon question"
+            >
+              <Square className="h-3.5 w-3.5" />
             </Button>
           </div>
         </div>
 
-        {/* Progress bar with checkpoint flags */}
-        <div className="relative h-7 px-5 pb-3">
-          <div className="relative h-2 bg-muted rounded-full overflow-hidden">
-            <div
-              className={`absolute left-0 top-0 h-full transition-all duration-1000 ease-linear ${
-                pct > 0.5 ? "bg-primary" : pct > 0.25 ? "bg-amber-500" : "bg-red-500"
-              }`}
-              style={{ width: `${elapsedPct * 100}%` }}
-            />
-          </div>
+        {/* Slim progress bar */}
+        <div className="relative h-1 bg-muted">
+          <div
+            className={`absolute left-0 top-0 h-full transition-all duration-1000 ease-linear ${
+              pct > 0.5 ? "bg-primary" : pct > 0.25 ? "bg-amber-500" : "bg-red-500"
+            }`}
+            style={{ width: `${elapsedPct * 100}%` }}
+          />
           {checkpoints.map((cp, i) => {
             const reached = elapsedPct >= cp.pctOfTime - 0.01;
             return (
               <div
                 key={i}
-                className="absolute top-0 -translate-x-1/2 flex flex-col items-center"
-                style={{ left: `calc(${cp.pctOfTime * 100}% + 20px - ${cp.pctOfTime * 40}px)` }}
-                title={cp.label}
+                className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2"
+                style={{ left: `${cp.pctOfTime * 100}%` }}
+                title={`${cp.label} (${cp.marks}m)`}
               >
-                <div className={`w-2.5 h-2.5 rounded-full border-2 ${
-                  reached ? "bg-primary border-primary" : "bg-card border-border"
-                }`} />
+                <div className={`w-1.5 h-1.5 rounded-full ${reached ? "bg-primary" : "bg-card border border-border"}`} />
               </div>
             );
           })}
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6">
-        {/* LEFT — question */}
-        <div className={
-          "relative transition-all " +
-          (paused ? "opacity-40 pointer-events-none " : "") +
-          (readingMode ? "ring-4 ring-primary/30 rounded-xl bg-card p-2" : "")
-        }>
-          {paused && (
-            <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
-              <div className="flex flex-col items-center gap-2">
-                <PauseGlyph className="h-16 w-16 text-amber-600" />
-                <div className="font-display text-3xl font-bold text-amber-600 tracking-widest">PAUSED</div>
-              </div>
-            </div>
-          )}
-          {expired && (
-            <div className="mb-3 px-4 py-2 bg-destructive/10 border border-destructive/30 rounded text-destructive font-body text-sm flex items-center gap-2">
-              <AlertCircle className="h-4 w-4" />
-              Time is up — submit when ready.
-            </div>
-          )}
-          {!readingMode && (
-            <div className="bg-card border border-border rounded-lg p-4 mb-3">
-              <p className="text-xs font-body text-muted-foreground leading-relaxed">
-                This question is from the <strong className="text-foreground">{question.year}</strong> Leaving Certificate Higher Level Accounting paper, Question {question.questionNumber}. Open the question in the viewer below and work through it on paper or on the scratchpad.
-              </p>
-            </div>
-          )}
-
-          {/* Surface past mistakes for this topic so the candidate is primed */}
-          <MistakeTracker topic={question.topic} mode="reminder" />
-
-          {/* Reading-mode highlight strip */}
-          {readingMode && (
-            <div className="mb-3 px-4 py-2 bg-primary/10 border-l-4 border-primary rounded-r flex items-center gap-3">
-              <Flag className="h-4 w-4 text-primary" />
-              <span className="font-display text-sm font-semibold text-foreground">
-                {question.year} · Q{question.questionNumber} · {question.subtopic}
-              </span>
-              <span className="ml-auto text-[11px] font-mono text-muted-foreground">
-                {question.marks} marks · {question.timingMinutes} min target
-              </span>
-            </div>
-          )}
-
-          {/* Zoom toolbar */}
-          <div className="flex items-center gap-2 mb-2 px-1">
-            <Button size="sm" variant="outline" onClick={zoomOut} aria-label="Zoom out">
-              <ZoomOut className="h-3.5 w-3.5" />
-            </Button>
-            <span className="font-mono text-xs text-muted-foreground w-12 text-center">
-              {fitMode ? "FIT" : `${Math.round(zoom * 100)}%`}
-            </span>
-            <Button size="sm" variant="outline" onClick={zoomIn} aria-label="Zoom in">
-              <ZoomIn className="h-3.5 w-3.5" />
-            </Button>
-            <Button size="sm" variant="outline" onClick={zoomReset}>Reset</Button>
-            <Button
-              size="sm"
-              variant={fitMode ? "default" : "outline"}
-              onClick={toggleFit}
-              className={fitMode ? "bg-primary text-primary-foreground" : ""}
-            >
-              {fitMode ? <Minimize2 className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}
-              {fitMode ? "Fixed size" : "Fit to container"}
-            </Button>
-          </div>
-
-          <ScreenshotPageView
-            sources={questionSources}
-            zoom={zoom}
-            fitToWidth={fitMode}
-            title={`${question.year} Q${question.questionNumber}`}
-            enableThumbnails
-          />
-          <a
-            href={`${question.paperUrl}#page=${question.paperPage}`}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-2 inline-flex items-center gap-1.5 text-xs font-body text-primary hover:underline"
-          >
-            <ExternalLink className="h-3.5 w-3.5" /> Open PDF in new tab
-          </a>
-        </div>
-
-        {/* RIGHT — control panel */}
-        <div className="lg:sticky lg:top-4 lg:self-start space-y-4">
-          <div className="bg-card border border-border rounded-lg p-5 shadow-sm">
-            {/* Circular timer */}
-            <div className="flex justify-center mb-3">
-              <div className="relative" style={{ width: 180, height: 180 }}>
-                <svg width="180" height="180" className="-rotate-90">
-                  <circle cx="90" cy="90" r="70" fill="none" strokeWidth="8" className="stroke-border" />
-                  <circle
-                    cx="90" cy="90" r="70" fill="none" strokeWidth="8"
-                    strokeLinecap="round"
-                    strokeDasharray={circ}
-                    strokeDashoffset={offset}
-                    className={`${colourClass} transition-all duration-1000 ease-linear ${expired ? "animate-pulse" : ""}`}
-                  />
-                </svg>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  {paused ? (
-                    <PauseGlyph className="h-12 w-12 text-amber-600" />
-                  ) : (
-                    <div className={`font-mono text-[40px] font-bold ${expired ? "text-red-600" : "text-foreground"}`}>
-                      {timeStr}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-            <div className="text-center text-xs font-body text-muted-foreground mb-1">
-              {question.timingMinutes} minute target · {question.marks} marks
-            </div>
-            <div className="text-center text-[11px] font-body text-muted-foreground mb-4">
-              Recommended pace: 27 seconds per mark
-            </div>
-
-            <div className="space-y-2">
-              <Button
-                variant="outline"
-                onClick={() => setPaused((p) => !p)}
-                className="w-full"
-              >
-                {paused
-                  ? <><Play className="h-4 w-4" /> Continue</>
-                  : <><PauseGlyph className="h-4 w-4 text-primary" /> Pause</>
-                }
-              </Button>
-              <Button
-                onClick={handleSubmit}
-                className={`w-full bg-primary hover:bg-primary/90 text-primary-foreground ${expired ? "animate-pulse" : ""}`}
-              >
-                <Check className="h-4 w-4" /> Submit & See Marking Scheme
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setConfirmAbandon(true)}
-                className="w-full text-muted-foreground hover:text-destructive"
-              >
-                <Square className="h-3.5 w-3.5" /> Abandon Question
-              </Button>
+      {/* ─── Viewer takes full width ─── */}
+      <div className={
+        "relative transition-all " +
+        (paused ? "opacity-40 pointer-events-none " : "")
+      }>
+        {paused && (
+          <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
+            <div className="flex flex-col items-center gap-2">
+              <PauseGlyph className="h-16 w-16 text-amber-600" />
+              <div className="font-display text-3xl font-bold text-amber-600 tracking-widest">PAUSED</div>
             </div>
           </div>
-
-          <div className="bg-card border border-border rounded-lg p-4 text-xs font-body space-y-1.5">
-            <div className="flex justify-between"><span className="text-muted-foreground">Topic</span><span className="text-foreground font-medium text-right">{question.subtopic}</span></div>
-            <div className="flex justify-between"><span className="text-muted-foreground">Year & Q</span><span className="font-mono text-foreground">{question.year} · Q{question.questionNumber}</span></div>
-            <div className="flex justify-between"><span className="text-muted-foreground">Started</span><span className="font-mono text-foreground">{startedAt.current.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span></div>
-            <div className="pt-2 mt-2 border-t border-border">
-              <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1.5">Mark checkpoints</div>
-              <ul className="space-y-1">
-                {checkpoints.map((cp, i) => {
-                  const reached = elapsedPct >= cp.pctOfTime - 0.01;
-                  return (
-                    <li key={i} className="flex items-center gap-2">
-                      <span className={`w-2 h-2 rounded-full ${reached ? "bg-primary" : "bg-border"}`} />
-                      <span className={reached ? "text-foreground" : "text-muted-foreground"}>
-                        {cp.label} <span className="font-mono">({cp.marks}m)</span>
-                      </span>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
+        )}
+        {expired && (
+          <div className="mb-2 px-3 py-1.5 bg-destructive/10 border border-destructive/30 rounded text-destructive font-body text-xs flex items-center gap-2">
+            <AlertCircle className="h-3.5 w-3.5" />
+            Time is up — submit when ready.
           </div>
-        </div>
+        )}
+
+        {/* Surface past mistakes for this topic so the candidate is primed */}
+        <MistakeTracker topic={question.topic} mode="reminder" />
+
+        <ScreenshotPageView
+          sources={questionSources}
+          zoom={zoom}
+          fitToWidth={fitMode}
+          title={`${question.year} Q${question.questionNumber}`}
+          enableThumbnails
+        />
+        <a
+          href={`${question.paperUrl}#page=${question.paperPage}`}
+          target="_blank"
+          rel="noreferrer"
+          className="mt-2 inline-flex items-center gap-1.5 text-xs font-body text-primary hover:underline"
+        >
+          <ExternalLink className="h-3.5 w-3.5" /> Open PDF in new tab
+        </a>
       </div>
 
       <AlertDialog open={confirmAbandon} onOpenChange={setConfirmAbandon}>
