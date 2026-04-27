@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import {
   Clock, ExternalLink, Play, Pause, Check, AlertCircle,
   ChevronDown, ChevronUp, RotateCcw, Square,
-  ZoomIn, ZoomOut, Maximize2, Minimize2, Eye, EyeOff, Flag, Award, TrendingUp,
+  ZoomIn, ZoomOut, Maximize2, Minimize2, Flag, Award, TrendingUp,
   Plus, X, Lightbulb, Filter, BookOpen, PenSquare, Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -896,7 +896,6 @@ function ActiveStage({
   const [confirmAbandon, setConfirmAbandon] = useState(false);
   const [zoom, setZoom] = useState(1.7);
   const [fitMode, setFitMode] = useState(true);
-  const [readingMode, setReadingMode] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const startedAt = useRef<Date>(new Date());
   const checkpoints = useMemo(() => buildCheckpoints(question.marks), [question.marks]);
@@ -935,28 +934,17 @@ function ActiveStage({
   const elapsedPct = 1 - pct;
   // Mark progress = elapsed time mapped onto marks earned at recommended pace.
   const marksEarned = Math.min(question.marks, Math.round(question.marks * elapsedPct));
-  const colourClass =
-    pct > 0.5 ? "stroke-primary text-primary"
-    : pct > 0.25 ? "stroke-amber-600 text-amber-600"
-    : "stroke-red-600 text-red-600";
   const expired = remaining === 0;
 
   const mins = Math.floor(remaining / 60);
   const secs = remaining % 60;
-  const elapsedM = Math.floor(elapsed / 60);
-  const elapsedS = elapsed % 60;
   const timeStr = `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
-
-  // SVG circular progress
-  const circ = 2 * Math.PI * 70; // radius 70
-  const offset = circ * (1 - pct);
 
   const handleSubmit = useCallback(() => onSubmit(elapsed), [onSubmit, elapsed]);
 
   // Zoom controls
   const zoomIn  = () => { setFitMode(false); setZoom((z) => Math.min(3.0, +(z + 0.2).toFixed(2))); };
   const zoomOut = () => { setFitMode(false); setZoom((z) => Math.max(0.8, +(z - 0.2).toFixed(2))); };
-  const zoomReset = () => { setFitMode(false); setZoom(1.7); };
   const toggleFit = () => setFitMode((f) => !f);
 
   return (
