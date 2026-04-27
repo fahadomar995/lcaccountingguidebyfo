@@ -515,7 +515,7 @@ function ScreenshotPageView({
       <div
         ref={containerRef}
         className="bg-muted/30 overflow-auto p-3 flex flex-col items-center gap-3"
-        style={showThumbs ? { maxHeight: "calc(100vh - 220px)" } : undefined}
+        style={showThumbs ? { maxHeight: "calc(100vh - 130px)" } : undefined}
       >
         {sources.map((src, i) => (
           <div
