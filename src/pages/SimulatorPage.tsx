@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import {
   Clock, ExternalLink, Play, Pause, Check, AlertCircle,
   ChevronDown, ChevronUp, RotateCcw, Square,
-  ZoomIn, ZoomOut, Maximize2, Minimize2, Flag, Award, TrendingUp,
+  ZoomIn, ZoomOut, Maximize2, Minimize2, Eye, EyeOff, Flag, Award, TrendingUp,
   Plus, X, Lightbulb, Filter, BookOpen, PenSquare, Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
