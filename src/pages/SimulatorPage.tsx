@@ -171,18 +171,42 @@ function OnboardingCard({ onDismiss }: { onDismiss: () => void }) {
 }
 
 // ───────────── Pill button ─────────────
-function Pill({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
+function Pill({
+  active,
+  onClick,
+  children,
+  disabled = false,
+  count,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+  disabled?: boolean;
+  count?: number;
+}) {
+  // When `disabled` is true the pill represents a filter combination that
+  // would yield zero matching questions — we grey it out instead of hiding
+  // it so students still see the option exists.
+  const base = "px-3 py-1.5 rounded-full text-xs font-medium font-body border transition-colors inline-flex items-center gap-1.5";
+  const variant = disabled
+    ? "bg-muted text-muted-foreground border-border opacity-50 cursor-not-allowed"
+    : active
+      ? "bg-primary text-primary-foreground border-primary"
+      : "bg-card text-primary border-primary hover:bg-primary/10";
   return (
     <button
       onClick={onClick}
-      className={
-        "px-3 py-1.5 rounded-full text-xs font-medium font-body border transition-colors " +
-        (active
-          ? "bg-primary text-primary-foreground border-primary"
-          : "bg-card text-primary border-primary hover:bg-primary/10")
-      }
+      disabled={disabled}
+      aria-disabled={disabled}
+      title={disabled ? "No questions match this with current filters" : undefined}
+      className={`${base} ${variant}`}
     >
-      {children}
+      <span>{children}</span>
+      {typeof count === "number" && (
+        <span className={`font-mono text-[10px] ${active && !disabled ? "text-primary-foreground/80" : "text-muted-foreground"}`}>
+          {count}
+        </span>
+      )}
     </button>
   );
 }
