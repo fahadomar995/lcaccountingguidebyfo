@@ -588,6 +588,35 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
     [topicFilter, marksFilter, sectionFilter],
   );
 
+  // ── Counts for each filter option, holding the *other* two filters fixed.
+  // This lets us grey out impossible combinations (e.g. picking "Tabular
+  // Statements" disables 80m / 120m if no such question exists).
+  const topicCounts = useMemo(() => {
+    const map: Record<string, number> = { ALL: filterQuestions(questionIndex, "ALL", marksFilter, sectionFilter).length };
+    for (const t of topics) {
+      map[t] = filterQuestions(questionIndex, t, marksFilter, sectionFilter).length;
+    }
+    return map;
+  }, [topics, marksFilter, sectionFilter]);
+
+  const sectionCounts = useMemo(() => {
+    const sections: (ExamQuestion["section"] | "ALL")[] = ["ALL", 1, 2, 3];
+    const map: Record<string, number> = {};
+    for (const s of sections) {
+      map[String(s)] = filterQuestions(questionIndex, topicFilter, marksFilter, s).length;
+    }
+    return map;
+  }, [topicFilter, marksFilter]);
+
+  const marksCounts = useMemo(() => {
+    const allMarks: MarksFilter[] = ["ALL", 60, 80, 100, 120];
+    const map: Record<string, number> = {};
+    for (const m of allMarks) {
+      map[String(m)] = filterQuestions(questionIndex, topicFilter, m, sectionFilter).length;
+    }
+    return map;
+  }, [topicFilter, sectionFilter]);
+
   // Quick presets — common exam combos the user reaches for most.
   const presets: { label: string; topic: string | "ALL"; marks: MarksFilter; section: ExamQuestion["section"] | "ALL" }[] = [
     { label: "Cash Flow · 100m",        topic: "Cash Flow",          marks: 100, section: "ALL" },
