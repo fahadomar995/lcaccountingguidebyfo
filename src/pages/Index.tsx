@@ -89,10 +89,11 @@ function useContinueCard(): ContinueCard | null {
         // group by topic prefix (id format e.g. "published-01")
         const byTopic: Record<string, { known: number; total: number }> = {};
         THEORY_FLASHCARDS.forEach((c: any) => {
-          const topic = (c.topic || c.tag || 'general') as string;
+          const topic = (c.topic || 'General') as string;
+          const key = c.term as string;
           byTopic[topic] = byTopic[topic] || { known: 0, total: 0 };
           byTopic[topic].total += 1;
-          if (status[c.id] === 'know') byTopic[topic].known += 1;
+          if (status[key] === 'know') byTopic[topic].known += 1;
         });
         const active = Object.entries(byTopic).filter(([, v]) => v.known > 0 && v.known < v.total);
         if (active.length) {
