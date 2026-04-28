@@ -49,13 +49,37 @@ export default function ChapterReadingView({ chapter, initialSectionId, onBack, 
   useEffect(() => {
     const el = contentRef.current;
     if (!el) return;
+    const quizGroups = Array.from(el.querySelectorAll<HTMLElement>('.quiz-opts'));
+    const totalQuizzes = quizGroups.length;
+    let solvedQuizzes = 0;
     el.querySelectorAll<HTMLElement>('.quiz-opt').forEach(opt => {
       opt.onclick = () => {
         if (opt.classList.contains('correct') || opt.classList.contains('wrong')) return;
         const isCorrect = opt.getAttribute('data-correct') === 'true';
         if (isCorrect) {
           opt.classList.add('correct');
-          opt.closest('.quiz-opts')?.querySelectorAll<HTMLElement>('.quiz-opt').forEach(o => { o.style.pointerEvents = 'none'; });
+          const group = opt.closest('.quiz-opts') as HTMLElement | null;
+          group?.querySelectorAll<HTMLElement>('.quiz-opt').forEach(o => { o.style.pointerEvents = 'none'; });
+          if (group && !group.dataset.solved) {
+            group.dataset.solved = '1';
+            solvedQuizzes += 1;
+            // Auto-mark section complete if every embedded quiz answered correctly
+            if (totalQuizzes > 0 && solvedQuizzes >= totalQuizzes) {
+              const key = `${chapter.id}_${section.id}`;
+              try {
+                const raw = localStorage.getItem('lc-theory-ch-progress');
+                const cur = raw ? JSON.parse(raw) : {};
+                if (!cur[key]) {
+                  cur[key] = true;
+                  localStorage.setItem('lc-theory-ch-progress', JSON.stringify(cur));
+                  setCompleted(cur);
+                  toast.success(`Section ${section.id} complete`, {
+                    description: `All quiz questions answered correctly.`,
+                  });
+                }
+              } catch {}
+            }
+          }
         } else {
           opt.classList.add('wrong');
           setTimeout(() => opt.classList.remove('wrong'), 1200);
