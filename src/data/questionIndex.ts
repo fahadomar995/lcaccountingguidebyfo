@@ -31,7 +31,7 @@ export const questionIndex: ExamQuestion[] = [
   // ─── 2005 ─────────────────────────────────────────────────
   { id: "2005_Q4_service", year: 2005, questionNumber: 4, section: 1, marks: 60,
     topic: "Service Firm", subtopic: "Service Firm",
-    paperUrl: secPaper(2005), paperPage: 4, paperPageCount: 2,
+    paperUrl: secPaper(2005), paperPage: 4, paperPageCount: 1,
     markingSchemeUrl: secMs(2005), markingSchemePage: 11, markingPageCount: 4,
     timingMinutes: 27, notes: "Smith — service firm final accounts" },
   { id: "2005_Q6_published", year: 2005, questionNumber: 6, section: 2, marks: 100,
@@ -85,7 +85,7 @@ export const questionIndex: ExamQuestion[] = [
   // ─── 2010 ─────────────────────────────────────────────────
   { id: "2010_Q6_service", year: 2010, questionNumber: 6, section: 2, marks: 100,
     topic: "Service Firm", subtopic: "Service Firm",
-    paperUrl: secPaper(2010), paperPage: 6, paperPageCount: 2,
+    paperUrl: secPaper(2010), paperPage: 6, paperPageCount: 1,
     markingSchemeUrl: secMs(2010), markingSchemePage: 16, markingPageCount: 4,
     timingMinutes: 45, notes: "Service firm final accounts" },
   // ─── 2011 ─────────────────────────────────────────────────
@@ -103,7 +103,7 @@ export const questionIndex: ExamQuestion[] = [
   // ─── 2013 ─────────────────────────────────────────────────
   { id: "2013_Q1_company_mfg", year: 2013, questionNumber: 1, section: 1, marks: 120,
     topic: "Final Accounts — Manufacturing", subtopic: "Company w/ Manufacturing",
-    paperUrl: secPaper(2013), paperPage: 2, paperPageCount: 2,
+    paperUrl: secPaper(2013), paperPage: 2, paperPageCount: 1,
     markingSchemeUrl: secMs(2013), markingSchemePage: 3, markingPageCount: 4,
     timingMinutes: 54, notes: "Q1 — full company final accounts incl. manufacturing" },
   { id: "2013_Q4_club", year: 2013, questionNumber: 4, section: 1, marks: 60,
@@ -145,7 +145,7 @@ export const questionIndex: ExamQuestion[] = [
   // ─── 2015 ─────────────────────────────────────────────────
   { id: "2015_Q1_company", year: 2015, questionNumber: 1, section: 1, marks: 120,
     topic: "Final Accounts — Company", subtopic: "Company Final Accounts",
-    paperUrl: secPaper(2015), paperPage: 2, paperPageCount: 2,
+    paperUrl: secPaper(2015), paperPage: 2, paperPageCount: 1,
     markingSchemeUrl: secMs(2015), markingSchemePage: 3, markingPageCount: 4,
     timingMinutes: 54, notes: "Q1 — full company final accounts" },
   { id: "2015_Q6_cashflow", year: 2015, questionNumber: 6, section: 2, marks: 100,
@@ -156,7 +156,7 @@ export const questionIndex: ExamQuestion[] = [
   // ─── 2016 ─────────────────────────────────────────────────
   { id: "2016_Q1_company_mfg", year: 2016, questionNumber: 1, section: 1, marks: 120,
     topic: "Final Accounts — Manufacturing", subtopic: "Company w/ Manufacturing",
-    paperUrl: secPaper(2016), paperPage: 2, paperPageCount: 2,
+    paperUrl: secPaper(2016), paperPage: 2, paperPageCount: 1,
     markingSchemeUrl: secMs(2016), markingSchemePage: 3, markingPageCount: 4,
     timingMinutes: 54, notes: "Q1 — manufacturing company" },
   { id: "2016_Q3_club", year: 2016, questionNumber: 3, section: 1, marks: 60,
@@ -198,7 +198,7 @@ export const questionIndex: ExamQuestion[] = [
   // ─── 2018 ─────────────────────────────────────────────────
   { id: "2018_Q1_company_mfg", year: 2018, questionNumber: 1, section: 1, marks: 120,
     topic: "Final Accounts — Manufacturing", subtopic: "Company w/ Manufacturing",
-    paperUrl: secPaper(2018), paperPage: 2, paperPageCount: 2,
+    paperUrl: secPaper(2018), paperPage: 2, paperPageCount: 1,
     markingSchemeUrl: secMs(2018), markingSchemePage: 3, markingPageCount: 5,
     timingMinutes: 54, notes: "Austin Ltd — manufacturing company" },
   { id: "2018_Q4_service", year: 2018, questionNumber: 4, section: 1, marks: 60,
@@ -219,7 +219,7 @@ export const questionIndex: ExamQuestion[] = [
   // ─── 2019 ─────────────────────────────────────────────────
   { id: "2019_Q1_company", year: 2019, questionNumber: 1, section: 1, marks: 120,
     topic: "Final Accounts — Company", subtopic: "Company Final Accounts",
-    paperUrl: secPaper(2019), paperPage: 2, paperPageCount: 2,
+    paperUrl: secPaper(2019), paperPage: 2, paperPageCount: 1,
     markingSchemeUrl: secMs(2019), markingSchemePage: 3, markingPageCount: 4,
     timingMinutes: 54, notes: "Q1 — full company final accounts" },
   { id: "2019_Q2_control_creditors", year: 2019, questionNumber: 2, section: 1, marks: 60,
@@ -255,7 +255,7 @@ export const questionIndex: ExamQuestion[] = [
   // ─── 2020 ─────────────────────────────────────────────────
   { id: "2020_Q1_sole_trader", year: 2020, questionNumber: 1, section: 1, marks: 120,
     topic: "Final Accounts — Sole Trader", subtopic: "Sole Trader Final Accounts",
-    paperUrl: secPaper(2020), paperPage: 2, paperPageCount: 2,
+    paperUrl: secPaper(2020), paperPage: 2, paperPageCount: 1,
     markingSchemeUrl: secMs(2020), markingSchemePage: 3, markingPageCount: 4,
     timingMinutes: 54, notes: "Q1 — sole trader full final accounts" },
   { id: "2020_Q2_published", year: 2020, questionNumber: 2, section: 1, marks: 60,
@@ -281,7 +281,7 @@ export const questionIndex: ExamQuestion[] = [
   // ─── 2021 ─────────────────────────────────────────────────
   { id: "2021_Q1_sole_trader", year: 2021, questionNumber: 1, section: 1, marks: 120,
     topic: "Final Accounts — Sole Trader", subtopic: "Q1 (A) — Sole Trader / (B) — Manufacturing",
-    paperUrl: secPaper(2021), paperPage: 2, paperPageCount: 2,
+    paperUrl: secPaper(2021), paperPage: 2, paperPageCount: 1,
     markingSchemeUrl: secMs(2021), markingSchemePage: 3, markingPageCount: 5,
     timingMinutes: 54, notes: "Choose sole trader OR manufacturing branch" },
   { id: "2021_Q5_interpretation", year: 2021, questionNumber: 5, section: 2, marks: 100,
@@ -302,7 +302,7 @@ export const questionIndex: ExamQuestion[] = [
   // ─── 2022 ─────────────────────────────────────────────────
   { id: "2022_Q1_company_mfg", year: 2022, questionNumber: 1, section: 1, marks: 120,
     topic: "Final Accounts — Manufacturing", subtopic: "Q1 (A) Manufacturing / (B) Company",
-    paperUrl: secPaper(2022), paperPage: 2, paperPageCount: 2,
+    paperUrl: secPaper(2022), paperPage: 2, paperPageCount: 1,
     markingSchemeUrl: secMs(2022), markingSchemePage: 3, markingPageCount: 5,
     timingMinutes: 54, notes: "McGuigan Ltd manufacturing OR McCormack Ltd" },
   { id: "2022_Q2_cashflow", year: 2022, questionNumber: 2, section: 1, marks: 60,
@@ -354,7 +354,7 @@ export const questionIndex: ExamQuestion[] = [
   // ─── 2024 ─────────────────────────────────────────────────
   { id: "2024_Q1_sole_trader", year: 2024, questionNumber: 1, section: 1, marks: 120,
     topic: "Final Accounts — Sole Trader", subtopic: "Q1 (A) Sole Trader / (B) Company",
-    paperUrl: secPaper(2024), paperPage: 2, paperPageCount: 2,
+    paperUrl: secPaper(2024), paperPage: 2, paperPageCount: 1,
     markingSchemeUrl: secMs(2024), markingSchemePage: 3, markingPageCount: 5,
     timingMinutes: 54, notes: "Choose sole trader OR company branch" },
   { id: "2024_Q2_cashflow", year: 2024, questionNumber: 2, section: 1, marks: 60,
@@ -370,7 +370,7 @@ export const questionIndex: ExamQuestion[] = [
   // ─── 2025 ─────────────────────────────────────────────────
   { id: "2025_Q1_company_mfg", year: 2025, questionNumber: 1, section: 1, marks: 120,
     topic: "Final Accounts — Manufacturing", subtopic: "Q1 (A) Manufacturing / (B) Company",
-    paperUrl: secPaper(2025), paperPage: 2, paperPageCount: 2,
+    paperUrl: secPaper(2025), paperPage: 2, paperPageCount: 1,
     markingSchemeUrl: secMs(2025), markingSchemePage: 3, markingPageCount: 5,
     timingMinutes: 54, notes: "Choose manufacturing OR company branch" },
   { id: "2025_Q4_service", year: 2025, questionNumber: 4, section: 1, marks: 60,
