@@ -14,6 +14,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { useSidebar } from "@/components/ui/sidebar";
+import { useNavigate } from "react-router-dom";
+import { setExamGuard } from "@/lib/examGuard";
 import {
   questionIndex, filterQuestions, uniqueTopics, type ExamQuestion,
 } from "@/data/questionIndex";
@@ -1443,6 +1445,18 @@ export default function SimulatorPage() {
   const [history, setHistory] = useLocalStorage<HistoryEntry[]>(HISTORY_KEY, []);
   const { setOpen } = useSidebar();
   const [lastEntryAt, setLastEntryAt] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const [pendingNav, setPendingNav] = useState<string | null>(null);
+
+  // Register a guard while an exam is in-progress so sidebar / other
+  // nav sources can prompt the abandon dialog instead of silently leaving.
+  useEffect(() => {
+    if (stage === "active") {
+      setExamGuard((targetUrl) => setPendingNav(targetUrl));
+      return () => setExamGuard(null);
+    }
+    setExamGuard(null);
+  }, [stage]);
 
   // Auto-collapse the sidebar whenever an exam is active so the candidate
   // gets maximum reading width. Restore it once they leave the active stage.
