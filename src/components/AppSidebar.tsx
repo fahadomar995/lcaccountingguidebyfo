@@ -1,8 +1,9 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Moon, Sun } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useTheme } from "@/hooks/useTheme";
 import { NAV_SECTIONS } from "@/data/navigation";
+import { requestExamNavigation } from "@/lib/examGuard";
 import {
   Sidebar,
   SidebarContent,
@@ -22,6 +23,17 @@ export function AppSidebar() {
   const collapsed = state === "collapsed";
   const location = useLocation();
   const { isDark, toggle } = useTheme();
+  const navigate = useNavigate();
+
+  // Intercept clicks while an exam is active — open the abandon dialog
+  // (handled by SimulatorPage) instead of silently navigating away.
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, url: string) => {
+    if (location.pathname === "/simulator" && url !== "/simulator") {
+      if (requestExamNavigation(url)) {
+        e.preventDefault();
+      }
+    }
+  };
 
   return (
     <>
@@ -54,6 +66,7 @@ export function AppSidebar() {
                           end={item.url === "/"}
                           className="hover:bg-sidebar-accent/50"
                           activeClassName="bg-sidebar-accent text-primary font-semibold"
+                          onClick={(e) => handleNavClick(e, item.url)}
                         >
                           <item.icon className="h-4 w-4 shrink-0" />
                           {!collapsed && <span>{item.title}</span>}

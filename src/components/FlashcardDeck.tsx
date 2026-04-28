@@ -200,13 +200,19 @@ export default function FlashcardDeck({ cards, storageKey = "lc-flash-status-v2"
 
   return (
     <div className="max-w-[560px] mx-auto">
-      {/* Top stats bar */}
-      <div className="flex items-center justify-between mb-2 text-[11px] font-mono">
-        <span className="text-muted-foreground">{pos + 1} / {total}</span>
-        <div className="flex gap-3">
-          <span className="text-primary font-bold">{knownCount} know</span>
-          <span className="font-bold" style={{ color: "hsl(var(--tier-po))" }}>{learningCount} learning</span>
-          <span className="text-muted-foreground">{remainingCount} left</span>
+      {/* Top stats bar — persistent deck progress (X / N) until reset */}
+      <div className="flex items-center justify-between mb-2 text-[11px] font-mono flex-wrap gap-y-1">
+        <span className="text-muted-foreground">Card {pos + 1} of {total}</span>
+        <div className="flex gap-3 items-center">
+          <span className="text-primary font-bold" title="Cards marked 'Know'">
+            {knownCount}/{cards.length} learned
+          </span>
+          <span className="font-bold" style={{ color: "hsl(var(--tier-po))" }} title="Cards marked 'Still learning'">
+            {learningCount} learning
+          </span>
+          <span className="text-muted-foreground" title="Cards left in this round">
+            {remainingCount} left
+          </span>
         </div>
       </div>
 
