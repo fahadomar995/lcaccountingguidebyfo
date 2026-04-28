@@ -5,6 +5,8 @@ import { RESULTS, SEC3_Q8_RESULTS, SEC3_Q9_RESULTS, tier } from "@/data/predicti
 import { THEORY_BANK, THEORY_FLASHCARDS } from "@/data/theory";
 import { CLASSIFY_ITEMS, LAYOUT_FORMATS } from "@/data/studyContent";
 import { useMemo } from "react";
+import { ArrowRight, Sparkles } from "lucide-react";
+import { CHAPTERS } from "@/data/theoryChapters";
 
 function useDashboardStats() {
   return useMemo(() => {
@@ -49,6 +51,116 @@ function useDashboardStats() {
   }, []);
 }
 
+interface ContinueCard {
+  label: string;
+  title: string;
+  detail: string;
+  href: string;
+  cta: string;
+}
+
+function useContinueCard(): ContinueCard | null {
+  return useMemo(() => {
+    const candidates: ContinueCard[] = [];
+    try {
+      // 1. Last theory chapter section opened
+      const lastRaw = localStorage.getItem('lc-theory-last');
+      if (lastRaw) {
+        const last = JSON.parse(lastRaw) as { chapterId: number; sectionId: string };
+        const ch = CHAPTERS.find(c => c.id === last.chapterId);
+        if (ch) {
+          const progRaw = localStorage.getItem('lc-theory-ch-progress');
+          const prog: Record<string, boolean> = progRaw ? JSON.parse(progRaw) : {};
+          const done = ch.sections.filter(s => prog[`${ch.id}_${s.id}`]).length;
+          candidates.push({
+            label: 'Continue chapter',
+            title: `Ch ${ch.id} · ${ch.title}`,
+            detail: `${done}/${ch.sections.length} sections complete`,
+            href: '/theory',
+            cta: 'Resume',
+          });
+        }
+      }
+
+      // 2. Flashcards progress (per-deck topic split)
+      const statusRaw = localStorage.getItem('lc-flash-status-v2');
+      if (statusRaw) {
+        const status: Record<string, string> = JSON.parse(statusRaw);
+        // group by topic prefix (id format e.g. "published-01")
+        const byTopic: Record<string, { known: number; total: number }> = {};
+        THEORY_FLASHCARDS.forEach((c: any) => {
+          const topic = (c.topic || c.tag || 'general') as string;
+          byTopic[topic] = byTopic[topic] || { known: 0, total: 0 };
+          byTopic[topic].total += 1;
+          if (status[c.id] === 'know') byTopic[topic].known += 1;
+        });
+        const active = Object.entries(byTopic).filter(([, v]) => v.known > 0 && v.known < v.total);
+        if (active.length) {
+          const [topic, v] = active[Math.floor(Math.random() * active.length)];
+          candidates.push({
+            label: 'Flashcards in progress',
+            title: `${topic} flashcards`,
+            detail: `${v.known}/${v.total} cards learned`,
+            href: '/theory',
+            cta: 'Keep going',
+          });
+        }
+      }
+
+      // 3. Theory practice average score
+      const scoresRaw = localStorage.getItem('lc-theory-scores');
+      if (scoresRaw) {
+        const scores: Record<string, string> = JSON.parse(scoresRaw);
+        const attempted = Object.keys(scores).length;
+        if (attempted >= 3) {
+          const got = Object.values(scores).filter(s => s === 'got').length;
+          const partial = Object.values(scores).filter(s => s === 'partial').length;
+          const pct = Math.round(((got + partial * 0.5) / attempted) * 100);
+          candidates.push({
+            label: 'Theory practice',
+            title: `Average score ${pct}%`,
+            detail: `${attempted} questions attempted · ${got} confident`,
+            href: '/theory',
+            cta: 'Practise more',
+          });
+        }
+      }
+
+      // 4. Classify best
+      const classifyBest = Number(localStorage.getItem('lc-classify-best')) || 0;
+      if (classifyBest > 0) {
+        candidates.push({
+          label: 'Classify game',
+          title: `Best score ${classifyBest}%`,
+          detail: 'Beat your record on BS/P&L item classification',
+          href: '/classify',
+          cta: 'Play again',
+        });
+      }
+
+      // 5. Practice tracker
+      const trackerRaw = localStorage.getItem('lc-practice-tracker');
+      if (trackerRaw) {
+        const tracker: Record<string, boolean> = JSON.parse(trackerRaw);
+        const done = Object.values(tracker).filter(Boolean).length;
+        if (done > 0) {
+          candidates.push({
+            label: 'Practice tracker',
+            title: `${done} past questions ticked off`,
+            detail: 'Mark off more practice papers in Study Tools',
+            href: '/study-tools',
+            cta: 'Open tracker',
+          });
+        }
+      }
+    } catch {}
+
+    if (!candidates.length) return null;
+    // Rotate per visit — random pick on mount
+    return candidates[Math.floor(Math.random() * candidates.length)];
+  }, []);
+}
+
 const TOOLS = [
   { href: "/theory", name: "Theory Revision", desc: "24-chapter study hub with Learn mode, past exam questions, chapter review quizzes, flashcards, and frequency analysis.", stat: `24 chapters · ${THEORY_BANK.length}+ questions`, color: "bg-sage-bg border-sage" },
   { href: "/q1-workings", name: "Q1 Workings", desc: "37 step-by-step adjustment walkthroughs with T-accounts. Every Q1 adjustment type covered.", stat: "37 archetypes", color: "bg-blue-bg border-blue" },
@@ -68,6 +180,7 @@ const Q1_PAIRS = [
 
 export default function Index() {
   const stats = useDashboardStats();
+  const continueCard = useContinueCard();
   const shown = RESULTS.filter(r => !r.wildcard).slice(0, 5);
   const q8top = SEC3_Q8_RESULTS.slice(0, 3);
   const q9top = SEC3_Q9_RESULTS.slice(0, 3);
@@ -103,6 +216,27 @@ export default function Index() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Continue Where You Left Off — rotating */}
+      {continueCard && (
+        <Link to={continueCard.href} className="block mb-6 group">
+          <Card className="border-l-4 border-l-primary bg-primary/5 hover:bg-primary/10 transition-colors">
+            <CardContent className="p-4 sm:p-5 flex items-center gap-4">
+              <span className="w-9 h-9 rounded-full bg-primary/15 text-primary flex items-center justify-center shrink-0">
+                <Sparkles className="h-4 w-4" />
+              </span>
+              <div className="min-w-0 flex-1">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-primary mb-0.5">{continueCard.label}</div>
+                <div className="font-display text-sm font-bold text-foreground truncate">{continueCard.title}</div>
+                <div className="text-xs text-muted-foreground font-light mt-0.5">{continueCard.detail}</div>
+              </div>
+              <span className="shrink-0 flex items-center gap-1 text-xs font-medium text-primary group-hover:gap-1.5 transition-all">
+                {continueCard.cta} <ArrowRight className="h-3.5 w-3.5" />
+              </span>
+            </CardContent>
+          </Card>
+        </Link>
+      )}
 
       {/* Tool Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
