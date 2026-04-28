@@ -1531,7 +1531,34 @@ export default function SimulatorPage() {
   };
 
   if (stage === "active" && active) {
-    return <ActiveStage question={active} onSubmit={handleSubmit} onAbandon={handleAbandon} />;
+    return (
+      <>
+        <ActiveStage question={active} onSubmit={handleSubmit} onAbandon={handleAbandon} />
+        <AlertDialog open={pendingNav !== null} onOpenChange={(o) => !o && setPendingNav(null)}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Abandon this session?</AlertDialogTitle>
+              <AlertDialogDescription>
+                Leaving this page will end your current exam session. Your time will not be saved.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Keep Going</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={() => {
+                  const target = pendingNav;
+                  setPendingNav(null);
+                  handleAbandon();
+                  if (target) navigate(target);
+                }}
+              >
+                Abandon & Leave
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      </>
+    );
   }
   if (stage === "results" && active) {
     return (
