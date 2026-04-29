@@ -15,7 +15,7 @@ import {
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { useSidebar } from "@/components/ui/sidebar";
 import { useNavigate } from "react-router-dom";
-import { setExamGuard } from "@/lib/examGuard";
+import { setExamGuard, SIDEBAR_TOGGLE_SENTINEL } from "@/lib/examGuard";
 import {
   questionIndex, filterQuestions, uniqueTopics, type ExamQuestion,
 } from "@/data/questionIndex";
