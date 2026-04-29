@@ -82,13 +82,13 @@ export function AppSidebar() {
 
         </SidebarContent>
 
-        <SidebarFooter className="p-3">
+        <SidebarFooter className="p-2 gap-2">
           <SidebarProfile />
           <Button
             variant="ghost"
             size="sm"
             onClick={toggle}
-            className="w-full justify-start gap-2 text-muted-foreground hover:text-foreground mt-1"
+            className={`gap-2 text-muted-foreground hover:text-foreground ${collapsed ? "h-8 w-8 p-0 mx-auto justify-center" : "w-full justify-start"}`}
           >
             {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             {!collapsed && <span className="text-xs font-medium">{isDark ? "Light Mode" : "Dark Mode"}</span>}
