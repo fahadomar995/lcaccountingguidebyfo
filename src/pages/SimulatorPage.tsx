@@ -1549,7 +1549,7 @@ export default function SimulatorPage() {
                   const target = pendingNav;
                   setPendingNav(null);
                   handleAbandon();
-                  if (target) navigate(target);
+                  if (target && target !== SIDEBAR_TOGGLE_SENTINEL) navigate(target);
                 }}
               >
                 Abandon & Leave
