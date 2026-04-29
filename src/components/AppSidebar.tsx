@@ -17,6 +17,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
+import { SidebarProfile } from "@/components/SidebarProfile";
 
 export function AppSidebar() {
   const { state } = useSidebar();
@@ -82,11 +83,12 @@ export function AppSidebar() {
         </SidebarContent>
 
         <SidebarFooter className="p-3">
+          <SidebarProfile />
           <Button
             variant="ghost"
             size="sm"
             onClick={toggle}
-            className="w-full justify-start gap-2 text-muted-foreground hover:text-foreground"
+            className="w-full justify-start gap-2 text-muted-foreground hover:text-foreground mt-1"
           >
             {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             {!collapsed && <span className="text-xs font-medium">{isDark ? "Light Mode" : "Dark Mode"}</span>}

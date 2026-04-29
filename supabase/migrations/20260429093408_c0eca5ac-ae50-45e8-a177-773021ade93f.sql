@@ -1,0 +1,6 @@
+-- Lock down SECURITY DEFINER functions
+revoke execute on function public.has_role(uuid, public.app_role) from public, anon;
+revoke execute on function public.handle_new_user() from public, anon, authenticated;
+revoke execute on function public.touch_updated_at() from public, anon, authenticated;
+-- has_role is needed by RLS policies running as authenticated; allow it
+grant execute on function public.has_role(uuid, public.app_role) to authenticated;
