@@ -1,5 +1,9 @@
-import { corsHeaders } from "@supabase/supabase-js/cors";
 import { COURSE_DIGEST } from "./courseDigest.ts";
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
+};
 
 const SYSTEM_PROMPT = `You are the in-app AI tutor for "LC Accounting 2026" — an Irish Leaving Certificate Higher Level Accounting study app.
 
