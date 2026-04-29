@@ -26,11 +26,28 @@ export function SidebarProfile() {
   }, [user]);
 
   if (!user) {
+    if (collapsed) {
+      return (
+        <button
+          onClick={() => navigate("/auth")}
+          className="h-9 w-9 rounded-full mx-auto flex items-center justify-center bg-muted hover:bg-sidebar-accent transition-colors"
+          aria-label="Sign in"
+          title="Sign in"
+        >
+          <LogIn className="h-4 w-4 text-muted-foreground" />
+        </button>
+      );
+    }
     return (
-      <Button variant="outline" size="sm" className="w-full justify-start gap-2" onClick={() => navigate("/auth")}>
-        <LogIn className="h-4 w-4" />
-        {!collapsed && <span className="text-xs">Sign in / Sign up</span>}
-      </Button>
+      <button
+        onClick={() => navigate("/auth")}
+        className="w-full flex items-center gap-2 p-1.5 rounded-full hover:bg-sidebar-accent/50 transition-colors text-left"
+      >
+        <span className="h-9 w-9 rounded-full bg-muted flex items-center justify-center shrink-0">
+          <LogIn className="h-4 w-4 text-muted-foreground" />
+        </span>
+        <span className="text-xs font-medium truncate">Sign in / Sign up</span>
+      </button>
     );
   }
 
@@ -40,10 +57,14 @@ export function SidebarProfile() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="w-full flex items-center gap-2 p-1.5 rounded hover:bg-sidebar-accent/50 transition-colors text-left">
-          <Avatar className="h-7 w-7 shrink-0">
+        <button
+          className={`flex items-center gap-2 p-1 rounded-full hover:bg-sidebar-accent/50 transition-colors text-left ${collapsed ? "mx-auto" : "w-full"}`}
+          aria-label={`Account: ${name}`}
+          title={collapsed ? name : undefined}
+        >
+          <Avatar className="h-9 w-9 shrink-0 ring-1 ring-border">
             {profile?.avatar_url && <AvatarImage src={profile.avatar_url} alt={name} />}
-            <AvatarFallback className="text-[10px] bg-primary/10 text-primary">{initials}</AvatarFallback>
+            <AvatarFallback className="text-[11px] font-semibold bg-primary/10 text-primary">{initials}</AvatarFallback>
           </Avatar>
           {!collapsed && (
             <div className="min-w-0 flex-1">
