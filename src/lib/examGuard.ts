@@ -21,6 +21,8 @@ export function isExamActive() {
   return handler !== null;
 }
 
+export const SIDEBAR_TOGGLE_SENTINEL = "__sidebar_toggle__";
+
 /**
  * Returns true if navigation should be intercepted (caller should NOT
  * proceed with its own navigation). Returns false when no exam is active.
