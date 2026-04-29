@@ -1,7 +1,7 @@
 import {
   Home, BookOpen, GraduationCap, Layers, FileText, Calculator,
   ClipboardList, BarChart3, PenTool, Grid3X3, HelpCircle,
-  Factory, Coins, Wrench, TrendingUp, Mail, Banknote, FileSearch, Sprout, Table2, Timer
+  Factory, Coins, Wrench, TrendingUp, Mail, Banknote, FileSearch, Sprout, Table2, Timer, Sparkles
 } from "lucide-react";
 
 export interface NavItem {
@@ -61,6 +61,7 @@ export const NAV_SECTIONS: NavSection[] = [
       { title: "Past Papers", url: "/past-papers", icon: FileText },
       { title: "Study Tools", url: "/study-tools", icon: Wrench },
       { title: "Q5 Ratios", url: "/ratios", icon: BarChart3 },
+      { title: "AI Tutor", url: "/tutor", icon: Sparkles },
       { title: "Contact", url: "/contact", icon: Mail },
     ],
   },

@@ -33,6 +33,10 @@ import { IR_ARCHETYPES, IR_CATEGORIES } from "./data/incompleteRecordsWorkings";
 import { FARM_DEPT_ARCHETYPES, FARM_DEPT_CATEGORIES } from "./data/farmDeptWorkings";
 import TabularStatementsPage from "./pages/TabularStatementsPage";
 import SimulatorPage from "./pages/SimulatorPage";
+import AuthPage from "./pages/AuthPage";
+import ProfilePage from "./pages/ProfilePage";
+import TutorPage from "./pages/TutorPage";
+import { AuthProvider } from "@/hooks/useAuth";
 
 const queryClient = new QueryClient();
 
@@ -42,6 +46,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <AuthProvider>
         <AppLayout>
           <Routes>
             <Route path="/" element={<Index />} />
@@ -149,9 +154,13 @@ const App = () => (
             <Route path="/predictions/model" element={<PredModel />} />
             <Route path="/predictions/stats" element={<PredStats />} />
             <Route path="/predictions/topicgrid" element={<PredTopicGrid />} />
+            <Route path="/auth" element={<AuthPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/tutor" element={<TutorPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AppLayout>
+        </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
