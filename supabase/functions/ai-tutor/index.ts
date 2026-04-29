@@ -34,8 +34,8 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-    if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY not configured");
+    const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY");
+    if (!GEMINI_API_KEY) throw new Error("GEMINI_API_KEY not configured");
 
     const { messages } = await req.json();
     if (!Array.isArray(messages) || messages.length === 0) {
@@ -44,28 +44,83 @@ Deno.serve(async (req) => {
       });
     }
 
-    const resp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    // Convert OpenAI-style messages -> Gemini "contents"
+    const contents = (messages as Array<{ role: string; content: string }>)
+      .filter((m) => m.role === "user" || m.role === "assistant")
+      .map((m) => ({
+        role: m.role === "assistant" ? "model" : "user",
+        parts: [{ text: String(m.content ?? "") }],
+      }));
+
+    const MODEL = "gemini-2.0-flash";
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:streamGenerateContent?alt=sse&key=${GEMINI_API_KEY}`;
+
+    const resp = await fetch(url, {
       method: "POST",
-      headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
-        messages: [{ role: "system", content: SYSTEM_PROMPT }, ...messages],
-        stream: true,
+        systemInstruction: { role: "system", parts: [{ text: SYSTEM_PROMPT }] },
+        contents,
+        generationConfig: { temperature: 0.4, maxOutputTokens: 2048 },
       }),
     });
 
-    if (!resp.ok) {
-      if (resp.status === 429) return new Response(JSON.stringify({ error: "Rate limit reached. Try again shortly." }),
-        { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } });
-      if (resp.status === 402) return new Response(JSON.stringify({ error: "AI credits exhausted. Please top up in Lovable Cloud." }),
-        { status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" } });
-      const t = await resp.text();
-      console.error("AI gateway error:", resp.status, t);
+    if (!resp.ok || !resp.body) {
+      const t = await resp.text().catch(() => "");
+      console.error("Gemini error:", resp.status, t);
+      if (resp.status === 429) {
+        return new Response(JSON.stringify({ error: "Rate limit reached. Try again shortly." }),
+          { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      }
       return new Response(JSON.stringify({ error: "AI service error" }),
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    return new Response(resp.body, { headers: { ...corsHeaders, "Content-Type": "text/event-stream" } });
+    // Re-stream Gemini SSE as OpenAI-compatible SSE so the existing frontend parser works unchanged.
+    const stream = new ReadableStream({
+      async start(controller) {
+        const reader = resp.body!.getReader();
+        const decoder = new TextDecoder();
+        const encoder = new TextEncoder();
+        let buffer = "";
+        const send = (text: string) => {
+          const payload = { choices: [{ delta: { content: text } }] };
+          controller.enqueue(encoder.encode(`data: ${JSON.stringify(payload)}\n\n`));
+        };
+        try {
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            buffer += decoder.decode(value, { stream: true });
+            let idx: number;
+            while ((idx = buffer.indexOf("\n")) !== -1) {
+              let line = buffer.slice(0, idx);
+              buffer = buffer.slice(idx + 1);
+              if (line.endsWith("\r")) line = line.slice(0, -1);
+              if (!line.startsWith("data: ")) continue;
+              const json = line.slice(6).trim();
+              if (!json || json === "[DONE]") continue;
+              try {
+                const parsed = JSON.parse(json);
+                const parts = parsed?.candidates?.[0]?.content?.parts ?? [];
+                for (const p of parts) if (typeof p?.text === "string" && p.text) send(p.text);
+              } catch {
+                // partial JSON — push back and wait for more
+                buffer = line + "\n" + buffer;
+                break;
+              }
+            }
+          }
+          controller.enqueue(encoder.encode("data: [DONE]\n\n"));
+        } catch (err) {
+          console.error("stream relay error:", err);
+        } finally {
+          controller.close();
+        }
+      },
+    });
+
+    return new Response(stream, { headers: { ...corsHeaders, "Content-Type": "text/event-stream" } });
   } catch (e) {
     console.error("ai-tutor error:", e);
     return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }),
