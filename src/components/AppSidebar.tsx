@@ -82,16 +82,17 @@ export function AppSidebar() {
 
         </SidebarContent>
 
-        <SidebarFooter className="p-2 gap-2">
+        <SidebarFooter className="border-t border-sidebar-border bg-sidebar p-2 gap-2 flex flex-col items-center">
           <SidebarProfile />
           <Button
             variant="ghost"
-            size="sm"
+            size="icon"
             onClick={toggle}
-            className={`gap-2 text-muted-foreground hover:text-foreground ${collapsed ? "h-8 w-8 p-0 mx-auto justify-center" : "w-full justify-start"}`}
+            aria-label={isDark ? "Light mode" : "Dark mode"}
+            title={isDark ? "Light mode" : "Dark mode"}
+            className="h-8 w-8 text-muted-foreground hover:text-foreground"
           >
             {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-            {!collapsed && <span className="text-xs font-medium">{isDark ? "Light Mode" : "Dark Mode"}</span>}
           </Button>
         </SidebarFooter>
       </Sidebar>

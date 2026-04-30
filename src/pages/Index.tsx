@@ -7,6 +7,7 @@ import { CLASSIFY_ITEMS, LAYOUT_FORMATS } from "@/data/studyContent";
 import { useMemo } from "react";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { CHAPTERS } from "@/data/theoryChapters";
+import { useStreak, usePingStreak } from "@/hooks/useStreak";
 
 function useDashboardStats() {
   return useMemo(() => {
@@ -182,6 +183,8 @@ const Q1_PAIRS = [
 export default function Index() {
   const stats = useDashboardStats();
   const continueCard = useContinueCard();
+  const streak = useStreak();
+  usePingStreak(); // counts visiting the dashboard as a study touchpoint
   const shown = RESULTS.filter(r => !r.wildcard).slice(0, 5);
   const q8top = SEC3_Q8_RESULTS.slice(0, 3);
   const q9top = SEC3_Q9_RESULTS.slice(0, 3);
@@ -203,13 +206,14 @@ export default function Index() {
         <CardContent className="p-4 sm:p-5">
           <div className="flex flex-wrap gap-5 justify-center">
             {[
+              { label: "Streak", value: `${streak.current_streak}🔥`.replace("🔥", "") + (streak.current_streak ? "d" : ""), title: `Longest ${streak.longest_streak}d` },
               { label: "Questions", value: stats.questions },
               { label: "Score", value: stats.practice },
               { label: "Flashcards", value: stats.flashcards },
               { label: "Classify", value: stats.classify },
               { label: "Practice", value: stats.tracker },
             ].map(item => (
-              <div key={item.label} className="text-center min-w-[70px]">
+              <div key={item.label} className="text-center min-w-[70px]" title={(item as any).title}>
                 <div className="font-mono text-xl font-bold text-primary">{item.value}</div>
                 <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mt-0.5">{item.label}</div>
               </div>
