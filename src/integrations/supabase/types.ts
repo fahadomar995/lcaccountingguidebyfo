@@ -80,6 +80,60 @@ export type Database = {
         }
         Relationships: []
       }
+      user_streaks: {
+        Row: {
+          current_streak: number
+          last_active_date: string | null
+          longest_streak: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          current_streak?: number
+          last_active_date?: string | null
+          longest_streak?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          current_streak?: number
+          last_active_date?: string | null
+          longest_streak?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_topic_preferences: {
+        Row: {
+          id: string
+          is_excluded: boolean
+          priority: string
+          priority_weight: number
+          topic_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          is_excluded?: boolean
+          priority?: string
+          priority_weight?: number
+          topic_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          is_excluded?: boolean
+          priority?: string
+          priority_weight?: number
+          topic_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -91,6 +145,22 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      streak_ping: {
+        Args: { _user_id: string }
+        Returns: {
+          current_streak: number
+          last_active_date: string | null
+          longest_streak: number
+          updated_at: string
+          user_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "user_streaks"
+          isOneToOne: true
+          isSetofReturn: false
+        }
       }
     }
     Enums: {
