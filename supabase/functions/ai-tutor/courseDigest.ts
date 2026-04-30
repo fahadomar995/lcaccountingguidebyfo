@@ -1,4 +1,4 @@
-// AUTO-GENERATED from src/data/theory.ts and src/data/learn/* — see scripts/build-tutor-digest.mjs
+// AUTO-GENERATED from src/data/theory.ts, src/data/learn/* and uploaded source PDFs/PPTX.
 // This is the authoritative course content used to ground the AI tutor.
 export const COURSE_DIGEST = `# LEAVING CERT HIGHER LEVEL ACCOUNTING (2026) — COURSE KNOWLEDGE BASE
 
@@ -359,4 +359,1385 @@ import type { LearnModuleDef } from ../learnContent.types ; export const MODULE:
 ### Exam Technique
 import type { LearnModuleDef } from ../learnContent.types ; export const MODULE: LearnModuleDef = { id: exam-technique , name: Exam Technique & Booklet , icon: GraduationCap , category: exam-skills , tagline: Master the answer booklet, method marks, and the order of attack. , lessons: [ { t: Anatomy of the LC Paper , steps: [ 180 minutes. 400 marks. 9 questions across 3 sections. Knowing the structure is half the battle — students who walk in knowing exactly which questions to attempt save 10–15 minutes of decision time. Section Questions Marks Time Section 1 — Financial Accounting Q1 (compulsory) OR any 2 of Q2–Q4 120 54 min Section 2 — Financial A/c &amp; Reporting Any 2 of Q5, Q6, Q7 2 × 100 = 200 90 min Section 3 — Management Accounting Any 1 of Q8, Q9 80 36 min Time-per-mark rule: 180 ÷ 400 = 0.45 minutes per mark . So a 120-mark Q1 = 54 min, a 100-mark Q5 = 45 min, a 60-mark Q6 part = 27 min. Write these on your scratchpad before starting any question. , The Q1 vs Q2/3/4 choice is the single biggest strategic decision you make. Q1 is worth 120 marks (30% of the entire paper) — almost always a sole-trader or company final accounts. Choose Q1 if: • You re confident with depreciation, accruals, prepayments, bad debts • You can comfortably draw a Trading + P&amp;L + BS in 50 min • You ve drilled at least 5 past Q1s Choose 2 from Q2/Q3/Q4 if: • You re shaky on big set-piece final accounts • You re strong on bookkeeping (Q2), club/service/farm/incomplete records (Q3) or tabular statements (Q4) • You ve practiced these alternatives Most candidates do Q1. The marking is generous on layout and presentation, and the topics are highly predictable. Unless your teacher has specifically prepared you for Q2+Q3 or Q3+Q4, default to Q1. , How many minutes should you spend on a 100-mark question? 30 minutes 45 minutes (100 × 0.45) 60 minutes Section 2 (Q5–Q7) requires you to attempt: All three questions Any two of the three Q5 is compulsory If you do Q1 (120) + 2 × Q5/6/7 (200) + 1 × Q8/9 (80), total marks attempted = 400 marks (the full paper) 300 marks 320 marks , ], }, { t: Answering Backwards (the David Wilson method) , steps: [ Most students attempt the paper in order: Q1 first, then Q5, then Q8. This is the worst possible strategy. Q1 is the longest, hardest question — and after 50 minutes of it, you are mentally fried for everything else. The David Wilson order of attack: 1. Q8 or Q9 (Management Accounting — 36 min) 2. Two of Q5/Q6/Q7 (Section 2 — 90 min) 3. Q1 (Section 1 — 54 min) Why this works: • Q8/Q9 are short, formulaic, low-stakes. Banking 80 marks early gives you confidence. • Section 2 questions are smaller (100 marks each) — you can pace easily. • Q1 last means even if you run out of time, you ve already secured 280 marks. , The running out of time maths. Suppose you have 15 minutes left and Q1 s Balance Sheet still to do. If you attempted Q1 first: you have 0 minutes for the BS = lose ~25 marks. Total maybe ~340/400. If you attempted Q1 last: you ve already secured 280 marks from earlier, and even a rushed BS gets you 10–15 marks. Total ~310/400. But more importantly — you d have spotted the time risk earlier and rushed strategically (e.g. abandoned the marginal-mark workings on Q7 to bank the BS on Q1). The cardinal rule: never finish the exam with marks left unattempted. A half-finished BS scores. A blank page scores zero. , How to actually open the paper: Minute 0–5: Read every question header (just the topic, not the detail). Mark the questions you ll attempt. Minute 5–8: Write the time budget on your scratchpad: Q9: finish by 0:36. Q5: by 1:21. Q7: by 2:06. Q1: by 3:00. Minute 8 onwards: Start with your strongest Section 3 question. In the David Wilson order, which question do you attempt LAST? Q1 (Section 1) Q8 or Q9 Q5 Why attempt Q8 or Q9 first? Short, formulaic — banks 80 marks early and builds confidence It s worth the most marks It s compulsory , ], }, { t: Using the Answer Booklet , steps: [ The answer booklet is a tool — use it correctly and the markers can find every mark you ve earned. Use it badly and method marks slip away because the examiner can t follow your logic. The folio system: • Every page has a folio number at the top. • When you reference a working from the main answer, write see W3 fol. 7 . • Markers will physically flip to fol. 7 to award the working marks. If you don t tell them where to look, they don t look. The right-page rule: Many candidates spread the main answer across the LEFT page and put workings on the RIGHT page (or vice-versa). Either is fine — the rule is consistency. Pick one and stick to it for the entire paper. , Standard answer-booklet layout for Q1 BS LEFT PAGE — Main answer Premises (W1) 450,000 Vans (W2) 38,000 Equipment (W3) 31,920 Stock 47,100 Debtors (W4) 3,825 RIGHT PAGE — Workings W4 — Debtors Per TB 12,600 Less suspense (7,920) Less van error (2,000) Add bad debt 225 Add CD Electrical 920 = 3,825 What earns the marks: • (W4) beside the figure → marker knows there s a working • Working is clearly numbered and laid out as a list of adjustments • Final figure is highlighted/double-underlined and matches the main answer , 5 booklet sins that lose marks: 1. Cramming workings into the margin — markers can t read them, no method marks. 2. Erasing wrong figures — single line through, figure beside. Erased figures sometimes had method marks! 3. Mixing two questions on one page — start each question on a new page. 4. Forgetting to label workings (W1, W2…) — examiner can t link them to the main answer. 5. Skipping the question number — Q1(a) at the top of every page. The (W3) notation beside a figure tells the marker: There is a numbered working — go find it for method marks The figure was added in pencil Working 3 was difficult If you write a wrong figure, you should: Scribble it out completely so it s unreadable Single line through, write correct figure beside — old figure may carry method marks Tear out the page and start again , ], }, { t: Method Marks & Show Your Workings , steps: [ Every Leaving Cert Accounting question is marked using both accuracy marks (right answer) AND method marks (right approach, even if the figure is wrong). Showing workings is the difference between 0 and 6 on a 7-mark figure. Worked example — depreciation working: Question gives: Equipment cost €60,000, accumulated dep €15,000, rate 12.5% reducing balance. Bad answer (0–2 marks): Depreciation = €5,625 Good answer (full marks even if final figure wrong): W2 — Equipment Depreciation NBV = 60,000 − 15,000 = 45,000 Charge = 45,000 × 12.5% = €5,625 Even if you typed 60,000 × 12.5% = 7,500 (wrong base), you d still get the method marks for showing the formula. , The carried-forward error rule. If you compute something wrong early on and then USE that wrong figure consistently in later parts, you only lose the marks for that one figure. The marker will award all subsequent figures as long as the arithmetic is internally consistent. Example: You compute net profit as €50,000 (correct = €52,000). When you carry €50,000 into the BS Capital section and into the corrected BS, you get FULL marks on the BS — only the €2,000 difference is lost. This is why showing workings is non-negotiable : it makes your work internally consistent and unlocks carried-forward marks. , The no working = no mark topics where examiners are especially strict: • Any depreciation figure → must show NBV calculation • Bad debts provision → must show debtors × rate • Subscriptions in club accounts → must show full W6 strip-out • Loan + interest split → must show 1.06 division • Stock valuation (cost vs NRV) → must show the comparison • Capital opening figure (incomplete records) → must show A − L You compute net profit as €48,000 (correct = €51,000). You carry €48,000 into the BS. The BS balances internally. How are you marked? All BS marks lost Lose only the €3,000 NP error — full BS marks via carried-forward rule No marks unless the BS shows €51,000 Be
 
-`;
+
+
+
+## ──────── EXTERNAL TEXTBOOK & HANDOUT EXTRACTS ────────
+## (Use these alongside the SEC marking-scheme answers above.
+##  When a student question matches a topic tag, prefer the matching extract.)
+
+
+### [SOURCE: RATIOS & INTERPRETATION (Q5/Q6 — Ratio Handout 2024)]
+1. Interpretation and Analysis of Financial Information (Ratios)
+When approaching the question
+• Always keep in mind who you are analysing the accounts for; is it for a bank
+manager, debenture holders or existing/potential shareholders?
+• Are you comparing the figures with actual figures for last year or projected
+budgeted figures for next year?
+• When calculating ratios
+▪ Write out the formula
+▪ Workings and Answers to 2 decimal places
+▪ Don’t forget units: times, %, days, cent
+• Think of a tool to help you analyse the accounts – LIPGLOSS?
+• Performance, State of Affairs and Prospects
+▪ Profitability (ROCE/ROEF),EPS, Dividend Cover, Dividend Yield,
+DPS.
+▪ State of Affairs: Liquidity, Gearing, Investment Policy and Security
+(Especially for Debentures)
+▪ Prospects: Share Price, Sector.
+• If you are asked to give an opinion, make sure you do! Conclude!
+• Use bullet points in the analysis, Use of abbreviations is fine (ROCE)
+• Sector – state the sector for 1 mark, 3 or 4 sensible sentences should get you the
+rest of the marks
+• Report layout (Title, To:, From:, Date:, Main Findings: (Analysis), Conclusion,
+Signature and Date)
+Profitability – how well a business is performing and the return it is making on the funds
+invested in it
+ROCE  Operating Profit
+Capital Employed x 100%
+1- 2% Compare with risk free
+investments return
+Return on
+Equity
+Profit after Tax – Pref Divs
+OSC + Reserves         x 100%
+Compare with risk free
+investments return
+Mark-Up Gross Profit
+Cost of Sales  x 100%
+Previous Year/
+Industry Average
+Gross Margin Gross Profit
+Sales          x 100%
+Previous Year/
+Industry Average
+Net Margin Net Profit
+Sales          x 100%
+High!
+Previous Year/
+Industry Average
+Total Exps/Sales
+Total Expenses
+Sales          x 100%
+Low!
+Previous Year/
+Industry Average
+Liquidity – measures ability of a business to pay its short term debts as they fall due
+Current Ratio Current Assets: Current
+Liabilities
+1.5: 1 Too high – holding
+assets?
+Acid Test Ratio Current Assets – Cl. Stock
+:Current Liabilities
+1: 1 Too high – holding
+cash? Low -
+Overtrading?
+Activity – how efficiently a firm is managing its working capital
+Stock Turnover  Cost of Sales
+Average Stock
+Business type?
+Debtors Days  Debtors
+Credit Sales      x 12 months
+Low  Lower than Creditors
+Days
+Creditors Days  Creditors
+Credit Purchases      x 12 months
+High  Higher than debtors
+Days
+Gearing – shows structure of a firms long-term finance
+Capital Gearing  Loans + Pref Share Capital
+Capital Employed               x 100%
+1: 1 <50% Low, >50%
+High, 50% Neutral
+Interest Cover  Operating Profit
+Interest
+3 or 4
+times
+Investment/Dividend Policy
+EPS  Profit after tax – Pref Divs
+No of Ord Shares
+Higher than last year
+P/E Ratio
+(Years to recoup price at current
+earnings/performance)
+Market Price
+EPS
+If high – expected profits
+in future. If low – little
+confidence – risky?
+DPS Ord Dividends
+No of Ord Shares
+Higher than last year
+Dividend Cover  Profit after tax – Pref Divs
+No of Ord Shares
+EPS
+DPS
+At least 2 times
+Dividend Yield  DPS
+Market Price         x 100%
+Greater than risk free
+*same units above/below
+Period to recoup Price at
+payout rate
+Market Price
+DPS      *same units above/below
+Low!
+Previous Year
+Existing/Potential Shareholders
+Profitability
+• The ROCE was X% in 20XX and has increased/decreased to Y% in 20XX
+• The EPS was X cent in 20XX and has increased/decreased to Y cent in 20XX
+• The firm is/is not profitable.
+• The increasing / decreasing trend is satisfactory/not satisfactory
+• The ROCE is higher/lower than the return on risk free investments.(1 -
+2%Approx)
+• The ROCE rewards shareholders sufficiently (OR not) for taking the risk
+• The increasing/decreasing trend of ROCE shows more/less efficient use of
+resources by management since last year
+• ROCE is higher/lower than the rate of interest charged on existing
+Loan/Debenture. The ROCE is higher/lower than the cost of borrowing.
+• Gross profit% has increased/decreased from X% in 20XX to Y% in 20XX.  This
+increase/decrease may be due to increased/decreased sales prices or falling /rising
+purchasing/production costs.
+• Shareholders will/will not be pleased with these returns.
+• Compare to ROSF and % paid on Preference Share Capital
+Liquidity
+• The acid test ratio was X:1 in 20XXand has improved /disimproved to Y:1 in 20XX.
+• The firm is liquid/has a liquidity problem.
+• The increasing/decreasing trend is satisfactory/not satisfactory.
+• The ratio is above/below the recommended ratios. 1:1
+• As the ratio is below the recommended ratio of 1:1 the firm might be overtrading.
+• It shows that the firm has no/has a problem meeting its short-term debts and possible
+future dividends as they fall due from liquid assets. For every €1 the firm owes it has
+X available to meet these debts.
+• Shareholders will be pleased/not pleased with this liquidity.
+Share Price
+• The market price of the share has improved/disimproved from €X in 20XX to €Y in
+20XX.
+• This indicates growing/ falling shareholder confidence in the company.
+• The P/E Ratio has increased/decreased from X years in 20XX to Y years in 20XX
+which shows that it will take shareholder longer/shorter time to recover their
+investment. This will not please/please the shareholders if they are seeking a quick
+return on their investment.
+• By purchasing X shares, a shareholder will own X% of the company
+• The offer price of € X is below the market price. This purchase price may seem good
+value, but the investor needs to be cautious and ask why a large number of shares are
+now available at this reduced price.
+Dividend Policy
+• The DPS has increased/decreased from X cent per share in 20XX to Y cent per share
+in 20XX
+• The Dividend Yield has increased/decreased from X% in 20XX to Y% in 20XX.
+This is above/below the return on risk free investments of 1 -2% approx..
+• The Dividend Cover has improved/disimproved from X times in 20XX to Y times in
+20XX.
+• Shareholders will/ will not be happy with the improving/disimproving trends.
+• Shareholders may be happy with improving trends and feel there is scope for higher
+dividends. Alternatively, they may be pleased that more profits are being retained for
+future expansion or for repayment of Debenture.
+Gearing:
+• The gearing ratio has improved/disimproved from X% in 20XX to Y% in 20XX.
+• The firm is low/high geared. Trend is satisfactory/ not satisfactory.
+• The firm is less/more dependent on outside borrowings and is not/is at risk from
+outside investors.
+• This would /would not please shareholders as it increases/decreases their chance of
+getting dividends.
+• The firm has /has not got the ability to borrow funds in the future as most /less of its
+long-term finance comes from ordinary shareholders.
+• The interest cover has improved /disimproved form X times in 20XX to Y times in
+20XX.
+• The firm will not/ will have a problem in paying interest charges.
+Investments:
+• The investments made by the company cost €X. These investments now have a
+market value of €Y.
+• This indicates good /poor management of resources by the firm.
+• If these investments are sold in the future there will be a gain/loss of €
+• The Debentures are due to be repaid in 20XX
+• As there is no / is Debenture Redemption Reserve, this will require further/less
+borrowing.
+Sector:
+• The company operates in the X sector (1 mark)
+• Growth area or in decline? Short term/Long term Prospects? Open to Competition?
+• Potential for future profits or not?
+• Current Economic Situation – Inflation/Govt Grants/Recession/Post Pandemic
+Situation/ Brexit
+Conclusion:
+• Overall shareholders would/would not be happy with this company?
+• There is a concern over (liquidity/profitability/gearing)
+• It is looking towards the future
+• Therefore I would advise my friend to buy/not buy these shares
+Debenture Holders
+Profitability:
+• The ROCE was X% in 20XX and has increased/decreased to Y% in 20XX
+• The firm is/is not profitable.
+• The increasing/ decreasing trend is satisfactory/not satisfactory and there is no/is
+risk of having to sell fixed assets to repay the Debenture.
+• The ROCE is higher/lower than the return on risk free investments(1 -
+2%Approx)
+• The increasing/decreasing trend of ROCE shows more/less efficient use of
+resources by management since last year.
+• ROCE is higher/lower than the rate of interest charged on existing
+Loan/Debenture.
+• Debenture holders will/will not be pleased with these returns.
+Liquidity:
+• The acid test ratio was X:1 in 20XX and has improved /disimproved to Y:1 in
+20XX
+• The firm is liquid/has a liquidity problem.
+• The increasing/decreasing trend is satisfactory/not satisfactory.
+• The ratio is above/below the recommended ratios of 1:1
+• It shows that the firm has no/has a problem meeting its short-term debts and
+possible future interest charges as they fall due from liquid assets. For every €1
+the firm owes it has X available to meet these debts. If the trend continues the
+ability to pay interest would not/would come under pressure and funds
+would/would not be available to invest for the repayment of the loan.
+• Debenture holders will be pleased/not pleased with this liquidity
+Security:
+• The debentures of €X are secured against the Fixed assets.
+• The fixed assets are worth €X and the debenture is €Y. It would be prudent to
+ascertain the real value of the fixed assets as there is no write off for depreciation.
+• The investments cost €X and are now worth €Y. The debenture holders
+would/would not be disappointed with this increase /decrease in value. The
+increase/decrease in value shows sound/poor management of investments.
+• The intangible assets are worth €X. Debenture holder needs to know what they are
+i.e. Patent
+• The Repayment date for the debentures is 20XX/20XX and there is /is no
+Debenture Redemption Reserve.
+• Debenture holders feel secure (or Not) because of the excess in the value of the
+fixed assets over the amount of the loan.
+Gearing:
+• The gearing ratio has improved/disimproved from X% in 20XX to Y% in 20XX
+• The firm is low/high geared. Trend is satisfactory/ not satisfactory.
+• Low gearing suits debenture holders. The higher the gearing the more at risk is the
+interest payments.
+• The firm is less/more dependent on outside borrowings and is not/is at risk from
+outside investors.
+• This would /would not please debenture holders. .
+• The firm has /has not got the ability to borrow funds in the future as most /less of
+its long-term finance comes from ordinary shareholders.
+• The interest cover has improved /disimproved form X times in 20XX to Y times
+in 20XX.
+• The firm will not/ will have a problem in paying interest charges.
+Dividend Policy:
+• The Dividend Cover has improved/disimproved from X times in 20XX to Y
+times in 20XX.
+• The % profits given out has increased from X% in 20XX to Y% in 20XX.
+• Debenture holders prefer to see profits retained for expansion or future
+repayments of debentures.
+• The DPS has increased/decreased from X cent per share in 20XX to Y cent per
+share in 20XX
+• The Dividend Yield has increased/decreased from X% in 20XX to Y% in 20XX.
+This is above/below the return on risk free investments of 1 -2% approx
+Share price:
+• The market price of the share has improved/disimproved from €X in 20XX to
+€Yin 20XX
+• This indicates growing/ falling confidence in the company.
+Sector:
+• The company operates in the X sector.
+• Growth area or in decline? Short term/Long term Prospects? Open to
+Competition?
+• Potential for future profits or not.
+• Current Economic Situation – Inflation/Govt Grants/Recession/Post Pandemic
+Situation/ Brexit
+Conclusion:
+Overall the debenture holders would/would not be happy.
+Bank Manager
+Profitability:
+• The ROCE was X% in 20XX and has increased/decreased to Y% in 20XX
+• The firm is/is not profitable.
+• The increasing/ decreasing trend is satisfactory/not satisfactory
+• The ROCE is higher/lower than the return on risk free investments (1- 2%
+Approx)
+• ROCE is higher/lower than the rate of interest charged on existing
+Loan/Debenture.
+• The ROCE is higher/lower than the cost of borrowing from the bank.
+• The increasing/decreasing trend of the ROCE shows more/less efficient use of
+resources by management since last year
+• However, if the loan is granted the ROCE changes toX% and this will/will not be
+acceptable by the bank. · ·
+Liquidity:
+• The acid test ratio was X:1 in 20XX and has improved /disimproved to Y:1 in
+20XX.
+• The firm is liquid/has a liquidity problem.
+• The increasing/decreasing trend is sati factory/not satisfactory.
+• The ratio is above/below the recommended ratios. 1:1
+• It shows that the firm has no/has a problem meeting its short-term debts as they
+fall due from liquid assets. For every €1 the firm owes it has X available to meet
+these debts.
+• If the loan is granted the company will/will not have difficulty in paying the
+interest on the loan of € X
+Gearing:
+• The gearing ratio has improved/disimproved from X% in 20XX to Y% in 20XX
+• The firm is low/high geared. Trend is satisfactory /is not satisfactory.
+• If the loan is granted the gearing position worsens to X% and the firm will be
+financed by more debt than equity.
+• The firm is more dependent on outside borrowings and is at risk from outside
+investors. The interest cover has improved /disimproved form X times in 20XX to
+Y times in 20XX
+• However if the loan is granted the interest cover changes to X times. The firm will
+not/ will have a problem in paying interest charges of € X.
+Security:
+• The total value of the fixed assets are € X.
+• It would be prudent to ascertain the real value of the fixed assets as there is no
+write off for depreciation.
+• There is already €X committed to securing the existing debentures, The
+investments cost €X and are now worth €Y.
+• The security for the new bank loan is/is not adequate.
+Purpose of the loan
+• The loan is required for (stated in the question)/ expansion?
+• This extra production should generate additional income and profits to help repay
+the loan
+Dividend Policy:
+• The Dividend Cover has improved/disimproved from X times in 20XX to Y times
+in 20XX
+• This indicates that sufficient /insufficient profits are being retained.
+• High retention of profits will ensure that the new loan is more easily repaid.
+• Low retention of profits will hinder the repayment of the loan.
+Sector:
+• The company operates in the X sector.
+• Growth area or in decline? Short term/Long term Prospects? Open to
+Competition?
+• Potential for future profits or not?
+Current Economic Situation – Inflation/Govt Grants/Recession/Post Pandemic
+Situation/ Brexit
+Conclusion.
+Yes / No - the Bank Manager should/should not give the loan.
+Theory in Ratio Questions (part (c))
+How might a company overcome liquidity problems?
+1. Issue extra shares, if you can get investors to buy them.
+2. Sell the company's investments
+3. 3 Cut dividends paid to shareholders.
+4. Sale and leaseback (fixed assets)
+5. Cut expenses
+Solvency
+Solvency is the ability of a firm to pay ALL its debts at any given time. A firm is solvent if
+Total Assets is greater than Total Liabilities.
+Liquidity and Solvency
+Liquidity measures the ability of the company to pay its short term debts as they fall due. The
+acid test ratio is a good indicator of liquidity as it includes only liquid assets i.e. cash and
+debtors.
+Solvency is the ability of a company to pay all of its debts as they fall due for payment (long
+term). Solvency is the most important indicator of a business’s ability to survive in the long
+term. A business is solvent if its total assets exceed its outside liabilities. Debt to equity or
+total debt to total assets are good guides.
+How might a company overcome profitability problems?
+1. Buy raw materials from a cheaper source.
+2. Cut overheads such as wages by replacing workers with machines
+3. Advertise in order to increase sales.
+Explain how a faster stock turnover can increase the profitability of a business.
+• Each time stock is sold, because it contains a mark-up, profitability increases.
+• If the cost of buying the extra stock increases at a slower rate than the mark-up
+then profitability increases.
+• The more times the stock is turned over the greater the mark-up and profit will be
+increased.
+• Where stock turnover is high less stock may be held resulting in reduced stock
+holding costs (insurance, waste etc.) which could lead to an increase in
+profitability.
+• A faster stock turnover means that the firm may enjoy economies of scale, such as
+bulk-buying discounts, which will reduce costs and increase profitability
+How might a highly geared company reduce its dependence on long-term debt?
+1. Issue more shares - equity increases and this can be used to repay debt.
+2. Reduce dividends paid to shareholders and ‘plough-back’ all profits into the company
+Give reasons for a decline in the Gross Profit Margin/Net Profit Margin and how these might
+be remedied
+1. Purchases costs increases not passed on to customers for fear of losing market share.
+Firm may have to increase its sales prices.
+2. Incorrect valuation of closing stock. Ensure that stock is correctly valued, maybe
+using the FiFO method.
+3. Purchase of slow-moving stock. Be sure of your market so that there will be swift
+movement of stocks.
+4. Theft of  stock by customers/employees Have proper controls in place to ensure that
+stock is under proper supervision.
+5. Theft of cash sales by employees. Ensure that all sales are documented and that
+receipts are issued to customers.
+6. Increase in Opening costs. Management should monitor expenses to ensure they are
+within budget.
+Users of Financial Statements
+1. Banks and Lending Institutions
+2. Creditors.
+3. Debenture holders
+4. Existing Shareholders
+5. Potential Shareholders
+6. Management
+7. Employees
+8. Competitors
+9. Financial Commentators
+10. The Revenue Commissioners
+Overtrading
+This is when a firm is trying to carry on a level of business which is too great for the amount
+of working capital in the business. A sign that the business is overtrading is when currents
+liabilities are greater than current 
+[...truncated...]
+
+### [SOURCE: THEORY BANK (David Wilson 2024 — exam theory drills)]
+www.bigredcloud.com    Accounting Theory - Questions & Solutions   The solutions attached are from the Leaving Cert marking schemes (available online).  Topics are presented in alphabetical order.  The font quality is taken from the original papers and is unfortunately not always great.   *****  (NB: Any theory questions relating to ‘Interpretation of Accounts’, are contained on separate notes for that topic).
+www.bigredcloud.com
+Budgeting   2003     2005     2006
+www.bigredcloud.com
+www.bigredcloud.com
+Solutions
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+Cash Flow   2001     2004     2006     2008
+www.bigredcloud.com
+Solutions  2001
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+Club Accounts   2002     2004     2008
+www.bigredcloud.com
+Solutions    2002
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+Correction of Errors   2006     2008
+www.bigredcloud.com
+Solutions    2006
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+Costing   2003     2004     2005     2006     2007     2008     2009        2011
+www.bigredcloud.com
+www.bigredcloud.com
+2023       Solutions  2003
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+Depreciation  2022
+Solutions   2022
+www.bigredcloud.com
+Farm Accounts   2006     2009     2012     2015     2020      Solutions    2006
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+Incomplete Records   2001     2003     2005     2007
+www.bigredcloud.com
+Solutions    2001
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+Published Accounts   2002     2003    2005     2006     2008     2009     2011          2013
+www.bigredcloud.com
+Solutions
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+NB: Published Accounts – Standard Required Notes
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+The standard notes are very consistent so only one solution is contained below  2021
+www.bigredcloud.com
+www.bigredcloud.com
+Service Firms   2010     2012     2014
+Solutions
+www.bigredcloud.com
+www.bigredcloud.com
+www.bigredcloud.com
+
+### [SOURCE: MARGINAL COSTING (Q8 reference notes)]
+www.bigredcloud.com
+© D.Wilson
+Marginal Costing.  2008 Q.8  Break-Even Point. Before tackling a marginal costing question, it’s first of all crucial that you understand what is meant by ‘break-even point’.  What this means is that a firm needs to sell a certain number of products in order to cover all of their costs.  Unfortunately there is a slight complication in that there are two types of costs – Fixed costs (that always stay the same no matter how many products the company makes) and variable costs (that change depending on how many products the company makes).  So to work out what the break-even point for a company is we use this simple formula:                           Total Fixed Costs                         . Selling Price of the Product – Variable Cost per Product  Really what the formula is saying is that if you divide the profit you make on each sale (the selling price minus what each product costs you to make) into the overall fixed costs, you’ll find out how many you need to sell to cover these costs (or in other words, break-even).   PART (A). In part (a) we’re asked all of the standard marginal costing questions.  In a slightly bizarre move though it really helps if we do something else before we dive into our actual answer.  Since all of the things we’re going to be asked are related to each other, doing a bit of preliminary lay-out will be very useful as you’ll see in a minute.  So what we’re going to do is just rearrange the info we’ve already been given in the question.  Table 1 below is what we were given in the question and Table 2 is the way I’ve rearranged it (Don’t worry, I’ll explain in a minute what I’ve done, but have a look at the two tables and see if you can make any sense of it yourself first).
+www.bigredcloud.com
+© D.Wilson
+Table 1 - From the Question. € € € Sales (14,000 Units)   560,000 Materials  120,000  Direct Labour  140,000  Factory Overheads  90,000  Administration Expenses  112,000 462,000 Net Profit   98,000   Table 2 - 'Marginal Statement'. € € € Sales   560,000     Minus Variable Costs.    Materials  120,000  Direct Labour  140,000  Factory Overheads  30,000  Administration Expenses  49,500 339,500     = Contribution   220,500     Minus Fixed Costs.    Factory Overheads  60,000  Administration Expenses  62,500 122,500    98,000   Anyone who knows anything about the ‘Flexible Budget’ topic will probably recognise what I’ve done in Table 2.  It’s just what’s called a ‘Marginal Statement’.  The sales figure is the same as the one from the question and the profit at the end is the same – so what’s the difference?  The only difference is that instead of recording all of the costs in one list, I’ve split them into two categories, namely the variable and
+www.bigredcloud.com
+© D.Wilson
+fixed costs (if you’re not sure how I knew which was which, have a look at the sentence underneath the net profit in the question).    So how many marks have we earned so far you ask?  That’s right, absolutely none.  So let’s get on with it then (and hopefully you’ll understand in a minute why we went to the bother of doing out the marginal statement above).  (i) First we’re asked to work out the break-even point and the margin of safety.  If you can remember (or just look back up at) the formula I showed you at the top of the page, this should be quite easy.  The fixed costs are €122,500 (check out the marginal statement to see where I got that from).  The selling price per product is €40 (that’s the €560,000 total sales divided by the 14,000 products we sold) and the variable cost per unit is €24.25 (which is the total variable cost divided by the 14,000 products we made).  So you should see that by doing out the marginal statement earlier we saved ourselves a lot of hassle here.  And now to the brilliant moment where we’ll actually earn some marks…..!  Break-Even Point:                           Total Fixed Costs                         . Selling Price of the Product – Variable Cost per Product  122,500 40 – 24.25  = 7,778 Products.  This tells us that the company must sell 7,778 products in order to break-even.  For any smarty pants people who tried this themselves I know you would have actually gotten 7,777.77 but since you can’t sell .77 of a product, you always round your answer up when calculating the break-even point.  Don’t forget that we were also asked to show the ‘Margin of Safety’.  This is really easy.  It’s just the number of sales given to us in the question minus the break-even point.  In other words: 14,000 – 7,778 = 6,222 Products.
+www.bigredcloud.com
+© D.Wilson
+If you’ve any interest, this means that if they sell any number of products between their break-even point and their current sales, they’ll be safe (or in simple terms, they’ll make a profit).    (ii) The second question we’re asked is one of those ones that looks more complicated than it actually is.  Essentially all that’s happening here is that we’re being asked what profit we’d make if a couple of changes were made to our sales income and our costs.  Remember that the fixed costs will stay the same (because that’s what ‘fixed’ means) so we just need to work out what our sales will be and what our variable costs will be.  In other words the profit will be the sales figure (?) minus the variable costs (?) and minus the fixed costs (€122,500).  The sales figure should be easy to work out.  We’re told that we are going to reduce the selling price by 5% and will sell 20,000 products.  So what’s the current selling price?  Well we know the current sales figure is €560,000 and this is what we got from selling 14,000 products (both of these figures are given to us in the original figures from the question), so if we divide one into the other we see that the current selling price must be €40 per unit.  Reducing that by 5% gives us a new selling price of €38 and if we sell 20,000 products at this price we’ll get €760,000.  So now we know that the profit (and more importantly the answer to part ii) will be the sales figure (€760,000) minus the variable costs (?) and minus the fixed costs (€122,500).  All we need now is a figure for the variable costs.  Remember that the original variable costs came to a total of €339,500 (see the marginal statement we did out at the very beginning).  This is the cost of making 14,000 products.  If we want to know the cost of making 20,000 products therefore we just divide by 14,000 and multiply by 20,000: i.e. €485,000.    The only complication is that there is a new charge of €10,000 that the company intends to spend on advertising.  Technically this is probably a fixed cost, so you can add it to the fixed costs figure we already have or list it separately – either way you’ll get the same answer.
+www.bigredcloud.com
+© D.Wilson
+So the profit will be:   €  Sales     760,000 - Variable Costs:   (485,000) - Fixed Costs:   (122,500) - New Advertising Cost:  (10,000) =   Profit    €142,500   (iii) This one just involves a quick sum and once you know what you’re doing, should take about 30 seconds.  If you remember the formula for break-even point:  Fixed Cost divided by (Selling Price – Variable Cost), you’ll know that this tells us how many products we need to sell to cover our costs.  What we’re been asked to do though is work out how many we need to sell not just to break-even, but to make a certain profit.  The way to think about this then is to imagine that the profit they want us to make is another cost (in other words, they want us to cover all our costs and also to make enough money to cover this profit).    So instead of doing the basic break-even sum of: 122,500 40 – 24.25  …we need to make some changes based on what we’re told in the question.  The fixed costs will stay the same (because they’re ‘fixed’) but the selling price and variable cost will change.  They tell us in the question that the selling price is changing to €36 and the variable cost will be the old one plus the profit they want us to make (which in this case is 20% of €36, or €7.20).  So we get:  122,500 36 – 31.45  = 26,924 Products.  (iv) Again, this part simply involves re-jigging the original figures to take account of the changes they’re suggesting.  This is why doing the marginal statement out before you start is a good idea, because it makes questions like this much easier.  To work out the profit we just do what we always do – work out how the sales, variable costs and fixed costs change.
+www.bigredcloud.com
+© D.Wilson
+Luckily the fixed costs involved no working out because as always, they remain ‘fixed’ (€122,500).  The sales figure is pretty much given to us – “increasing the sales to 19,000 units at €42 each”.  Therefore €798,000  And the variable costs shouldn’t be that hard.  Don’t forget that the original variable cost per unit was €24.25 (€339,500 divided by 14,000 units).  Now we just need to add the new variable costs of €1 packaging per unit and €2.10 sales commission (5% of each €42 sale).  So the total variable cost per unit is €27.35.  If we’re selling 19,000 units this gives us a total variable cost of 19,000 x €27.35 = €519,650   So our profit will be:  Sales     798,000 - Variable Costs:   (519,650) - Fixed Costs:   (122,500) =   Profit    €155,850   (v) The word ‘contribution’ describes the figure that goes at the bottom of the break-even formula, in other words the answer to ‘Sales – Variable Cost’.  It’s basically saying that the money we get for each sale minus what it costs us to make that sale (i.e. sales minus variable cost), leaves us with a ‘contribution’ that we can put towards paying off our fixed costs.  Break-even point tells us how many of these ‘contributions’ we need to get to break even.  The question therefore asks us for what reason we might regularly use the ‘contribution’ figure and the obvious answer is:   - To calculate the break-even point, by dividing this contribution figure into the fixed costs.  We’re also asked, “when is the use of this ratio essential”? and the answer is:  - When we want to work out how changes in costs or revenue might affect the break-even point (like in parts ii, iii and iv above).
+www.bigredcloud.com
+© D.Wilson
+PART (B). Marginal costing rarely fills an entire question and so normally is joined by some other topic in part (B).  In this case we basically have a flexible budget question, which although it’s a totally separate topic, has been squished down in this particular question.     (i)  In this first part we need to master the famous ‘HIGH-LOW’ method.  This means looking at two sets of numbers – the units at the top of the question and the three figures opposite ‘Production Overheads’ (because it’s these production overheads that we’re being asked to do something with).  In the list of ‘Units’ we have 10000, 15000, and 18000.  In the ‘Production Overhead’ figures we have 66000, 96000, and 114000.  For the purposes of the ‘High-Low’ method we only need the highest and lowest of each of these. So we get:        High  Low   Units:    18000  10000   Production Overhead:  114000  66000  The next step is to take one figure from the other and divide the answers. i.e.        High  Low   Units:    18000     - 10000  =  8000   Production Overhead:  114000   - 66000  =  48000    48000 Divided By 8000 = 6.  This tells us that production overheads have a variable cost of €6 per product - or simply that every time we make a product we incur a €6 production overhead cost.  Checking this with the figures in the question might seem to cause a problem though.  Look at the first column of figures (under 10,000 units) and you’ll see that it says €66,000 for production overheads.  With our workings we would have thought that it should be €60,000 (10,000 units x €6 per unit).  So we seem to be wrong by €6000.  A quick look at the second column will show you that a pattern is emerging.  If the second column is showing us the costs when producing 15,000 units we can see that production overheads say €96,000.  Again this is €6,000 more than we would have thought if we just multiplied our €6 per unit by 15,000 units.  What’s going on then?
+www.bigredcloud.com
+© D.Wilson
+All this means is that to know how much production overheads will be at any level of production; we need to first multiply the number of units we want to produce by €6 and then add €6000 to our answer.  Or in accounting terms:  Production Overheads = €6 Variable Cost + €6000 Fixed Cost.   (ii) In this part we’re being asked to do exactly what we just did with production overheads but this time for ‘Other Overheads’.  So first we do the ‘High-Low’ sum:    Units:    18000     - 10000  =  8000   Other Overheads:  99000     - 57000  =  42000    42000 Divided By 8000 = 5.25.  This tells us that other overheads have a variable cost of €5.25 per unit (i.e. every time we make a product it costs us €5.25 in ‘other overheads’).  To work out the fixed cost part we have to do like we did with production overheads – try out the figure we already have and see how much we’re wrong by.  In the 10,000 units column in the question for example it says that other overheads are €57,000.  But if we multiply 10,000 by the €5.25 we just worked out we’d only get €52,500 and so we’re wrong by €4,500.  The good news is that you’ll see that if you try the same with either of the other two columns we’ll always be wrong by this same €4,500 (e.g. in the second column of 15,000 units other overheads are €83,250, which is exactly €4,500 higher than what we would get if we multiplied our original €5.25 per unit by 15,000).  So in accounting terms:  Other Overheads = €5.25 Variable Cost + €4500 Fixed Cost.   (iii) Finally, we’re asked to prepare a flexible budget (this means that we need to show what each of the 5 costs would be if a different number of units were produced – i.e. not 10000, 15000, or 18000).  In this case we want to know what the costs would be if we made 19,000 products.  How do I know that?  Because we’re asked to work out the cost of 95% activity level and since they’ve given us the % of activity for the other three units it’s easy to work out.  For example, look at the column that says 10,000 units.  Just above that we can see that this is 50% activity.  So if you
+www.bigredcloud.com
+© D.Wilson
+divide 10,000 by 50 to get 1% and then multiply this by 95 to get 95%, your answer will be 19,000 units – easy!  Ok, but how do we know what each cost will be if we make 19,000 units.  Well the ‘Administration Expenses’ are a fixed cost (because in the question they stay the same in each of the three columns).  So if we make 19,000 units the administration expenses will still be €25,000.  The Production Overheads will follow the pattern we worked out in part (i) – 19,000 units x €6 variable cost, plus a €6000 fixed cost = €120,000.  Similarly the Other Overheads will follow the pattern we worked out in part (ii) – 19,000 units x €5.25 variable cost, plus a €4,500 fixed cost = €104,250.  The Direct Materials and Direct Labour are both completely variable costs.  We know this because in each column they divide evenly into the number of units.  If you look at Direct Materials for example all you have to do is multiply the number of units by €14 to get the cost in each column.  The cost for 19,000 units will therefore be 19,000 x €14 = €266,000.  Direct Labour on the other hand has a variable cost of €8 per unit (because you just have to multiply the number of units by €8 to get the figure for direct labour in each column).  For 19,000 units therefore direct labour will be 19,000 x €8 = 152,000. So if we make 19,000 units our total costs will be:            €  Direct Materials:  266,000  Direct Labour:   152,000  Production Overheads: 120,000  Other Overheads:  104,250  Administration Expenses: 25,000  Total Costs:   667,250  Now what we’ve actually been asked to do is to lay this out in a ‘Marginal Statement’ – where instead of putting all of the costs in one list, we split them into the variable bits an
+[...truncated...]
+
+### [SOURCE: TEACHER LECTURE SLIDES (worked-example commentary)]
+Cash Flow Statements
+Stephen Duffy
+Learning Intentions
+Reconciliation Process
+Understand how to reconcile operating profit to net cash flow. This will help in grasping the movement of cash versus accounting profits.
+Prepare Cash Flow Statements
+Learn to prepare cash flow statements in an exam style format. This is crucial for demonstrating competence in financial reporting.
+Net Cash Flow to Net Debt
+If time permits, we will also explore the reconciliation of net cash flow to net debt, highlighting its importance in financial analysis.
+Photos provided by Unsplash
+Who Remembers???
+Question: "What are the two main financial statements we reviewed last time?"
+Answer: Income Statement and Balance Sheet
+Discussion:
+Income Statement: Shows profit or loss
+Balance Sheet: Shows assets, liabilities, and equity
+Class Question:
+How do you think a cash flow statement differs?
+Photos provided by Unsplash
+Income Statement vs. Balance Sheet
+Income Statement Overview
+The Income Statement reflects the profitability of a business over a certain period by showing revenues and expenses. It ultimately communicates profit or loss.
+Balance Sheet Overview
+The Balance Sheet provides a snapshot of a company's financial position at a specific point in time. It displays assets, liabilities, and equity.
+Cash Flow Statement Functions
+Unlike the previous statements, a Cash Flow Statement focuses on actual cash movement. It shows how cash flows in and out of the business, differentiating cash from profit.
+Importance of Cash Flow
+Cash Movement Tracking
+Cash flow statements track the actual cash movements within a business, which is critical for maintaining operations and supporting growth.
+Profit vs Cash
+A business can be profitable on paper but still face cash shortages. Understanding this difference is essential for long-term viability.
+Negative Cash Flow Impact
+Consistent negative cash flow can lead to insolvency. This emphasizes the need for careful cash flow management and forecasting.
+Photos provided by Unsplash
+Reconciliation Steps
+Cash Flow Structure
+Operating Activities
+This section reflects cash generated or used in core operations. It’s essential for assessing ongoing business success.
+Investing Activities
+This involves cash flows from acquiring or disposing of long-term assets. Investing activities indicate growth potential and strategic direction.
+Financing Activities
+Cash flows from financing include loans, equity, and dividends. Understanding this section helps assess capital structure and debt management.
+2023 Question 6 Part A
+Success Criteria
+Reconcile Skills
+A major goal is mastering the reconciliation of operating profit to net cash inflow or outflow, a critical financial skill.
+Cash Flow Statement Prep
+Successfully preparing a cash flow statement demonstrates practical accounting knowledge, important for finance professionals.
+Net Debt Reconciliation
+Being able to reconcile net cash flow to net debt will enhance understanding of financial leverage and risk.
+Photos provided by Unsplash
+
+### [SOURCE: TEACHER'S MANUAL — Conceptual Framework & Worked-Example Commentary]
+CONTENTS
+Chapter 2:        Double-Entry Book-keeping and the Trial Balance .........................................................                            1
+Chapter 3:        Proﬁt Measurement and Balance Sheet Preparation ........................................................                             5
+Chapter 4:        Value Added Tax and Statutory Deductions.....................................................................                        8
+Chapter 5:        Accruals, Prepayments, Bad Debts, Provisions and Bad Debts Recovered.....................                                           12
+Chapter 6:        Depreciation and Revaluation ..........................................................................................            15
+Chapter 8:        Final Accounts of a Sole Trader with Adjustments ..........................................................                         29
+Chapter 9:        Bank Reconciliation Statements.......................................................................................              44
+Chapter 10:       Control Accounts..............................................................................................................      48
+Chapter 11:       Correction of Errors – Suspense Account ........................................................................                    53
+Chapter 12:       The Conceptual Framework of Accounting .....................................................................                        66
+Chapter 14:       Limited Companies ..........................................................................................................        67
+Chapter 15:       Final Accounts of a Limited Company with Adjustments ...............................................                                73
+Chapter 16:       Manufacturing Accounts ..................................................................................................           96
+Chapter 17:       Departmental Accounts ....................................................................................................         113
+Chapter 18:       Published Accounts (Higher Level Only) ........................................................................                    126
+Chapter 19:       Analysis and Interpretation of Financial Statements........................................................                        148
+Chapter 20:       Cash Flow Statements ......................................................................................................        168
+Chapter 21:       Club Accounts and Accounts of Service Firms................................................................                        181
+Chapter 22:       Incomplete Records I .......................................................................................................       206
+Chapter 23:       Incomplete Records II ......................................................................................................       232
+Chapter 24:       Farm Accounts..................................................................................................................    259
+Chapter 25:       Tabular Statements ...........................................................................................................     272
+Chapter 26:       Introduction to Management Accounting.........................................................................                     275
+Chapter 27:       Cost Classiﬁcation............................................................................................................     276
+Chapter 28:       Product Costing ................................................................................................................   278
+Chapter 29:       Cost Volume Proﬁt Analysis (Marginal Costing) .............................................................                        288
+Chapter 30:       Budgeting and Budgetary Control....................................................................................                299
+© Kevin O Riordan 2000
+ISBN 1841 31 3750
+Folens Publishers, Hibernian Industrial Estate, Greenhills Road. Tallaght, Dublin 24.
+The Publisher reserves the right to change, without notice, at any time the specification of this
+product, whether by change of materials, colours, bindings, format, text revision or any other
+characteristic.
+QUESTION 2.1
+Double-Entry Book-keeping and
+the Trial Balance: Solutions
+Bank Account
+July 1    Capital                  35,000    July 12       Creditor       10,500
+July 25   Sales                     4,000    July 15       Wages           2,000
+July 21       Advertising     1,000
+July 28       Machinery      15,000
+July 31       Balance c/d    10,500
+Aug 1     Balance b/d              10,500
+Capital Account (Peter Howard)
+July 31   Balance c/d              35,000    July 1        Bank           35,000
+Aug 1         Balance b/d    35,000
+Purchases Account
+July 5    Creditor                 12,000
+July 20   Creditor                  8,000    July 31       Balance c/d    20,000
+Aug 1     Balance b/d              20,000
+Creditor Account
+July 12   Bank                     10,500    July 5        Purchases      12,000
+July 12   Discount Received         1,500    July 20       Purchases       8,000
+July 22   Purchases Returns         1,000
+July 31   Balance c/d               7,000
+Aug 1         Balance b/d     7,000
+Discount Received Account
+July 31   Balance c/d               1,500    July 12       Creditor        1,500
+Aug 1         Balance b/d     1,500
+Purchases Returns Account
+July 31   Balance c/d               1,000    July 22       Creditor        1,000
+Aug 1         Balance b/d     1,000
+Sales Account
+July 17       Debtor         16,000
+July 25       Bank            4,000
+July 31   Balance c/d              21,500    July 31       Debtor          1,500
+Aug 1         Balance b/d    21,500
+Debtor Account
+July 7    Sales                     16,000   July 8       Sales Returns    3,000
+July 31   Sales                      1,500   July 31      Balance c/d     14,500
+Aug 1     Balance b/d               14,500
+Leaving Certificate Accounting
+Sales Returns Account
+July 8         Debtor                                  3,000        July 31           Balance c/d         3,000
+Aug 1          Balance b/d                             3,000
+Wages Account
+July 15        Bank                                    2,000        July 31           Balance c/d         2,000
+Aug 1          Balance b/d                             2,000
+Advertising Account
+July 21        Bank                                    1,000        July 31           Balance c/d         1,000
+Aug 1          Balance b/d                             1,000
+Machinery Account
+July 28        Bank                                  15,000         July 31           Balance c/d        15,000
+Aug 1          Balance b/d                           15,000
+Trial Balance as at 31 July                                           €              €
+Name of Account                                                      Debit      Credit
+Bank............................................................    10,500
+Capital.........................................................                35,000
+Purchases ....................................................      20,000
+Creditors .....................................................                  7,000
+Discount Received........................................                        1,500
+Purchases Returns........................................                        1,000
+Sales............................................................               21,500
+Debtor.........................................................     14,500
+Sales Returns ...............................................        3,000
+Wages .........................................................      2,000
+Advertising ..................................................       1,000
+Machinery ...................................................       15,000
+QUESTION 2.2
+Bank Account
+Mar 1       Capital                                     12,000        Mar 3               Rent                150
+Mar 30      Cash                                         4,800        Mar 8               Wages               100
+Mar 11              Creditor          2,900
+Mar 16              Wages               100
+Mar 20              Rates                50
+Mar 22              Motor Vehicle     5,000
+Mar 23              Wages               100
+Mar 25              Rent                150
+Mar 31              Wages               120
+Mar 31              Balance c/d       8,130
+Apr 1       Balance b/d                                  8,130
+Solutions
+Rent Account
+Mar 3    Bank                        150
+Mar 25   Bank                        150   Mar 31     Balance c/d     300
+Apr 1    Balance b/d                 300
+Creditor Account
+Mar 11   Bank                      2,900   Mar 7      Purchases      3,000
+Mar 11   Discount Received           100   Mar 24     Purchases      2,000
+Mar 26   Purchases Returns           300
+Mar 31   Balance c/d               1,700
+Apr 1      Balance b/d    1,700
+Purchases Account
+Mar 7    Creditor                  3,000   Mar 29     Drawings         600
+Mar 24   Creditor                  2,000   Mar 31     Balance c/d    4,400
+Apr 1    Balance b/d               4,400
+Discount Received Account
+Mar 31   Balance c/d                 100   Mar 11     Creditor        100
+Apr 1      Balance b/d     100
+Purchases Returns Account
+Mar 31   Balance c/d                 300   Mar 26     Creditor        300
+Apr 1      Balance b/d     300
+Wages Account
+Mar 8    Bank                        100
+Mar 16   Bank                        100
+Mar 23   Bank                        100
+Mar 31   Bank                        120   Mar 31     Balance c/d     420
+Apr 1    Balance b/d                 420
+Sales Account
+Mar 10     Cash           2,000
+Mar 19     Debtor         4,000
+Mar 27     Debtor         2,700
+Mar 31   Balance c/d              13,200   Mar 28     Cash           4,500
+Apr 1      Balance b/d   13,200
+Cash Account
+Mar 10   Sales                     2,000   Mar 15     Advertising      750
+Mar 28   Sales                     4,500   Mar 30     Bank           4,800
+Mar 31     Balance c/d      950
+Apr 1    Balance b/d                 950
+Advertising Account
+Mar 15   Cash                        750   Mar 31     Balance c/d     750
+Apr 1    Balance b/d                 750
+Leaving Certificate Accounting
+Debtor Account
+Mar 19         Sales                                   4,000        Mar 21              Sales Returns            500
+Mar 27         Sales                                   2,700        Mar 31              Balance c/d            6,200
+Apr 1          Balance b/d                             6,200
+Sales Returns Account
+Mar 21         Debtor                                     500       Mar 31              Balance c/d             500
+Apr 1          Balance b/d                                500
+Rates Account
+Mar 20         Bank                                         50      Mar 31              Balance c/d              50
+Apr 1          Balance b/d                                  50
+Motor Vehicle Account
+Mar 21         Bank                                    5,000        Mar 31              Balance c/d            5,000
+Apr 1          Balance b/d                             5,000
+Drawings Account
+Mar 29         Purchases                                  600       Mar 31              Balance c/d             600
+Apr 1          Balance b/d                                600
+Capital Account
+Mar 31         Balance c/d                           12,000         Mar 1               Bank                  12,000
+Apr 1               Balance b/d           12,000
+Trial Balance as at 31 March                                          €                 €
+Name of Account                                                      Debit          Credit
+Bank.............................................................     8,130
+Rent .............................................................      300
+Creditor........................................................                        1,700
+Purchases .....................................................       4,400
+Discount Received ........................................                                100
+Purchases Returns.........................................                                300
+Wages ..........................................................       420
+Sales.............................................................                  13,200
+Cash.............................................................       950
+Advertising ...................................................         750
+Debtor..........................................................      6,200
+Sales Returns ................................................          500
+Rates ............................................................       50
+Motor Vehicles .............................................          5,000
+Drawings......................................................          600
+Capital .........................................................                   12,000
+QUESTION 3.1
+Proﬁt Measurement and Balance
+Sheet Preparation: Solutions
+(a) Revenue       (b) Capital          (c) Revenue   (d) Capital
+(e) Capital       (f) Revenue          (g) Revenue   (h) Capital
+(i) Revenue       (j) Capital          (k) Capital
+QUESTION 3.2
+(a) Trading Account (b) Proﬁt and Loss Account (c) Balance Sheet          (d) Balance Sheet
+(e) Trading account (f) Proﬁt and Loss Account (g) Proﬁt and Loss Account (h) Proﬁt and Loss Account
+(i) Balance Sheet   (j) Balance Sheet          (k) Balance Sheet
+QUESTION 3.3
+Trading and Profit and Loss Account for the year ended 31/12/-0
+€        €           €
+Sales                                                                89,000
+Less Cost of Sales
+Opening Stock                                               4,000
+Add Purchases                                    42,000
+Less Purchases Returns                             (700)
+Less closing stock                                         (5,000)
+Gross profit                                                          48,700
+Add income
+Discount received                                                       400
+Less expenses
+Wages                                                      10,000
+Discount allowed                                              600
+Insurance                                                   1,500
+Carriage outwards                                             890
+Postage and stationery                                        110
+Light and heat                                              1,700
+Net profit                                                            34,300
+Leaving Certificate Accounting
+Balance Sheet as at 31/12/-0
+€          €              €
+Fixed Assets
+Premises                                                               80,000
+Furniture and fittings                                                 12,000
+Current Assets
+Stock                                                      5,000
+Debtors                                                    8,000
+Less Current Liabilities
+Creditors                                      4,000
+Bank Overdraft                                 2,000
+Financed by
+Capital                                                   71,700
+Add Net Profit                                            34,300
+Less Drawings                                             (7,000)
+QUESTION 3.4
+Trading and Profit and Loss Account for the year ended 30/6/-9
+€               €
+Sales                                                               151,000
+Less sales returns                                                   (1,000)
+Less Cost of Sales
+Opening Stock                                          20,000
+Add Purchases                                         107,000
+Add carriage inwards                                    3,000
+Add custom duties                                       4,500
+Less closing stock                                    (30,000)
+Gross profit                                                        45,500
+Add income
+Rent received                                                         7,500
+Less expenses
+Wages                                                  19,000
+Light and heat                                          2,000
+Advertising                                             3,000
+Insurance                                               7,000
+General expenses                                        6,000
+Net profit                                                           16,000
+Solutions
+Balance Sheet as at 30/6/-9
+€         €         €
+Fixed Assets
+Land and buildings                                100,000
+Furniture and equipment                            20,000
+Motor vehicles                                     12,000
+Current Assets
+Stock                                   30,000
+Debtors                                 20,000
+Cash                                     1,000
+Less Current Liabilities
+Creditors                     25,000
+Bank Overdraft                16,000
+Financed by
+Capital                                136,000
+Add Net Profit                          16,000
+Less Drawings                          (10,000)
+QUESTION 4.1
+Value Added Tax and Statutory
+Deductions: Solutions
+Purchases Account
+May 1     Creditor                       15,000
+May 19    Creditor                        5,000   May 31        Balance c/d                    20,000
+June 1    Balance c/d                    20,000
+VAT Account
+May 1     Creditor (Purchases)            1,500   May 3         Debtor (Sales)                  2,500
+May 15    Bank (Eircom)                       4   May 4         Creditor (Purchases returns)      100
+May 19    Creditors (Purchases)             500   May 11        Debtor (Sales)                    700
+May 20    Debtors (Sales returns)            50   May 28        Debtor (Sales)                    400
+May 27    Bank (Stationery)                  10
+May 31    Balance c/d                     1,636
+June 1        Balance b/d                     1,636
+Creditor Account
+May 4     Purchases returns               1,100   May 1         Purchases                      16,500
+May 22    Bank                           15,400   May 19        Purchases                       5,500
+May 31    Balance b/d                     5,500
+June 1        Balance b/d                     5,500
+Sales Account
+May 3         Debtor                         25,000
+May 11        Debtor                          7,000
+May 7     Balance c/d                    36,000   May 28        Debtor                          4,000
+June 1        Balance b/d                    36,000
+Debtor Account
+May 3     Sales                          27,500   May 10        Bank                           27,500
+May 11    Sales                           7,700   May 20        Sales returns                     550
+May 28    Sales                           4,400   May 31        Balance c/d                    11,550
+June 1    Balance b/d                    11,550
+Purchases Returns Account
+May 31    Balance b/d                     1,000   May 4         Creditor                        1,000
+June 1        Balance b/d                     1,000
+Bank Account
+May 10    Debtor                         27,500   May 15        Telephone expenses                 44
+May 17        Entertainment expenses            330
+May 22        Creditor                       15,400
+May 25        Motor vehicles                  6,600
+May 27        Stationery                        110
+May 28        Balance c/d                     5,016
+June 1    Balance b/d                     5,016
+Solutions
+Telephone Expenses Account
+May 15         Bank                           40    May 31        Balance c/d                 40
+June 1         Balance b/d                    40
+Entertainment Expenses Account
+May 17         Bank                          330    May 31        Balance c/d                330
+June 1         Balance b/d                   330
+Sales Returns Account
+May 20         Debtor                        500    May 31        Balance c/d                500
+June 1         Balance b/d                   500
+Motor Vehicles Account
+May 25         Bank                        6,600    May 31        Balance c/d            6,600
+June 1         Balance b/d                 6,600
+Stationery Account
+May 27         Bank                          100    May 31        Balance c/d                100
+June 1         Balance b/d                   100
+The Trading Account for the month will show the following entries:
+Sales                                   €36,000
+Less sales returns                       (500)
+€35,500
+Purchases                               €20,000
+Less purchases returns                 (1,000)
+€19,000
+The Profit and Loss Account at the end of the month will show the following expenses:
+Telephone                                €40
+Entertainment                           €330
+Stationery                              €100
+The Balance Sheet at the end of the month will show the following:
+Fixed assets
+Motor vehicle                         €6,600
+Current assets
+Debtor                              €11,550
+Bank                                  €5,016
+Current liabilities
+Creditors                             €5,500
+VAT                                   €1,636
+QUESTION 4.2
+Wages Account
+Nov 30        Bank                    16,020
+PAYE                    10,320
+PRSI (EE)                2,310
+VHI                        350
+Savings club             4,000
+PRSI (ER)                4,950   Nov 30       Balance c/d        37,950
+Dec 1         Balance b/d             37,950
+Leaving Certificate Accounting
+Bank Account
+Nov 30        Wages                      16,020
+PAYE/PRSI Account
+Nov 30        Wages                      10,320
+Wages (EE)                  2,310
+Nov 30             Balance c/d        17,580                 Wages (ER)                  4,950
+Dec 1         Balance b/d                17,580
+VHI Account
+Nov 30             Balance c/d           350   Nov 30        Wages                         350
+Dec 1         Balance b/d                   350
+Savings Club Account
+Nov 30             Balance c/d         4,000   Nov 30        Wages                        4,000
+Dec 1         Balance b/d                  4,000
+The Profit and Loss Account for the year will show the following expense:
+Wages                                                                      €37,950
+The Balance Sheet at the end of the month will show the following:
+Current liabilities
+PAYE/PRSI                                                                  €17,580
+VHI                                                                          €350
+Savings club                                                                €4,000
+QUESTION 4.3
+Trading and Profit and Loss Account for the year ended 31/12/-0
+€         €              €
+Sales                                                                    45,000
+Less Returns In                                                          (1,000)
+Less Cost of Sales
+Opening Stock                                                   2,000
+Add Purchases                                       21,000
+Less Returns Out                                      (500)
+Add Carriage In                                                   500
+Less Closing Stock                                             (4,000)
+Gross Profit                                                              25,000
+Add Income
+Discount Received                                                           500
+Rent Received                                                             2,000
+Less Expenses                                                            27,500
+Wages
+Rates                                                          14,000
+Insurance                                                         600
+Discount allowed                                                1,400
+Light and Heat                                                    300
+Postage and Stationery                                            600
+Net Profit                                                                 9,900
+Solutions
+Balance Sheet As At 31/12/-0
+€         €         €
+Fixed Assets
+Premises                                          60,000
+Motor Vehicles                                    20,000
+Current Assets
+Closing Stock                           4,000
+Debtors                                14,000
+Cash                                    1,000
+Less Current Liabilities
+Creditors                      8,000
+Bank Overdraft                 2,000
+PRSI/PAYE                      2,500
+VAT                            1,800
+Financed by
+Capital                                78,800
+Add Net Profit                          9,900
+Less Drawings                          (4,000)
+QUESTION 5.1
+Accruals, Prepayments, Bad Debts, Provisions
+and Bad Debts Recovered: Solutions
+Car Tax Account
+1/1/-6     Balance b/d                                  72
+1/4/-6     Bank                                        168     31/12/-6     Profit and Loss Account                   324
+1/10/-6    Bank                                        168     31/12/-6     Balance c/d (three months prepaid)         84
+1/1/-7     Balance b/d                                  84
+1/4/-7     Bank                                        210     31/12/-7     Profit and Loss Account                   399
+1/10/-7    Bank                                        210     31/12/-7     Balance c/d (three months prepaid)        105
+1/1/-8     Balance b/d                                 105
+QUESTION 5.2
+(a)                               Bad Debts Account
+1/10/-7    Debtors                        440
+31/12/-7   Debtors                        100     31/12/-7    Profit and Loss Account   540
+(b)                         Provision for Bad Debts Account
+1/1/-8      Balance b/d               620
+31/12/-7   Balance c/d (5% of 14,000)     700     31/12/-7    Profit and Loss Account    80
+1/1/-8      Balance b/d               700
+QUESTION 5.3
+Car Insurance Account
+1/1/-8           Balance b/d                             200     31/12/-8       Profit and Loss Account                920
+1/4/-8           Bank                                    960     31/12/-8       Balance c/d (three months prepaid)     240
+1/1/-9           Balance b/d                             240     31/12/-9       Profit and Loss Account              1,140
+1/4/-9           Bank                                  1,200     31/12/-9       Balance c/d (three months prepaid)     300
+1/1/-0           Balance b/d                             300
+QUESTION 5.4
+Rent Receivable Account
+31/12/-5      Profit and Loss Account                1,350     1/1/-5          Balance b/d                             600
+31/12/-5      Balance c/d (six months prepaid)         750     1/7/-5          Bank                                  1,500
+31/12/-6      Profit and Loss Account                1,650     1/1/-6          Balance b/d                             750
+31/12/-6      Balance c/d (six months prepaid)         900     1/7/-6          Bank                                  1,800
+1/1/-7          Balance b/d                             900
+Solutions
+QUESTION 5.5
+Motor Vehicles Tax Account
+1/1/-7        Balance b/d                       240
+1/4/-7        Bank                              520    31/12/-7        Profit and Loss Account               1,020
+1/10/-7       Bank                              520    31/12/-7        Balance c/d (three months prepaid)      260
+1/1/-8        Balance b/d                       260
+1/4/-8        Bank                              600    31/12/-8        Profit and Loss Account               1,160
+1/10/-8       Bank                              600    31/12/-8        Balance c/d (three months prepaid)      300
+1/1/-9        Balance b/d                       300
+QUESTION 5.6
+(a)                                       Bad Debts Account
+1/5/-8     Debtors                         550   1/5/-8      Provision for Bad Debts           550
+31/12/-8   Debtors                         200   31/12/-8    Provision for Bad Debts           200
+(b)                                Provision for Bad Debts Account
+1/5/-8     Bad Debts                      550    1/1/-8      Balance b/d                       800
+31/12/-8   Bad Debts                      200
+31/12/-8   Balance c/d (5% of 18,000)     900    31/12/-8    Profit and Loss Account         850
+1/1/-9      Balance b/d                     900
+QUESTION 5.7
+(a)                                       Bad Debts Account
+1/6/-6     Debtors                         480
+31/12/-8   Debtors                         400   31/12/-8    Profit and Loss Account           880
+(b)                                Provision for Bad Debts Account
+1/1/-6      Balance b/d                       940
+31/12/-6   Balance c/d (5% of 19,600)      980   31/12/-6    Profit and Loss Account            40
+1/1/-7      Balance b/d                       980
+QUESTION 5.8
+Rent Account
+1/1/-7     Balance b/d                          150
+1/4/-7     Bank                                 360    31/12/-7     Profit and Loss Account                    690
+1/10/-7    Bank                                 360    31/12/-7     Balance c/d (three months prepaid)         180
+1/1/-8     Balance b/d                          180
+1/4/-8     Bank                                 420    31/12/-8     Profit and Loss Account                  810
+1/10/-8    Bank                                 420    31/12/-8     Balance c/d (three months prepaid)       210
+1/1/-9     Balance b/d                          210
+Leaving Certificate Accounting
+QUESTION 5.9
+(a)                                          Bad Debts Account
+1/6/-8            Debtors                              640   1/6/-8       Provision for Bad Debts                640
+31/12/-8          Debtors                              500   31/12/-8     Provision for Bad Debts                500
+(b)                                Provision for Bad Debts Account
+1/6/-8            Bad Debts                            640   1/1/-8       Balance b/d                          1,680
+31/12/-8          Bad Debts                            500
+31/12/-8          Balance c/d (5% of 24,000)         1,200   31/12/-8     Profit and Loss Account                660
+1/1/-9       Balance b/d                          1,200
+QUESTION 5.10
+(a)                                      Bad Debts Account
+Debtors                              900   31/12/-8   Profit and Loss Account                900
+(b)                             Provision for Bad Debts Account
+1/1/-8     Balance b/d                         800
+31/12/-8     Balance c/d                        1,400   31/12/-8   Profit and Loss Account             600
+1/1/-9     Balance b/d                       1,400
+(c)                         Provision for Discount Allowed Account
+31/12/-8   Profit and Loss Account
+31/12/-8     Balance c/d                          392              (2% of 20,000 – 400)                   392
+1/1/-9     Balance b/d                            392
+(d) Profit and Loss Account for the year ended 31/12/-8 (Extract)
+Expenses
+Bad Debts                                                                       900
+Provision for Bad Debts Increase                                                600
+Provision for Discount Allowed Increase                                         392
+(e) Balance Sheet as at 31/12/-8 (Extract)
+Current Assets
+Debtors                                                          26,000
+Less Provision for Bad Debts                                     (1,400)
+Less Provision for Discount Allowed                                (392)    24,208
+QUESTION 5.11
+Rent and Rates Account
+3/1/-7             Bank                                    1,800   1/1/-7        Balance c/d (three months rates due)        420
+7/1/-7             Bank                                      840
+20/6/-7            Bank                                    1,800
+4/9/-7             Bank                                      960
+6/9/-7             Bank                                    1,800
+30/12/-7           Bank                                      960   31/12/-7      Profit and Loss Account                   9,060
+31/12/-7           Balance c/d (three months rent due)     1,800   31/12/-7      Balance c/d (three rates prepaid)           480
+1/1/-8             Balance b/d                               480   1/1/-8        Balance b/d                               1,800
+QUESTION 6.1
+Depreciation and
+Revaluation: Solutions
+(a)                                     Buses Account
+1/1/-3     Balance b/d            80,000
+1/7/-3     Bank                   25,000   31/12/-3    Balance c/d       105,000
+1/1/-4     Balance b/d           105,000   1/1/-4      Disposal           20,000
+31/12/-4    Balance c/d        85,000
+(b)                            Provision for Depreciation Account
+1/1/-3      Balance b/d        25,000
+31/12/-3   Balance c/d            35,000   31/12/-3    Profit and loss    10,000
+1/1/-4     Disposal               12,500   1/1/-4      Balance b/d        35,000
+31/12/-4   Balance c/d            31,000   31/12/-4    Profit and Loss     8,500
+(c)                                  Bus Disposal Account
+1/1/-4     Bus                    20,000   1/1/-4      Depreciation       12,500
+1/1/-4      Bank                7,000
+31/12/-4    Loss                  500
+QUESTION 6.2
+(a)                                     Buses Account
+1/1/-5     Balance b/d            95,000
+1/7/-5     Bank                   35,000   31/12/-5    Balance c/d       130,000
+1/1/-6     Balance b/d           130,000   1/7/-6      Disposal           28,000
+31/12/-6    Balance c/d       102,000
+(b)                            Provision for Depreciation Account
+1/1/-5      Balance b/d        40,000
+31/12/-5   Balance c/d            64,000   31/12/-5    Profit and Loss    24,000
+1/7/-6     Disposal               24,100   1/1/-6      Balance b/d        64,000
+31/12/-6   Balance c/d            60,900   31/12/-6    Profit and Loss    21,000
+(c)                                  Bus Disposal Account
+1/7/-6     Bus                    28,000   1/7/-6      Depreciation       24,100
+31/12/-6   Profit                    700   1/7/-6      Bank                4,600
+Leaving Certificate Accounting
+QUESTION 6.3
+(a)                                      Lorries Account
+1/1/-7     Balance b/d            150,000
+1/4/-7     Bank                    60,000    31/12/-7   Balance c/d              210,000
+1/1/-8     Balance b/d            210,000    1/9/-8     Disposal                  40,000
+31/12/-8   Balance c/d              170,000
+(b)                             Provision for Depreciation Account
+1/1/-7     Balance b/d               45,000
+31/12/-7   Balance c/d             66,000    31/12/-7   Profit and Loss           21,000
+1/9/-8     Disposal                28,500    1/1/-8     Balance b/d               66,000
+31/12/-8   Balance c/d             56,500    31/12/-8   Profit and Loss           19,000
+(c)                                  Lorry Disposal Account
+1/9/-8     Lorries                 40,000    1/9/-8     Depreciation              28,500
+1/9/-8     Bank                       9,000
+31/12/-8   Loss                       2,500
+QUESTION 6.4
+(a)                                            Buses Account
+1/1/-8           Balance b/d            175,000   1/4/-8            Disposal              45,000
+1/4/-8           Bank                    70,000   31/12/-8          Balance c/d          200,000
+1/1/-9           Balance b/d            200,000   31/12/-9          Balance c/d          200,000
+(b)                                   Provision for Depreciation Account
+1/4/-8           Disposal                27,000   1/1/-8            Balance b/d           54,000
+31/12/-8         Balance c/d             43,500   31/12/-8          Profit and Loss       17,500
+1/1/-9            Balance b/d           43,500
+31/12/-9         Balance c/d             63,500   31/12/-9          Profit and Loss       20,000
+(c)                                         Bus Disposal Account
+1/4/-8           Bus                     45,000   1/4/-8            Depreciation          27,000
+31/12/-8         Profit                   1,000   1/4/-8            Bank                  19,000
+QUESTION 6.5
+(a)                                             Truck Account
+1/1/-6           Balance b/d            160,000   1/12/-6           Disposal              25,000
+1/10/-6          Bank                    54,000   31/12/-6          Balance c/d          189,000
+1/1/-7           Balance b/d            189,000   1/9/-7            Disposal              30,000
+1/7/-7           Bank                    36,000   31/12/-7          Balance c/d          195,000
+Solutions
+(b)                                          Provision for Depreciation Account
+1/12/-6              Disposal                    14,000    1/1/-6           Balance b/d        46,000
+31/12/-6             Balance c/d                 51,000    31/12/-6         Profit and loss    19,000
+1/9/-7               Disposal                    20,000    1/1/-7           Balance b/d        51,000
+31/12/-7             Balance c/d                 58,000    31/12/-7         Profit and loss    27,000
+(c)                                               Truck Disposal Account
+1/12/-6              Truck                       25,000    1/12/-6          Depreciation       14,000
+31/12/-6             Profit                       5,000    1/12/-6          Bank               16,000
+1/9/-7               Truck                       30,000    1/9/-7           Depreciation       20,000
+31/12/-7             Profit                       2,000    1/9/-7           Bank               12,000
+QUESTION 6.6
+Bus Account
+1/1/-8     Buses at cost amounted to €145,000
+1/7/-8     Bus which cost €40,000 was sold
+31/12/-8   Buses at cost amounted to €105,000
+1/9/-9     Bus purchased for €25,000
+1/12/-9    Bus purchased on credit for €27,000
+31/12/-9   Buses at cost amounted to €157,000
+Provision for Depreciation Account
+1/1/-8          Accumulated balance on depreciation was €30,000
+1/7/-8          Bus sold on 1/7/-8 had accumulated depreciation of €10,000
+31/12/-8        Annual depreciation charge was €11,000
+31/12/-8        Accumulated balance on depreciation was €31,000
+31/12/-9        Annual depreciation charge was €23,000
+31/12/-9        Accumulated balance on depreciation was €54,000
+Disposal Account
+1/7/-8          Bus sold cost €40,000
+1/7/-8          Accumulated depreciation on bus sold was €10,000
+1/7/-8          Bus was sold for €28,000
+31/12/-8        Loss on disposal of bus was €2,000
+QUESTION 6.7 (HIGHER LEVEL) (Reference to Calculations in Brackets).
+(a)                                                   Vehicles Account
+1/1/-8               Balance b/d (1)             80,000    1/4/-8           Disposal           26,000
+1/4/-8               Trade-in                    15,000
+Bank                        20,000    31/12/-8         Balance c/d        89,000
+1/1/-9               Balance b/d                 89,000    1/10/-9          Disposal           32,000
+1/10/-9              Bank                        44,000    31/12/-9         Balance c/d       101,000
+1/1/00               Balance b/d                101,000
+Leaving Certificate Accounting
+(b)                                                          Provision for Depreciation Account
+1/4/-8                     Disposal (3)                                 13,000           1/1/-8                   Balance b/d (2)                       42,400
+31/12/-8                   Balance c/d                                  44,550           31/12/-8                 Profit and loss (4)                   15,150
+1/10/-9                    Disposal (5)                                 22,100           1/1/-9                   Balance b/d                           44,550
+31/12/-9                   Balance c/d                                  36,450           31/12/-9                 Profit and loss (6)                   14,000
+1/1/00                   Balance b/d                           36,450
+(c)                                                                   Vehicles Disposal Account
+1/4/-8                    Vehicle                                       26,000           1/4/-8                   Depreciation (3)                      13,000
+31/12/-8                  Profit and loss                                2,000           1/4/-8                   Trade-in                              15,000
+1/10/-9                   Vehicle                                       32,000           1/10/-9                  Depreciation (5)                      22,100
+1/10/-9                  Bank                                     500
+31/12/-9                 Profit and loss                        9,400
+CALCULATIONS (€)
+1. Opening balance on Vehicles Account as 1/1/-8
+No. 1 –   22,000
+No. 2 –   26,000
+No. 3 –   30,000
+Tachograph 2,000
+2. Opening balance on Provision for Depreciation Account as at 1/1/-8
+No. 1 – (1/7/-3 – 1/1/-8) = 4 years, 6 months (4 1--- ) x 20% of 22,000 = ......................................                                     19,800
+No. 2 – (1/10/-5 – 1/1/-8) = 2 years, 3 months (2 1--- ) x 20% of 26,000 = ...................................                                       11,700
+No. 3 – (1/4/-6 – 1/1/-8) = 1 year, 9 months (1 3--- ) x 20% of 30,000 = .......................................                                     10,500
+Tachograph – (1/1/-7 – 1/1/-8) = 1 year x 20% of 2,000 = .........................................................                                     400
+Total =              .............................................................................................................................   42,400
+3. Depreciation to date of Sale Vehicle No. 2
+1/10/-5 – 1/4/-8 = 2 years, 6 months (2 1--- ) x 20% of 26,000 =....................................................                                 13,000
+4. Annual Depreciation Charge for the year ended 31/12/-8
+No. 1 – 1 year x 20% of 22,000 (N.B. – only 1--- year remaining) = ...........................................                                        2,200
+No. 2 – 3 months ( 1--- ) of 20% of 26,000......................................................................................                      1,300
+No. 3 – 1 year x 20% of 32,000 = ..............................................................................................                       6,400
+No. 4 – 9 months         ( 3--- )   x 20% of 35,000 = ...................................................................................             5,250
+Total =           ................................................................................................................................   15,150
+5. Depreciation to date of Sale Vehicle No. 3
+Vehicle – (1/4/-6 – 1/10/-9) = 3 years, 6 months (3 1--- ) x 20% of 30,000 = ................................                                        21,000
+Tachograph – (1/1/-7 – 1/10/-9) = 2 years, 9 months (2 3--- ) x 20% of 2,000 = ...........................                                            1,100
+Total =           ................................................................................................................................   22,100
+Solutions
+6. Annual Depreciation Charge for the year ended 31/12/-9
+No. 1 – Fully depreciated = ........................................................................................................                      Nil
+No. 3 – 9 months ( 3--- ) x 20% of 32,000 =....................................................................................                       4,800
+No. 4 – 1 year x 20% of 35,000 = ...............................................................................................                      7,000
+No. 5 – 3 months         ( 1--- )   x 20% of 44,000 = ...................................................................................             2,200
+Total =           ................................................................................................................................   14,000
+QUESTION 6.8 (HIGHER LEVEL) (Reference to Calculations in Brackets)
+(a)                                                                        Vehicles Account
+1/1/-8                     Balance b/d (1)                           80,000            1/10/-8                    Disposal                              20,000
+1/10/-8                    Bank                                      31,000
+Trade-in                                   9,000            31/12/-8                   Balance c/d                         100,000
+1/1/-9                     Balance b/d                              100,000            1/7/-9                     Disposal                            36,000
+1/8/-9                     Bank                                      48,000            31/12/-9                   Balance c/d                         112,000
+1/1/-0                     Balance b/d                              112,000
+(b)                                                          Provision for Depreciation Account
+1/10/-8                    Disposal (3)                                 20,000         1/1/-8                     Balance b/d (2)                       47,750
+31/12/-8                   Balance c/d                                  36,500         31/12/-8                   Profit and loss (4)                    8,750
+1/7/-9                     Disposal (5)                                 18,750         1/1/-9                     Balance b/d                           36,500
+31/12/-9                   Balance b/d                                  30,500         31/12/-9                   Profit and loss (6)                   12,750
+1/1/-0                     Balance b/d                           30,500
+(c)                                                                 Vehicles Disposal Account
+1/10/-8                   Vehicles                                      20,000         1/10/-8                    Depreciation (3)                      20,000
+31/12/-8                  Profit and Loss                                9,000         1/10/-8                    Trade-in                               9,000
+1/7/-9                    Vehicles                                      36,000         1/7/-9                     Depreciation (5)                      18,750
+31/12/-9                  Profit and Loss                                1,250         1/7/-9                     Bank                                   2,500
+1/7/-9                     Bank (Insurance)                      16,000
+CALCULATIONS (€)
+1. Opening balance on Vehicles Account as at 1/1/-8
+No. 1 –    20,000
+No. 2 –    24,000
+No. 3 –    32,000
+Tachograph 4,000
+2. Opening balance on Provision for Depreciation Account as at 1/1/-9
+No. 1 – (1/7/-9 – 1/1/-8) = 8 years, 6 months, i.e. fully depreciated =........................................                                        20,000
+No. 2 – (1/10/-2 – 1/1/-8) = 5 years, 3 months (5 1--- ) x 12 1--- % of 24,000 = ................................                                    15,750
+No. 3 – (1/4/-5 – 1/1/-8) = 2 years, 9 months 2( 3--- ) x 12 1--- % of 32,000 = ..................................                                   11,000
+Tachograph – (1/1/-6 – 1/1/-8) = 2 years x 12 1--- % of 4,000 =.....................................................                                  1,000
+Total =              .............................................................................................................................   47,750
+Leaving Certificate Accounting
+3. Depreciation to date of Sale Vehicle No. 1
+1/7/-9 – 1/10/-8 = Fully Depreciated = .......................................................................................                        20,000
+4. Annual Depreciation Charge for the year ended 31/12/-8
+No. 1 – Fully Depreciated = .......................................................................................................                      Nil
+No. 2 – 1     year x 12 1--- % of 24,000................................................................................................              3,000
+No. 3 – 1     year x 12 1--- % of 36,000 = ...........................................................................................                4,500
+No. 4 – 3     months ( --- ) x 12 1--- % of 40,000 = ................................................................................
+Total =           ................................................................................................................................    8,750
+5. Depreciation to date of Sale Vehicle No. 3
+Vehicle – (1/4/-5 – 1/7/-9) = 4 years, 3 months (4 1--- ) x 12 1--- % of 32,000 = ...............................                                    17,000
+Tachograph – (1/1/-6 – 1/7/-9) = 3 years, 6 months (3 1--- ) x 12 1--- % of 4,000 = ...........................                                       1,750
+Total =           ................................................................................................................................   18,750
+6. Annual Depreciation Charge for the year ended 31/12/-9
+No. 2 – 1 year x 12 1--- % of 24,000 = ...........................................................................................                    3,000
+No. 3 – 6 months ( 1--- ) x 12 1--- % of 36,000 =.................................................................................                    2,250
+No. 4 – 1     year x 12 --- % of 40,000 = ............................................................................................                5,000
+No. 5 – 5     months ( -----
+- ) x 12 --- % of 48,000 = .............................................................................                   2,500
+Total =           ................................................................................................................................   12,750
+QUESTION 6.9 (HIGHER LEVEL) (Reference to Calculations in Brackets)
+(a)                                                                        Vehicles Account
+1/1/-0                    Balance b/d (1)                           128,000          1/9/-0                       Disposal                              48,000
+1/9/-0                    Bank                                       36,000
+Trade-in                                   18,000          31/12/-0                     Balance c/d                          134,000
+1/1/-1                    Balance b/d                               134,000          1/4/-1                       Disposal                              44,000
+1/4/-1                    Bank                                       35,000
+Trade-in                                   23,000          31/12/-1                     Balance c/d                          148,000
+1/1/-2                    Balance b/d                               148,000
+(b)                                                         Provision for Depreciation Account
+1/9/-0                    Disposal (3)                                28,800         1/1/-0                       Balance b/d (2)                       50,400
+31/12/200                 Balance c/d                                 47,600         31/12/-0                     Profit and Loss (4)                   26,000
+1/4/-1                    Disposal (5)                                13,200         1/1/-1                       Balance b/d                           47,600
+31/12/-1                  Balance b/d                                 59,100         31/12/-1                     Profit and Loss (5)                   24,700
+1/1/-2                       Balance b/d                           59,100
+Solutions
+(c)                                                              Vehicles Disposal Account
+1/9/200                   Vehicles                                      48,000           1/9/-0                   Depreciation (3)                      28,800
+1/9/-0                   Trade-in                              18,000
+31/8/-0                  Profit and Loss                        1,200
+1/4/-1                    Vehicles                                      44,000           1/4/-1                   Depreciation (5)                      13,200
+1/4/-1                   Trade-in                              23,000
+1/4/-1                   Bank (insurance)                       4,000
+31/12/-1                 Profit and Loss                        3,800
+CALCULATIONS (€)
+1. Opening balance on Vehicles Account as at 1/1/-0
+No. 1 –    36,000
+No. 2 –    42,000
+No. 3 –    44,000
+Tachograph 6,000
+2. Opening balance on Provision for Depreciation Account as at 1/1/-0
+No. 1 – (1/6/-6 – 1/1/-0) = 3 years, 7 months (3-----
+-) x 20% of 36,000 = .....................................                                       25,800
+No. 2 – (1/8/-7 – 1/1/-0) = 2 years, 5 months                        (2------)   x 20% of 42,000 = .....................................             20,300
+No. 3 – (1/10/-9 – 1/1/-0) = 3 months ( 1--- ) x 20% of 44,000 = ...................................................                                  2,200
+Tachograph – (1/4/-8 – 1/1/-0) = 1 year, 9 months (1 3--- ) x 20% of 6,000 = ...............................                                          2,100
+Total =              .............................................................................................................................   50,400
+3. Depreciation to date of Sale Vehicle No. 2
+Vehicle – (1/8/-7 – 1/9/-0) = 3 years, 1 months (3-----
+-) x 20% of 42,000 = ..................................                                        25,900
+Tachograph – (1/4/-8 – 1/9/-0) = 2 years, 5 months (2-----
+-) x 20% of 6,000 = .............................                                            2,900
+Total =              .............................................................................................................................   28,800
+4. Annual Depreciation Charge for the year ended 31/12/-0
+No. 1 – 1 year x 20% of 36,000 ..................................................................................................                     =7,200
+No. 2 – 8 months         ( 2--- )   x 20% of 48,000 .......................................................................................          =6,400
+No. 3 – 1 year x 20% of 44,000 = ..............................................................................................                       8,800
+No. 4 – 4 months         ( 1--- )   x 20% of 54,000 = ...................................................................................             3,600
+Total =           ................................................................................................................................   26,000
+5. Depreciation to date of Sale Vehicle No. 3
+1/10/-9 – 1/4/-1 = 1 year, 6 months (1 1--- ) x 20% of 44,000 = .....................................................                                13,200
+6. Annual Depreciation Charge for the year ended 31/12/-1
+No. 1 – 1 year (only 5 months chargeable) (-----
+-) x 20% of 36,000 =.........................................                                          3,000
+No. 3 – 3 months ( 1--- ) x 20% of 44,000 =....................................................................................                       2,200
+No. 4 – 1 year x 20% of 54,000 = ...............................................................................................                     10,800
+No. 5 – 9 months         ( 3--- )   x 20% of 58,000 = ...................................................`;
