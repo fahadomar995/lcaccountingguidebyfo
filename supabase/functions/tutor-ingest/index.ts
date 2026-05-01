@@ -107,46 +107,46 @@ Deno.serve(async (req) => {
     const chunks = chunkDigest(COURSE_DIGEST);
     console.log(`Chunked digest into ${chunks.length} chunks`);
 
-    // Wipe + re-ingest
-    const { error: delErr } = await supabase.from("tutor_chunks").delete().neq("id", "00000000-0000-0000-0000-000000000000");
-    if (delErr) throw delErr;
+    const u = new URL(req.url);
+    const from = parseInt(u.searchParams.get("from") ?? "0", 10);
+    const limit = Math.min(parseInt(u.searchParams.get("limit") ?? "20", 10), 30);
+    const reset = u.searchParams.get("reset") === "1";
+
+    if (reset) {
+      const { error: delErr } = await supabase.from("tutor_chunks").delete().neq("id", "00000000-0000-0000-0000-000000000000");
+      if (delErr) throw delErr;
+      console.log("table cleared");
+    }
+
+    const slice = chunks.slice(from, from + limit);
 
     let inserted = 0;
-    const batch: any[] = [];
-    for (const c of chunks) {
+    for (const c of slice) {
       try {
         const vec = await embed(c.content, apiKey);
         if (vec.length !== 768) {
           console.warn(`unexpected embedding length ${vec.length}, skipping ord ${c.ord}`);
           continue;
         }
-        batch.push({
+        const { error } = await supabase.from("tutor_chunks").insert({
           source: "course_digest",
           topic: c.topic,
           section_tags: c.sections,
           ord: c.ord,
           content: c.content,
           token_estimate: Math.ceil(c.content.length / 4),
-          embedding: vec,
+          embedding: vec as any,
         });
-        if (batch.length >= 25) {
-          const { error } = await supabase.from("tutor_chunks").insert(batch);
-          if (error) throw error;
-          inserted += batch.length;
-          batch.length = 0;
-          console.log(`inserted ${inserted}/${chunks.length}`);
-        }
+        if (error) { console.error(`insert ord ${c.ord}:`, error); continue; }
+        inserted++;
       } catch (e) {
         console.error(`chunk ${c.ord} failed:`, e);
       }
     }
-    if (batch.length) {
-      const { error } = await supabase.from("tutor_chunks").insert(batch);
-      if (error) throw error;
-      inserted += batch.length;
-    }
 
-    return new Response(JSON.stringify({ ok: true, total: chunks.length, inserted }), {
+    const next = from + limit;
+    const done = next >= chunks.length;
+    return new Response(JSON.stringify({ ok: true, total: chunks.length, from, limit, inserted, next: done ? null : next, done }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (e) {
