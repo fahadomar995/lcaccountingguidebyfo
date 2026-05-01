@@ -9,7 +9,7 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
-const EMBED_MODEL = "text-embedding-004";
+const EMBED_MODEL = "gemini-embedding-001";
 const MAX_CHARS = 1800; // ~450 tokens per chunk
 
 // Map section heading keywords -> exam section tags so retrieval can be filtered.
@@ -83,6 +83,7 @@ async function embed(text: string, apiKey: string): Promise<number[]> {
       model: `models/${EMBED_MODEL}`,
       content: { parts: [{ text }] },
       taskType: "RETRIEVAL_DOCUMENT",
+        outputDimensionality: 768,
     }),
   });
   if (!r.ok) throw new Error(`embed failed ${r.status}: ${await r.text()}`);
