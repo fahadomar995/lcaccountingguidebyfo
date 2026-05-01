@@ -27,7 +27,7 @@ Below you will be given (a) RETRIEVED PASSAGES from the course knowledge base mo
 - For Q1 sole trader, follow the order: adjustments → trading account → P&L → balance sheet, showing each W note.
 - Time allocations to mention when relevant: Q1 = 75 min, Section 2 questions = 45 min each, Section 3 = 60 min.`;
 
-const EMBED_MODEL = "text-embedding-004";
+const EMBED_MODEL = "gemini-embedding-001";
 
 async function embedQuery(text: string, apiKey: string): Promise<number[] | null> {
   try {
@@ -39,6 +39,7 @@ async function embedQuery(text: string, apiKey: string): Promise<number[] | null
         model: `models/${EMBED_MODEL}`,
         content: { parts: [{ text }] },
         taskType: "RETRIEVAL_QUERY",
+        outputDimensionality: 768,
       }),
     });
     if (!r.ok) { console.error("embed query failed", r.status, await r.text().catch(() => "")); return null; }
