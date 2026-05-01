@@ -100,7 +100,14 @@ Deno.serve(async (req) => {
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
     if (!apiKey || !url || !serviceKey) throw new Error("missing env");
 
-    // TEMP: open during initial ingestion; will lock down after.
+    // Service-role guard: only callers presenting the service-role key can ingest.
+    const auth = req.headers.get("authorization") ?? "";
+    const provided = auth.replace(/^Bearer\s+/i, "");
+    if (provided !== serviceKey) {
+      return new Response(JSON.stringify({ error: "unauthorised" }), {
+        status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
 
     const supabase = createClient(url, serviceKey);
 
