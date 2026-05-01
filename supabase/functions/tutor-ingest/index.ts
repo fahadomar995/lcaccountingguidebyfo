@@ -1,7 +1,7 @@
 // Ingests the COURSE_DIGEST into the tutor_chunks table with Gemini embeddings.
 // Idempotent: clears the table first, then re-ingests. Service-role only.
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
-import { COURSE_DIGEST } from "../ai-tutor/courseDigest.ts";
+import { COURSE_DIGEST } from "./courseDigest.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
