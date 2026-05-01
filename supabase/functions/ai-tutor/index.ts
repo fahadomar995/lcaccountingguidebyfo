@@ -1,3 +1,4 @@
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { COURSE_DIGEST } from "./courseDigest.ts";
 
 const corsHeaders = {
@@ -5,17 +6,17 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-const SYSTEM_PROMPT = `You are the in-app AI tutor for "LC Accounting 2026" — an Irish Leaving Certificate Higher Level Accounting study app.
+const SYSTEM_PROMPT_BASE = `You are the in-app AI tutor for "LC Accounting 2026" — an Irish Leaving Certificate Higher Level Accounting study app.
 
 ## YOUR ROLE
 You ONLY answer questions about Leaving Certificate Higher Level Accounting (SEC syllabus). For anything off-topic, politely redirect back to the subject.
 
 ## GROUNDING — VERY IMPORTANT
-Below is the COURSE KNOWLEDGE BASE used by this app: every theory question, marking-scheme answer, and method-note that the student sees inside the app.
-- When answering, ALWAYS prefer wording, definitions and worked steps from this knowledge base over general internet knowledge.
-- When a student asks about a topic you can find here, lift the SEC-correct phrasing (e.g. "controllable costs", "principal budget factor", the Working A/B/C/D framework for Published Accounts) directly from the source below.
-- If the student asks about a past paper question (year + topic), look it up in the THEORY section below and quote the marking-scheme answer.
-- If something is genuinely outside this knowledge base, you can answer using your general accounting knowledge but FLAG it: e.g. "(not from the course notes — general accounting)".
+Below you will be given (a) RETRIEVED PASSAGES from the course knowledge base most relevant to the student's current question, and (b) a fallback COURSE OVERVIEW.
+- ALWAYS prefer wording, definitions and worked steps from the retrieved passages.
+- Lift SEC-correct phrasing (e.g. "controllable costs", "principal budget factor", Working A/B/C/D for Published Accounts) directly from the passages when it matches.
+- If the student asks about a past paper (year + topic), quote the marking-scheme answer from the passages.
+- If the answer is not covered, you can use general accounting knowledge but FLAG it: "(not from the course notes — general accounting)".
 
 ## ANSWER STYLE
 - Use Markdown. Bold key terms.
@@ -24,11 +25,54 @@ Below is the COURSE KNOWLEDGE BASE used by this app: every theory question, mark
 - Keep answers concise and exam-focused. Aim for under 250 words unless a full worked solution is needed.
 - For Published Accounts, always reference the Working A (Cost of Sales) / B (Distribution) / C (Admin) / D (Other Operating Income) framework used in this course.
 - For Q1 sole trader, follow the order: adjustments → trading account → P&L → balance sheet, showing each W note.
-- Time allocations to mention when relevant: Q1 = 75 min, Section 2 questions = 45 min each, Section 3 = 60 min.
+- Time allocations to mention when relevant: Q1 = 75 min, Section 2 questions = 45 min each, Section 3 = 60 min.`;
 
-=================== COURSE KNOWLEDGE BASE ===================
-${COURSE_DIGEST}
-=================== END OF KNOWLEDGE BASE ===================`;
+const EMBED_MODEL = "gemini-embedding-001";
+
+async function embedQuery(text: string, apiKey: string): Promise<number[] | null> {
+  try {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${EMBED_MODEL}:embedContent?key=${apiKey}`;
+    const r = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: `models/${EMBED_MODEL}`,
+        content: { parts: [{ text }] },
+        taskType: "RETRIEVAL_QUERY",
+        outputDimensionality: 768,
+      }),
+    });
+    if (!r.ok) { console.error("embed query failed", r.status, await r.text().catch(() => "")); return null; }
+    const j = await r.json();
+    return j.embedding?.values ?? null;
+  } catch (e) { console.error("embed query exception", e); return null; }
+}
+
+async function retrieveContext(latestQuestion: string): Promise<string> {
+  try {
+    const apiKey = Deno.env.get("GEMINI_API_KEY")!;
+    const supaUrl = Deno.env.get("SUPABASE_URL");
+    const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+    if (!supaUrl || !serviceKey) return "";
+    const vec = await embedQuery(latestQuestion, apiKey);
+    if (!vec) return "";
+    const supabase = createClient(supaUrl, serviceKey);
+    const { data, error } = await supabase.rpc("match_tutor_chunks", {
+      query_embedding: vec,
+      match_count: 5,
+      topic_filter: null,
+      section_filter: null,
+    });
+    if (error) { console.error("rpc match_tutor_chunks", error); return ""; }
+    if (!data?.length) return "";
+    return (data as Array<{ topic: string; content: string; similarity: number }>)
+      .map((c, i) => `--- PASSAGE ${i + 1} (topic: ${c.topic}, similarity: ${c.similarity.toFixed(2)}) ---\n${c.content}`)
+      .join("\n\n");
+  } catch (e) {
+    console.error("retrieveContext error:", e);
+    return "";
+  }
+}
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -43,6 +87,14 @@ Deno.serve(async (req) => {
         status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
+
+    // Find the most recent user question to drive retrieval.
+    const latest = [...messages].reverse().find((m: any) => m.role === "user");
+    const retrieved = latest?.content ? await retrieveContext(String(latest.content)) : "";
+
+    const systemPrompt = retrieved
+      ? `${SYSTEM_PROMPT_BASE}\n\n=================== RETRIEVED PASSAGES ===================\n${retrieved}\n=================== END OF PASSAGES ===================`
+      : `${SYSTEM_PROMPT_BASE}\n\n=================== COURSE KNOWLEDGE BASE (fallback) ===================\n${COURSE_DIGEST}\n=================== END ===================`;
 
     // Convert OpenAI-style messages -> Gemini "contents"
     const contents = (messages as Array<{ role: string; content: string }>)
@@ -59,7 +111,7 @@ Deno.serve(async (req) => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        systemInstruction: { role: "system", parts: [{ text: SYSTEM_PROMPT }] },
+        systemInstruction: { role: "system", parts: [{ text: systemPrompt }] },
         contents,
         generationConfig: { temperature: 0.4, maxOutputTokens: 2048 },
       }),

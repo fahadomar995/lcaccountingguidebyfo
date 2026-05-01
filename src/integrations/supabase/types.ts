@@ -62,6 +62,42 @@ export type Database = {
         }
         Relationships: []
       }
+      tutor_chunks: {
+        Row: {
+          content: string
+          created_at: string
+          embedding: string | null
+          id: string
+          ord: number
+          section_tags: string[]
+          source: string
+          token_estimate: number
+          topic: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          embedding?: string | null
+          id?: string
+          ord?: number
+          section_tags?: string[]
+          source: string
+          token_estimate?: number
+          topic?: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          embedding?: string | null
+          id?: string
+          ord?: number
+          section_tags?: string[]
+          source?: string
+          token_estimate?: number
+          topic?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string
@@ -145,6 +181,22 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      match_tutor_chunks: {
+        Args: {
+          match_count?: number
+          query_embedding: string
+          section_filter?: string
+          topic_filter?: string
+        }
+        Returns: {
+          content: string
+          id: string
+          section_tags: string[]
+          similarity: number
+          source: string
+          topic: string
+        }[]
       }
       streak_ping: {
         Args: { _user_id: string }
