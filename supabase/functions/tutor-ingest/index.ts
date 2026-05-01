@@ -135,7 +135,7 @@ Deno.serve(async (req) => {
           ord: c.ord,
           content: c.content,
           token_estimate: Math.ceil(c.content.length / 4),
-          embedding: vec as any,
+          embedding: `[${vec.join(",")}]` as any,
         });
         if (error) { console.error(`insert ord ${c.ord}:`, error); continue; }
         inserted++;
