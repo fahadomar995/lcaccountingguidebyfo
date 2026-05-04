@@ -16,7 +16,7 @@ export interface ExamQuestion {
   paperPage: number;
   markingSchemeUrl: string;
   markingSchemePage: number;
-  paperPageCount: 1 | 2;
+  paperPageCount: 1 | 2 | 3 | 4;
   markingPageCount: 1 | 2 | 3 | 4 | 5 | 6;
   timingMinutes: number;
   notes: string;
@@ -280,8 +280,8 @@ export const questionIndex: ExamQuestion[] = [
     timingMinutes: 45, notes: "Service firm final accounts" },
   // ─── 2021 ─────────────────────────────────────────────────
   { id: "2021_Q1_sole_trader", year: 2021, questionNumber: 1, section: 1, marks: 120,
-    topic: "Final Accounts — Sole Trader", subtopic: "Q1 (A) — Sole Trader / (B) — Manufacturing",
-    paperUrl: secPaper(2021), paperPage: 2, paperPageCount: 1,
+    topic: "Final Accounts — Sole Trader", subtopic: "Q1 (A) Sole Trader OR (B) Manufacturing Company",
+    paperUrl: secPaper(2021), paperPage: 2, paperPageCount: 4,
     markingSchemeUrl: secMs(2021), markingSchemePage: 3, markingPageCount: 5,
     timingMinutes: 54, notes: "Choose sole trader OR manufacturing branch" },
   { id: "2021_Q5_interpretation", year: 2021, questionNumber: 5, section: 2, marks: 100,
@@ -301,8 +301,8 @@ export const questionIndex: ExamQuestion[] = [
     timingMinutes: 45, notes: "Reid plc — full cash flow" },
   // ─── 2022 ─────────────────────────────────────────────────
   { id: "2022_Q1_company_mfg", year: 2022, questionNumber: 1, section: 1, marks: 120,
-    topic: "Final Accounts — Manufacturing", subtopic: "Q1 (A) Manufacturing / (B) Company",
-    paperUrl: secPaper(2022), paperPage: 2, paperPageCount: 1,
+    topic: "Final Accounts — Manufacturing", subtopic: "Q1 (A) Manufacturing Company OR (B) Company",
+    paperUrl: secPaper(2022), paperPage: 2, paperPageCount: 4,
     markingSchemeUrl: secMs(2022), markingSchemePage: 3, markingPageCount: 5,
     timingMinutes: 54, notes: "McGuigan Ltd manufacturing OR McCormack Ltd" },
   { id: "2022_Q2_cashflow", year: 2022, questionNumber: 2, section: 1, marks: 60,
@@ -332,10 +332,10 @@ export const questionIndex: ExamQuestion[] = [
     timingMinutes: 36, notes: "Job costing + price calculation" },
   // ─── 2023 ─────────────────────────────────────────────────
   { id: "2023_Q1_company", year: 2023, questionNumber: 1, section: 1, marks: 120,
-    topic: "Final Accounts — Company", subtopic: "Q1 (A) Sole Trader / (B) Company",
-    paperUrl: secPaper(2023), paperPage: 2, paperPageCount: 2,
+    topic: "Final Accounts — Company", subtopic: "Q1 (A) Sole Trader OR (B) Company",
+    paperUrl: secPaper(2023), paperPage: 2, paperPageCount: 4,
     markingSchemeUrl: secMs(2023), markingSchemePage: 3, markingPageCount: 5,
-    timingMinutes: 54, notes: "Choose sole trader OR company branch" },
+    timingMinutes: 54, notes: "V. Leahy sole trader OR East Elm Ltd company" },
   { id: "2023_Q5_interpretation", year: 2023, questionNumber: 5, section: 2, marks: 100,
     topic: "Interpretation of Accounts", subtopic: "Interpretation of Accounts",
     paperUrl: secPaper(2023), paperPage: 10, paperPageCount: 2,
@@ -353,10 +353,10 @@ export const questionIndex: ExamQuestion[] = [
     timingMinutes: 45, notes: "Dental practice — service firm" },
   // ─── 2024 ─────────────────────────────────────────────────
   { id: "2024_Q1_sole_trader", year: 2024, questionNumber: 1, section: 1, marks: 120,
-    topic: "Final Accounts — Sole Trader", subtopic: "Q1 (A) Sole Trader / (B) Company",
-    paperUrl: secPaper(2024), paperPage: 2, paperPageCount: 1,
+    topic: "Final Accounts — Sole Trader", subtopic: "Q1 (A) Sole Trader OR (B) Company w/ Manufacturing",
+    paperUrl: secPaper(2024), paperPage: 2, paperPageCount: 4,
     markingSchemeUrl: secMs(2024), markingSchemePage: 3, markingPageCount: 5,
-    timingMinutes: 54, notes: "Choose sole trader OR company branch" },
+    timingMinutes: 54, notes: "Sole trader OR Sexton Ltd manufacturing company" },
   { id: "2024_Q2_cashflow", year: 2024, questionNumber: 2, section: 1, marks: 60,
     topic: "Cash Flow", subtopic: "Cash Flow Statement (60m)",
     paperUrl: secPaper(2024), paperPage: 6, paperPageCount: 1,
@@ -369,10 +369,10 @@ export const questionIndex: ExamQuestion[] = [
     timingMinutes: 45, notes: "Published P&L + notes" },
   // ─── 2025 ─────────────────────────────────────────────────
   { id: "2025_Q1_company_mfg", year: 2025, questionNumber: 1, section: 1, marks: 120,
-    topic: "Final Accounts — Manufacturing", subtopic: "Q1 (A) Manufacturing / (B) Company",
-    paperUrl: secPaper(2025), paperPage: 2, paperPageCount: 1,
+    topic: "Final Accounts — Sole Trader", subtopic: "Q1 (A) Sole Trader OR (B) Company",
+    paperUrl: secPaper(2025), paperPage: 2, paperPageCount: 4,
     markingSchemeUrl: secMs(2025), markingSchemePage: 3, markingPageCount: 5,
-    timingMinutes: 54, notes: "Choose manufacturing OR company branch" },
+    timingMinutes: 54, notes: "Sole trader OR Cahill Ltd company" },
   { id: "2025_Q4_service", year: 2025, questionNumber: 4, section: 1, marks: 60,
     topic: "Service Firm", subtopic: "Service Firm (60m)",
     paperUrl: secPaper(2025), paperPage: 8, paperPageCount: 2,
