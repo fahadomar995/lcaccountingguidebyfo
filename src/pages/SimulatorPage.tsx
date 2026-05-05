@@ -443,6 +443,197 @@ function preloadImage(src: string) {
   img.src = src;
 }
 
+// ───────────── Queue helpers ─────────────
+/**
+ * The student-built practice queue. Lives in localStorage so it survives
+ * page reloads and is shared between the question list ("Add to queue")
+ * and the Full Exam runner ("Start full exam"). We store IDs only and
+ * resolve them against `questionIndex` at render time so that fixing
+ * data doesn't strand the queue.
+ */
+function useQueue() {
+  const [ids, setIds] = useLocalStorage<string[]>(QUEUE_KEY, []);
+  const items = useMemo(
+    () => ids.map((id) => questionIndex.find((q) => q.id === id)).filter(Boolean) as ExamQuestion[],
+    [ids],
+  );
+  const add = useCallback((id: string) => {
+    setIds((prev) => (prev.includes(id) ? prev : [...prev, id]));
+  }, [setIds]);
+  const remove = useCallback((id: string) => {
+    setIds((prev) => prev.filter((x) => x !== id));
+  }, [setIds]);
+  const clear = useCallback(() => setIds([]), [setIds]);
+  const reorder = useCallback((from: number, to: number) => {
+    setIds((prev) => {
+      const next = prev.slice();
+      const [moved] = next.splice(from, 1);
+      next.splice(to, 0, moved);
+      return next;
+    });
+  }, [setIds]);
+  const replace = useCallback((next: string[]) => setIds(next), [setIds]);
+  const totalMarks = items.reduce((s, q) => s + q.marks, 0);
+  const totalMinutes = items.reduce((s, q) => s + q.timingMinutes, 0);
+  return { ids, items, add, remove, clear, reorder, replace, totalMarks, totalMinutes };
+}
+
+/**
+ * Auto-build the canonical Leaving Cert paper structure:
+ *   Section 1 — pick 1 of (Q1 100m / Q2 60m / Q3 60m / Q4 60m)
+ *   Section 2 — pick 2 of (Q5 / Q6 / Q7 — 100m each)
+ *   Section 3 — pick 1 of (Q8 / Q9 — 80m each)
+ * We pick the most-recent question available for each slot from the
+ * filtered pool so the auto-built paper feels like a real recent sitting.
+ * Falls back gracefully if a slot has no candidates.
+ */
+function buildAutoFullExam(pool: ExamQuestion[]): string[] {
+  const byRecency = (a: ExamQuestion, b: ExamQuestion) => b.year - a.year;
+  const pickOne = (preds: ((q: ExamQuestion) => boolean)[]): ExamQuestion | null => {
+    for (const pred of preds) {
+      const candidate = pool.filter(pred).sort(byRecency)[0];
+      if (candidate) return candidate;
+    }
+    return null;
+  };
+  const pickN = (n: number, predicate: (q: ExamQuestion) => boolean): ExamQuestion[] => {
+    const seen = new Set<string>();
+    const candidates = pool.filter(predicate).sort(byRecency);
+    const out: ExamQuestion[] = [];
+    for (const c of candidates) {
+      if (out.length >= n) break;
+      if (!seen.has(c.topic)) { out.push(c); seen.add(c.topic); }
+    }
+    // Top up with any remaining if topic-uniqueness wasn't enough
+    for (const c of candidates) {
+      if (out.length >= n) break;
+      if (!out.includes(c)) out.push(c);
+    }
+    return out;
+  };
+
+  const s1 = pickOne([
+    (q) => q.section === 1 && q.marks === 100,
+    (q) => q.section === 1 && q.questionNumber === 1,
+    (q) => q.section === 1,
+  ]);
+  const s2 = pickN(2, (q) => q.section === 2);
+  const s3 = pickOne([(q) => q.section === 3]);
+
+  return [s1, ...s2, s3].filter(Boolean).map((q) => (q as ExamQuestion).id);
+}
+
+// ───────────── Queue panel (renders inside SelectStage) ─────────────
+function QueuePanel({
+  items,
+  onRemove,
+  onClear,
+  onAutoBuild,
+  onStartFull,
+}: {
+  items: ExamQuestion[];
+  onRemove: (id: string) => void;
+  onClear: () => void;
+  onAutoBuild: () => void;
+  onStartFull: () => void;
+}) {
+  const totalMarks = items.reduce((s, q) => s + q.marks, 0);
+  const totalMinutes = items.reduce((s, q) => s + q.timingMinutes, 0);
+  const totalHours = Math.floor(totalMinutes / 60);
+  const totalMinsPart = totalMinutes % 60;
+  const fullExamCap = 180;
+  const overCap = totalMinutes > fullExamCap;
+
+  return (
+    <div className="mb-6 bg-gradient-to-br from-primary/5 via-card to-card border border-primary/20 rounded-lg p-5 shadow-sm">
+      <div className="flex items-start gap-2 mb-3">
+        <ListChecks className="h-4 w-4 text-primary mt-0.5" />
+        <div className="flex-1 min-w-0">
+          <h2 className="font-display text-base font-semibold text-foreground leading-tight">
+            Your full-exam queue
+          </h2>
+          <p className="text-[11px] text-muted-foreground font-body leading-snug">
+            Build a paper of your choice — e.g. <strong>Section 1 · Q1 100m</strong>,
+            <strong> Section 2 · 2 × 100m</strong>, <strong>Section 3 · Costing or Budgeting</strong> —
+            then run the whole queue against a single 3-hour timer.
+          </p>
+        </div>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={onAutoBuild}
+          className="h-7 px-2 text-[11px] shrink-0"
+          title="Auto-fill the queue with a Section 1 question, two Section 2 questions and one Section 3 question."
+        >
+          <Wand2 className="h-3.5 w-3.5" /> Auto-build
+        </Button>
+      </div>
+
+      {items.length === 0 ? (
+        <p className="text-xs text-muted-foreground italic font-body">
+          Empty. Use <strong className="not-italic text-foreground">Add to queue</strong> on any question below, or hit
+          <strong className="not-italic text-foreground"> Auto-build</strong> for a complete paper.
+        </p>
+      ) : (
+        <>
+          <ul className="space-y-1.5 mb-3">
+            {items.map((q, i) => (
+              <li
+                key={q.id}
+                className="flex items-center gap-2 bg-card border border-border rounded px-3 py-1.5 text-xs"
+              >
+                <span className="font-mono text-[10px] w-5 text-muted-foreground">{i + 1}.</span>
+                <span className="font-mono text-[11px] text-primary shrink-0">
+                  {q.isMock ? "MOCK" : q.year} · Q{q.questionNumber}
+                </span>
+                <span className="font-display text-foreground truncate flex-1">{q.subtopic}</span>
+                <span className="font-mono text-[10px] text-muted-foreground shrink-0">
+                  S{q.section} · {q.marks}m · {q.timingMinutes}m
+                </span>
+                <button
+                  onClick={() => onRemove(q.id)}
+                  aria-label={`Remove ${q.subtopic} from queue`}
+                  className="text-muted-foreground hover:text-destructive transition-colors"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              </li>
+            ))}
+          </ul>
+          <div className="flex flex-wrap items-center gap-3 text-[11px] font-mono text-muted-foreground">
+            <span>{items.length} question{items.length === 1 ? "" : "s"}</span>
+            <span>· {totalMarks} marks</span>
+            <span>
+              · target {totalHours > 0 ? `${totalHours}h ` : ""}{totalMinsPart}m
+              {overCap && (
+                <span className="ml-1 text-amber-600">
+                  (over the 3-hour cap — exam clock will still stop at 3:00:00)
+                </span>
+              )}
+            </span>
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={onClear}
+              className="h-6 px-2 text-[11px] text-muted-foreground hover:text-destructive ml-auto"
+            >
+              <Trash2 className="h-3.5 w-3.5" /> Clear
+            </Button>
+            <Button
+              size="sm"
+              onClick={onStartFull}
+              disabled={items.length === 0}
+              className="h-7 px-3 text-[11px] bg-primary hover:bg-primary/90 text-primary-foreground"
+            >
+              <Play className="h-3.5 w-3.5" /> Start 3-hour exam <ArrowRight className="h-3 w-3" />
+            </Button>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
 function ScreenshotPageView({
   sources,
   title,
