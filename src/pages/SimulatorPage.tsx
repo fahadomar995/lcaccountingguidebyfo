@@ -1191,14 +1191,20 @@ function ActiveStage({
             title={`${question.year} Q${question.questionNumber}`}
             enableThumbnails
           />
-          <a
-            href={`${question.paperUrl}#page=${question.paperPage}`}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-2 inline-flex items-center gap-1.5 text-xs font-body text-primary hover:underline"
-          >
-            <ExternalLink className="h-3.5 w-3.5" /> Open PDF in new tab
-          </a>
+          {question.paperUrl ? (
+            <a
+              href={`${question.paperUrl}#page=${question.paperPage}`}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-2 inline-flex items-center gap-1.5 text-xs font-body text-primary hover:underline"
+            >
+              <ExternalLink className="h-3.5 w-3.5" /> Open PDF in new tab
+            </a>
+          ) : (
+            <p className="mt-2 text-[11px] font-body text-muted-foreground italic">
+              Mock question — not from a Department of Education paper.
+            </p>
+          )}
         </div>
 
         {/* RIGHT — sidebar with circular timer + actions */}
@@ -1426,14 +1432,20 @@ function ResultsStage({
         className="mb-2"
         title={`${question.year} Q${question.questionNumber} marking scheme`}
       />
-      <a
-        href={`${question.markingSchemeUrl}#page=${question.markingSchemePage}`}
-        target="_blank"
-        rel="noreferrer"
-        className="inline-flex items-center gap-1.5 text-xs font-body text-primary hover:underline mb-6"
-      >
-        <ExternalLink className="h-3.5 w-3.5" /> Open marking scheme in new tab
-      </a>
+      {question.markingSchemeUrl ? (
+        <a
+          href={`${question.markingSchemeUrl}#page=${question.markingSchemePage}`}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-1.5 text-xs font-body text-primary hover:underline mb-6"
+        >
+          <ExternalLink className="h-3.5 w-3.5" /> Open marking scheme in new tab
+        </a>
+      ) : (
+        <p className="text-[11px] font-body text-muted-foreground italic mb-6">
+          Mock marking scheme — indicative breakdown authored for revision practice.
+        </p>
+      )}
 
       <div className="flex flex-wrap gap-3 mt-6">
         <Button onClick={onAnother} className="bg-primary hover:bg-primary/90 text-primary-foreground">
