@@ -683,7 +683,7 @@ function QueuePanel({
                 )}
               </div>
               <p className="text-[10px] text-muted-foreground mb-1.5 leading-snug">
-                Empty = any 2 different topics. The builder will never pick the same topic twice.
+                Pick as many topics as you like — the builder randomly chooses 2 different ones from your selection. Empty = any topic.
               </p>
               <div className="flex flex-wrap gap-1.5">
                 {s2TopicsAvailable.map((t) => {
