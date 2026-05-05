@@ -889,7 +889,25 @@ function SuggestionsCard({
   );
 }
 
-function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
+function SelectStage({
+  onStart,
+  onStartFullExam,
+  onResumeSingle,
+  onResumeFullExam,
+  savedSession,
+  savedFullExam,
+  onDiscardSingle,
+  onDiscardFullExam,
+}: {
+  onStart: (q: ExamQuestion) => void;
+  onStartFullExam: (ids: string[]) => void;
+  onResumeSingle: () => void;
+  onResumeFullExam: () => void;
+  savedSession: SavedSession | null;
+  savedFullExam: SavedFullExam | null;
+  onDiscardSingle: () => void;
+  onDiscardFullExam: () => void;
+}) {
   const [topicFilter, setTopicFilter] = useState<string | "ALL">("ALL");
   const [marksFilter, setMarksFilter] = useState<MarksFilter>("ALL");
   const [sectionFilter, setSectionFilter] = useState<ExamQuestion["section"] | "ALL">("ALL");
@@ -898,6 +916,7 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
   const [onboardingDismissed, setOnboardingDismissed, onboardingMode, setOnboardingMode] = useOnboardingDismissed();
   const { prefs } = useTopicPreferences();
   const [respectPrefs, setRespectPrefs] = useLocalStorage<boolean>("lca_simulator_respect_prefs", true);
+  const queue = useQueue();
 
   // Build the set of excluded chapter ids from the user's topic preferences.
   const excludedChapterIds = useMemo(() => {
@@ -1094,6 +1113,73 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
       {!onboardingDismissed && (
         <OnboardingCard onDismiss={() => setOnboardingDismissed(true)} />
       )}
+
+      {/* ── Resume in-progress session banner(s) ── */}
+      {savedSession && (() => {
+        const q = questionIndex.find((x) => x.id === savedSession.questionId);
+        if (!q) return null;
+        const m = Math.floor(savedSession.remaining / 60);
+        const s = savedSession.remaining % 60;
+        return (
+          <div className="mb-4 flex flex-col sm:flex-row sm:items-center gap-3 bg-amber-50 dark:bg-amber-950/20 border border-amber-300/60 dark:border-amber-700/40 rounded-lg px-4 py-3">
+            <div className="flex items-center gap-2 min-w-0">
+              <PauseGlyph className="h-4 w-4 text-amber-700 dark:text-amber-400 shrink-0" />
+              <div className="min-w-0">
+                <div className="text-sm font-display font-semibold text-foreground leading-tight">
+                  Continue where you left off — {q.year} · Q{q.questionNumber} {q.subtopic}
+                </div>
+                <p className="text-[11px] text-muted-foreground font-body leading-snug">
+                  Paused with <span className="font-mono">{String(m).padStart(2, "0")}:{String(s).padStart(2, "0")}</span> remaining ·
+                  saved {new Date(savedSession.savedAt).toLocaleString()}.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 sm:ml-auto shrink-0">
+              <Button size="sm" variant="ghost" onClick={onDiscardSingle} className="h-7 px-2 text-[11px]">Discard</Button>
+              <Button size="sm" onClick={onResumeSingle} className="h-7 px-3 text-[11px] bg-primary hover:bg-primary/90 text-primary-foreground">
+                <Play className="h-3.5 w-3.5" /> Resume
+              </Button>
+            </div>
+          </div>
+        );
+      })()}
+      {savedFullExam && (() => {
+        const totalM = Math.floor(savedFullExam.totalRemaining / 60);
+        const remH = Math.floor(totalM / 60);
+        const remM = totalM % 60;
+        return (
+          <div className="mb-4 flex flex-col sm:flex-row sm:items-center gap-3 bg-primary/5 border border-primary/30 rounded-lg px-4 py-3">
+            <div className="flex items-center gap-2 min-w-0">
+              <ListChecks className="h-4 w-4 text-primary shrink-0" />
+              <div className="min-w-0">
+                <div className="text-sm font-display font-semibold text-foreground leading-tight">
+                  Resume your 3-hour mock exam
+                </div>
+                <p className="text-[11px] text-muted-foreground font-body leading-snug">
+                  On question <span className="font-mono">{savedFullExam.currentIndex + 1} of {savedFullExam.questionIds.length}</span> ·
+                  <span className="font-mono"> {remH}h {remM}m</span> remaining ·
+                  saved {new Date(savedFullExam.savedAt).toLocaleString()}.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 sm:ml-auto shrink-0">
+              <Button size="sm" variant="ghost" onClick={onDiscardFullExam} className="h-7 px-2 text-[11px]">Discard</Button>
+              <Button size="sm" onClick={onResumeFullExam} className="h-7 px-3 text-[11px] bg-primary hover:bg-primary/90 text-primary-foreground">
+                <Play className="h-3.5 w-3.5" /> Resume exam
+              </Button>
+            </div>
+          </div>
+        );
+      })()}
+
+      {/* ── Queue / Full Exam builder ── */}
+      <QueuePanel
+        items={queue.items}
+        onRemove={queue.remove}
+        onClear={queue.clear}
+        onAutoBuild={() => queue.replace(buildAutoFullExam(visiblePool))}
+        onStartFull={() => onStartFullExam(queue.ids)}
+      />
 
       {/* ── Mark progress tracker ── */}
       {scored.length > 0 && (
