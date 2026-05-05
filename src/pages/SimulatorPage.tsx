@@ -1107,6 +1107,7 @@ function SelectStage({
   const [sectionFilter, setSectionFilter] = useState<ExamQuestion["section"] | "ALL">("ALL");
   const [historyOpen, setHistoryOpen] = useState(false);
   const [history] = useLocalStorage<HistoryEntry[]>(HISTORY_KEY, []);
+  const [mistakes, setMistakes] = useLocalStorage<MistakeEntry[]>(MISTAKES_KEY, []);
   const [onboardingDismissed, setOnboardingDismissed, onboardingMode, setOnboardingMode] = useOnboardingDismissed();
   const { prefs } = useTopicPreferences();
   const [respectPrefs, setRespectPrefs] = useLocalStorage<boolean>("lca_simulator_respect_prefs", true);
