@@ -4,6 +4,7 @@ import { Scratchpad } from "@/components/Scratchpad";
 import { useLocation } from "react-router-dom";
 import { requestExamNavigation, SIDEBAR_TOGGLE_SENTINEL } from "@/lib/examGuard";
 import { useProgressAutoSync } from "@/hooks/useProgressAutoSync";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -12,6 +13,8 @@ interface AppLayoutProps {
 export function AppLayout({ children }: AppLayoutProps) {
   const location = useLocation();
   useProgressAutoSync();
+  // User-toggleable in /preferences. Default ON to preserve existing behaviour.
+  const [scratchpadVisible] = useLocalStorage<boolean>("lca_scratchpad_visible", true);
 
   const handleTriggerClick = (e: React.MouseEvent) => {
     if (location.pathname === "/simulator" && requestExamNavigation(SIDEBAR_TOGGLE_SENTINEL)) {
@@ -33,7 +36,7 @@ export function AppLayout({ children }: AppLayoutProps) {
           </main>
         </div>
       </div>
-      <Scratchpad />
+      {scratchpadVisible && <Scratchpad />}
     </SidebarProvider>
   );
 }
