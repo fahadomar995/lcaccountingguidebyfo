@@ -480,7 +480,7 @@ function useQueue() {
 
 /**
  * Auto-build the canonical Leaving Cert paper structure:
- *   Section 1 — pick 1 of (Q1 100m / Q2 60m / Q3 60m / Q4 60m)
+ *   Section 1 — pick 1 of (Q1 120m / Q2 60m / Q3 60m / Q4 60m)
  *   Section 2 — pick 2 of (Q5 / Q6 / Q7 — 100m each)
  *   Section 3 — pick 1 of (Q8 / Q9 — 80m each)
  * We pick the most-recent question available for each slot from the
@@ -513,7 +513,7 @@ function buildAutoFullExam(pool: ExamQuestion[]): string[] {
   };
 
   const s1 = pickOne([
-    (q) => q.section === 1 && q.marks === 100,
+    (q) => q.section === 1 && q.marks === 120,
     (q) => q.section === 1 && q.questionNumber === 1,
     (q) => q.section === 1,
   ]);
@@ -553,7 +553,7 @@ function QueuePanel({
             Your full-exam queue
           </h2>
           <p className="text-[11px] text-muted-foreground font-body leading-snug">
-            Build a paper of your choice — e.g. <strong>Section 1 · Q1 100m</strong>,
+            Build a paper of your choice — e.g. <strong>Section 1 · Q1 120m</strong>,
             <strong> Section 2 · 2 × 100m</strong>, <strong>Section 3 · Costing or Budgeting</strong> —
             then run the whole queue against a single 3-hour timer.
           </p>
