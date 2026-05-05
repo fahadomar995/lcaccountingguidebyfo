@@ -4,6 +4,7 @@ import {
   ChevronDown, ChevronUp, RotateCcw, Square,
   ZoomIn, ZoomOut, Maximize2, Minimize2, Eye, EyeOff, Flag, Award, TrendingUp,
   Plus, X, Lightbulb, Filter, BookOpen, PenSquare, Sparkles, SlidersHorizontal,
+  ListPlus, ListChecks, Trash2, ArrowRight, Wand2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,7 +24,7 @@ import { buildSuggestions, type Suggestion } from "@/lib/simulatorSuggestions";
 import { useTopicPreferences } from "@/hooks/useTopicPreferences";
 import { chaptersForExamTopic, isExamTopicExcluded } from "@/lib/examTopicChapters";
 
-type Stage = "select" | "active" | "results";
+type Stage = "select" | "active" | "results" | "full-exam" | "full-exam-results";
 type MarksFilter = ExamQuestion["marks"] | "ALL";
 
 interface HistoryEntry {
@@ -52,6 +53,40 @@ const HISTORY_KEY = "lca_simulator_history";
 const MISTAKES_KEY = "lca_simulator_mistakes";
 const ONBOARDING_KEY = "lca_simulator_onboarding_dismissed";
 const ONBOARDING_MODE_KEY = "lca_simulator_onboarding_mode"; // "persist" | "session"
+const QUEUE_KEY = "lca_simulator_queue_v1";
+const ACTIVE_SESSION_KEY = "lca_simulator_active_session_v1";
+const FULL_EXAM_KEY = "lca_simulator_full_exam_v1";
+
+/** 180 minutes — standard Leaving Cert Accounting paper length. */
+const FULL_EXAM_TOTAL_SECONDS = 180 * 60;
+
+/**
+ * Saved single-question session — re-hydrated when a student returns to the
+ * Simulator after navigating away. Lets us offer a "Continue where you left
+ * off" prompt instead of forcing them to restart the timer from zero.
+ */
+interface SavedSession {
+  questionId: string;
+  remaining: number;        // seconds left on the timer
+  elapsed: number;          // seconds spent (for the per-question history entry)
+  paused: boolean;
+  startedAt: string;
+  savedAt: string;
+}
+
+/**
+ * Saved full-exam session — same idea, but tracks the queue + per-question
+ * timing so the candidate can resume an in-progress 3-hour mock paper.
+ */
+interface SavedFullExam {
+  questionIds: string[];
+  currentIndex: number;
+  totalRemaining: number;   // seconds remaining on the shared 180-min clock
+  perQuestionElapsed: Record<string, number>; // id → seconds spent
+  paused: boolean;
+  startedAt: string;
+  savedAt: string;
+}
 
 type OnboardingMode = "persist" | "session";
 
