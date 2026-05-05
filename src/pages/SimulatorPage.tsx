@@ -532,16 +532,30 @@ function buildAutoFullExam(pool: ExamQuestion[], prefs: AutoBuildPrefs = DEFAULT
   const usedTopics = new Set<string>();
 
   // ── Section 1 ──
-  const s1Preds: ((q: ExamQuestion) => boolean)[] = [];
-  if (prefs.s1 === "Q1_120") {
-    s1Preds.push((q) => q.section === 1 && q.marks === 120);
-    s1Preds.push((q) => q.section === 1 && q.questionNumber === 1);
-  } else if (prefs.s1 === "SHORT_60") {
-    s1Preds.push((q) => q.section === 1 && q.marks === 60);
+  // The Leaving Cert layout is either ONE 120-mark Q1 OR TWO 60-mark short
+  // questions (Q2/Q3/Q4). Honour the user's choice.
+  const s1Picks: ExamQuestion[] = [];
+  if (prefs.s1 === "SHORT_60") {
+    for (let i = 0; i < 2; i++) {
+      const next = pickOne(
+        [
+          (q) => q.section === 1 && q.marks === 60,
+          (q) => q.section === 1 && q.marks !== 120,
+        ],
+        usedTopics,
+      );
+      if (next) { s1Picks.push(next); usedTopics.add(next.topic); }
+    }
+  } else {
+    const s1Preds: ((q: ExamQuestion) => boolean)[] = [];
+    if (prefs.s1 === "Q1_120") {
+      s1Preds.push((q) => q.section === 1 && q.marks === 120);
+      s1Preds.push((q) => q.section === 1 && q.questionNumber === 1);
+    }
+    s1Preds.push((q) => q.section === 1);
+    const s1 = pickOne(s1Preds, usedTopics);
+    if (s1) { s1Picks.push(s1); usedTopics.add(s1.topic); }
   }
-  s1Preds.push((q) => q.section === 1);
-  const s1 = pickOne(s1Preds, usedTopics);
-  if (s1) usedTopics.add(s1.topic);
 
   // ── Section 2: 2 questions, GUARANTEED different topics ──
   const allowS2 = (q: ExamQuestion) =>
@@ -562,7 +576,7 @@ function buildAutoFullExam(pool: ExamQuestion[], prefs: AutoBuildPrefs = DEFAULT
   s3Preds.push((q) => q.section === 3);
   const s3 = pickOne(s3Preds, usedTopics);
 
-  return [s1, ...s2, s3].filter(Boolean).map((q) => (q as ExamQuestion).id);
+  return [...s1Picks, ...s2, s3].filter(Boolean).map((q) => (q as ExamQuestion).id);
 }
 
 // ───────────── Queue panel (renders inside SelectStage) ─────────────
