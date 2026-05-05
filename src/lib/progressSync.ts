@@ -21,6 +21,7 @@ export const PROGRESS_KEYS = [
   "lc-flash-goal-settings-v1",
   "lc-flash-goal-progress-v1",
   "lc-flash-goal-presets-v1",
+  "lca_simulator_history",
 ] as const;
 
 const SYNCED_FLAG = "lc-progress-synced-for";
