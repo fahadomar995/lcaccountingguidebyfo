@@ -875,10 +875,22 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
             >
               <div className="flex items-start justify-between mb-2">
                 <div>
-                  <div className="font-mono text-2xl font-bold text-primary leading-none">{q.year}</div>
+                  <div className={`font-mono text-2xl font-bold leading-none ${q.isMock ? "text-slate-500 dark:text-slate-400" : "text-primary"}`}>
+                    {q.isMock ? "MOCK" : q.year}
+                  </div>
                   <div className="text-[11px] font-body text-muted-foreground mt-0.5">Q{q.questionNumber} · Section {q.section}</div>
                 </div>
-                <MarksBadge marks={q.marks} />
+                <div className="flex items-center gap-1.5">
+                  {q.isMock && (
+                    <span
+                      className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-mono uppercase tracking-wider bg-slate-500/10 text-slate-600 dark:text-slate-300 border border-slate-500/20"
+                      title="Internally authored mock question — not from the SEC"
+                    >
+                      Mock
+                    </span>
+                  )}
+                  <MarksBadge marks={q.marks} />
+                </div>
               </div>
               <h3 className="font-display text-base font-semibold text-foreground leading-tight mb-1">{q.subtopic}</h3>
               <p className="text-[11px] font-body text-muted-foreground mb-2">{q.topic}</p>
@@ -1179,14 +1191,20 @@ function ActiveStage({
             title={`${question.year} Q${question.questionNumber}`}
             enableThumbnails
           />
-          <a
-            href={`${question.paperUrl}#page=${question.paperPage}`}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-2 inline-flex items-center gap-1.5 text-xs font-body text-primary hover:underline"
-          >
-            <ExternalLink className="h-3.5 w-3.5" /> Open PDF in new tab
-          </a>
+          {question.paperUrl ? (
+            <a
+              href={`${question.paperUrl}#page=${question.paperPage}`}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-2 inline-flex items-center gap-1.5 text-xs font-body text-primary hover:underline"
+            >
+              <ExternalLink className="h-3.5 w-3.5" /> Open PDF in new tab
+            </a>
+          ) : (
+            <p className="mt-2 text-[11px] font-body text-muted-foreground italic">
+              Mock question — not from a Department of Education paper.
+            </p>
+          )}
         </div>
 
         {/* RIGHT — sidebar with circular timer + actions */}
@@ -1414,14 +1432,20 @@ function ResultsStage({
         className="mb-2"
         title={`${question.year} Q${question.questionNumber} marking scheme`}
       />
-      <a
-        href={`${question.markingSchemeUrl}#page=${question.markingSchemePage}`}
-        target="_blank"
-        rel="noreferrer"
-        className="inline-flex items-center gap-1.5 text-xs font-body text-primary hover:underline mb-6"
-      >
-        <ExternalLink className="h-3.5 w-3.5" /> Open marking scheme in new tab
-      </a>
+      {question.markingSchemeUrl ? (
+        <a
+          href={`${question.markingSchemeUrl}#page=${question.markingSchemePage}`}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-1.5 text-xs font-body text-primary hover:underline mb-6"
+        >
+          <ExternalLink className="h-3.5 w-3.5" /> Open marking scheme in new tab
+        </a>
+      ) : (
+        <p className="text-[11px] font-body text-muted-foreground italic mb-6">
+          Mock marking scheme — indicative breakdown authored for revision practice.
+        </p>
+      )}
 
       <div className="flex flex-wrap gap-3 mt-6">
         <Button onClick={onAnother} className="bg-primary hover:bg-primary/90 text-primary-foreground">
