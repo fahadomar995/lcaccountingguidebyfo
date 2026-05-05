@@ -469,6 +469,25 @@ export function Scratchpad() {
           <ToolBtn active={false} onClick={clearCanvas} title="Clear all" className="text-red-400">
             <Trash2 className="w-3.5 h-3.5" />
           </ToolBtn>
+
+          <div className="w-px h-5 bg-white/10 mx-1 shrink-0" />
+
+          <ToolBtn active={false} onClick={() => goToPage(pageIndex - 1)} title="Previous page (←)" disabled={pageIndex === 0}>
+            <ChevronLeft className="w-4 h-4" />
+          </ToolBtn>
+          <span className="text-[#c8d6e5] text-xs font-mono px-1.5 shrink-0 select-none">
+            {pageIndex + 1}/{pages.length}
+          </span>
+          <ToolBtn
+            active={false}
+            onClick={() => (pageIndex >= pages.length - 1 ? addPage() : goToPage(pageIndex + 1))}
+            title="Next page (→)"
+          >
+            <ChevronRight className="w-4 h-4" />
+          </ToolBtn>
+          <ToolBtn active={false} onClick={addPage} title="Add new page">
+            <Plus className="w-3.5 h-3.5" />
+          </ToolBtn>
         </div>
 
         {/* Canvas area */}
