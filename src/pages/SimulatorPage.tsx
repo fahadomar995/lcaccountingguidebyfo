@@ -1371,12 +1371,30 @@ function SelectStage({
                 <span>Target: {q.timingMinutes} mins</span>
               </div>
               <p className="text-xs font-body text-muted-foreground leading-snug flex-1 mb-4">{q.notes}</p>
-              <Button
-                onClick={() => onStart(q)}
-                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
-              >
-                Start This Question
-              </Button>
+              <div className="flex flex-col gap-1.5">
+                <Button
+                  onClick={() => onStart(q)}
+                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+                >
+                  Start This Question
+                </Button>
+                {(() => {
+                  const inQueue = queue.ids.includes(q.id);
+                  return (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => (inQueue ? queue.remove(q.id) : queue.add(q.id))}
+                      className="w-full h-7 text-[11px]"
+                      aria-pressed={inQueue}
+                    >
+                      {inQueue
+                        ? <><Check className="h-3.5 w-3.5 text-primary" /> In queue · remove</>
+                        : <><ListPlus className="h-3.5 w-3.5" /> Add to queue</>}
+                    </Button>
+                  );
+                })()}
+              </div>
             </div>
           ))}
         </div>
