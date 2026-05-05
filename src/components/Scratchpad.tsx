@@ -50,6 +50,10 @@ export function Scratchpad() {
   const strokeStarted = useRef(false);
   const saveTimer = useRef<number>();
   const dragRef = useRef<{ startY: number; startH: number } | null>(null);
+  const pagesRef = useRef<string[]>(pages);
+  const pageIndexRef = useRef<number>(pageIndex);
+  useEffect(() => { pagesRef.current = pages; }, [pages]);
+  useEffect(() => { pageIndexRef.current = pageIndex; }, [pageIndex]);
 
   const getCtx = useCallback(() => canvasRef.current?.getContext("2d", { desynchronized: true, willReadFrequently: true }), []);
 
