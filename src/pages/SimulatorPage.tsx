@@ -488,38 +488,76 @@ function useQueue() {
  * filtered pool so the auto-built paper feels like a real recent sitting.
  * Falls back gracefully if a slot has no candidates.
  */
-function buildAutoFullExam(pool: ExamQuestion[]): string[] {
-  const byRecency = (a: ExamQuestion, b: ExamQuestion) => b.year - a.year;
-  const pickOne = (preds: ((q: ExamQuestion) => boolean)[]): ExamQuestion | null => {
+/**
+ * User-tunable preferences for the auto-builder. Stored in localStorage so
+ * choices survive across sessions and the next "Auto-build" click respects them.
+ */
+type AutoBuildPrefs = {
+  s1: "Q1_120" | "SHORT_60" | "ANY";
+  // Allow-list of Section 2 topic names. Empty array = use whatever is available.
+  s2Topics: string[];
+  s3: "Costing" | "Budgeting" | "ANY";
+  preferRecent: boolean;
+};
+
+const DEFAULT_AUTO_PREFS: AutoBuildPrefs = {
+  s1: "Q1_120",
+  s2Topics: [],
+  s3: "ANY",
+  preferRecent: true,
+};
+
+function buildAutoFullExam(pool: ExamQuestion[], prefs: AutoBuildPrefs = DEFAULT_AUTO_PREFS): string[] {
+  const sortFn = prefs.preferRecent
+    ? (a: ExamQuestion, b: ExamQuestion) => b.year - a.year
+    : () => Math.random() - 0.5;
+  const pickOne = (preds: ((q: ExamQuestion) => boolean)[], excludeTopics: Set<string>): ExamQuestion | null => {
     for (const pred of preds) {
-      const candidate = pool.filter(pred).sort(byRecency)[0];
+      const candidate = pool
+        .filter((q) => pred(q) && !excludeTopics.has(q.topic))
+        .sort(sortFn)[0];
+      if (candidate) return candidate;
+    }
+    // Final fallback: ignore exclude list rather than returning nothing
+    for (const pred of preds) {
+      const candidate = pool.filter(pred).sort(sortFn)[0];
       if (candidate) return candidate;
     }
     return null;
   };
-  const pickN = (n: number, predicate: (q: ExamQuestion) => boolean): ExamQuestion[] => {
-    const seen = new Set<string>();
-    const candidates = pool.filter(predicate).sort(byRecency);
-    const out: ExamQuestion[] = [];
-    for (const c of candidates) {
-      if (out.length >= n) break;
-      if (!seen.has(c.topic)) { out.push(c); seen.add(c.topic); }
-    }
-    // Top up with any remaining if topic-uniqueness wasn't enough
-    for (const c of candidates) {
-      if (out.length >= n) break;
-      if (!out.includes(c)) out.push(c);
-    }
-    return out;
-  };
 
-  const s1 = pickOne([
-    (q) => q.section === 1 && q.marks === 120,
-    (q) => q.section === 1 && q.questionNumber === 1,
-    (q) => q.section === 1,
-  ]);
-  const s2 = pickN(2, (q) => q.section === 2);
-  const s3 = pickOne([(q) => q.section === 3]);
+  const usedTopics = new Set<string>();
+
+  // ── Section 1 ──
+  const s1Preds: ((q: ExamQuestion) => boolean)[] = [];
+  if (prefs.s1 === "Q1_120") {
+    s1Preds.push((q) => q.section === 1 && q.marks === 120);
+    s1Preds.push((q) => q.section === 1 && q.questionNumber === 1);
+  } else if (prefs.s1 === "SHORT_60") {
+    s1Preds.push((q) => q.section === 1 && q.marks === 60);
+  }
+  s1Preds.push((q) => q.section === 1);
+  const s1 = pickOne(s1Preds, usedTopics);
+  if (s1) usedTopics.add(s1.topic);
+
+  // ── Section 2: 2 questions, GUARANTEED different topics ──
+  const allowS2 = (q: ExamQuestion) =>
+    q.section === 2 && (prefs.s2Topics.length === 0 || prefs.s2Topics.includes(q.topic));
+  const s2: ExamQuestion[] = [];
+  for (let i = 0; i < 2; i++) {
+    const next = pickOne([allowS2], usedTopics);
+    if (next) {
+      s2.push(next);
+      usedTopics.add(next.topic);
+    }
+  }
+
+  // ── Section 3 ──
+  const s3Preds: ((q: ExamQuestion) => boolean)[] = [];
+  if (prefs.s3 === "Costing") s3Preds.push((q) => q.section === 3 && q.topic === "Costing");
+  else if (prefs.s3 === "Budgeting") s3Preds.push((q) => q.section === 3 && q.topic === "Budgeting");
+  s3Preds.push((q) => q.section === 3);
+  const s3 = pickOne(s3Preds, usedTopics);
 
   return [s1, ...s2, s3].filter(Boolean).map((q) => (q as ExamQuestion).id);
 }
