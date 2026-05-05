@@ -671,19 +671,22 @@ function QueuePanel({
             <div>
               <div className="flex items-center justify-between mb-1.5">
                 <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-                  Section 2 — pick 2 topics
+                  Section 2 topics
+                  <span className="ml-1.5 normal-case tracking-normal font-mono text-primary">
+                    {autoPrefs.s2Topics.length} selected
+                  </span>
                 </div>
                 {autoPrefs.s2Topics.length > 0 && (
                   <button
                     onClick={() => onAutoPrefsChange({ ...autoPrefs, s2Topics: [] })}
                     className="text-[10px] text-muted-foreground hover:text-destructive"
                   >
-                    Reset
+                    Clear
                   </button>
                 )}
               </div>
               <p className="text-[10px] text-muted-foreground mb-1.5 leading-snug">
-                Pick as many topics as you like — the builder randomly chooses 2 different ones from your selection. Empty = any topic.
+                The builder picks 2 different topics from your selection at random. Leave empty to draw from all topics.
               </p>
               <div className="flex flex-wrap gap-1.5">
                 {s2TopicsAvailable.map((t) => {
