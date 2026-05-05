@@ -2300,10 +2300,19 @@ export default function SimulatorPage() {
   const navigate = useNavigate();
   const [pendingNav, setPendingNav] = useState<string | null>(null);
 
+  // Persistence — single session + full-exam session
+  const [savedSession, setSavedSession] = useLocalStorage<SavedSession | null>(ACTIVE_SESSION_KEY, null);
+  const [savedFullExam, setSavedFullExam] = useLocalStorage<SavedFullExam | null>(FULL_EXAM_KEY, null);
+  const [resumeInitial, setResumeInitial] = useState<{ remaining: number; elapsed: number; paused: boolean; startedAt: string } | null>(null);
+  const [resumeFullInitial, setResumeFullInitial] = useState<{ totalRemaining: number; currentIndex: number; perQuestionElapsed: Record<string, number>; paused: boolean; startedAt: string } | null>(null);
+  const [fullExamQuestions, setFullExamQuestions] = useState<ExamQuestion[]>([]);
+  const [fullExamPerQ, setFullExamPerQ] = useState<Record<string, number>>({});
+  const [fullExamTotal, setFullExamTotal] = useState(0);
+
   // Register a guard while an exam is in-progress so sidebar / other
   // nav sources can prompt the abandon dialog instead of silently leaving.
   useEffect(() => {
-    if (stage === "active") {
+    if (stage === "active" || stage === "full-exam") {
       setExamGuard((targetUrl) => setPendingNav(targetUrl));
       return () => setExamGuard(null);
     }
@@ -2313,14 +2322,58 @@ export default function SimulatorPage() {
   // Auto-collapse the sidebar whenever an exam is active so the candidate
   // gets maximum reading width. Restore it once they leave the active stage.
   useEffect(() => {
-    if (stage === "active") setOpen(false);
+    if (stage === "active" || stage === "full-exam") setOpen(false);
     else setOpen(true);
   }, [stage, setOpen]);
 
   const handleStart = (q: ExamQuestion) => {
     setActive(q);
     setActualSeconds(0);
+    setResumeInitial(null);
     setStage("active");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleResumeSingle = () => {
+    if (!savedSession) return;
+    const q = questionIndex.find((x) => x.id === savedSession.questionId);
+    if (!q) { setSavedSession(null); return; }
+    setActive(q);
+    setActualSeconds(savedSession.elapsed);
+    setResumeInitial({
+      remaining: savedSession.remaining,
+      elapsed: savedSession.elapsed,
+      paused: true, // resume always starts paused so the user isn't surprised
+      startedAt: savedSession.startedAt,
+    });
+    setStage("active");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleStartFullExam = (ids: string[]) => {
+    const qs = ids.map((id) => questionIndex.find((q) => q.id === id)).filter(Boolean) as ExamQuestion[];
+    if (qs.length === 0) return;
+    setFullExamQuestions(qs);
+    setResumeFullInitial(null);
+    setStage("full-exam");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleResumeFullExam = () => {
+    if (!savedFullExam) return;
+    const qs = savedFullExam.questionIds
+      .map((id) => questionIndex.find((q) => q.id === id))
+      .filter(Boolean) as ExamQuestion[];
+    if (qs.length === 0) { setSavedFullExam(null); return; }
+    setFullExamQuestions(qs);
+    setResumeFullInitial({
+      totalRemaining: savedFullExam.totalRemaining,
+      currentIndex: savedFullExam.currentIndex,
+      perQuestionElapsed: savedFullExam.perQuestionElapsed,
+      paused: true,
+      startedAt: savedFullExam.startedAt,
+    });
+    setStage("full-exam");
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -2365,12 +2418,15 @@ export default function SimulatorPage() {
 
   const handleAbandon = () => {
     setActive(null);
+    setSavedSession(null);
+    setResumeInitial(null);
     setStage("select");
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleAnother = () => {
     setActive(null);
+    setResumeInitial(null);
     setStage("select");
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -2378,6 +2434,8 @@ export default function SimulatorPage() {
   const handleAgain = () => {
     if (!active) return;
     setActualSeconds(0);
+    setResumeInitial(null);
+    setSavedSession(null);
     setStage("active");
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -2385,13 +2443,20 @@ export default function SimulatorPage() {
   if (stage === "active" && active) {
     return (
       <>
-        <ActiveStage question={active} onSubmit={handleSubmit} onAbandon={handleAbandon} />
+        <ActiveStage
+          question={active}
+          onSubmit={handleSubmit}
+          onAbandon={handleAbandon}
+          onSaveSession={setSavedSession}
+          onClearSession={() => setSavedSession(null)}
+          initial={resumeInitial}
+        />
         <AlertDialog open={pendingNav !== null} onOpenChange={(o) => !o && setPendingNav(null)}>
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>Abandon this session?</AlertDialogTitle>
               <AlertDialogDescription>
-                Leaving this page will end your current exam session. Your time will not be saved.
+                Leaving this page will pause your current exam session. You can resume it from the simulator landing page.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
@@ -2400,16 +2465,79 @@ export default function SimulatorPage() {
                 onClick={() => {
                   const target = pendingNav;
                   setPendingNav(null);
-                  handleAbandon();
+                  // Don't clear the saved session — we want the resume banner.
+                  setActive(null);
+                  setStage("select");
                   if (target && target !== SIDEBAR_TOGGLE_SENTINEL) navigate(target);
                 }}
               >
-                Abandon & Leave
+                Pause & Leave
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
       </>
+    );
+  }
+  if (stage === "full-exam" && fullExamQuestions.length > 0) {
+    return (
+      <>
+        <FullExamStage
+          questions={fullExamQuestions}
+          onFinish={(perQ, total) => {
+            setFullExamPerQ(perQ);
+            setFullExamTotal(total);
+            setResumeFullInitial(null);
+            setStage("full-exam-results");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+          onAbandon={() => {
+            setFullExamQuestions([]);
+            setSavedFullExam(null);
+            setResumeFullInitial(null);
+            setStage("select");
+          }}
+          onSave={setSavedFullExam}
+          onClear={() => setSavedFullExam(null)}
+          initial={resumeFullInitial}
+        />
+        <AlertDialog open={pendingNav !== null} onOpenChange={(o) => !o && setPendingNav(null)}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Pause this 3-hour exam?</AlertDialogTitle>
+              <AlertDialogDescription>
+                Leaving this page will pause your 3-hour exam. Resume from the simulator landing page.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Keep Going</AlertDialogCancel>
+              <AlertDialogAction onClick={() => {
+                const target = pendingNav;
+                setPendingNav(null);
+                setFullExamQuestions([]);
+                setStage("select");
+                if (target && target !== SIDEBAR_TOGGLE_SENTINEL) navigate(target);
+              }}>
+                Pause & Leave
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      </>
+    );
+  }
+  if (stage === "full-exam-results") {
+    return (
+      <FullExamResults
+        questions={fullExamQuestions}
+        perQ={fullExamPerQ}
+        totalSeconds={fullExamTotal}
+        onAnother={() => {
+          // Convenience: jump back to list with auto-build button surfaced
+          setStage("select");
+        }}
+        onBackToList={() => setStage("select")}
+      />
     );
   }
   if (stage === "results" && active) {
@@ -2424,5 +2552,16 @@ export default function SimulatorPage() {
       />
     );
   }
-  return <SelectStage onStart={handleStart} />;
+  return (
+    <SelectStage
+      onStart={handleStart}
+      onStartFullExam={handleStartFullExam}
+      onResumeSingle={handleResumeSingle}
+      onResumeFullExam={handleResumeFullExam}
+      savedSession={savedSession}
+      savedFullExam={savedFullExam}
+      onDiscardSingle={() => setSavedSession(null)}
+      onDiscardFullExam={() => setSavedFullExam(null)}
+    />
+  );
 }
