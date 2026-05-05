@@ -227,7 +227,7 @@ export const THEORY_FLASHCARDS: Flashcard[] = [
   {term:"Accumulated Fund",def:"The club equivalent of capital. Excess of assets over liabilities. Calculated in the opening statement of affairs.",topic:"Club Accounts"},
   {term:"Levy (Club)",def:"A payment made by club members to fund a special project. Credited to a reserve fund. Treated as a long-term liability until used.",topic:"Club Accounts"},
   {term:"Life Membership",def:"A one-off fee entitling a member to use the club for life. Treated as a long-term liability and written off to income over a stated number of years.",topic:"Club Accounts"},
-  {term:"Income & Expenditure A/c",def:"The club equivalent of a P&L account. Prepared on an accruals basis. Surplus/deficit transferred to Accumulated Fund.",topic:"Club Accounts"},
+  {term:"Income & Expenditure A/c",def:"The club equivalent to a P&L account. Prepared on an accruals basis.",topic:"Club Accounts"},
   {term:"Receipts & Payments A/c",def:"A summary of the cash book showing all cash received and paid. Cash-based, not accruals-based. Limitations: ignores depreciation and amounts owed.",topic:"Club Accounts"},
   {term:"Special Purpose P&L",def:"A separate account for a specific fundraising event (e.g. dance, raffle). Profit/loss transferred to I&E Account.",topic:"Club Accounts"},
   {term:"Subscriptions (Club)",def:"Members' annual fees. Calculated on accruals basis for I&E account. Adjust for amounts due and in advance.",topic:"Club Accounts"},
