@@ -21,6 +21,7 @@ export const PROGRESS_KEYS = [
   "lc-flash-goal-settings-v1",
   "lc-flash-goal-progress-v1",
   "lc-flash-goal-presets-v1",
+  "lca_simulator_history",
 ] as const;
 
 const SYNCED_FLAG = "lc-progress-synced-for";
@@ -40,6 +41,16 @@ function merge(key: string, local: unknown, cloud: unknown): unknown {
 
   if (key === "lc-classify-best") {
     return Math.max(Number(local) || 0, Number(cloud) || 0);
+  }
+  if (key === "lca_simulator_history" && Array.isArray(local) && Array.isArray(cloud)) {
+    const map = new Map<string, any>();
+    [...(cloud as any[]), ...(local as any[])].forEach((h) => {
+      const k = (h?.id ?? "") + "|" + (h?.completedAt ?? "");
+      if (k !== "|") map.set(k, h);
+    });
+    return Array.from(map.values()).sort(
+      (a, b) => new Date(b.completedAt || 0).getTime() - new Date(a.completedAt || 0).getTime()
+    );
   }
   if (key === "lc-streak-v1" && typeof local === "object" && typeof cloud === "object") {
     const a = local as any, b = cloud as any;
