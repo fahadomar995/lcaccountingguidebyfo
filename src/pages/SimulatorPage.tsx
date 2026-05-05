@@ -504,12 +504,15 @@ const DEFAULT_AUTO_PREFS: AutoBuildPrefs = {
   s1: "Q1_120",
   s2Topics: [],
   s3: "ANY",
-  preferRecent: true,
+  preferRecent: false,
 };
 
 function buildAutoFullExam(pool: ExamQuestion[], prefs: AutoBuildPrefs = DEFAULT_AUTO_PREFS): string[] {
+  // When preferRecent is on, bias toward recent years but still inject randomness
+  // so re-rolling produces variety. When off, fully random.
   const sortFn = prefs.preferRecent
-    ? (a: ExamQuestion, b: ExamQuestion) => b.year - a.year
+    ? (a: ExamQuestion, b: ExamQuestion) =>
+        (b.year - a.year) + (Math.random() - 0.5) * 6
     : () => Math.random() - 0.5;
   const pickOne = (preds: ((q: ExamQuestion) => boolean)[], excludeTopics: Set<string>): ExamQuestion | null => {
     for (const pred of preds) {
@@ -783,6 +786,15 @@ function QueuePanel({
               className="h-6 px-2 text-[11px] text-muted-foreground hover:text-destructive ml-auto"
             >
               <Trash2 className="h-3.5 w-3.5" /> Clear
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={onAutoBuild}
+              className="h-7 px-2 text-[11px]"
+              title="Reroll: replace the queue with a fresh randomised pick that respects your preferences."
+            >
+              <RotateCcw className="h-3.5 w-3.5" /> Reroll
             </Button>
             <Button
               size="sm"
