@@ -4,11 +4,12 @@ import {
   ChevronDown, ChevronUp, RotateCcw, Square,
   ZoomIn, ZoomOut, Maximize2, Minimize2, Eye, EyeOff, Flag, Award, TrendingUp,
   Plus, X, Lightbulb, Filter, BookOpen, PenSquare, Sparkles, SlidersHorizontal,
-  ListPlus, ListChecks, Trash2, ArrowRight, Wand2,
+  ListPlus, ListChecks, Trash2, ArrowRight, Wand2, Settings2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
