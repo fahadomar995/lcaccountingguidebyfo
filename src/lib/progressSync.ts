@@ -16,6 +16,8 @@ export const PROGRESS_KEYS = [
   "lc-streak-v1",
   "lc-topic-preferences-v1",
   "lc-chapter-review",
+  "lc-flash-srs-v1",
+  "lc-flash-stats-v1",
 ] as const;
 
 const SYNCED_FLAG = "lc-progress-synced-for";
