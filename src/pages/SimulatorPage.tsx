@@ -1082,6 +1082,10 @@ function SelectStage({
   const { prefs } = useTopicPreferences();
   const [respectPrefs, setRespectPrefs] = useLocalStorage<boolean>("lca_simulator_respect_prefs", true);
   const queue = useQueue();
+  const [autoPrefs, setAutoPrefs] = useLocalStorage<AutoBuildPrefs>(
+    "lca_simulator_autobuild_prefs_v1",
+    DEFAULT_AUTO_PREFS,
+  );
 
   // Build the set of excluded chapter ids from the user's topic preferences.
   const excludedChapterIds = useMemo(() => {
@@ -1342,8 +1346,12 @@ function SelectStage({
         items={queue.items}
         onRemove={queue.remove}
         onClear={queue.clear}
-        onAutoBuild={() => queue.replace(buildAutoFullExam(visiblePool))}
+        onAutoBuild={() => queue.replace(buildAutoFullExam(visiblePool, autoPrefs))}
         onStartFull={() => onStartFullExam(queue.ids)}
+        autoPrefs={autoPrefs}
+        onAutoPrefsChange={setAutoPrefs}
+        s2TopicsAvailable={Array.from(new Set(visiblePool.filter((q) => q.section === 2).map((q) => q.topic))).sort()}
+        s3TopicsAvailable={Array.from(new Set(visiblePool.filter((q) => q.section === 3).map((q) => q.topic))).sort()}
       />
 
       {/* ── Mark progress tracker ── */}
