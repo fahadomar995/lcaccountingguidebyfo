@@ -576,6 +576,177 @@ function ScreenshotPageView({
 // ─────────────────────────────────────────
 //  STAGE 1 — SELECTION
 // ─────────────────────────────────────────
+/**
+ * Build prioritised practice suggestions from past sessions.
+ *
+ * Heavier mark allocations (120m, 100m) need more frequent review than
+ * lighter ones (60m, 80m), so we weight them up. Each candidate question
+ * gets a `priority` score that combines:
+ *   - mark weight (heavier = higher base)
+ *   - recency (longer since last attempt = higher)
+ *   - mastery (lower past % = higher)
+ * "Never attempted" heavy questions get a strong boost so students don't
+ * keep grinding the same easy 60-markers.
+ */
+const MARK_WEIGHT: Record<number, number> = { 60: 0.7, 80: 1.0, 100: 1.4, 120: 1.7 };
+/** Target review interval in days, by mark allocation. */
+const REVIEW_INTERVAL_DAYS: Record<number, number> = { 60: 21, 80: 14, 100: 7, 120: 5 };
+
+interface Suggestion {
+  q: ExamQuestion;
+  reason: string;
+  daysSince: number | null; // null = never attempted
+  lastPct: number | null;
+  priority: number;
+}
+
+function buildSuggestions(history: HistoryEntry[], pool: ExamQuestion[]): Suggestion[] {
+  const now = Date.now();
+  // Most recent attempt + best % per question id and per topic+marks bucket.
+  const lastById = new Map<string, HistoryEntry>();
+  const lastByBucket = new Map<string, HistoryEntry>(); // key = `${topic}|${marks}`
+  const attemptsByMarks = new Map<number, HistoryEntry>();
+  for (const h of history) {
+    const t = new Date(h.completedAt).getTime();
+    const prev = lastById.get(h.id);
+    if (!prev || new Date(prev.completedAt).getTime() < t) lastById.set(h.id, h);
+    const bk = `${h.topic}|${h.marks}`;
+    const pb = lastByBucket.get(bk);
+    if (!pb || new Date(pb.completedAt).getTime() < t) lastByBucket.set(bk, h);
+    const pm = attemptsByMarks.get(h.marks);
+    if (!pm || new Date(pm.completedAt).getTime() < t) attemptsByMarks.set(h.marks, h);
+  }
+
+  const items: Suggestion[] = [];
+  for (const q of pool) {
+    const own = lastById.get(q.id);
+    const bucket = lastByBucket.get(`${q.topic}|${q.marks}`);
+    const ref = own ?? bucket;
+    const daysSince = ref ? Math.floor((now - new Date(ref.completedAt).getTime()) / 86400000) : null;
+    const lastPct = ref && typeof ref.marksEarned === "number"
+      ? Math.round((ref.marksEarned / ref.marks) * 100)
+      : null;
+
+    const weight = MARK_WEIGHT[q.marks] ?? 1;
+    const interval = REVIEW_INTERVAL_DAYS[q.marks] ?? 14;
+    // Recency factor: how overdue relative to the target interval.
+    const recency = daysSince === null ? 2.0 : Math.min(daysSince / interval, 4);
+    // Mastery factor: weak past performance lifts priority.
+    const mastery = lastPct === null ? 1.1 : Math.max(0.4, (100 - lastPct) / 60);
+    const priority = weight * (0.5 + recency) * mastery;
+
+    let reason: string;
+    if (daysSince === null) {
+      reason = q.marks >= 100
+        ? `Heavy ${q.marks}-marker you haven't tried — high impact for the exam.`
+        : `New ${q.marks}-marker on this topic.`;
+    } else if (lastPct !== null && lastPct < 55) {
+      reason = `Last ${q.marks}m ${q.topic} attempt was ${lastPct}% — worth a re-run.`;
+    } else if (daysSince > interval * 1.5) {
+      reason = `It's been ${daysSince} days since a ${q.marks}-mark ${q.topic.toLowerCase()} — overdue for review.`;
+    } else if (daysSince > interval) {
+      reason = `Due for review: ${daysSince} days since your last ${q.marks}m ${q.topic.toLowerCase()}.`;
+    } else if (q.marks >= 100) {
+      reason = `Keep ${q.marks}-markers fresh — the bulk of your exam marks live here.`;
+    } else {
+      reason = `Quick ${q.marks}m ${q.topic.toLowerCase()} refresh.`;
+    }
+    items.push({ q, reason, daysSince, lastPct, priority });
+  }
+
+  items.sort((a, b) => b.priority - a.priority);
+  // Diversify: don't return three of the same topic in a row.
+  const out: Suggestion[] = [];
+  const topicCount: Record<string, number> = {};
+  for (const s of items) {
+    if ((topicCount[s.q.topic] ?? 0) >= 1 && out.length < 3) continue;
+    out.push(s);
+    topicCount[s.q.topic] = (topicCount[s.q.topic] ?? 0) + 1;
+    if (out.length >= 3) break;
+  }
+  // Fallback in case dedupe was too strict.
+  if (out.length < 3) {
+    for (const s of items) {
+      if (out.includes(s)) continue;
+      out.push(s);
+      if (out.length >= 3) break;
+    }
+  }
+  return out;
+}
+
+function SuggestionsCard({
+  suggestions,
+  onStart,
+}: {
+  suggestions: Suggestion[];
+  onStart: (q: ExamQuestion) => void;
+}) {
+  if (suggestions.length === 0) return null;
+  return (
+    <div className="mb-6 bg-gradient-to-br from-primary/5 via-card to-card border border-primary/20 rounded-lg p-5 shadow-sm">
+      <div className="flex items-center gap-2 mb-1">
+        <Lightbulb className="h-4 w-4 text-primary" />
+        <h2 className="font-display text-base font-semibold text-foreground">
+          Suggested for you
+        </h2>
+        <span className="ml-auto text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
+          Weighted by marks · recency · accuracy
+        </span>
+      </div>
+      <p className="text-[11px] text-muted-foreground font-body mb-4">
+        100 &amp; 120-mark questions count for more — we surface them more often.
+      </p>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        {suggestions.map((s) => (
+          <div
+            key={s.q.id}
+            className="bg-card border border-border rounded-md p-3 flex flex-col"
+          >
+            <div className="flex items-center justify-between mb-1">
+              <span className="font-mono text-xs text-muted-foreground">
+                {s.q.isMock ? "MOCK" : s.q.year} · Q{s.q.questionNumber}
+              </span>
+              <span
+                className={`font-mono text-[10px] px-1.5 py-0.5 rounded border ${
+                  s.q.marks >= 100
+                    ? "border-primary/40 text-primary bg-primary/5"
+                    : "border-border text-muted-foreground"
+                }`}
+              >
+                {s.q.marks}m
+              </span>
+            </div>
+            <h3 className="font-display text-sm font-semibold text-foreground leading-tight">
+              {s.q.subtopic}
+            </h3>
+            <p className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground mt-0.5">
+              {s.q.topic}
+            </p>
+            <p className="text-[11px] font-body text-muted-foreground leading-snug mt-2 mb-3 flex-1">
+              {s.reason}
+            </p>
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-[10px] font-mono text-muted-foreground">
+                {s.daysSince === null
+                  ? "Never tried"
+                  : `${s.daysSince}d ago${s.lastPct !== null ? ` · ${s.lastPct}%` : ""}`}
+              </span>
+              <Button
+                size="sm"
+                onClick={() => onStart(s.q)}
+                className="h-7 px-2 text-[11px] bg-primary hover:bg-primary/90 text-primary-foreground"
+              >
+                Start
+              </Button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
   const [topicFilter, setTopicFilter] = useState<string | "ALL">("ALL");
   const [marksFilter, setMarksFilter] = useState<MarksFilter>("ALL");
