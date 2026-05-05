@@ -30,6 +30,18 @@ const secMs = (year: number) =>
   `https://www.studystrivers.ie/markingschemefiles/higher/accounting/accounting${year}.pdf`;
 
 export const questionIndex: ExamQuestion[] = [
+  // ─── 2002 ─────────────────────────────────────────────────
+  { id: "2002_Q7_club", year: 2002, questionNumber: 7, section: 2, marks: 100,
+    topic: "Club Accounts", subtopic: "All Stars Tennis Club",
+    paperUrl: secPaper(2002), paperPage: 7, paperPageCount: 1,
+    markingSchemeUrl: secMs(2002), markingSchemePage: 12, markingPageCount: 3,
+    timingMinutes: 45, notes: "All Stars Tennis Club — full club accounts" },
+  // ─── 2004 ─────────────────────────────────────────────────
+  { id: "2004_Q6_club", year: 2004, questionNumber: 6, section: 2, marks: 100,
+    topic: "Club Accounts", subtopic: "Green Glen Golf Club",
+    paperUrl: secPaper(2004), paperPage: 7, paperPageCount: 1,
+    markingSchemeUrl: secMs(2004), markingSchemePage: 14, markingPageCount: 4,
+    timingMinutes: 45, notes: "Green Glen Golf Club — full club accounts" },
   // ─── 2005 ─────────────────────────────────────────────────
   { id: "2005_Q4_service", year: 2005, questionNumber: 4, section: 1, marks: 60,
     topic: "Service Firm", subtopic: "Service Firm",
@@ -416,6 +428,22 @@ export const questionIndex: ExamQuestion[] = [
     paperUrl: "", paperPage: 1, paperPageCount: 1,
     markingSchemeUrl: "", markingSchemePage: 1, markingPageCount: 1,
     timingMinutes: 36, notes: "Mock — overhead apportionment + reapportionment + Job 207", isMock: true },
+  // ─── Mock 100-mark questions sourced from hosted mock papers ──────────
+  { id: "MOCK_2026_Q7_club", year: 2026, questionNumber: 7, section: 2, marks: 100,
+    topic: "Club Accounts", subtopic: "Coast Tennis Club (Mock 2026)",
+    paperUrl: "/papers/mock-2026-paper.pdf", paperPage: 14, paperPageCount: 2,
+    markingSchemeUrl: "/papers/mock-2026-ms.pdf", markingSchemePage: 29, markingPageCount: 4,
+    timingMinutes: 45, notes: "Mock 2026 — Coast Tennis Club full club accounts", isMock: true },
+  { id: "MOCK_2025_Q7_incomplete", year: 2025, questionNumber: 7, section: 2, marks: 100,
+    topic: "Incomplete Records", subtopic: "S. Gray Incomplete Records (Mock 2025)",
+    paperUrl: "/papers/mock-2025-paper.pdf", paperPage: 14, paperPageCount: 2,
+    markingSchemeUrl: "/papers/mock-2025-ms.pdf", markingSchemePage: 29, markingPageCount: 4,
+    timingMinutes: 45, notes: "Mock 2025 — S. Gray full incomplete records statement", isMock: true },
+  { id: "MOCK_2022_Q6_suspense", year: 2022, questionNumber: 6, section: 2, marks: 100,
+    topic: "Correction of Errors", subtopic: "Seamus Power Suspense (Mock 2022)",
+    paperUrl: "/papers/mock-2022-paper.pdf", paperPage: 12, paperPageCount: 2,
+    markingSchemeUrl: "/papers/mock-2022-ms.pdf", markingSchemePage: 17, markingPageCount: 3,
+    timingMinutes: 45, notes: "Mock 2022 — Seamus Power suspense + corrected balance sheet", isMock: true },
 ]
 ;
 
