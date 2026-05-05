@@ -4,11 +4,12 @@ import {
   ChevronDown, ChevronUp, RotateCcw, Square,
   ZoomIn, ZoomOut, Maximize2, Minimize2, Eye, EyeOff, Flag, Award, TrendingUp,
   Plus, X, Lightbulb, Filter, BookOpen, PenSquare, Sparkles, SlidersHorizontal,
-  ListPlus, ListChecks, Trash2, ArrowRight, Wand2,
+  ListPlus, ListChecks, Trash2, ArrowRight, Wand2, Settings2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
@@ -487,38 +488,76 @@ function useQueue() {
  * filtered pool so the auto-built paper feels like a real recent sitting.
  * Falls back gracefully if a slot has no candidates.
  */
-function buildAutoFullExam(pool: ExamQuestion[]): string[] {
-  const byRecency = (a: ExamQuestion, b: ExamQuestion) => b.year - a.year;
-  const pickOne = (preds: ((q: ExamQuestion) => boolean)[]): ExamQuestion | null => {
+/**
+ * User-tunable preferences for the auto-builder. Stored in localStorage so
+ * choices survive across sessions and the next "Auto-build" click respects them.
+ */
+type AutoBuildPrefs = {
+  s1: "Q1_120" | "SHORT_60" | "ANY";
+  // Allow-list of Section 2 topic names. Empty array = use whatever is available.
+  s2Topics: string[];
+  s3: "Costing" | "Budgeting" | "ANY";
+  preferRecent: boolean;
+};
+
+const DEFAULT_AUTO_PREFS: AutoBuildPrefs = {
+  s1: "Q1_120",
+  s2Topics: [],
+  s3: "ANY",
+  preferRecent: true,
+};
+
+function buildAutoFullExam(pool: ExamQuestion[], prefs: AutoBuildPrefs = DEFAULT_AUTO_PREFS): string[] {
+  const sortFn = prefs.preferRecent
+    ? (a: ExamQuestion, b: ExamQuestion) => b.year - a.year
+    : () => Math.random() - 0.5;
+  const pickOne = (preds: ((q: ExamQuestion) => boolean)[], excludeTopics: Set<string>): ExamQuestion | null => {
     for (const pred of preds) {
-      const candidate = pool.filter(pred).sort(byRecency)[0];
+      const candidate = pool
+        .filter((q) => pred(q) && !excludeTopics.has(q.topic))
+        .sort(sortFn)[0];
+      if (candidate) return candidate;
+    }
+    // Final fallback: ignore exclude list rather than returning nothing
+    for (const pred of preds) {
+      const candidate = pool.filter(pred).sort(sortFn)[0];
       if (candidate) return candidate;
     }
     return null;
   };
-  const pickN = (n: number, predicate: (q: ExamQuestion) => boolean): ExamQuestion[] => {
-    const seen = new Set<string>();
-    const candidates = pool.filter(predicate).sort(byRecency);
-    const out: ExamQuestion[] = [];
-    for (const c of candidates) {
-      if (out.length >= n) break;
-      if (!seen.has(c.topic)) { out.push(c); seen.add(c.topic); }
-    }
-    // Top up with any remaining if topic-uniqueness wasn't enough
-    for (const c of candidates) {
-      if (out.length >= n) break;
-      if (!out.includes(c)) out.push(c);
-    }
-    return out;
-  };
 
-  const s1 = pickOne([
-    (q) => q.section === 1 && q.marks === 120,
-    (q) => q.section === 1 && q.questionNumber === 1,
-    (q) => q.section === 1,
-  ]);
-  const s2 = pickN(2, (q) => q.section === 2);
-  const s3 = pickOne([(q) => q.section === 3]);
+  const usedTopics = new Set<string>();
+
+  // ── Section 1 ──
+  const s1Preds: ((q: ExamQuestion) => boolean)[] = [];
+  if (prefs.s1 === "Q1_120") {
+    s1Preds.push((q) => q.section === 1 && q.marks === 120);
+    s1Preds.push((q) => q.section === 1 && q.questionNumber === 1);
+  } else if (prefs.s1 === "SHORT_60") {
+    s1Preds.push((q) => q.section === 1 && q.marks === 60);
+  }
+  s1Preds.push((q) => q.section === 1);
+  const s1 = pickOne(s1Preds, usedTopics);
+  if (s1) usedTopics.add(s1.topic);
+
+  // ── Section 2: 2 questions, GUARANTEED different topics ──
+  const allowS2 = (q: ExamQuestion) =>
+    q.section === 2 && (prefs.s2Topics.length === 0 || prefs.s2Topics.includes(q.topic));
+  const s2: ExamQuestion[] = [];
+  for (let i = 0; i < 2; i++) {
+    const next = pickOne([allowS2], usedTopics);
+    if (next) {
+      s2.push(next);
+      usedTopics.add(next.topic);
+    }
+  }
+
+  // ── Section 3 ──
+  const s3Preds: ((q: ExamQuestion) => boolean)[] = [];
+  if (prefs.s3 === "Costing") s3Preds.push((q) => q.section === 3 && q.topic === "Costing");
+  else if (prefs.s3 === "Budgeting") s3Preds.push((q) => q.section === 3 && q.topic === "Budgeting");
+  s3Preds.push((q) => q.section === 3);
+  const s3 = pickOne(s3Preds, usedTopics);
 
   return [s1, ...s2, s3].filter(Boolean).map((q) => (q as ExamQuestion).id);
 }
@@ -530,12 +569,20 @@ function QueuePanel({
   onClear,
   onAutoBuild,
   onStartFull,
+  autoPrefs,
+  onAutoPrefsChange,
+  s2TopicsAvailable,
+  s3TopicsAvailable,
 }: {
   items: ExamQuestion[];
   onRemove: (id: string) => void;
   onClear: () => void;
   onAutoBuild: () => void;
   onStartFull: () => void;
+  autoPrefs: AutoBuildPrefs;
+  onAutoPrefsChange: (next: AutoBuildPrefs) => void;
+  s2TopicsAvailable: string[];
+  s3TopicsAvailable: string[];
 }) {
   const totalMarks = items.reduce((s, q) => s + q.marks, 0);
   const totalMinutes = items.reduce((s, q) => s + q.timingMinutes, 0);
@@ -567,6 +614,124 @@ function QueuePanel({
         >
           <Wand2 className="h-3.5 w-3.5" /> Auto-build
         </Button>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-7 px-2 text-[11px] shrink-0"
+              title="Choose your auto-build preferences"
+            >
+              <Settings2 className="h-3.5 w-3.5" /> Preferences
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent align="end" className="w-80 p-4 space-y-4">
+            <div>
+              <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1.5">
+                Section 1
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {([
+                  ["Q1_120", "Q1 · 120m"],
+                  ["SHORT_60", "Short · 60m"],
+                  ["ANY", "Any"],
+                ] as const).map(([val, label]) => (
+                  <button
+                    key={val}
+                    onClick={() => onAutoPrefsChange({ ...autoPrefs, s1: val })}
+                    className={`px-2 py-1 rounded text-[11px] font-mono border transition-colors ${
+                      autoPrefs.s1 === val
+                        ? "bg-primary text-primary-foreground border-primary"
+                        : "bg-card text-muted-foreground border-border hover:border-primary/40"
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                  Section 2 — pick 2 topics
+                </div>
+                {autoPrefs.s2Topics.length > 0 && (
+                  <button
+                    onClick={() => onAutoPrefsChange({ ...autoPrefs, s2Topics: [] })}
+                    className="text-[10px] text-muted-foreground hover:text-destructive"
+                  >
+                    Reset
+                  </button>
+                )}
+              </div>
+              <p className="text-[10px] text-muted-foreground mb-1.5 leading-snug">
+                Empty = any 2 different topics. The builder will never pick the same topic twice.
+              </p>
+              <div className="flex flex-wrap gap-1.5">
+                {s2TopicsAvailable.map((t) => {
+                  const active = autoPrefs.s2Topics.includes(t);
+                  return (
+                    <button
+                      key={t}
+                      onClick={() => {
+                        const cur = autoPrefs.s2Topics;
+                        const next = active
+                          ? cur.filter((x) => x !== t)
+                          : [...cur, t].slice(-4); // keep allow-list small
+                        onAutoPrefsChange({ ...autoPrefs, s2Topics: next });
+                      }}
+                      className={`px-2 py-1 rounded text-[11px] font-display border transition-colors ${
+                        active
+                          ? "bg-primary text-primary-foreground border-primary"
+                          : "bg-card text-muted-foreground border-border hover:border-primary/40"
+                      }`}
+                    >
+                      {t}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div>
+              <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1.5">
+                Section 3
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {(["Costing", "Budgeting", "ANY"] as const).map((val) => {
+                  const disabled = val !== "ANY" && !s3TopicsAvailable.includes(val);
+                  return (
+                    <button
+                      key={val}
+                      disabled={disabled}
+                      onClick={() => onAutoPrefsChange({ ...autoPrefs, s3: val })}
+                      className={`px-2 py-1 rounded text-[11px] font-mono border transition-colors ${
+                        autoPrefs.s3 === val
+                          ? "bg-primary text-primary-foreground border-primary"
+                          : disabled
+                          ? "bg-muted text-muted-foreground/50 border-border cursor-not-allowed"
+                          : "bg-card text-muted-foreground border-border hover:border-primary/40"
+                      }`}
+                    >
+                      {val}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <label className="flex items-center gap-2 text-[11px] font-body text-muted-foreground cursor-pointer">
+              <input
+                type="checkbox"
+                checked={autoPrefs.preferRecent}
+                onChange={(e) => onAutoPrefsChange({ ...autoPrefs, preferRecent: e.target.checked })}
+                className="accent-primary"
+              />
+              Prefer most recent papers (uncheck for random selection)
+            </label>
+          </PopoverContent>
+        </Popover>
       </div>
 
       {items.length === 0 ? (
@@ -917,6 +1082,10 @@ function SelectStage({
   const { prefs } = useTopicPreferences();
   const [respectPrefs, setRespectPrefs] = useLocalStorage<boolean>("lca_simulator_respect_prefs", true);
   const queue = useQueue();
+  const [autoPrefs, setAutoPrefs] = useLocalStorage<AutoBuildPrefs>(
+    "lca_simulator_autobuild_prefs_v1",
+    DEFAULT_AUTO_PREFS,
+  );
 
   // Build the set of excluded chapter ids from the user's topic preferences.
   const excludedChapterIds = useMemo(() => {
@@ -1177,8 +1346,12 @@ function SelectStage({
         items={queue.items}
         onRemove={queue.remove}
         onClear={queue.clear}
-        onAutoBuild={() => queue.replace(buildAutoFullExam(visiblePool))}
+        onAutoBuild={() => queue.replace(buildAutoFullExam(visiblePool, autoPrefs))}
         onStartFull={() => onStartFullExam(queue.ids)}
+        autoPrefs={autoPrefs}
+        onAutoPrefsChange={setAutoPrefs}
+        s2TopicsAvailable={Array.from(new Set(visiblePool.filter((q) => q.section === 2).map((q) => q.topic))).sort()}
+        s3TopicsAvailable={Array.from(new Set(visiblePool.filter((q) => q.section === 3).map((q) => q.topic))).sort()}
       />
 
       {/* ── Mark progress tracker ── */}
