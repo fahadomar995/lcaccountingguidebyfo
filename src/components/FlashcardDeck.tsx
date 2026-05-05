@@ -70,6 +70,12 @@ export default function FlashcardDeck({ cards, storageKey = "lc-flash-status-v2"
   const [stats, setStats] = useLocalStorage<{ totalReviews: number; lastSession: string }>(
     "lc-flash-stats-v1", { totalReviews: 0, lastSession: "" }
   );
+  // Mirror the Daily Review Goal scope so "Active recall · Due only" honours
+  // the topics selected in the active preset (empty = all topics).
+  const [goalSettings] = useLocalStorage<{ dailyTarget: number; topics: string[]; remindersOn: boolean }>(
+    "lc-flash-goal-settings-v1",
+    { dailyTarget: 20, topics: [], remindersOn: true },
+  );
   const [mode, setMode] = useState<"classic" | "recall">("recall");
   const [dueOnly, setDueOnly] = useState(true);
   const [order, setOrder] = useState<number[]>([]);
@@ -82,6 +88,8 @@ export default function FlashcardDeck({ cards, storageKey = "lc-flash-status-v2"
   // Recall mode: cards due today/earlier first (or new), prioritised by overdue days; optionally only due.
   // Classic mode: learning → new → known, like before.
   const buildRound = useCallback((shuffle = false) => {
+    const inGoalScope = (topic: string) =>
+      goalSettings.topics.length === 0 || goalSettings.topics.includes(topic);
     const learning: number[] = [];
     const newCards: number[] = [];
     const known: number[] = [];
@@ -100,7 +108,10 @@ export default function FlashcardDeck({ cards, storageKey = "lc-flash-status-v2"
         const overdue = (new Date(today).getTime() - new Date(e.due).getTime()) / 86_400_000;
         return { i, score: overdue, isNew: false, isDue: overdue >= 0 };
       });
-      const pool = dueOnly ? scored.filter(s => s.isDue) : scored;
+      // When "Due only" is on, restrict to topics chosen in the active goal preset.
+      const pool = dueOnly
+        ? scored.filter(s => s.isDue && inGoalScope(cards[s.i].topic))
+        : scored;
       pool.sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0) || b.score - a.score);
       round = pool.map(p => p.i);
     } else {
@@ -117,13 +128,13 @@ export default function FlashcardDeck({ cards, storageKey = "lc-flash-status-v2"
     setFlipped(false);
     setRoundComplete(false);
     setRoundCorrect(0);
-  }, [cards, statusMap, srs, mode, dueOnly]);
+  }, [cards, statusMap, srs, mode, dueOnly, goalSettings.topics]);
 
   // Initialize / re-initialize when card list changes
   useEffect(() => {
     buildRound(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cards, mode, dueOnly]);
+  }, [cards, mode, dueOnly, goalSettings.topics]);
 
   const total = order.length;
   const currentIdx = order[pos];
