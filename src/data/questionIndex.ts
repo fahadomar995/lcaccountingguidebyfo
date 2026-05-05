@@ -212,7 +212,7 @@ export const questionIndex: ExamQuestion[] = [
   // ─── 2018 ─────────────────────────────────────────────────
   { id: "2018_Q1_company_mfg", year: 2018, questionNumber: 1, section: 1, marks: 120,
     topic: "Final Accounts — Manufacturing", subtopic: "Company w/ Manufacturing",
-    paperUrl: secPaper(2018), paperPage: 2, paperPageCount: 1,
+    paperUrl: secPaper(2018), paperPage: 2, paperPageCount: 2,
     markingSchemeUrl: secMs(2018), markingSchemePage: 3, markingPageCount: 5,
     timingMinutes: 54, notes: "Austin Ltd — manufacturing company" },
   { id: "2018_Q4_service", year: 2018, questionNumber: 4, section: 1, marks: 60,
@@ -233,7 +233,7 @@ export const questionIndex: ExamQuestion[] = [
   // ─── 2019 ─────────────────────────────────────────────────
   { id: "2019_Q1_company", year: 2019, questionNumber: 1, section: 1, marks: 120,
     topic: "Final Accounts — Company", subtopic: "Company Final Accounts",
-    paperUrl: secPaper(2019), paperPage: 2, paperPageCount: 1,
+    paperUrl: secPaper(2019), paperPage: 2, paperPageCount: 2,
     markingSchemeUrl: secMs(2019), markingSchemePage: 3, markingPageCount: 4,
     timingMinutes: 54, notes: "Q1 — full company final accounts" },
   { id: "2019_Q2_control_creditors", year: 2019, questionNumber: 2, section: 1, marks: 60,
