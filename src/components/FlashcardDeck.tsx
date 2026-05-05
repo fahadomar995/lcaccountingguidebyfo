@@ -3,10 +3,54 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { ChevronLeft, ChevronRight, RotateCcw, Shuffle, Check, X, Trophy } from "lucide-react";
+import { ChevronLeft, ChevronRight, RotateCcw, Shuffle, Check, X, Trophy, Brain, Clock } from "lucide-react";
 import type { Flashcard } from "@/data/theory";
 
 type CardStatus = "know" | "learning";
+
+/** SM-2 lite scheduling state per card term. */
+interface SrsEntry {
+  /** Ease factor (1.3 – 2.8). Higher = longer intervals. */
+  ef: number;
+  /** Interval in days until next review. */
+  interval: number;
+  /** Number of consecutive successful reviews. */
+  reps: number;
+  /** ISO date the card is next due. */
+  due: string;
+  /** Total reviews ever. */
+  reviews: number;
+  /** ISO date of last review. */
+  last: string;
+}
+
+type Grade = 0 | 1 | 2 | 3; // 0 again, 1 hard, 2 good, 3 easy
+
+const todayISO = () => new Date().toISOString().slice(0, 10);
+function addDays(iso: string, days: number) {
+  const d = new Date(iso); d.setDate(d.getDate() + days);
+  return d.toISOString().slice(0, 10);
+}
+function schedule(prev: SrsEntry | undefined, grade: Grade): SrsEntry {
+  const cur: SrsEntry = prev ?? { ef: 2.5, interval: 0, reps: 0, due: todayISO(), reviews: 0, last: todayISO() };
+  let { ef, interval, reps } = cur;
+  if (grade === 0) { reps = 0; interval = 0; }
+  else {
+    reps += 1;
+    if (reps === 1) interval = 1;
+    else if (reps === 2) interval = grade === 1 ? 2 : 3;
+    else interval = Math.round(interval * ef * (grade === 1 ? 0.7 : grade === 3 ? 1.3 : 1));
+  }
+  // Update ease factor (SM-2 formula approximation)
+  const q = grade === 0 ? 2 : grade === 1 ? 3 : grade === 2 ? 4 : 5;
+  ef = Math.max(1.3, Math.min(2.8, ef + (0.1 - (5 - q) * (0.08 + (5 - q) * 0.02))));
+  return {
+    ef, interval, reps,
+    due: addDays(todayISO(), Math.max(0, interval)),
+    reviews: cur.reviews + 1,
+    last: todayISO(),
+  };
+}
 
 interface Props {
   cards: Flashcard[];
@@ -22,13 +66,21 @@ interface Props {
  */
 export default function FlashcardDeck({ cards, storageKey = "lc-flash-status-v2" }: Props) {
   const [statusMap, setStatusMap] = useLocalStorage<Record<string, CardStatus>>(storageKey, {});
+  const [srs, setSrs] = useLocalStorage<Record<string, SrsEntry>>("lc-flash-srs-v1", {});
+  const [stats, setStats] = useLocalStorage<{ totalReviews: number; lastSession: string }>(
+    "lc-flash-stats-v1", { totalReviews: 0, lastSession: "" }
+  );
+  const [mode, setMode] = useState<"classic" | "recall">("recall");
+  const [dueOnly, setDueOnly] = useState(true);
   const [order, setOrder] = useState<number[]>([]);
   const [pos, setPos] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [roundComplete, setRoundComplete] = useState(false);
   const [roundCorrect, setRoundCorrect] = useState(0);
 
-  // Build initial round: learning cards first, then never-seen, then known last
+  // Build initial round.
+  // Recall mode: cards due today/earlier first (or new), prioritised by overdue days; optionally only due.
+  // Classic mode: learning → new → known, like before.
   const buildRound = useCallback((shuffle = false) => {
     const learning: number[] = [];
     const newCards: number[] = [];
@@ -39,7 +91,21 @@ export default function FlashcardDeck({ cards, storageKey = "lc-flash-status-v2"
       else if (s === "know") known.push(i);
       else newCards.push(i);
     });
-    const round = [...learning, ...newCards, ...known];
+    let round: number[];
+    if (mode === "recall") {
+      const today = todayISO();
+      const scored = cards.map((c, i) => {
+        const e = srs[c.term];
+        if (!e) return { i, score: 1_000_000, isNew: true, isDue: true };
+        const overdue = (new Date(today).getTime() - new Date(e.due).getTime()) / 86_400_000;
+        return { i, score: overdue, isNew: false, isDue: overdue >= 0 };
+      });
+      const pool = dueOnly ? scored.filter(s => s.isDue) : scored;
+      pool.sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0) || b.score - a.score);
+      round = pool.map(p => p.i);
+    } else {
+      round = [...learning, ...newCards, ...known];
+    }
     if (shuffle) {
       for (let i = round.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -51,13 +117,13 @@ export default function FlashcardDeck({ cards, storageKey = "lc-flash-status-v2"
     setFlipped(false);
     setRoundComplete(false);
     setRoundCorrect(0);
-  }, [cards, statusMap]);
+  }, [cards, statusMap, srs, mode, dueOnly]);
 
   // Initialize / re-initialize when card list changes
   useEffect(() => {
     buildRound(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cards]);
+  }, [cards, mode, dueOnly]);
 
   const total = order.length;
   const currentIdx = order[pos];
@@ -74,6 +140,15 @@ export default function FlashcardDeck({ cards, storageKey = "lc-flash-status-v2"
   );
   const remainingCount = total - pos;
 
+  const dueTodayCount = useMemo(() => {
+    const today = todayISO();
+    return cards.filter(c => {
+      const e = srs[c.term];
+      return !e || e.due <= today;
+    }).length;
+  }, [cards, srs]);
+  const totalReviews = stats.totalReviews;
+
   const advance = useCallback(() => {
     if (pos + 1 >= total) {
       setRoundComplete(true);
@@ -89,6 +164,19 @@ export default function FlashcardDeck({ cards, storageKey = "lc-flash-status-v2"
     if (newStatus === "know") setRoundCorrect(c => c + 1);
     advance();
   }, [current, advance, setStatusMap]);
+
+  const gradeCard = useCallback((grade: Grade) => {
+    if (!current) return;
+    const next = schedule(srs[current.term], grade);
+    setSrs(prev => ({ ...prev, [current.term]: next }));
+    setStatusMap(prev => ({
+      ...prev,
+      [current.term]: grade >= 2 ? "know" : "learning",
+    }));
+    setStats(s => ({ totalReviews: s.totalReviews + 1, lastSession: todayISO() }));
+    if (grade >= 2) setRoundCorrect(c => c + 1);
+    advance();
+  }, [current, srs, setSrs, setStatusMap, setStats, advance]);
 
   const goPrev = useCallback(() => {
     if (pos > 0) {
@@ -136,12 +224,19 @@ export default function FlashcardDeck({ cards, storageKey = "lc-flash-status-v2"
       if (e.key === " ") { e.preventDefault(); setFlipped(f => !f); }
       else if (e.key === "ArrowLeft") goPrev();
       else if (e.key === "ArrowRight") goNext();
-      else if (e.key === "1") markStatus("learning");
-      else if (e.key === "2") markStatus("know");
+      else if (mode === "recall") {
+        if (e.key === "1") gradeCard(0);
+        else if (e.key === "2") gradeCard(1);
+        else if (e.key === "3") gradeCard(2);
+        else if (e.key === "4") gradeCard(3);
+      } else {
+        if (e.key === "1") markStatus("learning");
+        else if (e.key === "2") markStatus("know");
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [roundComplete, goPrev, goNext, markStatus]);
+  }, [roundComplete, goPrev, goNext, markStatus, gradeCard, mode]);
 
   if (cards.length === 0) {
     return <p className="text-sm text-muted-foreground text-center py-8">No flashcards available.</p>;
@@ -197,9 +292,46 @@ export default function FlashcardDeck({ cards, storageKey = "lc-flash-status-v2"
   if (!current) return null;
 
   const progressPct = total > 0 ? (pos / total) * 100 : 0;
+  const cardSrs = srs[current.term];
 
   return (
     <div className="max-w-[560px] mx-auto">
+      {/* Mode + due bar */}
+      <div className="flex items-center justify-between gap-2 mb-2 flex-wrap">
+        <div className="inline-flex rounded-md border border-border overflow-hidden">
+          <button
+            type="button"
+            onClick={() => setMode("recall")}
+            className={`px-2.5 py-1 text-[11px] font-mono inline-flex items-center gap-1 ${mode === "recall" ? "bg-primary text-primary-foreground" : "bg-card text-muted-foreground hover:text-foreground"}`}
+            title="Spaced repetition (active recall)"
+          >
+            <Brain className="h-3 w-3" /> Active recall
+          </button>
+          <button
+            type="button"
+            onClick={() => setMode("classic")}
+            className={`px-2.5 py-1 text-[11px] font-mono ${mode === "classic" ? "bg-primary text-primary-foreground" : "bg-card text-muted-foreground hover:text-foreground"}`}
+          >
+            Classic
+          </button>
+        </div>
+        {mode === "recall" && (
+          <label className="text-[11px] font-mono text-muted-foreground inline-flex items-center gap-1.5 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={dueOnly}
+              onChange={(e) => setDueOnly(e.target.checked)}
+              className="accent-primary h-3 w-3"
+            />
+            Due only
+          </label>
+        )}
+        <div className="flex items-center gap-3 text-[10px] font-mono text-muted-foreground ml-auto">
+          <span className="inline-flex items-center gap-1"><Clock className="h-3 w-3" /> {dueTodayCount} due</span>
+          <span>{totalReviews} reviews</span>
+        </div>
+      </div>
+
       {/* Top stats bar — persistent deck progress (X / N) until reset */}
       <div className="flex items-center justify-between mb-2 text-[11px] font-mono flex-wrap gap-y-1">
         <span className="text-muted-foreground">Card {pos + 1} of {total}</span>
@@ -246,6 +378,11 @@ export default function FlashcardDeck({ cards, storageKey = "lc-flash-status-v2"
                   Learning
                 </Badge>
               )}
+              {mode === "recall" && cardSrs && (
+                <Badge variant="outline" className="text-[10px] font-mono">
+                  next +{cardSrs.interval}d · ef {cardSrs.ef.toFixed(2)}
+                </Badge>
+              )}
             </div>
             {!flipped ? (
               <p className="font-display text-lg font-bold">{current.term}</p>
@@ -259,27 +396,43 @@ export default function FlashcardDeck({ cards, storageKey = "lc-flash-status-v2"
         </Card>
       </div>
 
-      {/* Status buttons */}
-      <div className="grid grid-cols-2 gap-2 mt-4">
-        <Button
-          variant="outline"
-          onClick={() => markStatus("learning")}
-          className="h-12"
-          style={{ borderColor: "hsl(var(--tier-po) / 0.4)", color: "hsl(var(--tier-po))" }}
-        >
-          <X className="h-4 w-4 mr-2" />
-          Still learning
-          <kbd className="ml-2 text-[9px] font-mono opacity-60">1</kbd>
-        </Button>
-        <Button
-          onClick={() => markStatus("know")}
-          className="h-12 bg-primary hover:bg-primary/90"
-        >
-          <Check className="h-4 w-4 mr-2" />
-          Know it
-          <kbd className="ml-2 text-[9px] font-mono opacity-70">2</kbd>
-        </Button>
-      </div>
+      {mode === "recall" ? (
+        <div className="grid grid-cols-4 gap-1.5 mt-4">
+          <Button variant="outline" onClick={() => gradeCard(0)} className="h-12 flex-col gap-0.5 text-[11px]" style={{ borderColor: "hsl(var(--tier-po) / 0.5)", color: "hsl(var(--tier-po))" }}>
+            Again<span className="text-[9px] font-mono opacity-60">1 · &lt;1d</span>
+          </Button>
+          <Button variant="outline" onClick={() => gradeCard(1)} className="h-12 flex-col gap-0.5 text-[11px]">
+            Hard<span className="text-[9px] font-mono opacity-60">2</span>
+          </Button>
+          <Button onClick={() => gradeCard(2)} className="h-12 flex-col gap-0.5 text-[11px] bg-primary hover:bg-primary/90">
+            Good<span className="text-[9px] font-mono opacity-70">3</span>
+          </Button>
+          <Button variant="outline" onClick={() => gradeCard(3)} className="h-12 flex-col gap-0.5 text-[11px] border-primary/40 text-primary">
+            Easy<span className="text-[9px] font-mono opacity-60">4</span>
+          </Button>
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 gap-2 mt-4">
+          <Button
+            variant="outline"
+            onClick={() => markStatus("learning")}
+            className="h-12"
+            style={{ borderColor: "hsl(var(--tier-po) / 0.4)", color: "hsl(var(--tier-po))" }}
+          >
+            <X className="h-4 w-4 mr-2" />
+            Still learning
+            <kbd className="ml-2 text-[9px] font-mono opacity-60">1</kbd>
+          </Button>
+          <Button
+            onClick={() => markStatus("know")}
+            className="h-12 bg-primary hover:bg-primary/90"
+          >
+            <Check className="h-4 w-4 mr-2" />
+            Know it
+            <kbd className="ml-2 text-[9px] font-mono opacity-70">2</kbd>
+          </Button>
+        </div>
+      )}
 
       {/* Secondary controls */}
       <div className="flex items-center justify-between mt-3">
@@ -303,7 +456,7 @@ export default function FlashcardDeck({ cards, storageKey = "lc-flash-status-v2"
       </div>
 
       <p className="text-[10px] text-muted-foreground text-center mt-3 font-mono">
-        ← prev · → next · Space flip · 1 learning · 2 know
+        ← prev · → next · Space flip · {mode === "recall" ? "1 again · 2 hard · 3 good · 4 easy" : "1 learning · 2 know"}
       </p>
     </div>
   );
