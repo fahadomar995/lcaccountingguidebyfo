@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from "react";
-import { Pencil, Eraser, Undo2, Redo2, Grid3X3, Download, Trash2, GripHorizontal } from "lucide-react";
+import { Pencil, Eraser, Undo2, Redo2, Grid3X3, Download, Trash2, GripHorizontal, ChevronLeft, ChevronRight, Plus } from "lucide-react";
 
 const COLORS = ["#1a1d23", "#1e40af", "#dc2626", "#16a34a"];
 const THICKNESSES = [1.5, 2.5, 4];
@@ -7,13 +7,35 @@ const MIN_HEIGHT = 200;
 const MAX_HEIGHT_RATIO = 0.92;
 const DEFAULT_HEIGHT_RATIO = 0.6;
 
+const PAGES_KEY = "sp_pages";
+const PAGE_INDEX_KEY = "sp_page_index";
+const LEGACY_KEY = "sp_img";
+
+function loadPages(): string[] {
+  try {
+    const raw = localStorage.getItem(PAGES_KEY);
+    if (raw) {
+      const arr = JSON.parse(raw);
+      if (Array.isArray(arr) && arr.length > 0) return arr;
+    }
+    const legacy = localStorage.getItem(LEGACY_KEY);
+    if (legacy) return [legacy];
+  } catch {}
+  return [""];
+}
+
 export function Scratchpad() {
   const [isOpen, setIsOpen] = useState(false);
   const [tool, setTool] = useState<"pen" | "eraser">("pen");
   const [color, setColor] = useState(COLORS[0]);
   const [thickness, setThickness] = useState(2.5);
   const [gridMode, setGridMode] = useState<"none" | "grid" | "ruled">("none");
-  const [hasContent, setHasContent] = useState(() => !!localStorage.getItem("sp_img"));
+  const [pages, setPages] = useState<string[]>(() => loadPages());
+  const [pageIndex, setPageIndex] = useState<number>(() => {
+    const i = Number(localStorage.getItem(PAGE_INDEX_KEY));
+    return Number.isFinite(i) && i >= 0 ? i : 0;
+  });
+  const [hasContent, setHasContent] = useState(() => loadPages().some(p => !!p));
   const [history, setHistory] = useState<ImageData[]>([]);
   const [redoStack, setRedoStack] = useState<ImageData[]>([]);
   const [panelHeight, setPanelHeight] = useState(() => {
@@ -28,6 +50,10 @@ export function Scratchpad() {
   const strokeStarted = useRef(false);
   const saveTimer = useRef<number>();
   const dragRef = useRef<{ startY: number; startH: number } | null>(null);
+  const pagesRef = useRef<string[]>(pages);
+  const pageIndexRef = useRef<number>(pageIndex);
+  useEffect(() => { pagesRef.current = pages; }, [pages]);
+  useEffect(() => { pageIndexRef.current = pageIndex; }, [pageIndex]);
 
   const getCtx = useCallback(() => canvasRef.current?.getContext("2d", { desynchronized: true, willReadFrequently: true }), []);
 
@@ -90,7 +116,7 @@ export function Scratchpad() {
     const canvas = canvasRef.current;
     if (!ctx || !canvas) return;
     try {
-      const d = localStorage.getItem("sp_img");
+      const d = pagesRef.current[pageIndexRef.current];
       if (!d) return;
       setHasContent(true);
       const img = new Image();
@@ -109,11 +135,68 @@ export function Scratchpad() {
         const canvas = canvasRef.current;
         if (!canvas) return;
         const d = canvas.toDataURL("image/png");
-        localStorage.setItem("sp_img", d);
-        setHasContent(true);
+        const next = [...pagesRef.current];
+        next[pageIndexRef.current] = d;
+        pagesRef.current = next;
+        setPages(next);
+        try { localStorage.setItem(PAGES_KEY, JSON.stringify(next)); } catch {}
+        try { localStorage.removeItem(LEGACY_KEY); } catch {}
+        setHasContent(next.some(p => !!p));
       } catch {}
     }, 400);
   }, []);
+
+  const snapshotCurrent = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return pagesRef.current;
+    let data = "";
+    try { data = canvas.toDataURL("image/png"); } catch { return pagesRef.current; }
+    const next = [...pagesRef.current];
+    next[pageIndexRef.current] = data;
+    pagesRef.current = next;
+    setPages(next);
+    try { localStorage.setItem(PAGES_KEY, JSON.stringify(next)); } catch {}
+    return next;
+  }, []);
+
+  const renderPage = useCallback((idx: number) => {
+    const ctx = getCtx();
+    const canvas = canvasRef.current;
+    if (!ctx || !canvas) return;
+    const dpr = devicePixelRatio || 1;
+    ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
+    const data = pagesRef.current[idx];
+    if (!data) return;
+    const img = new Image();
+    img.onload = () => ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width / dpr, canvas.height / dpr);
+    img.src = data;
+  }, [getCtx]);
+
+  const goToPage = useCallback((idx: number) => {
+    if (idx < 0 || idx >= pagesRef.current.length) return;
+    snapshotCurrent();
+    pageIndexRef.current = idx;
+    setPageIndex(idx);
+    try { localStorage.setItem(PAGE_INDEX_KEY, String(idx)); } catch {}
+    setHistory([]);
+    setRedoStack([]);
+    setTimeout(() => renderPage(idx), 0);
+  }, [snapshotCurrent, renderPage]);
+
+  const addPage = useCallback(() => {
+    const snap = snapshotCurrent();
+    const next = [...snap, ""];
+    pagesRef.current = next;
+    setPages(next);
+    try { localStorage.setItem(PAGES_KEY, JSON.stringify(next)); } catch {}
+    const newIdx = next.length - 1;
+    pageIndexRef.current = newIdx;
+    setPageIndex(newIdx);
+    try { localStorage.setItem(PAGE_INDEX_KEY, String(newIdx)); } catch {}
+    setHistory([]);
+    setRedoStack([]);
+    setTimeout(() => renderPage(newIdx), 0);
+  }, [snapshotCurrent, renderPage]);
 
   const open = useCallback(() => {
     setIsOpen(true);
@@ -232,7 +315,12 @@ export function Scratchpad() {
     const d = devicePixelRatio || 1;
     ctx.clearRect(0, 0, canvasRef.current!.width / d, canvasRef.current!.height / d);
     setRedoStack([]);
-    try { localStorage.removeItem("sp_img"); setHasContent(false); } catch {}
+    const next = [...pagesRef.current];
+    next[pageIndexRef.current] = "";
+    pagesRef.current = next;
+    setPages(next);
+    try { localStorage.setItem(PAGES_KEY, JSON.stringify(next)); } catch {}
+    setHasContent(next.some(p => !!p));
   };
 
   // Keyboard shortcuts
@@ -248,10 +336,16 @@ export function Scratchpad() {
       if (e.key === "2") { setColor(COLORS[1]); setTool("pen"); }
       if (e.key === "3") { setColor(COLORS[2]); setTool("pen"); }
       if (e.key === "4") { setColor(COLORS[3]); setTool("pen"); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); goToPage(pageIndexRef.current - 1); }
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        if (pageIndexRef.current >= pagesRef.current.length - 1) addPage();
+        else goToPage(pageIndexRef.current + 1);
+      }
     };
     document.addEventListener("keydown", handler);
     return () => document.removeEventListener("keydown", handler);
-  }, [isOpen, undo, redo, close]);
+  }, [isOpen, undo, redo, close, goToPage, addPage]);
 
   // Resize on window resize
   useEffect(() => {
@@ -374,6 +468,25 @@ export function Scratchpad() {
           </ToolBtn>
           <ToolBtn active={false} onClick={clearCanvas} title="Clear all" className="text-red-400">
             <Trash2 className="w-3.5 h-3.5" />
+          </ToolBtn>
+
+          <div className="w-px h-5 bg-white/10 mx-1 shrink-0" />
+
+          <ToolBtn active={false} onClick={() => goToPage(pageIndex - 1)} title="Previous page (←)" disabled={pageIndex === 0}>
+            <ChevronLeft className="w-4 h-4" />
+          </ToolBtn>
+          <span className="text-[#c8d6e5] text-xs font-mono px-1.5 shrink-0 select-none">
+            {pageIndex + 1}/{pages.length}
+          </span>
+          <ToolBtn
+            active={false}
+            onClick={() => (pageIndex >= pages.length - 1 ? addPage() : goToPage(pageIndex + 1))}
+            title="Next page (→)"
+          >
+            <ChevronRight className="w-4 h-4" />
+          </ToolBtn>
+          <ToolBtn active={false} onClick={addPage} title="Add new page">
+            <Plus className="w-3.5 h-3.5" />
           </ToolBtn>
         </div>
 
