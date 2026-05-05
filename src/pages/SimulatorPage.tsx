@@ -3,7 +3,7 @@ import {
   Clock, ExternalLink, Play, Pause, Check, AlertCircle,
   ChevronDown, ChevronUp, RotateCcw, Square,
   ZoomIn, ZoomOut, Maximize2, Minimize2, Eye, EyeOff, Flag, Award, TrendingUp,
-  Plus, X, Lightbulb, Filter, BookOpen, PenSquare, Sparkles,
+  Plus, X, Lightbulb, Filter, BookOpen, PenSquare, Sparkles, SlidersHorizontal,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,12 +14,14 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { useSidebar } from "@/components/ui/sidebar";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { setExamGuard, SIDEBAR_TOGGLE_SENTINEL } from "@/lib/examGuard";
 import {
   questionIndex, filterQuestions, uniqueTopics, type ExamQuestion,
 } from "@/data/questionIndex";
 import { buildSuggestions, type Suggestion } from "@/lib/simulatorSuggestions";
+import { useTopicPreferences } from "@/hooks/useTopicPreferences";
+import { chaptersForExamTopic, isExamTopicExcluded } from "@/lib/examTopicChapters";
 
 type Stage = "select" | "active" | "results";
 type MarksFilter = ExamQuestion["marks"] | "ALL";
@@ -668,41 +670,69 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
   const [historyOpen, setHistoryOpen] = useState(false);
   const [history] = useLocalStorage<HistoryEntry[]>(HISTORY_KEY, []);
   const [onboardingDismissed, setOnboardingDismissed, onboardingMode, setOnboardingMode] = useOnboardingDismissed();
+  const { prefs } = useTopicPreferences();
+  const [respectPrefs, setRespectPrefs] = useLocalStorage<boolean>("lca_simulator_respect_prefs", true);
 
-  const topics = useMemo(() => uniqueTopics(questionIndex), []);
+  // Build the set of excluded chapter ids from the user's topic preferences.
+  const excludedChapterIds = useMemo(() => {
+    const set = new Set<number>();
+    if (!respectPrefs) return set;
+    Object.values(prefs).forEach((p) => {
+      if (p.is_excluded || p.priority === "excluded") {
+        const m = /^ch-(\d+)$/.exec(p.topic_id);
+        if (m) set.add(Number(m[1]));
+      }
+    });
+    return set;
+  }, [prefs, respectPrefs]);
+
+  const isHidden = useCallback(
+    (q: ExamQuestion) =>
+      excludedChapterIds.size > 0 && isExamTopicExcluded(q.topic, excludedChapterIds),
+    [excludedChapterIds],
+  );
+
+  // Pool of questions after honouring excluded preferences.
+  const visiblePool = useMemo(
+    () => questionIndex.filter((q) => !isHidden(q)),
+    [isHidden],
+  );
+  const hiddenCount = questionIndex.length - visiblePool.length;
+
+  const topics = useMemo(() => uniqueTopics(visiblePool), [visiblePool]);
   const filtered = useMemo(
-    () => filterQuestions(questionIndex, topicFilter, marksFilter, sectionFilter),
-    [topicFilter, marksFilter, sectionFilter],
+    () => filterQuestions(visiblePool, topicFilter, marksFilter, sectionFilter),
+    [visiblePool, topicFilter, marksFilter, sectionFilter],
   );
 
   // ── Counts for each filter option, holding the *other* two filters fixed.
   // This lets us grey out impossible combinations (e.g. picking "Tabular
   // Statements" disables 80m / 120m if no such question exists).
   const topicCounts = useMemo(() => {
-    const map: Record<string, number> = { ALL: filterQuestions(questionIndex, "ALL", marksFilter, sectionFilter).length };
+    const map: Record<string, number> = { ALL: filterQuestions(visiblePool, "ALL", marksFilter, sectionFilter).length };
     for (const t of topics) {
-      map[t] = filterQuestions(questionIndex, t, marksFilter, sectionFilter).length;
+      map[t] = filterQuestions(visiblePool, t, marksFilter, sectionFilter).length;
     }
     return map;
-  }, [topics, marksFilter, sectionFilter]);
+  }, [topics, marksFilter, sectionFilter, visiblePool]);
 
   const sectionCounts = useMemo(() => {
     const sections: (ExamQuestion["section"] | "ALL")[] = ["ALL", 1, 2, 3];
     const map: Record<string, number> = {};
     for (const s of sections) {
-      map[String(s)] = filterQuestions(questionIndex, topicFilter, marksFilter, s).length;
+      map[String(s)] = filterQuestions(visiblePool, topicFilter, marksFilter, s).length;
     }
     return map;
-  }, [topicFilter, marksFilter]);
+  }, [topicFilter, marksFilter, visiblePool]);
 
   const marksCounts = useMemo(() => {
     const allMarks: MarksFilter[] = ["ALL", 60, 80, 100, 120];
     const map: Record<string, number> = {};
     for (const m of allMarks) {
-      map[String(m)] = filterQuestions(questionIndex, topicFilter, m, sectionFilter).length;
+      map[String(m)] = filterQuestions(visiblePool, topicFilter, m, sectionFilter).length;
     }
     return map;
-  }, [topicFilter, sectionFilter]);
+  }, [topicFilter, sectionFilter, visiblePool]);
 
   // Quick presets — common exam combos the user reaches for most.
   const presets: { label: string; topic: string | "ALL"; marks: MarksFilter; section: ExamQuestion["section"] | "ALL" }[] = [
@@ -748,8 +778,8 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
 
   // Personalised suggestions derived from session history.
   const suggestions = useMemo(
-    () => buildSuggestions(history, questionIndex),
-    [history],
+    () => buildSuggestions(history, visiblePool),
+    [history, visiblePool],
   );
 
   return (
@@ -798,6 +828,42 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
       <p className="text-sm text-muted-foreground font-body leading-relaxed mb-8 max-w-2xl">
         Select a question type and mark allocation. The timer starts the moment you confirm your selection.
       </p>
+
+      {/* Topic-preference banner — surfaces the link between Profile prefs and the simulator */}
+      <div className="mb-6 flex flex-col sm:flex-row sm:items-center gap-3 bg-card border border-primary/20 rounded-lg px-4 py-3">
+        <div className="flex items-center gap-2 min-w-0">
+          <SlidersHorizontal className="h-4 w-4 text-primary shrink-0" />
+          <div className="min-w-0">
+            <div className="text-sm font-display font-semibold text-foreground leading-tight">
+              Personalised by your topic preferences
+            </div>
+            <p className="text-[11px] text-muted-foreground font-body leading-snug">
+              {hiddenCount > 0 ? (
+                <>Hiding <strong className="text-foreground">{hiddenCount}</strong> question{hiddenCount === 1 ? "" : "s"} from chapters you marked <em>Excluded</em>. Adjust them anytime in Preferences.</>
+              ) : (
+                <>Mark chapters as <em>Excluded</em> in Preferences and they'll disappear here too. Nothing is hidden right now.</>
+              )}
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center gap-2 sm:ml-auto shrink-0">
+          <label className="inline-flex items-center gap-1.5 text-[11px] font-mono text-muted-foreground cursor-pointer">
+            <input
+              type="checkbox"
+              checked={respectPrefs}
+              onChange={(e) => setRespectPrefs(e.target.checked)}
+              className="accent-primary h-3 w-3"
+            />
+            Apply preferences
+          </label>
+          <Link
+            to="/preferences"
+            className="inline-flex items-center gap-1 text-[11px] font-mono text-primary hover:underline"
+          >
+            Edit
+          </Link>
+        </div>
+      </div>
 
       {!onboardingDismissed && (
         <OnboardingCard onDismiss={() => setOnboardingDismissed(true)} />
