@@ -532,16 +532,30 @@ function buildAutoFullExam(pool: ExamQuestion[], prefs: AutoBuildPrefs = DEFAULT
   const usedTopics = new Set<string>();
 
   // ── Section 1 ──
-  const s1Preds: ((q: ExamQuestion) => boolean)[] = [];
-  if (prefs.s1 === "Q1_120") {
-    s1Preds.push((q) => q.section === 1 && q.marks === 120);
-    s1Preds.push((q) => q.section === 1 && q.questionNumber === 1);
-  } else if (prefs.s1 === "SHORT_60") {
-    s1Preds.push((q) => q.section === 1 && q.marks === 60);
+  // The Leaving Cert layout is either ONE 120-mark Q1 OR TWO 60-mark short
+  // questions (Q2/Q3/Q4). Honour the user's choice.
+  const s1Picks: ExamQuestion[] = [];
+  if (prefs.s1 === "SHORT_60") {
+    for (let i = 0; i < 2; i++) {
+      const next = pickOne(
+        [
+          (q) => q.section === 1 && q.marks === 60,
+          (q) => q.section === 1 && q.marks !== 120,
+        ],
+        usedTopics,
+      );
+      if (next) { s1Picks.push(next); usedTopics.add(next.topic); }
+    }
+  } else {
+    const s1Preds: ((q: ExamQuestion) => boolean)[] = [];
+    if (prefs.s1 === "Q1_120") {
+      s1Preds.push((q) => q.section === 1 && q.marks === 120);
+      s1Preds.push((q) => q.section === 1 && q.questionNumber === 1);
+    }
+    s1Preds.push((q) => q.section === 1);
+    const s1 = pickOne(s1Preds, usedTopics);
+    if (s1) { s1Picks.push(s1); usedTopics.add(s1.topic); }
   }
-  s1Preds.push((q) => q.section === 1);
-  const s1 = pickOne(s1Preds, usedTopics);
-  if (s1) usedTopics.add(s1.topic);
 
   // ── Section 2: 2 questions, GUARANTEED different topics ──
   const allowS2 = (q: ExamQuestion) =>
@@ -562,7 +576,7 @@ function buildAutoFullExam(pool: ExamQuestion[], prefs: AutoBuildPrefs = DEFAULT
   s3Preds.push((q) => q.section === 3);
   const s3 = pickOne(s3Preds, usedTopics);
 
-  return [s1, ...s2, s3].filter(Boolean).map((q) => (q as ExamQuestion).id);
+  return [...s1Picks, ...s2, s3].filter(Boolean).map((q) => (q as ExamQuestion).id);
 }
 
 // ───────────── Queue panel (renders inside SelectStage) ─────────────
@@ -669,7 +683,7 @@ function QueuePanel({
                 )}
               </div>
               <p className="text-[10px] text-muted-foreground mb-1.5 leading-snug">
-                Empty = any 2 different topics. The builder will never pick the same topic twice.
+                Pick as many topics as you like — the builder randomly chooses 2 different ones from your selection. Empty = any topic.
               </p>
               <div className="flex flex-wrap gap-1.5">
                 {s2TopicsAvailable.map((t) => {
@@ -681,7 +695,7 @@ function QueuePanel({
                         const cur = autoPrefs.s2Topics;
                         const next = active
                           ? cur.filter((x) => x !== t)
-                          : [...cur, t].slice(-4); // keep allow-list small
+                          : [...cur, t];
                         onAutoPrefsChange({ ...autoPrefs, s2Topics: next });
                       }}
                       className={`px-2 py-1 rounded text-[11px] font-display border transition-colors ${
