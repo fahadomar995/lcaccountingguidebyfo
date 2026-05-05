@@ -829,6 +829,42 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
         Select a question type and mark allocation. The timer starts the moment you confirm your selection.
       </p>
 
+      {/* Topic-preference banner — surfaces the link between Profile prefs and the simulator */}
+      <div className="mb-6 flex flex-col sm:flex-row sm:items-center gap-3 bg-card border border-primary/20 rounded-lg px-4 py-3">
+        <div className="flex items-center gap-2 min-w-0">
+          <SlidersHorizontal className="h-4 w-4 text-primary shrink-0" />
+          <div className="min-w-0">
+            <div className="text-sm font-display font-semibold text-foreground leading-tight">
+              Personalised by your topic preferences
+            </div>
+            <p className="text-[11px] text-muted-foreground font-body leading-snug">
+              {hiddenCount > 0 ? (
+                <>Hiding <strong className="text-foreground">{hiddenCount}</strong> question{hiddenCount === 1 ? "" : "s"} from chapters you marked <em>Excluded</em>. Adjust them anytime in Preferences.</>
+              ) : (
+                <>Mark chapters as <em>Excluded</em> in Preferences and they'll disappear here too. Nothing is hidden right now.</>
+              )}
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center gap-2 sm:ml-auto shrink-0">
+          <label className="inline-flex items-center gap-1.5 text-[11px] font-mono text-muted-foreground cursor-pointer">
+            <input
+              type="checkbox"
+              checked={respectPrefs}
+              onChange={(e) => setRespectPrefs(e.target.checked)}
+              className="accent-primary h-3 w-3"
+            />
+            Apply preferences
+          </label>
+          <Link
+            to="/preferences"
+            className="inline-flex items-center gap-1 text-[11px] font-mono text-primary hover:underline"
+          >
+            Edit
+          </Link>
+        </div>
+      </div>
+
       {!onboardingDismissed && (
         <OnboardingCard onDismiss={() => setOnboardingDismissed(true)} />
       )}
