@@ -875,10 +875,22 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
             >
               <div className="flex items-start justify-between mb-2">
                 <div>
-                  <div className="font-mono text-2xl font-bold text-primary leading-none">{q.year}</div>
+                  <div className={`font-mono text-2xl font-bold leading-none ${q.isMock ? "text-slate-500 dark:text-slate-400" : "text-primary"}`}>
+                    {q.isMock ? "MOCK" : q.year}
+                  </div>
                   <div className="text-[11px] font-body text-muted-foreground mt-0.5">Q{q.questionNumber} · Section {q.section}</div>
                 </div>
-                <MarksBadge marks={q.marks} />
+                <div className="flex items-center gap-1.5">
+                  {q.isMock && (
+                    <span
+                      className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-mono uppercase tracking-wider bg-slate-500/10 text-slate-600 dark:text-slate-300 border border-slate-500/20"
+                      title="Internally authored mock question — not from the SEC"
+                    >
+                      Mock
+                    </span>
+                  )}
+                  <MarksBadge marks={q.marks} />
+                </div>
               </div>
               <h3 className="font-display text-base font-semibold text-foreground leading-tight mb-1">{q.subtopic}</h3>
               <p className="text-[11px] font-body text-muted-foreground mb-2">{q.topic}</p>
