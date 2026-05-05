@@ -625,7 +625,7 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
     { label: "Job Costing",             topic: "Costing",            marks: "ALL", section: 3 },
     { label: "Final Accounts · S1 60m", topic: "ALL",                marks: 60,  section: 1 },
     { label: "Published · 100m",        topic: "Published Accounts", marks: 100, section: "ALL" },
-    { label: "Club · 100m",             topic: "Club",               marks: 100, section: "ALL" },
+    { label: "Club · 100m",             topic: "Club Accounts",      marks: 100, section: "ALL" },
     { label: "Suspense · 100m",         topic: "Correction of Errors", marks: 100, section: "ALL" },
     { label: "Service · 100m",          topic: "Service Firm",       marks: 100, section: "ALL" },
   ];
