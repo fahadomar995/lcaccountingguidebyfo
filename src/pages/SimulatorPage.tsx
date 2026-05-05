@@ -2633,6 +2633,7 @@ export default function SimulatorPage() {
   const [fullExamQuestions, setFullExamQuestions] = useState<ExamQuestion[]>([]);
   const [fullExamPerQ, setFullExamPerQ] = useState<Record<string, number>>({});
   const [fullExamTotal, setFullExamTotal] = useState(0);
+  const [fullExamMarks, setFullExamMarks] = useState<Record<string, number>>({});
 
   // Register a guard while an exam is in-progress so sidebar / other
   // nav sources can prompt the abandon dialog instead of silently leaving.
@@ -2812,7 +2813,26 @@ export default function SimulatorPage() {
           onFinish={(perQ, total) => {
             setFullExamPerQ(perQ);
             setFullExamTotal(total);
+            setFullExamMarks({});
             setResumeFullInitial(null);
+            // Log each attempted question into history (un-graded for now)
+            const completedAt = new Date().toISOString();
+            setHistory((prev) => {
+              const additions: HistoryEntry[] = fullExamQuestions
+                .filter((q) => (perQ[q.id] ?? 0) > 0)
+                .map((q, idx) => ({
+                  id: q.id,
+                  year: q.year,
+                  topic: q.topic,
+                  subtopic: q.subtopic,
+                  marks: q.marks,
+                  targetMinutes: q.timingMinutes,
+                  actualSeconds: perQ[q.id] ?? 0,
+                  completedAt: new Date(Date.parse(completedAt) + idx).toISOString(),
+                  withinTarget: (perQ[q.id] ?? 0) <= q.timingMinutes * 60,
+                }));
+              return [...additions, ...prev].slice(0, 100);
+            });
             setStage("full-exam-results");
             window.scrollTo({ top: 0, behavior: "smooth" });
           }}
@@ -2857,6 +2877,24 @@ export default function SimulatorPage() {
         questions={fullExamQuestions}
         perQ={fullExamPerQ}
         totalSeconds={fullExamTotal}
+        marksByQ={fullExamMarks}
+        onSaveMark={(qid, earned) => {
+          setFullExamMarks((prev) => ({ ...prev, [qid]: earned }));
+          const q = fullExamQuestions.find((x) => x.id === qid);
+          if (!q) return;
+          const pct = Math.round((earned / q.marks) * 100);
+          // Update the most recent matching history entry for this question
+          setHistory((prev) => {
+            let updated = false;
+            return prev.map((h) => {
+              if (!updated && h.id === qid) {
+                updated = true;
+                return { ...h, marksEarned: earned, percentage: pct };
+              }
+              return h;
+            });
+          });
+        }}
         onAnother={() => {
           // Convenience: jump back to list with auto-build button surfaced
           setStage("select");
