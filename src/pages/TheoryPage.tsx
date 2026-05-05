@@ -6,6 +6,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { THEORY_BANK, THEORY_FLASHCARDS, THEORY_TOPICS } from "@/data/theory";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { Eye, EyeOff, RotateCcw, Check, X, Minus, ChevronLeft, ChevronRight, BarChart3, Shuffle, BookOpen } from "lucide-react";
+import {
+  AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
+  AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { toast } from "sonner";
 import TheoryLearnMode from "@/components/TheoryLearnMode";
 import FlashcardDeck from "@/components/FlashcardDeck";
 
@@ -102,6 +107,18 @@ export default function TheoryPage() {
     setScores(prev => ({ ...prev, [i]: score }));
   };
 
+  const scoreAndAdvance = (i: number, score: Score) => {
+    setScore(i, score);
+    // Auto-advance after a brief delay so the user sees the badge update
+    if (practiceIdx < practiceQuestions.length - 1) {
+      setTimeout(() => {
+        setPracticeIdx(idx => Math.min(idx + 1, practiceQuestions.length - 1));
+        setPracticeRevealed(false);
+        setPracticeAnswer("");
+      }, 350);
+    }
+  };
+
   // (Frequency analytics moved to FrequencyTracker / TheoryPredictions components below)
 
   const uniqueYears = useMemo(() => new Set(THEORY_BANK.map(q => q.year)).size, []);
@@ -111,14 +128,27 @@ export default function TheoryPage() {
   const gotCount = Object.values(scores).filter(s => s === "got").length;
 
   // Practice stats
-  const practiceScored = practiceQuestions.filter((_, i) => {
-    const gIdx = THEORY_BANK.indexOf(practiceQuestions[i]);
-    return scores[gIdx] !== undefined;
-  }).length;
-  const practiceGot = practiceQuestions.filter((_, i) => {
-    const gIdx = THEORY_BANK.indexOf(practiceQuestions[i]);
-    return scores[gIdx] === "got";
-  }).length;
+  const practiceScored = practiceQuestions.filter(q => scores[THEORY_BANK.indexOf(q)] !== undefined).length;
+  const practiceGot = practiceQuestions.filter(q => scores[THEORY_BANK.indexOf(q)] === "got").length;
+  const practicePartial = practiceQuestions.filter(q => scores[THEORY_BANK.indexOf(q)] === "partial").length;
+  const practiceMissed = practiceQuestions.filter(q => scores[THEORY_BANK.indexOf(q)] === "missed").length;
+
+  /** Clear scores for ALL questions currently in the practice filter. */
+  const resetCurrentScores = () => {
+    setScores(prev => {
+      const next = { ...prev };
+      practiceFiltered.forEach(q => { delete next[THEORY_BANK.indexOf(q)]; });
+      return next;
+    });
+    setPracticeIdx(0);
+    setPracticeRevealed(false);
+    setPracticeAnswer("");
+    toast.success(
+      practiceFilter === "All"
+        ? "Reset progress on all theory questions"
+        : `Reset progress on "${practiceFilter}" questions`
+    );
+  };
 
   return (
     <div className={isReading ? "w-full px-3 md:px-4 lg:px-5 xl:px-6 py-4 pb-10" : "max-w-[900px] mx-auto px-4 sm:px-7 py-8 pb-16"}>
@@ -163,6 +193,20 @@ export default function TheoryPage() {
         {/* ALL QUESTIONS TAB */}
         <TabsContent value="questions">
           <FilterBar topics={THEORY_TOPICS} active={topicFilter} onSelect={(t) => { setTopicFilter(t); setPage(0); }} />
+          {(() => {
+            const total = filtered.length;
+            const answered = filtered.filter(q => scores[THEORY_BANK.indexOf(q)] !== undefined).length;
+            const got = filtered.filter(q => scores[THEORY_BANK.indexOf(q)] === "got").length;
+            const pct = answered > 0 ? Math.round((got / answered) * 100) : 0;
+            return answered > 0 ? (
+              <div className="mb-4 text-xs text-muted-foreground flex items-center gap-3 font-mono">
+                <span>Tracked: {answered}/{total}</span>
+                <span className="text-primary font-semibold">{got} got</span>
+                <span>·</span>
+                <span>{pct}%</span>
+              </div>
+            ) : null;
+          })()}
           <div className="flex items-center justify-between mb-4">
             <p className="text-xs text-muted-foreground">{filtered.length} question{filtered.length !== 1 ? "s" : ""}</p>
             {totalPages > 1 && (
@@ -181,7 +225,7 @@ export default function TheoryPage() {
                   onToggle={() => toggleReveal(globalIdx)}
                   score={scores[globalIdx]}
                   onScore={(s) => setScore(globalIdx, s)}
-                  showScoring={false}
+                  showScoring={true}
                 />
               );
             })}
@@ -213,8 +257,11 @@ export default function TheoryPage() {
                 {practiceIdx + 1} of {practiceQuestions.length}
               </p>
               {practiceScored > 0 && (
-                <p className="text-xs text-muted-foreground">
-                  {practiceGot}/{practiceScored} correct ({Math.round(practiceGot / practiceScored * 100)}%)
+                <p className="text-xs text-muted-foreground flex items-center gap-2 font-mono">
+                  <span className="text-green-600 dark:text-green-400">{practiceGot} got</span>
+                  <span className="text-amber-600 dark:text-amber-400">{practicePartial} partial</span>
+                  <span className="text-red-600 dark:text-red-400">{practiceMissed} missed</span>
+                  <span>· {Math.round(practiceGot / practiceScored * 100)}%</span>
                 </p>
               )}
             </div>
@@ -222,9 +269,28 @@ export default function TheoryPage() {
               <Button variant="outline" size="sm" className="text-xs gap-1 h-7" onClick={shufflePractice}>
                 <Shuffle className="h-3 w-3" /> Shuffle
               </Button>
-              <Button variant="outline" size="sm" className="text-xs gap-1 h-7" onClick={() => { setPracticeIdx(0); setPracticeRevealed(false); setPracticeAnswer(""); setScores({}); }}>
-                <RotateCcw className="h-3 w-3" /> Reset
-              </Button>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button variant="outline" size="sm" className="text-xs gap-1 h-7" disabled={practiceScored === 0}>
+                    <RotateCcw className="h-3 w-3" /> Reset progress
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Reset {practiceFilter === "All" ? "all theory" : `“${practiceFilter}”`} progress?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This clears your Got It / Partial / Missed marks for the {practiceFiltered.length} questions
+                      currently in view. Your other topics are untouched.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={resetCurrentScores}>Reset progress</AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             </div>
           </div>
 
@@ -286,13 +352,13 @@ export default function TheoryPage() {
 
                   {/* Self-scoring */}
                   <div className="flex gap-3 justify-center">
-                    <Button size="lg" variant={scores[currentPracticeGlobalIdx] === "got" ? "default" : "outline"} className="text-sm gap-2 flex-1 max-w-[160px]" onClick={() => setScore(currentPracticeGlobalIdx, "got")}>
+                    <Button size="lg" variant={scores[currentPracticeGlobalIdx] === "got" ? "default" : "outline"} className="text-sm gap-2 flex-1 max-w-[160px]" onClick={() => scoreAndAdvance(currentPracticeGlobalIdx, "got")}>
                       <Check className="h-4 w-4" /> Got It
                     </Button>
-                    <Button size="lg" variant={scores[currentPracticeGlobalIdx] === "partial" ? "default" : "outline"} className="text-sm gap-2 flex-1 max-w-[160px]" onClick={() => setScore(currentPracticeGlobalIdx, "partial")}>
+                    <Button size="lg" variant={scores[currentPracticeGlobalIdx] === "partial" ? "default" : "outline"} className="text-sm gap-2 flex-1 max-w-[160px]" onClick={() => scoreAndAdvance(currentPracticeGlobalIdx, "partial")}>
                       <Minus className="h-4 w-4" /> Partial
                     </Button>
-                    <Button size="lg" variant={scores[currentPracticeGlobalIdx] === "missed" ? "default" : "outline"} className="text-sm gap-2 flex-1 max-w-[160px]" onClick={() => setScore(currentPracticeGlobalIdx, "missed")}>
+                    <Button size="lg" variant={scores[currentPracticeGlobalIdx] === "missed" ? "default" : "outline"} className="text-sm gap-2 flex-1 max-w-[160px]" onClick={() => scoreAndAdvance(currentPracticeGlobalIdx, "missed")}>
                       <X className="h-4 w-4" /> Missed
                     </Button>
                   </div>
