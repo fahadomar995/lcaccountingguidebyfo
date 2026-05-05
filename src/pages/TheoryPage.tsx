@@ -107,6 +107,18 @@ export default function TheoryPage() {
     setScores(prev => ({ ...prev, [i]: score }));
   };
 
+  const scoreAndAdvance = (i: number, score: Score) => {
+    setScore(i, score);
+    // Auto-advance after a brief delay so the user sees the badge update
+    if (practiceIdx < practiceQuestions.length - 1) {
+      setTimeout(() => {
+        setPracticeIdx(idx => Math.min(idx + 1, practiceQuestions.length - 1));
+        setPracticeRevealed(false);
+        setPracticeAnswer("");
+      }, 350);
+    }
+  };
+
   // (Frequency analytics moved to FrequencyTracker / TheoryPredictions components below)
 
   const uniqueYears = useMemo(() => new Set(THEORY_BANK.map(q => q.year)).size, []);
@@ -340,13 +352,13 @@ export default function TheoryPage() {
 
                   {/* Self-scoring */}
                   <div className="flex gap-3 justify-center">
-                    <Button size="lg" variant={scores[currentPracticeGlobalIdx] === "got" ? "default" : "outline"} className="text-sm gap-2 flex-1 max-w-[160px]" onClick={() => setScore(currentPracticeGlobalIdx, "got")}>
+                    <Button size="lg" variant={scores[currentPracticeGlobalIdx] === "got" ? "default" : "outline"} className="text-sm gap-2 flex-1 max-w-[160px]" onClick={() => scoreAndAdvance(currentPracticeGlobalIdx, "got")}>
                       <Check className="h-4 w-4" /> Got It
                     </Button>
-                    <Button size="lg" variant={scores[currentPracticeGlobalIdx] === "partial" ? "default" : "outline"} className="text-sm gap-2 flex-1 max-w-[160px]" onClick={() => setScore(currentPracticeGlobalIdx, "partial")}>
+                    <Button size="lg" variant={scores[currentPracticeGlobalIdx] === "partial" ? "default" : "outline"} className="text-sm gap-2 flex-1 max-w-[160px]" onClick={() => scoreAndAdvance(currentPracticeGlobalIdx, "partial")}>
                       <Minus className="h-4 w-4" /> Partial
                     </Button>
-                    <Button size="lg" variant={scores[currentPracticeGlobalIdx] === "missed" ? "default" : "outline"} className="text-sm gap-2 flex-1 max-w-[160px]" onClick={() => setScore(currentPracticeGlobalIdx, "missed")}>
+                    <Button size="lg" variant={scores[currentPracticeGlobalIdx] === "missed" ? "default" : "outline"} className="text-sm gap-2 flex-1 max-w-[160px]" onClick={() => scoreAndAdvance(currentPracticeGlobalIdx, "missed")}>
                       <X className="h-4 w-4" /> Missed
                     </Button>
                   </div>
