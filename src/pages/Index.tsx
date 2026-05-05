@@ -7,6 +7,7 @@ import { CLASSIFY_ITEMS, LAYOUT_FORMATS } from "@/data/studyContent";
 import { useMemo } from "react";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { CHAPTERS } from "@/data/theoryChapters";
+import ExamSuggestionWidget from "@/components/ExamSuggestionWidget";
 import { useStreak, usePingStreak } from "@/hooks/useStreak";
 
 function useDashboardStats() {
