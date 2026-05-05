@@ -30,6 +30,18 @@ const secMs = (year: number) =>
   `https://www.studystrivers.ie/markingschemefiles/higher/accounting/accounting${year}.pdf`;
 
 export const questionIndex: ExamQuestion[] = [
+  // ─── 2002 ─────────────────────────────────────────────────
+  { id: "2002_Q7_club", year: 2002, questionNumber: 7, section: 2, marks: 100,
+    topic: "Club Accounts", subtopic: "All Stars Tennis Club",
+    paperUrl: secPaper(2002), paperPage: 7, paperPageCount: 1,
+    markingSchemeUrl: secMs(2002), markingSchemePage: 12, markingPageCount: 3,
+    timingMinutes: 45, notes: "All Stars Tennis Club — full club accounts" },
+  // ─── 2004 ─────────────────────────────────────────────────
+  { id: "2004_Q6_club", year: 2004, questionNumber: 6, section: 2, marks: 100,
+    topic: "Club Accounts", subtopic: "Green Glen Golf Club",
+    paperUrl: secPaper(2004), paperPage: 7, paperPageCount: 1,
+    markingSchemeUrl: secMs(2004), markingSchemePage: 14, markingPageCount: 4,
+    timingMinutes: 45, notes: "Green Glen Golf Club — full club accounts" },
   // ─── 2005 ─────────────────────────────────────────────────
   { id: "2005_Q4_service", year: 2005, questionNumber: 4, section: 1, marks: 60,
     topic: "Service Firm", subtopic: "Service Firm",
