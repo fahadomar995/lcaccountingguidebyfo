@@ -670,41 +670,69 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
   const [historyOpen, setHistoryOpen] = useState(false);
   const [history] = useLocalStorage<HistoryEntry[]>(HISTORY_KEY, []);
   const [onboardingDismissed, setOnboardingDismissed, onboardingMode, setOnboardingMode] = useOnboardingDismissed();
+  const { prefs } = useTopicPreferences();
+  const [respectPrefs, setRespectPrefs] = useLocalStorage<boolean>("lca_simulator_respect_prefs", true);
 
-  const topics = useMemo(() => uniqueTopics(questionIndex), []);
+  // Build the set of excluded chapter ids from the user's topic preferences.
+  const excludedChapterIds = useMemo(() => {
+    const set = new Set<number>();
+    if (!respectPrefs) return set;
+    Object.values(prefs).forEach((p) => {
+      if (p.is_excluded || p.priority === "excluded") {
+        const m = /^ch-(\d+)$/.exec(p.topic_id);
+        if (m) set.add(Number(m[1]));
+      }
+    });
+    return set;
+  }, [prefs, respectPrefs]);
+
+  const isHidden = useCallback(
+    (q: ExamQuestion) =>
+      excludedChapterIds.size > 0 && isExamTopicExcluded(q.topic, excludedChapterIds),
+    [excludedChapterIds],
+  );
+
+  // Pool of questions after honouring excluded preferences.
+  const visiblePool = useMemo(
+    () => questionIndex.filter((q) => !isHidden(q)),
+    [isHidden],
+  );
+  const hiddenCount = questionIndex.length - visiblePool.length;
+
+  const topics = useMemo(() => uniqueTopics(visiblePool), [visiblePool]);
   const filtered = useMemo(
-    () => filterQuestions(questionIndex, topicFilter, marksFilter, sectionFilter),
-    [topicFilter, marksFilter, sectionFilter],
+    () => filterQuestions(visiblePool, topicFilter, marksFilter, sectionFilter),
+    [visiblePool, topicFilter, marksFilter, sectionFilter],
   );
 
   // ── Counts for each filter option, holding the *other* two filters fixed.
   // This lets us grey out impossible combinations (e.g. picking "Tabular
   // Statements" disables 80m / 120m if no such question exists).
   const topicCounts = useMemo(() => {
-    const map: Record<string, number> = { ALL: filterQuestions(questionIndex, "ALL", marksFilter, sectionFilter).length };
+    const map: Record<string, number> = { ALL: filterQuestions(visiblePool, "ALL", marksFilter, sectionFilter).length };
     for (const t of topics) {
-      map[t] = filterQuestions(questionIndex, t, marksFilter, sectionFilter).length;
+      map[t] = filterQuestions(visiblePool, t, marksFilter, sectionFilter).length;
     }
     return map;
-  }, [topics, marksFilter, sectionFilter]);
+  }, [topics, marksFilter, sectionFilter, visiblePool]);
 
   const sectionCounts = useMemo(() => {
     const sections: (ExamQuestion["section"] | "ALL")[] = ["ALL", 1, 2, 3];
     const map: Record<string, number> = {};
     for (const s of sections) {
-      map[String(s)] = filterQuestions(questionIndex, topicFilter, marksFilter, s).length;
+      map[String(s)] = filterQuestions(visiblePool, topicFilter, marksFilter, s).length;
     }
     return map;
-  }, [topicFilter, marksFilter]);
+  }, [topicFilter, marksFilter, visiblePool]);
 
   const marksCounts = useMemo(() => {
     const allMarks: MarksFilter[] = ["ALL", 60, 80, 100, 120];
     const map: Record<string, number> = {};
     for (const m of allMarks) {
-      map[String(m)] = filterQuestions(questionIndex, topicFilter, m, sectionFilter).length;
+      map[String(m)] = filterQuestions(visiblePool, topicFilter, m, sectionFilter).length;
     }
     return map;
-  }, [topicFilter, sectionFilter]);
+  }, [topicFilter, sectionFilter, visiblePool]);
 
   // Quick presets — common exam combos the user reaches for most.
   const presets: { label: string; topic: string | "ALL"; marks: MarksFilter; section: ExamQuestion["section"] | "ALL" }[] = [
@@ -750,8 +778,8 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
 
   // Personalised suggestions derived from session history.
   const suggestions = useMemo(
-    () => buildSuggestions(history, questionIndex),
-    [history],
+    () => buildSuggestions(history, visiblePool),
+    [history, visiblePool],
   );
 
   return (
