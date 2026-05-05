@@ -569,12 +569,20 @@ function QueuePanel({
   onClear,
   onAutoBuild,
   onStartFull,
+  autoPrefs,
+  onAutoPrefsChange,
+  s2TopicsAvailable,
+  s3TopicsAvailable,
 }: {
   items: ExamQuestion[];
   onRemove: (id: string) => void;
   onClear: () => void;
   onAutoBuild: () => void;
   onStartFull: () => void;
+  autoPrefs: AutoBuildPrefs;
+  onAutoPrefsChange: (next: AutoBuildPrefs) => void;
+  s2TopicsAvailable: string[];
+  s3TopicsAvailable: string[];
 }) {
   const totalMarks = items.reduce((s, q) => s + q.marks, 0);
   const totalMinutes = items.reduce((s, q) => s + q.timingMinutes, 0);
@@ -606,6 +614,124 @@ function QueuePanel({
         >
           <Wand2 className="h-3.5 w-3.5" /> Auto-build
         </Button>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-7 px-2 text-[11px] shrink-0"
+              title="Choose your auto-build preferences"
+            >
+              <Settings2 className="h-3.5 w-3.5" /> Preferences
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent align="end" className="w-80 p-4 space-y-4">
+            <div>
+              <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1.5">
+                Section 1
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {([
+                  ["Q1_120", "Q1 · 120m"],
+                  ["SHORT_60", "Short · 60m"],
+                  ["ANY", "Any"],
+                ] as const).map(([val, label]) => (
+                  <button
+                    key={val}
+                    onClick={() => onAutoPrefsChange({ ...autoPrefs, s1: val })}
+                    className={`px-2 py-1 rounded text-[11px] font-mono border transition-colors ${
+                      autoPrefs.s1 === val
+                        ? "bg-primary text-primary-foreground border-primary"
+                        : "bg-card text-muted-foreground border-border hover:border-primary/40"
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                  Section 2 — pick 2 topics
+                </div>
+                {autoPrefs.s2Topics.length > 0 && (
+                  <button
+                    onClick={() => onAutoPrefsChange({ ...autoPrefs, s2Topics: [] })}
+                    className="text-[10px] text-muted-foreground hover:text-destructive"
+                  >
+                    Reset
+                  </button>
+                )}
+              </div>
+              <p className="text-[10px] text-muted-foreground mb-1.5 leading-snug">
+                Empty = any 2 different topics. The builder will never pick the same topic twice.
+              </p>
+              <div className="flex flex-wrap gap-1.5">
+                {s2TopicsAvailable.map((t) => {
+                  const active = autoPrefs.s2Topics.includes(t);
+                  return (
+                    <button
+                      key={t}
+                      onClick={() => {
+                        const cur = autoPrefs.s2Topics;
+                        const next = active
+                          ? cur.filter((x) => x !== t)
+                          : [...cur, t].slice(-4); // keep allow-list small
+                        onAutoPrefsChange({ ...autoPrefs, s2Topics: next });
+                      }}
+                      className={`px-2 py-1 rounded text-[11px] font-display border transition-colors ${
+                        active
+                          ? "bg-primary text-primary-foreground border-primary"
+                          : "bg-card text-muted-foreground border-border hover:border-primary/40"
+                      }`}
+                    >
+                      {t}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div>
+              <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1.5">
+                Section 3
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {(["Costing", "Budgeting", "ANY"] as const).map((val) => {
+                  const disabled = val !== "ANY" && !s3TopicsAvailable.includes(val);
+                  return (
+                    <button
+                      key={val}
+                      disabled={disabled}
+                      onClick={() => onAutoPrefsChange({ ...autoPrefs, s3: val })}
+                      className={`px-2 py-1 rounded text-[11px] font-mono border transition-colors ${
+                        autoPrefs.s3 === val
+                          ? "bg-primary text-primary-foreground border-primary"
+                          : disabled
+                          ? "bg-muted text-muted-foreground/50 border-border cursor-not-allowed"
+                          : "bg-card text-muted-foreground border-border hover:border-primary/40"
+                      }`}
+                    >
+                      {val}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <label className="flex items-center gap-2 text-[11px] font-body text-muted-foreground cursor-pointer">
+              <input
+                type="checkbox"
+                checked={autoPrefs.preferRecent}
+                onChange={(e) => onAutoPrefsChange({ ...autoPrefs, preferRecent: e.target.checked })}
+                className="accent-primary"
+              />
+              Prefer most recent papers (uncheck for random selection)
+            </label>
+          </PopoverContent>
+        </Popover>
       </div>
 
       {items.length === 0 ? (
