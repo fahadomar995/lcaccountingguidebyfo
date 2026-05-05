@@ -18,6 +18,9 @@ export const PROGRESS_KEYS = [
   "lc-chapter-review",
   "lc-flash-srs-v1",
   "lc-flash-stats-v1",
+  "lc-flash-goal-settings-v1",
+  "lc-flash-goal-progress-v1",
+  "lc-flash-goal-presets-v1",
 ] as const;
 
 const SYNCED_FLAG = "lc-progress-synced-for";
