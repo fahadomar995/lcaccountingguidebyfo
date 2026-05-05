@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from "react";
-import { Pencil, Eraser, Undo2, Redo2, Grid3X3, Download, Trash2, GripHorizontal } from "lucide-react";
+import { Pencil, Eraser, Undo2, Redo2, Grid3X3, Download, Trash2, GripHorizontal, ChevronLeft, ChevronRight, Plus } from "lucide-react";
 
 const COLORS = ["#1a1d23", "#1e40af", "#dc2626", "#16a34a"];
 const THICKNESSES = [1.5, 2.5, 4];
@@ -7,13 +7,35 @@ const MIN_HEIGHT = 200;
 const MAX_HEIGHT_RATIO = 0.92;
 const DEFAULT_HEIGHT_RATIO = 0.6;
 
+const PAGES_KEY = "sp_pages";
+const PAGE_INDEX_KEY = "sp_page_index";
+const LEGACY_KEY = "sp_img";
+
+function loadPages(): string[] {
+  try {
+    const raw = localStorage.getItem(PAGES_KEY);
+    if (raw) {
+      const arr = JSON.parse(raw);
+      if (Array.isArray(arr) && arr.length > 0) return arr;
+    }
+    const legacy = localStorage.getItem(LEGACY_KEY);
+    if (legacy) return [legacy];
+  } catch {}
+  return [""];
+}
+
 export function Scratchpad() {
   const [isOpen, setIsOpen] = useState(false);
   const [tool, setTool] = useState<"pen" | "eraser">("pen");
   const [color, setColor] = useState(COLORS[0]);
   const [thickness, setThickness] = useState(2.5);
   const [gridMode, setGridMode] = useState<"none" | "grid" | "ruled">("none");
-  const [hasContent, setHasContent] = useState(() => !!localStorage.getItem("sp_img"));
+  const [pages, setPages] = useState<string[]>(() => loadPages());
+  const [pageIndex, setPageIndex] = useState<number>(() => {
+    const i = Number(localStorage.getItem(PAGE_INDEX_KEY));
+    return Number.isFinite(i) && i >= 0 ? i : 0;
+  });
+  const [hasContent, setHasContent] = useState(() => loadPages().some(p => !!p));
   const [history, setHistory] = useState<ImageData[]>([]);
   const [redoStack, setRedoStack] = useState<ImageData[]>([]);
   const [panelHeight, setPanelHeight] = useState(() => {
