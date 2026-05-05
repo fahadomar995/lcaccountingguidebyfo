@@ -13,6 +13,7 @@ import {
 import { toast } from "sonner";
 import TheoryLearnMode from "@/components/TheoryLearnMode";
 import FlashcardDeck from "@/components/FlashcardDeck";
+import DailyReviewGoal from "@/components/DailyReviewGoal";
 
 type Score = "got" | "partial" | "missed";
 const PAGE_SIZE = 20;
@@ -380,6 +381,11 @@ export default function TheoryPage() {
 
         {/* FLASHCARDS — Quizlet-style deck with per-card progress */}
         <TabsContent value="flashcards">
+          <DailyReviewGoal
+            allCards={THEORY_FLASHCARDS}
+            availableTopics={THEORY_TOPICS}
+            onJumpToDue={() => setFlashTopic("All")}
+          />
           <FilterBar topics={THEORY_TOPICS} active={flashTopic} onSelect={(t) => setFlashTopic(t)} />
           <FlashcardDeck cards={flashFiltered} />
         </TabsContent>
