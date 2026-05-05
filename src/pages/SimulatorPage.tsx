@@ -649,8 +649,8 @@ function QueuePanel({
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {([
-                  ["Q1_120", "Q1 · 120m"],
-                  ["SHORT_60", "Short · 60m"],
+                  ["Q1_120", "1 × 120m (Q1)"],
+                  ["SHORT_60", "2 × 60m (shorts)"],
                   ["ANY", "Any"],
                 ] as const).map(([val, label]) => (
                   <button
