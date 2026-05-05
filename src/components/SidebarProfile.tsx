@@ -25,11 +25,11 @@ export function SidebarProfile() {
     return (
       <button
         onClick={() => navigate("/auth")}
-        className="h-9 w-9 rounded-full mx-auto flex items-center justify-center bg-muted hover:bg-sidebar-accent transition-colors ring-1 ring-border"
+        className="h-7 w-7 rounded-full mx-auto flex items-center justify-center text-muted-foreground/70 hover:text-foreground hover:bg-sidebar-accent/40 transition-colors"
         aria-label="Sign in"
         title="Sign in"
       >
-        <LogIn className="h-4 w-4 text-muted-foreground" />
+        <UserIcon className="h-3.5 w-3.5" />
       </button>
     );
   }
@@ -41,13 +41,13 @@ export function SidebarProfile() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button
-          className="h-9 w-9 rounded-full mx-auto flex items-center justify-center hover:bg-sidebar-accent/50 transition-colors"
+          className="h-7 w-7 rounded-full mx-auto flex items-center justify-center hover:opacity-80 transition-opacity"
           aria-label={`Account: ${name}`}
           title={name}
         >
-          <Avatar className="h-9 w-9 shrink-0 ring-1 ring-border">
+          <Avatar className="h-7 w-7 shrink-0">
             {profile?.avatar_url && <AvatarImage src={profile.avatar_url} alt={name} />}
-            <AvatarFallback className="text-[11px] font-semibold bg-primary/10 text-primary">{initials}</AvatarFallback>
+            <AvatarFallback className="text-[10px] font-semibold bg-primary/10 text-primary">{initials}</AvatarFallback>
           </Avatar>
         </button>
       </DropdownMenuTrigger>
