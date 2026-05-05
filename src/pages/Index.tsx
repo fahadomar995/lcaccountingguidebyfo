@@ -5,6 +5,8 @@ import { RESULTS, SEC3_Q8_RESULTS, SEC3_Q9_RESULTS, tier } from "@/data/predicti
 import { THEORY_BANK, THEORY_FLASHCARDS } from "@/data/theory";
 import { CLASSIFY_ITEMS, LAYOUT_FORMATS } from "@/data/studyContent";
 import { useMemo } from "react";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { SIM_HISTORY_KEY, type HistoryEntry } from "@/lib/simulatorSuggestions";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { CHAPTERS } from "@/data/theoryChapters";
 import ExamSuggestionWidget from "@/components/ExamSuggestionWidget";
@@ -191,6 +193,16 @@ export default function Index() {
   const q8top = SEC3_Q8_RESULTS.slice(0, 3);
   const q9top = SEC3_Q9_RESULTS.slice(0, 3);
 
+  // Live exam-simulator stats from localStorage (synced via useLocalStorage)
+  const [simHistory] = useLocalStorage<HistoryEntry[]>(SIM_HISTORY_KEY, []);
+  const simStats = useMemo(() => {
+    const scored = simHistory.filter((h) => typeof h.percentage === "number");
+    const avg = scored.length
+      ? Math.round(scored.reduce((s, h) => s + (h.percentage || 0), 0) / scored.length)
+      : null;
+    return { attempted: simHistory.length, graded: scored.length, avg };
+  }, [simHistory]);
+
   return (
     <div className="max-w-[900px] mx-auto px-4 sm:px-7 py-8 pb-16">
       {/* Hero */}
@@ -214,6 +226,8 @@ export default function Index() {
               { label: "Flashcards", value: stats.flashcards },
               { label: "Classify", value: stats.classify },
               { label: "Practice", value: stats.tracker },
+              { label: "Sim Qs", value: String(simStats.attempted), title: `${simStats.graded} graded` },
+              { label: "Sim Avg", value: simStats.avg == null ? "—" : `${simStats.avg}%`, title: "Average % across graded simulator attempts" },
             ].map(item => (
               <div key={item.label} className="text-center min-w-[70px]" title={(item as any).title}>
                 <div className="font-mono text-xl font-bold text-primary">{item.value}</div>
