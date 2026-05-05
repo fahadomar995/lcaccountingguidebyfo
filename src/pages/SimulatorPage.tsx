@@ -3,7 +3,7 @@ import {
   Clock, ExternalLink, Play, Pause, Check, AlertCircle,
   ChevronDown, ChevronUp, RotateCcw, Square,
   ZoomIn, ZoomOut, Maximize2, Minimize2, Eye, EyeOff, Flag, Award, TrendingUp,
-  Plus, X, Lightbulb, Filter, BookOpen, PenSquare, Sparkles,
+  Plus, X, Lightbulb, Filter, BookOpen, PenSquare, Sparkles, SlidersHorizontal,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,12 +14,14 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { useSidebar } from "@/components/ui/sidebar";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { setExamGuard, SIDEBAR_TOGGLE_SENTINEL } from "@/lib/examGuard";
 import {
   questionIndex, filterQuestions, uniqueTopics, type ExamQuestion,
 } from "@/data/questionIndex";
 import { buildSuggestions, type Suggestion } from "@/lib/simulatorSuggestions";
+import { useTopicPreferences } from "@/hooks/useTopicPreferences";
+import { chaptersForExamTopic, isExamTopicExcluded } from "@/lib/examTopicChapters";
 
 type Stage = "select" | "active" | "results";
 type MarksFilter = ExamQuestion["marks"] | "ALL";
