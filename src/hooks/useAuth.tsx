@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import type { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
+import { syncProgressOnSignIn } from "@/lib/progressSync";
 
 interface AuthCtx {
   user: User | null;
@@ -21,11 +22,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, sess) => {
       setSession(sess);
       setUser(sess?.user ?? null);
+      if (sess?.user) {
+        // Defer to avoid blocking the auth callback
+        setTimeout(() => syncProgressOnSignIn(sess.user.id), 0);
+      }
     });
     supabase.auth.getSession().then(({ data: { session: sess } }) => {
       setSession(sess);
       setUser(sess?.user ?? null);
       setLoading(false);
+      if (sess?.user) {
+        setTimeout(() => syncProgressOnSignIn(sess.user.id), 0);
+      }
     });
     return () => subscription.unsubscribe();
   }, []);
