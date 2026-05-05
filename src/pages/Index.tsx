@@ -8,6 +8,7 @@ import { useMemo } from "react";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { CHAPTERS } from "@/data/theoryChapters";
 import ExamSuggestionWidget from "@/components/ExamSuggestionWidget";
+import SimulatorProgressWidget from "@/components/SimulatorProgressWidget";
 import { useStreak, usePingStreak } from "@/hooks/useStreak";
 
 function useDashboardStats() {
@@ -246,6 +247,9 @@ export default function Index() {
 
       {/* Exam simulator reminder — same prioritisation as the simulator's Suggested-for-you card */}
       <ExamSuggestionWidget />
+
+      {/* Exam simulator progress — attempts, average, best topic, recent runs */}
+      <SimulatorProgressWidget />
 
       {/* Tool Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">

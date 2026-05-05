@@ -1955,8 +1955,8 @@ export const REVIEW_BANK: Record<number, ReviewItem[]> = {
     {
       id: 'r13-05', chapterId: 13, sectionId: '13.2', type: 'mcq',
       prompt: 'Subscriptions received €24,000. Arrears: start €1,200, end €1,800. Prepaid: start €400, end €600. What is subscription income for I&E?',
-      itemData: { type: 'mcq', data: { options: ['€24,000', '€24,800', '€23,200', '€25,000'], correctIndex: 1 } },
-      explanation: 'Income = Cash + Arrears end − Arrears start − Prepaid end + Prepaid start = €24,000 + €1,800 − €1,200 − €600 + €400 = €24,800 (or use the T-account balancing figure).',
+      itemData: { type: 'mcq', data: { options: ['€24,000', '€24,400', '€23,600', '€25,000'], correctIndex: 1 } },
+      explanation: 'Income = Cash + Arrears end − Arrears start − Prepaid end + Prepaid start = €24,000 + €1,800 − €1,200 − €600 + €400 = €24,400 (or use the T-account balancing figure).',
       sectionLink: '13.2.1',
     },
     {
