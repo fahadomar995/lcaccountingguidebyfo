@@ -70,7 +70,7 @@ export async function syncProgressOnSignIn(userId: string): Promise<void> {
     (remoteRows || []).forEach((r: any) => remote.set(r.key, r.value));
 
     // 2. For each known key, merge local + remote and write back both stores
-    const upserts: { user_id: string; key: string; value: unknown }[] = [];
+    const upserts: { user_id: string; key: string; value: any }[] = [];
     for (const key of PROGRESS_KEYS) {
       const local = safeParse(localStorage.getItem(key));
       const cloud = remote.get(key) ?? null;
