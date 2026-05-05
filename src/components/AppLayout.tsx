@@ -3,6 +3,7 @@ import { AppSidebar } from "@/components/AppSidebar";
 import { Scratchpad } from "@/components/Scratchpad";
 import { useLocation } from "react-router-dom";
 import { requestExamNavigation, SIDEBAR_TOGGLE_SENTINEL } from "@/lib/examGuard";
+import { useProgressAutoSync } from "@/hooks/useProgressAutoSync";
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -10,6 +11,7 @@ interface AppLayoutProps {
 
 export function AppLayout({ children }: AppLayoutProps) {
   const location = useLocation();
+  useProgressAutoSync();
 
   const handleTriggerClick = (e: React.MouseEvent) => {
     if (location.pathname === "/simulator" && requestExamNavigation(SIDEBAR_TOGGLE_SENTINEL)) {
