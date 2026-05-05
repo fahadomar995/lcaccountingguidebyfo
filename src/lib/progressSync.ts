@@ -13,18 +13,23 @@ export const PROGRESS_KEYS = [
   "lc-classify-best",
   "lc-practice-tracker",
   "lc-learn-progress",
+  "lc-learn-progress-v2",
   "lc-streak-v1",
   "lc-topic-preferences-v1",
   "lc-chapter-review",
+  "lc-review-timestamps",
   "lc-flash-srs-v1",
   "lc-flash-stats-v1",
   "lc-flash-goal-settings-v1",
   "lc-flash-goal-progress-v1",
   "lc-flash-goal-presets-v1",
   "lca_simulator_history",
+  "lca_simulator_mistakes",
+  "lca_simulator_autobuild_prefs_v1",
+  "lca_simulator_respect_prefs",
 ] as const;
 
-const SYNCED_FLAG = "lc-progress-synced-for";
+const SYNCED_FLAG = "lc-progress-synced-for-v2";
 
 function safeParse(raw: string | null): unknown {
   if (raw == null) return null;
@@ -41,6 +46,15 @@ function merge(key: string, local: unknown, cloud: unknown): unknown {
 
   if (key === "lc-classify-best") {
     return Math.max(Number(local) || 0, Number(cloud) || 0);
+  }
+  // Merge mistake arrays by id
+  if (key === "lca_simulator_mistakes" && Array.isArray(local) && Array.isArray(cloud)) {
+    const map = new Map<string, any>();
+    [...(cloud as any[]), ...(local as any[])].forEach((m) => {
+      const k = m?.id ?? JSON.stringify(m);
+      map.set(k, m);
+    });
+    return Array.from(map.values());
   }
   if (key === "lca_simulator_history" && Array.isArray(local) && Array.isArray(cloud)) {
     const map = new Map<string, any>();
