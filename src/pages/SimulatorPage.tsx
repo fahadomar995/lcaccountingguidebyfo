@@ -1385,13 +1385,13 @@ function SelectStage({
       />
 
       {/* ── Mark progress tracker ── */}
-      {scored.length > 0 && (
+      {(scored.length > 0 || history.length > 0) && (
         <div className="mb-8 bg-card border border-border rounded-lg p-5 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
             <Award className="h-4 w-4 text-primary" />
             <h2 className="font-display text-base font-semibold text-foreground">Your progress</h2>
             <span className="ml-auto text-[11px] font-mono text-muted-foreground">
-              {scored.length} graded {scored.length === 1 ? "question" : "questions"}
+              {history.length} attempted · {scored.length} graded
             </span>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
@@ -1404,7 +1404,7 @@ function SelectStage({
               <div className={`font-mono text-2xl ${avgPct >= 70 ? "text-green-700" : avgPct >= 50 ? "text-amber-600" : "text-red-600"}`}>{avgPct}%</div>
             </div>
             <div>
-              <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-0.5">Sessions</div>
+              <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-0.5">Questions done</div>
               <div className="font-mono text-2xl text-foreground">{history.length}</div>
             </div>
             <div>
@@ -1427,6 +1427,39 @@ function SelectStage({
                 <span className="text-[11px] font-mono text-muted-foreground w-20 text-right">
                   {s.best}% · {s.attempts}×
                 </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* ── Mistakes logger overview ── */}
+      {mistakes.length > 0 && (
+        <div className="mb-8 bg-card border border-border rounded-lg p-5 shadow-sm">
+          <div className="flex items-center gap-2 mb-3">
+            <AlertCircle className="h-4 w-4 text-amber-600" />
+            <h2 className="font-display text-base font-semibold text-foreground">Mistakes logged</h2>
+            <span className="ml-auto text-[11px] font-mono text-muted-foreground">
+              {mistakes.length} across {new Set(mistakes.map((m) => m.topic)).size} topic{new Set(mistakes.map((m) => m.topic)).size === 1 ? "" : "s"}
+            </span>
+          </div>
+          <div className="max-h-64 overflow-y-auto divide-y divide-border/60">
+            {mistakes.slice(0, 30).map((m) => (
+              <div key={m.id} className="py-2 flex items-start gap-3">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-primary w-32 shrink-0 pt-0.5 truncate">
+                  {m.topic}
+                </span>
+                <p className="flex-1 text-sm text-foreground font-body leading-snug">{m.text}</p>
+                <span className="text-[10px] font-mono text-muted-foreground shrink-0 pt-0.5">
+                  {new Date(m.createdAt).toLocaleDateString()}
+                </span>
+                <button
+                  onClick={() => setMistakes((prev) => prev.filter((x) => x.id !== m.id))}
+                  className="text-muted-foreground hover:text-destructive transition-colors shrink-0"
+                  aria-label="Remove mistake"
+                >
+                  <Trash2 className="h-3.5 w-3.5" />
+                </button>
               </div>
             ))}
           </div>
