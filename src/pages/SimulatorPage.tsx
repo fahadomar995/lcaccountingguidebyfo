@@ -832,6 +832,12 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
     return Object.entries(map).sort((a, b) => b[1].best - a[1].best);
   }, [scored]);
 
+  // Personalised suggestions derived from session history.
+  const suggestions = useMemo(
+    () => buildSuggestions(history, questionIndex),
+    [history],
+  );
+
   return (
     <div className="max-w-[1200px] mx-auto px-4 sm:px-7 py-8 pb-16">
       <div className="flex items-start justify-between gap-4 mb-2">
@@ -934,6 +940,9 @@ function SelectStage({ onStart }: { onStart: (q: ExamQuestion) => void }) {
 
       {/* Quick presets */}
       <div className="mb-4">
+        {suggestions.length > 0 && (
+          <SuggestionsCard suggestions={suggestions} onStart={onStart} />
+        )}
         <div className="flex items-center justify-between mb-2">
           <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Quick presets</div>
           {filtersActive && (
