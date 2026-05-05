@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
-import { ArrowLeft, SlidersHorizontal, Star, Minus, ChevronsDown, Ban } from "lucide-react";
+import { ArrowLeft, SlidersHorizontal, Star, Minus, ChevronsDown, Ban, Pencil } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { groupTopicsByBlock } from "@/data/topicTaxonomy";
 import { useTopicPreferences, type TopicPriority } from "@/hooks/useTopicPreferences";
 import { useAuth } from "@/hooks/useAuth";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { cn } from "@/lib/utils";
 
 const OPTIONS: { value: TopicPriority; label: string; icon: any; cls: string }[] = [
@@ -19,6 +20,7 @@ export default function PreferencesPage() {
   const { user } = useAuth();
   const { get, setPriority, loading } = useTopicPreferences();
   const groups = groupTopicsByBlock();
+  const [scratchpadVisible, setScratchpadVisible] = useLocalStorage<boolean>("lca_scratchpad_visible", true);
 
   return (
     <div className="max-w-[960px] mx-auto px-4 sm:px-7 py-8 pb-16">
@@ -47,6 +49,28 @@ export default function PreferencesPage() {
           </CardContent>
         </Card>
       )}
+
+      <Card className="mb-6">
+        <CardContent className="p-4 flex items-center gap-3">
+          <span className="h-8 w-8 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
+            <Pencil className="h-4 w-4" />
+          </span>
+          <div className="flex-1 min-w-0">
+            <div className="text-sm font-semibold">Scratchpad pen</div>
+            <p className="text-xs text-muted-foreground leading-snug">
+              Show or hide the floating pen / scratchpad button across the app.
+            </p>
+          </div>
+          <Button
+            size="sm"
+            variant={scratchpadVisible ? "default" : "outline"}
+            onClick={() => setScratchpadVisible(!scratchpadVisible)}
+            className={scratchpadVisible ? "bg-primary text-primary-foreground hover:bg-primary/90" : ""}
+          >
+            {scratchpadVisible ? "Visible" : "Hidden"}
+          </Button>
+        </CardContent>
+      </Card>
 
       {loading ? (
         <p className="text-sm text-muted-foreground">Loading…</p>
