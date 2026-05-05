@@ -16,7 +16,7 @@ export function useProgressAutoSync() {
     // Seed cache with current values so we don't push on first tick
     PROGRESS_KEYS.forEach((k) => { last.current[k] = localStorage.getItem(k) ?? ""; });
 
-    const id = window.setInterval(() => {
+    const flush = () => {
       for (const key of PROGRESS_KEYS) {
         const cur = localStorage.getItem(key) ?? "";
         if (cur !== last.current[key]) {
@@ -27,8 +27,20 @@ export function useProgressAutoSync() {
           pushProgress(user.id, key, parsed);
         }
       }
-    }, 5000);
+    };
 
-    return () => window.clearInterval(id);
+    const id = window.setInterval(flush, 5000);
+    const onVis = () => { if (document.visibilityState === "hidden") flush(); };
+    window.addEventListener("visibilitychange", onVis);
+    window.addEventListener("beforeunload", flush);
+    window.addEventListener("storage", flush);
+
+    return () => {
+      window.clearInterval(id);
+      window.removeEventListener("visibilitychange", onVis);
+      window.removeEventListener("beforeunload", flush);
+      window.removeEventListener("storage", flush);
+      flush();
+    };
   }, [user]);
 }
