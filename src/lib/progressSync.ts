@@ -29,7 +29,7 @@ export const PROGRESS_KEYS = [
   "lca_simulator_respect_prefs",
 ] as const;
 
-const SYNCED_FLAG = "lc-progress-synced-for";
+const SYNCED_FLAG = "lc-progress-synced-for-v2";
 
 function safeParse(raw: string | null): unknown {
   if (raw == null) return null;
