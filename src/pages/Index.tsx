@@ -244,6 +244,9 @@ export default function Index() {
         </Link>
       )}
 
+      {/* Exam simulator reminder — same prioritisation as the simulator's Suggested-for-you card */}
+      <ExamSuggestionWidget />
+
       {/* Tool Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
         {TOOLS.map(tool => (
