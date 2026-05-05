@@ -649,8 +649,8 @@ function QueuePanel({
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {([
-                  ["Q1_120", "Q1 · 120m"],
-                  ["SHORT_60", "Short · 60m"],
+                  ["Q1_120", "1 × 120m (Q1)"],
+                  ["SHORT_60", "2 × 60m (shorts)"],
                   ["ANY", "Any"],
                 ] as const).map(([val, label]) => (
                   <button
@@ -2271,12 +2271,16 @@ function FullExamResults({
   totalSeconds,
   onAnother,
   onBackToList,
+  onSaveMark,
+  marksByQ,
 }: {
   questions: ExamQuestion[];
   perQ: Record<string, number>;
   totalSeconds: number;
   onAnother: () => void;
   onBackToList: () => void;
+  onSaveMark: (questionId: string, earned: number) => void;
+  marksByQ: Record<string, number>;
 }) {
   const totalMarks = questions.reduce((s, q) => s + q.marks, 0);
   const fmt = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
@@ -2285,42 +2289,83 @@ function FullExamResults({
     const m = Math.floor((s % 3600) / 60);
     return `${h}h ${m}m`;
   };
+  const [openId, setOpenId] = useState<string | null>(null);
+  const totalEarned = questions.reduce((s, q) => s + (marksByQ[q.id] ?? 0), 0);
+  const gradedCount = questions.filter((q) => marksByQ[q.id] != null).length;
+  const overallPct = totalMarks > 0 ? Math.round((totalEarned / totalMarks) * 100) : 0;
   return (
     <div className="max-w-[1000px] mx-auto px-4 sm:px-7 py-8 pb-16">
       <h2 className="font-display text-3xl font-bold text-foreground mb-2">3-hour mock — complete</h2>
       <p className="text-sm text-muted-foreground font-body mb-6">
         Total time on the clock: <span className="font-mono text-foreground">{fmtH(totalSeconds)}</span> ·
         attempted {questions.length} question{questions.length === 1 ? "" : "s"} worth <span className="font-mono">{totalMarks} marks</span>.
-        Open each question's marking scheme below to grade yourself.
+        Click a question below to open its marking scheme, record your mark and log mistakes — same flow as a one-off question.
       </p>
+
+      {gradedCount > 0 && (
+        <div className="mb-6 bg-card border border-border rounded-lg p-4 grid grid-cols-3 gap-4">
+          <div>
+            <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1">Marks earned</div>
+            <div className="font-mono text-2xl text-primary">{totalEarned}<span className="text-muted-foreground text-base"> / {totalMarks}</span></div>
+          </div>
+          <div>
+            <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1">Overall %</div>
+            <div className={`font-mono text-2xl ${overallPct >= 70 ? "text-green-700" : overallPct >= 50 ? "text-amber-600" : "text-red-600"}`}>{overallPct}%</div>
+          </div>
+          <div>
+            <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1">Graded</div>
+            <div className="font-mono text-2xl text-foreground">{gradedCount}<span className="text-muted-foreground text-base"> / {questions.length}</span></div>
+          </div>
+        </div>
+      )}
+
       <div className="space-y-3">
         {questions.map((q) => {
           const spent = perQ[q.id] ?? 0;
           const target = q.timingMinutes * 60;
           const within = spent <= target;
+          const earned = marksByQ[q.id];
+          const graded = earned != null;
+          const pct = graded ? Math.round((earned / q.marks) * 100) : 0;
+          const isOpen = openId === q.id;
           return (
-            <div key={q.id} className="bg-card border border-border rounded-lg p-4 flex flex-wrap items-center gap-3">
-              <div className="min-w-0 flex-1">
-                <div className="font-display text-sm font-semibold text-foreground truncate">
-                  {q.year} · Q{q.questionNumber} · {q.subtopic}
+            <div key={q.id} className="bg-card border border-border rounded-lg overflow-hidden">
+              <button
+                onClick={() => setOpenId(isOpen ? null : q.id)}
+                className="w-full p-4 flex flex-wrap items-center gap-3 text-left hover:bg-muted/40 transition-colors"
+              >
+                <div className="min-w-0 flex-1">
+                  <div className="font-display text-sm font-semibold text-foreground truncate">
+                    {q.year} · Q{q.questionNumber} · {q.subtopic}
+                  </div>
+                  <div className="text-[11px] text-muted-foreground font-body">{q.topic} · Section {q.section} · {q.marks} marks</div>
                 </div>
-                <div className="text-[11px] text-muted-foreground font-body">{q.topic} · Section {q.section} · {q.marks} marks</div>
-              </div>
-              <div className="font-mono text-xs">
-                <span className={within ? "text-green-700" : "text-amber-600"}>{fmt(spent)}</span>
-                <span className="text-muted-foreground"> / {q.timingMinutes}:00</span>
-              </div>
-              {q.markingSchemeUrl ? (
-                <a
-                  href={`${q.markingSchemeUrl}#page=${q.markingSchemePage}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs text-primary hover:underline"
-                >
-                  <ExternalLink className="h-3.5 w-3.5" /> Marking scheme
-                </a>
-              ) : (
-                <span className="text-[11px] italic text-muted-foreground">Mock scheme</span>
+                <div className="font-mono text-xs">
+                  <span className={within ? "text-green-700" : "text-amber-600"}>{fmt(spent)}</span>
+                  <span className="text-muted-foreground"> / {q.timingMinutes}:00</span>
+                </div>
+                {graded ? (
+                  <span className={`font-mono text-xs font-semibold px-2 py-0.5 rounded border ${
+                    pct >= 70 ? "text-green-700 border-green-300 bg-green-50"
+                    : pct >= 50 ? "text-amber-700 border-amber-300 bg-amber-50"
+                    : "text-red-700 border-red-300 bg-red-50"
+                  }`}>
+                    {earned}/{q.marks} · {pct}%
+                  </span>
+                ) : (
+                  <span className="text-[11px] italic text-muted-foreground">Not graded</span>
+                )}
+                {isOpen ? <ChevronUp className="h-4 w-4 text-muted-foreground" /> : <ChevronDown className="h-4 w-4 text-muted-foreground" />}
+              </button>
+
+              {isOpen && (
+                <div className="border-t border-border p-4 space-y-4 bg-background/50">
+                  <FullExamPerQuestionPanel
+                    question={q}
+                    savedMark={earned}
+                    onSave={(m) => onSaveMark(q.id, m)}
+                  />
+                </div>
               )}
             </div>
           );
@@ -2331,6 +2376,87 @@ function FullExamResults({
         <Button variant="outline" onClick={onAnother}><Wand2 className="h-4 w-4" /> Auto-build another paper</Button>
       </div>
     </div>
+  );
+}
+
+/**
+ * Per-question expandable panel inside FullExamResults — mirrors the
+ * single-question results screen: mark entry, mistake tracker, and the
+ * SEC marking scheme imagery.
+ */
+function FullExamPerQuestionPanel({
+  question, savedMark, onSave,
+}: {
+  question: ExamQuestion;
+  savedMark?: number;
+  onSave: (earned: number) => void;
+}) {
+  const [markInput, setMarkInput] = useState<string>(savedMark != null ? String(savedMark) : "");
+  const [saved, setSaved] = useState<boolean>(savedMark != null);
+  const parsed = parseInt(markInput, 10);
+  const validMark = !isNaN(parsed) && parsed >= 0 && parsed <= question.marks;
+  const pct = validMark ? Math.round((parsed / question.marks) * 100) : 0;
+  return (
+    <>
+      <div className="bg-card border border-border rounded-lg p-4">
+        <div className="flex items-center gap-2 mb-2">
+          <Award className="h-4 w-4 text-primary" />
+          <h4 className="font-display text-sm font-semibold text-foreground">Record your mark</h4>
+          {saved && <span className="ml-2 text-[11px] font-mono text-green-700 inline-flex items-center gap-1"><Check className="h-3 w-3" /> saved</span>}
+        </div>
+        <div className="flex flex-wrap items-center gap-3">
+          <Input
+            type="number"
+            min={0}
+            max={question.marks}
+            value={markInput}
+            onChange={(e) => { setMarkInput(e.target.value); setSaved(false); }}
+            className="w-24 font-mono"
+            placeholder="0"
+          />
+          <span className="text-sm font-mono text-muted-foreground">/ {question.marks} marks</span>
+          {validMark && (
+            <span className={`font-mono text-sm font-semibold ${pct >= 70 ? "text-green-700" : pct >= 50 ? "text-amber-600" : "text-red-600"}`}>
+              {pct}%
+            </span>
+          )}
+          <Button
+            size="sm"
+            onClick={() => { if (validMark) { onSave(parsed); setSaved(true); } }}
+            disabled={!validMark || saved}
+            className="bg-primary hover:bg-primary/90 text-primary-foreground"
+          >
+            <TrendingUp className="h-4 w-4" /> {saved ? "Update saved" : "Save to progress"}
+          </Button>
+        </div>
+      </div>
+
+      <MistakeTracker topic={question.topic} questionId={question.id} mode="editor" />
+
+      <div>
+        <h4 className="font-display text-sm font-semibold text-foreground mb-2">
+          Official SEC Marking Scheme — {question.year} Q{question.questionNumber}
+        </h4>
+        <ScreenshotPageView
+          sources={Array.from({ length: question.markingPageCount }, (_, i) =>
+            getSimulatorImageSrc(question.id, "marking", i + 1),
+          )}
+          zoom={1.4}
+          fitToWidth={true}
+          title={`${question.year} Q${question.questionNumber} marking scheme`}
+        />
+        {question.markingSchemeUrl && (
+          <a
+            href={`${question.markingSchemeUrl}#page=${question.markingSchemePage}`}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1.5 text-xs font-body text-primary hover:underline mt-2"
+          >
+            <ExternalLink className="h-3.5 w-3.5" /> Open marking scheme in new tab
+          </a>
+        )}
+      </div>
+    </>
   );
 }
 
@@ -2507,6 +2633,7 @@ export default function SimulatorPage() {
   const [fullExamQuestions, setFullExamQuestions] = useState<ExamQuestion[]>([]);
   const [fullExamPerQ, setFullExamPerQ] = useState<Record<string, number>>({});
   const [fullExamTotal, setFullExamTotal] = useState(0);
+  const [fullExamMarks, setFullExamMarks] = useState<Record<string, number>>({});
 
   // Register a guard while an exam is in-progress so sidebar / other
   // nav sources can prompt the abandon dialog instead of silently leaving.
@@ -2686,7 +2813,26 @@ export default function SimulatorPage() {
           onFinish={(perQ, total) => {
             setFullExamPerQ(perQ);
             setFullExamTotal(total);
+            setFullExamMarks({});
             setResumeFullInitial(null);
+            // Log each attempted question into history (un-graded for now)
+            const completedAt = new Date().toISOString();
+            setHistory((prev) => {
+              const additions: HistoryEntry[] = fullExamQuestions
+                .filter((q) => (perQ[q.id] ?? 0) > 0)
+                .map((q, idx) => ({
+                  id: q.id,
+                  year: q.year,
+                  topic: q.topic,
+                  subtopic: q.subtopic,
+                  marks: q.marks,
+                  targetMinutes: q.timingMinutes,
+                  actualSeconds: perQ[q.id] ?? 0,
+                  completedAt: new Date(Date.parse(completedAt) + idx).toISOString(),
+                  withinTarget: (perQ[q.id] ?? 0) <= q.timingMinutes * 60,
+                }));
+              return [...additions, ...prev].slice(0, 100);
+            });
             setStage("full-exam-results");
             window.scrollTo({ top: 0, behavior: "smooth" });
           }}
@@ -2731,6 +2877,24 @@ export default function SimulatorPage() {
         questions={fullExamQuestions}
         perQ={fullExamPerQ}
         totalSeconds={fullExamTotal}
+        marksByQ={fullExamMarks}
+        onSaveMark={(qid, earned) => {
+          setFullExamMarks((prev) => ({ ...prev, [qid]: earned }));
+          const q = fullExamQuestions.find((x) => x.id === qid);
+          if (!q) return;
+          const pct = Math.round((earned / q.marks) * 100);
+          // Update the most recent matching history entry for this question
+          setHistory((prev) => {
+            let updated = false;
+            return prev.map((h) => {
+              if (!updated && h.id === qid) {
+                updated = true;
+                return { ...h, marksEarned: earned, percentage: pct };
+              }
+              return h;
+            });
+          });
+        }}
         onAnother={() => {
           // Convenience: jump back to list with auto-build button surfaced
           setStage("select");
