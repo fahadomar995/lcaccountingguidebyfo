@@ -789,6 +789,15 @@ function QueuePanel({
             </Button>
             <Button
               size="sm"
+              variant="outline"
+              onClick={onAutoBuild}
+              className="h-7 px-2 text-[11px]"
+              title="Reroll: replace the queue with a fresh randomised pick that respects your preferences."
+            >
+              <RotateCcw className="h-3.5 w-3.5" /> Reroll
+            </Button>
+            <Button
+              size="sm"
               onClick={onStartFull}
               disabled={items.length === 0}
               className="h-7 px-3 text-[11px] bg-primary hover:bg-primary/90 text-primary-foreground"
