@@ -1479,21 +1479,24 @@ function buildCheckpoints(marks: number) {
 }
 
 function ActiveStage({
-  question, onSubmit, onAbandon,
+  question, onSubmit, onAbandon, onSaveSession, onClearSession, initial,
 }: {
   question: ExamQuestion;
   onSubmit: (actualSeconds: number) => void;
   onAbandon: () => void;
+  onSaveSession: (s: SavedSession) => void;
+  onClearSession: () => void;
+  initial?: { remaining: number; elapsed: number; paused: boolean; startedAt: string } | null;
 }) {
   const totalSeconds = question.timingMinutes * 60;
-  const [remaining, setRemaining] = useState(totalSeconds);
-  const [paused, setPaused] = useState(false);
+  const [remaining, setRemaining] = useState(initial?.remaining ?? totalSeconds);
+  const [paused, setPaused] = useState(initial?.paused ?? false);
   const [confirmAbandon, setConfirmAbandon] = useState(false);
   const [zoom, setZoom] = useState(1.7);
   const [fitMode, setFitMode] = useState(true);
   const [readingMode, setReadingMode] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const startedAt = useRef<Date>(new Date());
+  const startedAt = useRef<Date>(initial?.startedAt ? new Date(initial.startedAt) : new Date());
   const checkpoints = useMemo(() => buildCheckpoints(question.marks), [question.marks]);
   const questionSources = useMemo(() => {
     return Array.from({ length: question.paperPageCount }, (_, i) =>
@@ -1526,6 +1529,27 @@ function ActiveStage({
   }, [paused]);
 
   const elapsed = totalSeconds - remaining;
+
+  // Persist progress every tick + on pause so the user can return after a tab close.
+  useEffect(() => {
+    onSaveSession({
+      questionId: question.id,
+      remaining,
+      elapsed,
+      paused,
+      startedAt: startedAt.current.toISOString(),
+      savedAt: new Date().toISOString(),
+    });
+  }, [remaining, paused, question.id, elapsed, onSaveSession]);
+
+  const handleSubmitClear = useCallback(() => {
+    onClearSession();
+    onSubmit(elapsed);
+  }, [onClearSession, onSubmit, elapsed]);
+  const handleAbandonClear = useCallback(() => {
+    onClearSession();
+    onAbandon();
+  }, [onClearSession, onAbandon]);
   const pct = remaining / totalSeconds; // 1 → 0
   const elapsedPct = 1 - pct;
   // Mark progress = elapsed time mapped onto marks earned at recommended pace.
@@ -1546,7 +1570,7 @@ function ActiveStage({
   const circ = 2 * Math.PI * 70;
   const offset = circ * (1 - pct);
 
-  const handleSubmit = useCallback(() => onSubmit(elapsed), [onSubmit, elapsed]);
+  const handleSubmit = handleSubmitClear;
 
   // Zoom controls
   const zoomIn  = () => { setFitMode(false); setZoom((z) => Math.min(3.0, +(z + 0.2).toFixed(2))); };
@@ -1789,7 +1813,7 @@ function ActiveStage({
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Keep Going</AlertDialogCancel>
-            <AlertDialogAction onClick={onAbandon}>Abandon</AlertDialogAction>
+            <AlertDialogAction onClick={handleAbandonClear}>Abandon</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
