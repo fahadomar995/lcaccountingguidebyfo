@@ -1822,6 +1822,320 @@ function ActiveStage({
 }
 
 // ─────────────────────────────────────────
+//  STAGE 2b — FULL EXAM (3-hour mock)
+// ─────────────────────────────────────────
+/**
+ * Walks the candidate through their queued questions on a single shared
+ * 180-minute timer. We:
+ *  - render the current question's pages with the same viewer used for the
+ *    single-question flow
+ *  - persist the queue + remaining clock + per-question elapsed counts to
+ *    localStorage every tick so a tab close doesn't lose the session
+ *  - allow Pause / Continue and Next-question navigation
+ *  - finish either when the user hits "Finish exam" or when the clock hits 0
+ */
+function FullExamStage({
+  questions,
+  onFinish,
+  onAbandon,
+  onSave,
+  onClear,
+  initial,
+}: {
+  questions: ExamQuestion[];
+  onFinish: (perQuestionElapsed: Record<string, number>, totalSeconds: number) => void;
+  onAbandon: () => void;
+  onSave: (s: SavedFullExam) => void;
+  onClear: () => void;
+  initial?: { totalRemaining: number; currentIndex: number; perQuestionElapsed: Record<string, number>; paused: boolean; startedAt: string } | null;
+}) {
+  const [totalRemaining, setTotalRemaining] = useState(initial?.totalRemaining ?? FULL_EXAM_TOTAL_SECONDS);
+  const [currentIndex, setCurrentIndex] = useState(initial?.currentIndex ?? 0);
+  const [paused, setPaused] = useState(initial?.paused ?? false);
+  const [perQ, setPerQ] = useState<Record<string, number>>(initial?.perQuestionElapsed ?? {});
+  const [confirmAbandon, setConfirmAbandon] = useState(false);
+  const [zoom, setZoom] = useState(1.4);
+  const [fitMode, setFitMode] = useState(true);
+  const startedAt = useRef<Date>(initial?.startedAt ? new Date(initial.startedAt) : new Date());
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const current = questions[currentIndex];
+  const sources = useMemo(() => {
+    if (!current) return [];
+    return Array.from({ length: current.paperPageCount }, (_, i) =>
+      getSimulatorImageSrc(current.id, "question", i + 1),
+    );
+  }, [current]);
+
+  // Preload nearest neighbours so question-switching feels instant.
+  useEffect(() => {
+    [-1, 0, 1].forEach((delta) => {
+      const q = questions[currentIndex + delta];
+      if (!q) return;
+      for (let i = 1; i <= q.paperPageCount; i++) preloadImage(getSimulatorImageSrc(q.id, "question", i));
+    });
+  }, [currentIndex, questions]);
+
+  // Tick the shared clock and the per-question elapsed counter.
+  useEffect(() => {
+    if (paused) {
+      if (intervalRef.current) { clearInterval(intervalRef.current); intervalRef.current = null; }
+      return;
+    }
+    intervalRef.current = setInterval(() => {
+      setTotalRemaining((r) => Math.max(0, r - 1));
+      setPerQ((prev) => current ? { ...prev, [current.id]: (prev[current.id] ?? 0) + 1 } : prev);
+    }, 1000);
+    return () => {
+      if (intervalRef.current) { clearInterval(intervalRef.current); intervalRef.current = null; }
+    };
+  }, [paused, current]);
+
+  // Persist every tick.
+  useEffect(() => {
+    onSave({
+      questionIds: questions.map((q) => q.id),
+      currentIndex,
+      totalRemaining,
+      perQuestionElapsed: perQ,
+      paused,
+      startedAt: startedAt.current.toISOString(),
+      savedAt: new Date().toISOString(),
+    });
+  }, [questions, currentIndex, totalRemaining, perQ, paused, onSave]);
+
+  const expired = totalRemaining === 0;
+  const totalElapsed = FULL_EXAM_TOTAL_SECONDS - totalRemaining;
+  const fmtClock = (s: number) => {
+    const h = Math.floor(s / 3600);
+    const m = Math.floor((s % 3600) / 60);
+    const ss = s % 60;
+    return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(ss).padStart(2, "0")}`;
+  };
+  const remainingPct = totalRemaining / FULL_EXAM_TOTAL_SECONDS;
+
+  const handleFinish = useCallback(() => {
+    onClear();
+    onFinish(perQ, totalElapsed);
+  }, [onClear, onFinish, perQ, totalElapsed]);
+  const handleAbandonClear = useCallback(() => { onClear(); onAbandon(); }, [onClear, onAbandon]);
+
+  if (!current) {
+    // Empty queue safety net — shouldn't happen because Start is gated on items.length > 0.
+    return (
+      <div className="max-w-[600px] mx-auto p-8 text-center">
+        <p className="text-sm text-muted-foreground">Queue is empty. Add some questions and try again.</p>
+        <Button className="mt-4" onClick={onAbandon}>Back</Button>
+      </div>
+    );
+  }
+
+  const colour = remainingPct > 0.5 ? "text-primary" : remainingPct > 0.2 ? "text-amber-600" : "text-red-600";
+
+  return (
+    <div className="max-w-[1800px] mx-auto px-3 sm:px-5 py-4 pb-12">
+      {/* ── Top bar: 3-hour clock + question stepper ── */}
+      <div className="mb-3 bg-card border border-border rounded-lg shadow-sm overflow-hidden">
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 px-4 py-2">
+          <div className="flex items-center gap-2">
+            <Clock className={`h-4 w-4 ${colour}`} />
+            <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Exam clock</span>
+            <span className={`font-mono text-base font-bold ${paused ? "text-amber-600" : expired ? "text-red-600" : colour}`}>
+              {paused ? "PAUSED" : fmtClock(totalRemaining)}
+            </span>
+            <span className="text-[10px] font-mono text-muted-foreground">/ 03:00:00</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Question</span>
+            <span className="font-mono text-sm text-foreground">{currentIndex + 1} / {questions.length}</span>
+          </div>
+          <div className="flex items-center gap-2 truncate min-w-0">
+            <Flag className="h-3.5 w-3.5 text-primary" />
+            <span className="font-display text-sm text-foreground truncate">
+              {current.year} · Q{current.questionNumber} · {current.subtopic}
+            </span>
+            <MarksBadge marks={current.marks} />
+          </div>
+          <div className="ml-auto flex items-center gap-2">
+            <Button size="sm" variant="outline" onClick={() => setPaused((p) => !p)} className="h-7 px-2 text-xs">
+              {paused ? <><Play className="h-3.5 w-3.5" /> Continue</> : <><PauseGlyph className="h-3.5 w-3.5 text-primary" /> Pause</>}
+            </Button>
+            <Button size="sm" onClick={handleFinish} className="h-7 px-2 text-xs bg-primary hover:bg-primary/90 text-primary-foreground">
+              <Check className="h-3.5 w-3.5" /> Finish exam
+            </Button>
+            <Button size="sm" variant="ghost" onClick={() => setConfirmAbandon(true)} className="h-7 px-2 text-xs text-muted-foreground hover:text-destructive">
+              <Square className="h-3.5 w-3.5" /> Abandon
+            </Button>
+          </div>
+        </div>
+        <div className="px-4 pb-2">
+          <div className="relative h-1.5 bg-muted rounded-full overflow-hidden">
+            <div
+              className={`absolute left-0 top-0 h-full transition-all duration-1000 ease-linear ${
+                remainingPct > 0.5 ? "bg-primary" : remainingPct > 0.2 ? "bg-amber-500" : "bg-red-500"
+              }`}
+              style={{ width: `${(1 - remainingPct) * 100}%` }}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* ── Question switcher tabs ── */}
+      <div className="mb-3 flex flex-wrap gap-1.5">
+        {questions.map((q, i) => {
+          const spent = perQ[q.id] ?? 0;
+          const target = q.timingMinutes * 60;
+          const over = spent > target;
+          return (
+            <button
+              key={q.id}
+              onClick={() => setCurrentIndex(i)}
+              className={`px-2.5 py-1 rounded-md text-[11px] font-mono border transition-colors flex items-center gap-1.5 ${
+                i === currentIndex
+                  ? "bg-primary text-primary-foreground border-primary"
+                  : "bg-card text-foreground border-border hover:border-primary/50"
+              }`}
+            >
+              <span>{i + 1}. Q{q.questionNumber}</span>
+              <span className={`text-[10px] ${i === currentIndex ? "text-primary-foreground/80" : over ? "text-red-600" : "text-muted-foreground"}`}>
+                {Math.floor(spent / 60)}:{String(spent % 60).padStart(2, "0")} / {q.timingMinutes}m
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* ── Question viewer ── */}
+      <div className={"relative " + (paused ? "opacity-40 pointer-events-none" : "")}>
+        {paused && (
+          <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
+            <div className="flex flex-col items-center gap-2">
+              <PauseGlyph className="h-16 w-16 text-amber-600" />
+              <div className="font-display text-3xl font-bold text-amber-600 tracking-widest">PAUSED</div>
+            </div>
+          </div>
+        )}
+        {expired && (
+          <div className="mb-2 px-3 py-1.5 bg-destructive/10 border border-destructive/30 rounded text-destructive font-body text-xs flex items-center gap-2">
+            <AlertCircle className="h-3.5 w-3.5" />
+            Time is up — finish the exam to record your scores.
+          </div>
+        )}
+
+        <div className="flex items-center gap-2 mb-2 px-1">
+          <Button size="sm" variant="outline" onClick={() => { setFitMode(false); setZoom((z) => Math.max(0.8, +(z - 0.2).toFixed(2))); }} className="h-7 w-7 p-0"><ZoomOut className="h-3.5 w-3.5" /></Button>
+          <span className="font-mono text-xs text-muted-foreground w-12 text-center">{fitMode ? "FIT" : `${Math.round(zoom * 100)}%`}</span>
+          <Button size="sm" variant="outline" onClick={() => { setFitMode(false); setZoom((z) => Math.min(3.0, +(z + 0.2).toFixed(2))); }} className="h-7 w-7 p-0"><ZoomIn className="h-3.5 w-3.5" /></Button>
+          <Button size="sm" variant={fitMode ? "default" : "outline"} onClick={() => setFitMode((f) => !f)} className={`h-7 px-2 text-xs ${fitMode ? "bg-primary text-primary-foreground" : ""}`}>
+            {fitMode ? <Minimize2 className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}
+            {fitMode ? "Fixed size" : "Fit"}
+          </Button>
+          <div className="ml-auto flex items-center gap-2">
+            <Button size="sm" variant="outline" disabled={currentIndex === 0} onClick={() => setCurrentIndex((i) => Math.max(0, i - 1))} className="h-7 px-2 text-xs">← Prev</Button>
+            <Button size="sm" variant="outline" disabled={currentIndex === questions.length - 1} onClick={() => setCurrentIndex((i) => Math.min(questions.length - 1, i + 1))} className="h-7 px-2 text-xs">Next →</Button>
+          </div>
+        </div>
+
+        <ScreenshotPageView
+          sources={sources}
+          zoom={zoom}
+          fitToWidth={fitMode}
+          title={`${current.year} Q${current.questionNumber}`}
+          enableThumbnails
+        />
+      </div>
+
+      <AlertDialog open={confirmAbandon} onOpenChange={setConfirmAbandon}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Abandon this exam?</AlertDialogTitle>
+            <AlertDialogDescription>
+              You'll lose your progress on the 3-hour exam clock and the per-question timings.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Keep Going</AlertDialogCancel>
+            <AlertDialogAction onClick={handleAbandonClear}>Abandon</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────
+//  FULL-EXAM RESULTS
+// ─────────────────────────────────────────
+function FullExamResults({
+  questions,
+  perQ,
+  totalSeconds,
+  onAnother,
+  onBackToList,
+}: {
+  questions: ExamQuestion[];
+  perQ: Record<string, number>;
+  totalSeconds: number;
+  onAnother: () => void;
+  onBackToList: () => void;
+}) {
+  const totalMarks = questions.reduce((s, q) => s + q.marks, 0);
+  const fmt = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+  const fmtH = (s: number) => {
+    const h = Math.floor(s / 3600);
+    const m = Math.floor((s % 3600) / 60);
+    return `${h}h ${m}m`;
+  };
+  return (
+    <div className="max-w-[1000px] mx-auto px-4 sm:px-7 py-8 pb-16">
+      <h2 className="font-display text-3xl font-bold text-foreground mb-2">3-hour mock — complete</h2>
+      <p className="text-sm text-muted-foreground font-body mb-6">
+        Total time on the clock: <span className="font-mono text-foreground">{fmtH(totalSeconds)}</span> ·
+        attempted {questions.length} question{questions.length === 1 ? "" : "s"} worth <span className="font-mono">{totalMarks} marks</span>.
+        Open each question's marking scheme below to grade yourself.
+      </p>
+      <div className="space-y-3">
+        {questions.map((q) => {
+          const spent = perQ[q.id] ?? 0;
+          const target = q.timingMinutes * 60;
+          const within = spent <= target;
+          return (
+            <div key={q.id} className="bg-card border border-border rounded-lg p-4 flex flex-wrap items-center gap-3">
+              <div className="min-w-0 flex-1">
+                <div className="font-display text-sm font-semibold text-foreground truncate">
+                  {q.year} · Q{q.questionNumber} · {q.subtopic}
+                </div>
+                <div className="text-[11px] text-muted-foreground font-body">{q.topic} · Section {q.section} · {q.marks} marks</div>
+              </div>
+              <div className="font-mono text-xs">
+                <span className={within ? "text-green-700" : "text-amber-600"}>{fmt(spent)}</span>
+                <span className="text-muted-foreground"> / {q.timingMinutes}:00</span>
+              </div>
+              {q.markingSchemeUrl ? (
+                <a
+                  href={`${q.markingSchemeUrl}#page=${q.markingSchemePage}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs text-primary hover:underline"
+                >
+                  <ExternalLink className="h-3.5 w-3.5" /> Marking scheme
+                </a>
+              ) : (
+                <span className="text-[11px] italic text-muted-foreground">Mock scheme</span>
+              )}
+            </div>
+          );
+        })}
+      </div>
+      <div className="flex flex-wrap gap-3 mt-6">
+        <Button onClick={onBackToList} className="bg-primary hover:bg-primary/90 text-primary-foreground">Back to simulator</Button>
+        <Button variant="outline" onClick={onAnother}><Wand2 className="h-4 w-4" /> Auto-build another paper</Button>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────
 //  STAGE 3 — RESULTS
 // ─────────────────────────────────────────
 function ResultsStage({
