@@ -315,7 +315,12 @@ export function Scratchpad() {
     const d = devicePixelRatio || 1;
     ctx.clearRect(0, 0, canvasRef.current!.width / d, canvasRef.current!.height / d);
     setRedoStack([]);
-    try { localStorage.removeItem("sp_img"); setHasContent(false); } catch {}
+    const next = [...pagesRef.current];
+    next[pageIndexRef.current] = "";
+    pagesRef.current = next;
+    setPages(next);
+    try { localStorage.setItem(PAGES_KEY, JSON.stringify(next)); } catch {}
+    setHasContent(next.some(p => !!p));
   };
 
   // Keyboard shortcuts
@@ -331,10 +336,16 @@ export function Scratchpad() {
       if (e.key === "2") { setColor(COLORS[1]); setTool("pen"); }
       if (e.key === "3") { setColor(COLORS[2]); setTool("pen"); }
       if (e.key === "4") { setColor(COLORS[3]); setTool("pen"); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); goToPage(pageIndexRef.current - 1); }
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        if (pageIndexRef.current >= pagesRef.current.length - 1) addPage();
+        else goToPage(pageIndexRef.current + 1);
+      }
     };
     document.addEventListener("keydown", handler);
     return () => document.removeEventListener("keydown", handler);
-  }, [isOpen, undo, redo, close]);
+  }, [isOpen, undo, redo, close, goToPage, addPage]);
 
   // Resize on window resize
   useEffect(() => {
