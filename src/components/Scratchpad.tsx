@@ -116,7 +116,7 @@ export function Scratchpad() {
     const canvas = canvasRef.current;
     if (!ctx || !canvas) return;
     try {
-      const d = localStorage.getItem("sp_img");
+      const d = pagesRef.current[pageIndexRef.current];
       if (!d) return;
       setHasContent(true);
       const img = new Image();
@@ -135,11 +135,68 @@ export function Scratchpad() {
         const canvas = canvasRef.current;
         if (!canvas) return;
         const d = canvas.toDataURL("image/png");
-        localStorage.setItem("sp_img", d);
-        setHasContent(true);
+        const next = [...pagesRef.current];
+        next[pageIndexRef.current] = d;
+        pagesRef.current = next;
+        setPages(next);
+        try { localStorage.setItem(PAGES_KEY, JSON.stringify(next)); } catch {}
+        try { localStorage.removeItem(LEGACY_KEY); } catch {}
+        setHasContent(next.some(p => !!p));
       } catch {}
     }, 400);
   }, []);
+
+  const snapshotCurrent = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return pagesRef.current;
+    let data = "";
+    try { data = canvas.toDataURL("image/png"); } catch { return pagesRef.current; }
+    const next = [...pagesRef.current];
+    next[pageIndexRef.current] = data;
+    pagesRef.current = next;
+    setPages(next);
+    try { localStorage.setItem(PAGES_KEY, JSON.stringify(next)); } catch {}
+    return next;
+  }, []);
+
+  const renderPage = useCallback((idx: number) => {
+    const ctx = getCtx();
+    const canvas = canvasRef.current;
+    if (!ctx || !canvas) return;
+    const dpr = devicePixelRatio || 1;
+    ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
+    const data = pagesRef.current[idx];
+    if (!data) return;
+    const img = new Image();
+    img.onload = () => ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width / dpr, canvas.height / dpr);
+    img.src = data;
+  }, [getCtx]);
+
+  const goToPage = useCallback((idx: number) => {
+    if (idx < 0 || idx >= pagesRef.current.length) return;
+    snapshotCurrent();
+    pageIndexRef.current = idx;
+    setPageIndex(idx);
+    try { localStorage.setItem(PAGE_INDEX_KEY, String(idx)); } catch {}
+    setHistory([]);
+    setRedoStack([]);
+    setTimeout(() => renderPage(idx), 0);
+  }, [snapshotCurrent, renderPage]);
+
+  const addPage = useCallback(() => {
+    const snap = snapshotCurrent();
+    const next = [...snap, ""];
+    pagesRef.current = next;
+    setPages(next);
+    try { localStorage.setItem(PAGES_KEY, JSON.stringify(next)); } catch {}
+    const newIdx = next.length - 1;
+    pageIndexRef.current = newIdx;
+    setPageIndex(newIdx);
+    try { localStorage.setItem(PAGE_INDEX_KEY, String(newIdx)); } catch {}
+    setHistory([]);
+    setRedoStack([]);
+    setTimeout(() => renderPage(newIdx), 0);
+  }, [snapshotCurrent, renderPage]);
 
   const open = useCallback(() => {
     setIsOpen(true);
