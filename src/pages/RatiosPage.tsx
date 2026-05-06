@@ -385,6 +385,41 @@ function PracticeTab() {
    FORMULA QUIZ TAB
    ═══════════════════════════════════════════════════════ */
 function QuizTab() {
+  const [mode, setMode] = useState<"type" | "mcq">("type");
+  return (
+    <>
+      <div className="flex justify-center gap-1.5 mb-4">
+        <button
+          onClick={() => setMode("type")}
+          className={`px-3 py-1.5 rounded-md text-[11px] font-medium transition-all ${
+            mode === "type" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-muted/70"
+          }`}
+        >
+          Type Answer
+        </button>
+        <button
+          onClick={() => setMode("mcq")}
+          className={`px-3 py-1.5 rounded-md text-[11px] font-medium transition-all ${
+            mode === "mcq" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-muted/70"
+          }`}
+        >
+          Multiple Choice
+        </button>
+      </div>
+      {mode === "type" ? <TypeQuiz key="type" /> : <McqQuiz key="mcq" />}
+    </>
+  );
+}
+
+function normalizeAnswer(s: string) {
+  return s
+    .toLowerCase()
+    .replace(/×/g, "x")
+    .replace(/÷/g, "/")
+    .replace(/[^a-z0-9/+\-x.]/g, "");
+}
+
+function TypeQuiz() {
   const [formulas, setFormulas] = useState(() => shuffleArray(FORMULA_QUIZ_DATA));
   const [idx, setIdx] = useState(0);
   const [guess, setGuess] = useState("");
@@ -399,18 +434,17 @@ function QuizTab() {
   }, [idx, showAnswer]);
 
   const checkFormula = () => {
-    const g = guess.trim().toLowerCase().replace(/\s+/g, " ");
     const f = formulas[idx];
-    const target = f.formula.toLowerCase().replace(/\s+/g, " ").replace(/×/g, "x");
-    const gNorm = g.replace(/×/g, "x").replace(/÷/g, "/");
-
-    let isCorrect = gNorm === target || f.accept.some(a => gNorm === a.toLowerCase());
-    // Fuzzy: check if core parts match
-    if (!isCorrect) {
-      const gWords = gNorm.replace(/[^a-z0-9/ ]/g, "").split(/\s+/);
-      const tWords = target.replace(/[^a-z0-9/ ]/g, "").split(/\s+/);
+    const gNorm = normalizeAnswer(guess);
+    const candidates = [f.formula, ...f.accept].map(normalizeAnswer);
+    let isCorrect = !!gNorm && candidates.some(c => c === gNorm);
+    if (!isCorrect && gNorm) {
+      // Fuzzy fallback: token overlap on alphanumerics
+      const tokenize = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim().split(/\s+/).filter(Boolean);
+      const gWords = tokenize(guess);
+      const tWords = tokenize(f.formula);
       const matchCount = gWords.filter(w => tWords.includes(w)).length;
-      if (matchCount >= tWords.length * 0.7) isCorrect = true;
+      if (tWords.length && matchCount >= tWords.length * 0.7) isCorrect = true;
     }
 
     setResult(isCorrect);
@@ -494,6 +528,116 @@ function QuizTab() {
               {!result && guess && <p className="text-xs text-muted-foreground">You typed: "{guess}"</p>}
               <Button size="sm" className="text-xs" onClick={next}>
                 {idx < formulas.length - 1 ? "Next →" : "See Results"}
+              </Button>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    </>
+  );
+}
+
+function McqQuiz() {
+  const buildQuestions = () => {
+    const shuffled = shuffleArray(FORMULA_QUIZ_DATA);
+    return shuffled.map((f) => {
+      const distractors = shuffleArray(FORMULA_QUIZ_DATA.filter(x => x.name !== f.name))
+        .slice(0, 3)
+        .map(x => x.formula);
+      const options = shuffleArray([f.formula, ...distractors]);
+      return { item: f, options };
+    });
+  };
+
+  const [questions, setQuestions] = useState(buildQuestions);
+  const [idx, setIdx] = useState(0);
+  const [picked, setPicked] = useState<string | null>(null);
+  const [correct, setCorrect] = useState(0);
+  const [wrong, setWrong] = useState(0);
+
+  const restart = () => {
+    setQuestions(buildQuestions());
+    setIdx(0);
+    setPicked(null);
+    setCorrect(0);
+    setWrong(0);
+  };
+
+  if (idx >= questions.length) {
+    const pct = Math.round((correct / questions.length) * 100);
+    return (
+      <Card className="max-w-[500px] mx-auto border-border">
+        <CardContent className="p-8 text-center">
+          <h2 className="font-display text-xl font-bold mb-2">Quiz Complete!</h2>
+          <p className="text-3xl font-mono font-bold mb-1" style={{ color: pct >= 70 ? "hsl(142, 72%, 29%)" : pct >= 40 ? "hsl(38, 92%, 50%)" : "hsl(0, 72%, 51%)" }}>{pct}%</p>
+          <p className="text-sm text-muted-foreground mb-4">{correct} / {questions.length} correct</p>
+          <Button size="sm" onClick={restart}>Try Again</Button>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  const q = questions[idx];
+  const f = q.item;
+  const answered = picked !== null;
+  const isCorrect = picked === f.formula;
+
+  const pick = (opt: string) => {
+    if (answered) return;
+    setPicked(opt);
+    if (opt === f.formula) setCorrect(c => c + 1);
+    else setWrong(w => w + 1);
+  };
+
+  const next = () => {
+    setPicked(null);
+    setIdx(idx + 1);
+  };
+
+  return (
+    <>
+      <p className="text-xs text-muted-foreground mb-4">Pick the correct formula. Score: <span className="font-mono text-green-600">{correct}</span> / <span className="font-mono text-red-500">{wrong}</span> / {questions.length}</p>
+
+      <Card className="max-w-[600px] mx-auto border-border">
+        <CardContent className="p-6">
+          <div className="text-center mb-4">
+            <Badge variant="outline" className="text-[10px] mb-2">{f.hint}</Badge>
+            <h3 className="font-display text-lg font-bold">{f.name}</h3>
+            <p className="text-xs text-muted-foreground mt-1">{idx + 1} / {questions.length}</p>
+          </div>
+
+          <div className="space-y-2">
+            {q.options.map((opt, i) => {
+              const isAnswer = opt === f.formula;
+              const isPicked = picked === opt;
+              let cls = "border-border hover:bg-muted/60";
+              if (answered && isAnswer) cls = "border-green-600 bg-green-600/10 text-green-700";
+              else if (answered && isPicked && !isAnswer) cls = "border-red-500 bg-red-500/10 text-red-600";
+              else if (answered) cls = "border-border opacity-60";
+              return (
+                <button
+                  key={i}
+                  onClick={() => pick(opt)}
+                  disabled={answered}
+                  className={`w-full text-left px-3 py-2.5 rounded-md border font-mono text-xs transition-all ${cls}`}
+                >
+                  <span className="font-bold mr-2">{String.fromCharCode(65 + i)}.</span>{opt}
+                </button>
+              );
+            })}
+          </div>
+
+          {answered && (
+            <div className="mt-4 text-center space-y-2">
+              <div className="flex items-center justify-center gap-2">
+                {isCorrect ? (
+                  <><Check className="h-5 w-5 text-green-600" /><span className="text-sm font-bold text-green-600">Correct!</span></>
+                ) : (
+                  <><X className="h-5 w-5 text-red-500" /><span className="text-sm font-bold text-red-500">Not quite</span></>
+                )}
+              </div>
+              <Button size="sm" className="text-xs" onClick={next}>
+                {idx < questions.length - 1 ? "Next →" : "See Results"}
               </Button>
             </div>
           )}
