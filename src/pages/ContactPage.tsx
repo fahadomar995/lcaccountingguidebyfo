@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Mail, MessageSquare, Bug, Lightbulb } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function ContactPage() {
   const { toast } = useToast();
@@ -12,10 +13,20 @@ export default function ContactPage() {
   const [email, setEmail] = useState("");
   const [type, setType] = useState("feedback");
   const [message, setMessage] = useState("");
+  const [sending, setSending] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({ title: "Message sent", description: "Thanks for reaching out! We'll get back to you soon." });
+    setSending(true);
+    const { data, error } = await supabase.functions.invoke("send-contact-email", {
+      body: { name, email, type, message },
+    });
+    setSending(false);
+    if (error || !data?.success) {
+      toast({ title: "Failed to send", description: error?.message || data?.error || "Please try again later.", variant: "destructive" });
+      return;
+    }
+    toast({ title: "Message sent", description: "Thanks for reaching out!" });
     setName(""); setEmail(""); setMessage("");
   };
 
@@ -76,7 +87,7 @@ export default function ContactPage() {
               <Textarea value={message} onChange={e => setMessage(e.target.value)} placeholder="Describe the issue, suggestion, or feedback..." rows={5} required />
             </div>
 
-            <Button type="submit" className="w-full sm:w-auto">Send Message</Button>
+            <Button type="submit" disabled={sending} className="w-full sm:w-auto">{sending ? "Sending..." : "Send Message"}</Button>
           </form>
         </CardContent>
       </Card>
