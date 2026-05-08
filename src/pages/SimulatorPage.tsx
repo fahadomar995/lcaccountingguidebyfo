@@ -447,6 +447,111 @@ function preloadImage(src: string) {
   img.src = src;
 }
 
+// ───────────── History detail dialog ─────────────
+/**
+ * Modal opened from the "Recent Sessions" table. Shows the original question
+ * pages and marking scheme PNGs alongside the time the student took, so they
+ * can revisit a past attempt without restarting the timer.
+ */
+function HistoryDetailDialog({
+  entry,
+  onClose,
+}: {
+  entry: HistoryEntry | null;
+  onClose: () => void;
+}) {
+  const question = entry ? questionIndex.find((q) => q.id === entry.id) : null;
+  const open = entry !== null;
+
+  const mins = entry ? Math.floor(entry.actualSeconds / 60) : 0;
+  const secs = entry ? entry.actualSeconds % 60 : 0;
+
+  return (
+    <Dialog open={open} onOpenChange={(o) => { if (!o) onClose(); }}>
+      <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto">
+        {entry && (
+          <>
+            <DialogHeader>
+              <DialogTitle className="font-display">
+                {entry.year} · Q{question?.questionNumber ?? "—"} — {entry.subtopic}
+              </DialogTitle>
+              <DialogDescription className="font-body">
+                {entry.topic} · {entry.marks} marks · target {entry.targetMinutes} min
+              </DialogDescription>
+            </DialogHeader>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-body my-3">
+              <div className="bg-muted/40 border border-border rounded p-2">
+                <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Time taken</div>
+                <div className="font-mono text-base text-foreground">
+                  {mins}:{String(secs).padStart(2, "0")}
+                </div>
+              </div>
+              <div className="bg-muted/40 border border-border rounded p-2">
+                <div className="text-[10px] uppercase tracking-wider text-muted-foreground">vs target</div>
+                <div className={`font-mono text-base ${entry.withinTarget ? "text-green-700" : "text-amber-600"}`}>
+                  {entry.withinTarget ? "Within" : "Over"}
+                </div>
+              </div>
+              <div className="bg-muted/40 border border-border rounded p-2">
+                <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Score</div>
+                <div className="font-mono text-base text-foreground">
+                  {typeof entry.marksEarned === "number"
+                    ? `${entry.marksEarned}/${entry.marks} (${entry.percentage}%)`
+                    : "—"}
+                </div>
+              </div>
+              <div className="bg-muted/40 border border-border rounded p-2">
+                <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Date</div>
+                <div className="font-mono text-base text-foreground">
+                  {new Date(entry.completedAt).toLocaleDateString()}
+                </div>
+              </div>
+            </div>
+
+            {question ? (
+              <div className="space-y-4">
+                <section>
+                  <h3 className="font-display text-sm font-semibold text-foreground mb-2">Question</h3>
+                  <div className="space-y-2">
+                    {Array.from({ length: question.paperPageCount }, (_, i) => (
+                      <img
+                        key={`q-${i}`}
+                        src={getSimulatorImageSrc(question.id, "question", i + 1)}
+                        alt={`Question page ${i + 1}`}
+                        className="w-full border border-border rounded"
+                        loading="lazy"
+                      />
+                    ))}
+                  </div>
+                </section>
+                <section>
+                  <h3 className="font-display text-sm font-semibold text-foreground mb-2">Marking scheme</h3>
+                  <div className="space-y-2">
+                    {Array.from({ length: question.markingPageCount }, (_, i) => (
+                      <img
+                        key={`m-${i}`}
+                        src={getSimulatorImageSrc(question.id, "marking", i + 1)}
+                        alt={`Marking scheme page ${i + 1}`}
+                        className="w-full border border-border rounded"
+                        loading="lazy"
+                      />
+                    ))}
+                  </div>
+                </section>
+              </div>
+            ) : (
+              <p className="text-xs text-muted-foreground italic">
+                Question metadata is no longer available for this attempt.
+              </p>
+            )}
+          </>
+        )}
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 // ───────────── Queue helpers ─────────────
 /**
  * The student-built practice queue. Lives in localStorage so it survives
