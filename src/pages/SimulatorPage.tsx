@@ -1110,6 +1110,7 @@ function SelectStage({
   const [sectionFilter, setSectionFilter] = useState<ExamQuestion["section"] | "ALL">("ALL");
   const [historyOpen, setHistoryOpen] = useState(false);
   const [history] = useLocalStorage<HistoryEntry[]>(HISTORY_KEY, []);
+  const [detailEntry, setDetailEntry] = useState<HistoryEntry | null>(null);
   const [mistakes, setMistakes] = useLocalStorage<MistakeEntry[]>(MISTAKES_KEY, []);
   const [onboardingDismissed, setOnboardingDismissed, onboardingMode, setOnboardingMode] = useOnboardingDismissed();
   const { prefs } = useTopicPreferences();
@@ -1670,7 +1671,12 @@ function SelectStage({
                   </thead>
                   <tbody>
                     {history.slice(0, 10).map((h, i) => (
-                      <tr key={i} className="border-b border-border/40">
+                      <tr
+                        key={i}
+                        onClick={() => setDetailEntry(h)}
+                        className="border-b border-border/40 cursor-pointer hover:bg-muted/40 transition-colors"
+                        title="View question and marking scheme"
+                      >
                         <td className="py-2 pr-4 font-mono">{new Date(h.completedAt).toLocaleDateString()}</td>
                         <td className="py-2 pr-4">{h.subtopic}</td>
                         <td className="py-2 pr-4 font-mono">{h.year} · Q{questionIndex.find(q => q.id === h.id)?.questionNumber ?? "—"}</td>
@@ -1697,6 +1703,7 @@ function SelectStage({
           </div>
         )}
       </div>
+      <HistoryDetailDialog entry={detailEntry} onClose={() => setDetailEntry(null)} />
     </div>
   );
 }
