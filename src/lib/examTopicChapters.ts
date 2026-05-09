@@ -13,6 +13,8 @@ const RULES: { match: RegExp; chapterIds: number[] }[] = [
   { match: /interpretation|ratio/i, chapterIds: [18] },
   { match: /suspense|correction of errors/i, chapterIds: [7] },
   { match: /depreciation/i, chapterIds: [4] },
+  { match: /revaluation/i, chapterIds: [4] },
+  { match: /farm/i, chapterIds: [15] },
   { match: /control account|debtors control|creditors control/i, chapterIds: [5] },
   { match: /departmental/i, chapterIds: [12] },
   { match: /manufacturing/i, chapterIds: [11] },
