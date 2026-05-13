@@ -59,7 +59,8 @@ export function useProgressAutoSync() {
     window.addEventListener("storage", flush);
 
     return () => {
-      window.clearInterval(id);
+      window.clearInterval(pushId);
+      window.clearInterval(pullId);
       window.removeEventListener("visibilitychange", onVis);
       window.removeEventListener("beforeunload", flush);
       window.removeEventListener("storage", flush);
