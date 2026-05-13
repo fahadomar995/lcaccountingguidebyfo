@@ -2587,17 +2587,28 @@ function FullExamPerQuestionPanel({
 
       <div>
         <h4 className="font-display text-sm font-semibold text-foreground mb-2">
-          Official SEC Marking Scheme — {question.year} Q{question.questionNumber}
+          {question.markingPageCount > 0
+            ? `Official SEC Marking Scheme — ${question.year} Q${question.questionNumber}`
+            : `Marking Scheme — ${question.year} Q${question.questionNumber}`}
         </h4>
-        <ScreenshotPageView
-          sources={Array.from({ length: question.markingPageCount }, (_, i) =>
-            getSimulatorImageSrc(question.id, "marking", i + 1),
-          )}
-          zoom={1.4}
-          fitToWidth={true}
-          title={`${question.year} Q${question.questionNumber} marking scheme`}
-        />
-        {question.markingSchemeUrl && (
+        {question.markingPageCount > 0 ? (
+          <ScreenshotPageView
+            sources={Array.from({ length: question.markingPageCount }, (_, i) =>
+              getSimulatorImageSrc(question.id, "marking", i + 1),
+            )}
+            zoom={1.4}
+            fitToWidth={true}
+            title={`${question.year} Q${question.questionNumber} marking scheme`}
+          />
+        ) : (
+          <div className="rounded-lg border border-dashed border-border bg-muted/30 px-4 py-6 text-center">
+            <p className="font-body text-sm text-foreground font-medium">No marking scheme available</p>
+            <p className="text-xs text-muted-foreground mt-1">
+              This is a predicted paper{question.isExamly ? " from Examly" : ""}. A marking scheme has not been published — self-mark using your knowledge of similar SEC schemes.
+            </p>
+          </div>
+        )}
+        {question.markingSchemeUrl && question.markingPageCount > 0 && (
           <a
             href={`${question.markingSchemeUrl}#page=${question.markingSchemePage}`}
             target="_blank"
@@ -2726,18 +2737,29 @@ function ResultsStage({
       </div>
 
       <h3 className="font-display text-lg font-semibold text-foreground mb-3">
-        Official SEC Marking Scheme — {question.year} Q{question.questionNumber}
+        {question.markingPageCount > 0
+          ? `Official SEC Marking Scheme — ${question.year} Q${question.questionNumber}`
+          : `Marking Scheme — ${question.year} Q${question.questionNumber}`}
       </h3>
-      <ScreenshotPageView
-        sources={Array.from({ length: question.markingPageCount }, (_, i) =>
-          getSimulatorImageSrc(question.id, "marking", i + 1)
-        )}
-        zoom={1.6}
-        fitToWidth={true}
-        className="mb-2"
-        title={`${question.year} Q${question.questionNumber} marking scheme`}
-      />
-      {question.markingSchemeUrl ? (
+      {question.markingPageCount > 0 ? (
+        <ScreenshotPageView
+          sources={Array.from({ length: question.markingPageCount }, (_, i) =>
+            getSimulatorImageSrc(question.id, "marking", i + 1)
+          )}
+          zoom={1.6}
+          fitToWidth={true}
+          className="mb-2"
+          title={`${question.year} Q${question.questionNumber} marking scheme`}
+        />
+      ) : (
+        <div className="rounded-lg border border-dashed border-border bg-muted/30 px-4 py-8 text-center mb-6">
+          <p className="font-body text-sm text-foreground font-medium">No marking scheme available</p>
+          <p className="text-xs text-muted-foreground mt-1">
+            This is a predicted paper{question.isExamly ? " from Examly" : ""}. Self-mark using your knowledge of comparable SEC marking schemes.
+          </p>
+        </div>
+      )}
+      {question.markingSchemeUrl && question.markingPageCount > 0 ? (
         <a
           href={`${question.markingSchemeUrl}#page=${question.markingSchemePage}`}
           target="_blank"
@@ -2746,11 +2768,11 @@ function ResultsStage({
         >
           <ExternalLink className="h-3.5 w-3.5" /> Open marking scheme in new tab
         </a>
-      ) : (
+      ) : question.markingPageCount > 0 ? (
         <p className="text-[11px] font-body text-muted-foreground italic mb-6">
           Mock marking scheme — indicative breakdown authored for revision practice.
         </p>
-      )}
+      ) : null}
 
       <div className="flex flex-wrap gap-3 mt-6">
         <Button onClick={onAnother} className="bg-primary hover:bg-primary/90 text-primary-foreground">

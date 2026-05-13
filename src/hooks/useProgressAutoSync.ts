@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useAuth } from "@/hooks/useAuth";
-import { PROGRESS_KEYS, pushProgress } from "@/lib/progressSync";
+import { PROGRESS_KEYS, pushProgress, pullAndMergeProgress } from "@/lib/progressSync";
 
 /**
  * Watches the tracked localStorage progress keys and pushes any changes
@@ -29,14 +29,38 @@ export function useProgressAutoSync() {
       }
     };
 
-    const id = window.setInterval(flush, 5000);
-    const onVis = () => { if (document.visibilityState === "hidden") flush(); };
+    const pull = async () => {
+      const changed = await pullAndMergeProgress(user.id);
+      if (changed.length) {
+        // Refresh our local cache so the merged value isn't immediately re-pushed,
+        // and notify any listeners that progress changed.
+        for (const key of changed) {
+          last.current[key] = localStorage.getItem(key) ?? "";
+        }
+        try { window.dispatchEvent(new CustomEvent("lc-progress-pulled", { detail: { keys: changed } })); } catch {}
+      }
+    };
+
+    // Initial pull so a freshly-loaded tab sees changes from other devices.
+    pull();
+
+    const pushId = window.setInterval(flush, 5000);
+    const pullId = window.setInterval(pull, 30000);
+    const onVis = () => {
+      if (document.visibilityState === "hidden") {
+        flush();
+      } else {
+        // Tab became visible again — pull immediately so cross-device edits show up.
+        pull();
+      }
+    };
     window.addEventListener("visibilitychange", onVis);
     window.addEventListener("beforeunload", flush);
     window.addEventListener("storage", flush);
 
     return () => {
-      window.clearInterval(id);
+      window.clearInterval(pushId);
+      window.clearInterval(pullId);
       window.removeEventListener("visibilitychange", onVis);
       window.removeEventListener("beforeunload", flush);
       window.removeEventListener("storage", flush);

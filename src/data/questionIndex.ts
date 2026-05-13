@@ -16,12 +16,15 @@ export interface ExamQuestion {
   paperPage: number;
   markingSchemeUrl: string;
   markingSchemePage: number;
-  paperPageCount: 1 | 2 | 3 | 4;
-  markingPageCount: 1 | 2 | 3 | 4 | 5 | 6;
+  paperPageCount: number;
+  /** 0 means no marking scheme is bundled (e.g. predicted/Examly papers). */
+  markingPageCount: number;
   timingMinutes: number;
   notes: string;
   /** Internally-authored mock question (not from SEC). Surfaced with a subtle badge. */
   isMock?: boolean;
+  /** Predicted-paper question (e.g. Examly). No marking scheme available. */
+  isExamly?: boolean;
 }
 
 const secPaper = (year: number) =>
@@ -644,6 +647,57 @@ export const questionIndex: ExamQuestion[] = [
     paperUrl: "/papers/mock-2026-paper.pdf", paperPage: 18, paperPageCount: 2,
     markingSchemeUrl: "/papers/mock-2026-ms.pdf", markingSchemePage: 35, markingPageCount: 4,
     timingMinutes: 36, notes: "Mock 2026 — Bergin Ltd cash budget", isMock: true },
+  // ─── EXAMLY 2026 PREDICTED PAPER (no marking scheme) ─────────
+  { id: "EXAMLY_2026_Q1A_company", year: 2026, questionNumber: 1, section: 1, marks: 120,
+    topic: "Final Accounts — Company", subtopic: "Q1(A) Boyne plc — Company Final Accounts (Examly 2026 Predicted)",
+    paperUrl: "/papers/examly-2026-predicted-paper.pdf", paperPage: 2, paperPageCount: 2,
+    markingSchemeUrl: "", markingSchemePage: 0, markingPageCount: 0,
+    timingMinutes: 54, notes: "Examly 2026 predicted paper — Boyne plc company final accounts", isExamly: true },
+  { id: "EXAMLY_2026_Q1B_company_mfg", year: 2026, questionNumber: 1, section: 1, marks: 120,
+    topic: "Final Accounts — Manufacturing", subtopic: "Q1(B) Suir Ltd — Company w/ Manufacturing (Examly 2026 Predicted)",
+    paperUrl: "/papers/examly-2026-predicted-paper.pdf", paperPage: 4, paperPageCount: 2,
+    markingSchemeUrl: "", markingSchemePage: 0, markingPageCount: 0,
+    timingMinutes: 54, notes: "Examly 2026 predicted paper — Suir Ltd manufacturing company", isExamly: true },
+  { id: "EXAMLY_2026_Q2_cashflow", year: 2026, questionNumber: 2, section: 1, marks: 60,
+    topic: "Cash Flow", subtopic: "Cash Flow Statement — Boyle plc (Examly 2026 Predicted)",
+    paperUrl: "/papers/examly-2026-predicted-paper.pdf", paperPage: 6, paperPageCount: 2,
+    markingSchemeUrl: "", markingSchemePage: 0, markingPageCount: 0,
+    timingMinutes: 27, notes: "Examly 2026 predicted paper — Boyle plc cash flow", isExamly: true },
+  { id: "EXAMLY_2026_Q3_incomplete", year: 2026, questionNumber: 3, section: 1, marks: 60,
+    topic: "Incomplete Records", subtopic: "Incomplete Records — M. Cremin (Examly 2026 Predicted)",
+    paperUrl: "/papers/examly-2026-predicted-paper.pdf", paperPage: 8, paperPageCount: 1,
+    markingSchemeUrl: "", markingSchemePage: 0, markingPageCount: 0,
+    timingMinutes: 27, notes: "Examly 2026 predicted paper — M. Cremin incomplete records", isExamly: true },
+  { id: "EXAMLY_2026_Q4_suspense", year: 2026, questionNumber: 4, section: 1, marks: 60,
+    topic: "Correction of Errors", subtopic: "Correction of Errors / Suspense — T. Dolan (Examly 2026 Predicted)",
+    paperUrl: "/papers/examly-2026-predicted-paper.pdf", paperPage: 9, paperPageCount: 1,
+    markingSchemeUrl: "", markingSchemePage: 0, markingPageCount: 0,
+    timingMinutes: 27, notes: "Examly 2026 predicted paper — T. Dolan suspense / errors", isExamly: true },
+  { id: "EXAMLY_2026_Q5_interpretation", year: 2026, questionNumber: 5, section: 1, marks: 60,
+    topic: "Interpretation of Accounts", subtopic: "Interpretation — Lúnasa plc (Examly 2026 Predicted)",
+    paperUrl: "/papers/examly-2026-predicted-paper.pdf", paperPage: 10, paperPageCount: 3,
+    markingSchemeUrl: "", markingSchemePage: 0, markingPageCount: 0,
+    timingMinutes: 27, notes: "Examly 2026 predicted paper — Lúnasa plc interpretation", isExamly: true },
+  { id: "EXAMLY_2026_Q6_published", year: 2026, questionNumber: 6, section: 2, marks: 100,
+    topic: "Published Accounts", subtopic: "Published Accounts — Hartnett plc (Examly 2026 Predicted)",
+    paperUrl: "/papers/examly-2026-predicted-paper.pdf", paperPage: 13, paperPageCount: 2,
+    markingSchemeUrl: "", markingSchemePage: 0, markingPageCount: 0,
+    timingMinutes: 45, notes: "Examly 2026 predicted paper — Hartnett plc published accounts", isExamly: true },
+  { id: "EXAMLY_2026_Q7_club", year: 2026, questionNumber: 7, section: 2, marks: 100,
+    topic: "Club Accounts", subtopic: "Club Accounts — Bantry Tennis Club (Examly 2026 Predicted)",
+    paperUrl: "/papers/examly-2026-predicted-paper.pdf", paperPage: 15, paperPageCount: 2,
+    markingSchemeUrl: "", markingSchemePage: 0, markingPageCount: 0,
+    timingMinutes: 45, notes: "Examly 2026 predicted paper — Bantry Tennis Club", isExamly: true },
+  { id: "EXAMLY_2026_Q8_costing", year: 2026, questionNumber: 8, section: 3, marks: 80,
+    topic: "Costing", subtopic: "Stock Valuation / Costing — Greene Ltd (Examly 2026 Predicted)",
+    paperUrl: "/papers/examly-2026-predicted-paper.pdf", paperPage: 17, paperPageCount: 1,
+    markingSchemeUrl: "", markingSchemePage: 0, markingPageCount: 0,
+    timingMinutes: 36, notes: "Examly 2026 predicted paper — Greene Ltd stock valuation & costing", isExamly: true },
+  { id: "EXAMLY_2026_Q9_budgeting", year: 2026, questionNumber: 9, section: 3, marks: 80,
+    topic: "Budgeting", subtopic: "Flexible Budgeting — Healy Ltd (Examly 2026 Predicted)",
+    paperUrl: "/papers/examly-2026-predicted-paper.pdf", paperPage: 18, paperPageCount: 1,
+    markingSchemeUrl: "", markingSchemePage: 0, markingPageCount: 0,
+    timingMinutes: 36, notes: "Examly 2026 predicted paper — Healy Ltd flexible budgeting", isExamly: true },
 ]
 ;
 
