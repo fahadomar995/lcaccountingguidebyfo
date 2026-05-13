@@ -40,7 +40,7 @@ function safeParse(raw: string | null): unknown {
  * Merge strategy per key. Default: prefer cloud value if present, else local.
  * For numeric "best" / streak counters we take the max.
  */
-function merge(key: string, local: unknown, cloud: unknown): unknown {
+export function mergeProgress(key: string, local: unknown, cloud: unknown): unknown {
   if (cloud == null) return local;
   if (local == null) return cloud;
 
@@ -80,6 +80,9 @@ function merge(key: string, local: unknown, cloud: unknown): unknown {
   }
   return cloud;
 }
+
+// Backwards compatibility alias for existing callers.
+const merge = mergeProgress;
 
 /**
  * On first sign-in for this device, push every local progress key up,
