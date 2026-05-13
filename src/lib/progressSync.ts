@@ -131,6 +131,49 @@ export async function pushProgress(userId: string, key: string, value: unknown):
   } catch {}
 }
 
+/**
+ * Pull every tracked progress key from the cloud and merge into localStorage.
+ * Used to keep multiple devices in sync after the initial sign-in handshake.
+ * Returns the set of keys whose local value changed as a result.
+ */
+export async function pullAndMergeProgress(userId: string): Promise<string[]> {
+  const changed: string[] = [];
+  try {
+    const { data: rows } = await supabase
+      .from("user_progress")
+      .select("key, value, updated_at")
+      .eq("user_id", userId)
+      .in("key", PROGRESS_KEYS as unknown as string[]);
+    if (!rows) return changed;
+    const writeBack: { user_id: string; key: string; value: any }[] = [];
+    for (const row of rows as any[]) {
+      const key = row.key as string;
+      if (!(PROGRESS_KEYS as readonly string[]).includes(key)) continue;
+      const local = safeParse(localStorage.getItem(key));
+      const cloud = row.value;
+      const merged = mergeProgress(key, local, cloud);
+      if (merged == null) continue;
+      const mergedStr = typeof merged === "string" ? merged : JSON.stringify(merged);
+      const localStr = localStorage.getItem(key) ?? "";
+      if (mergedStr !== localStr) {
+        try { localStorage.setItem(key, mergedStr); } catch {}
+        changed.push(key);
+      }
+      // If local had data the cloud was missing, push the merged version back.
+      const cloudStr = cloud == null ? "" : (typeof cloud === "string" ? cloud : JSON.stringify(cloud));
+      if (mergedStr !== cloudStr) {
+        writeBack.push({ user_id: userId, key, value: merged as any });
+      }
+    }
+    if (writeBack.length) {
+      await supabase.from("user_progress").upsert(writeBack, { onConflict: "user_id,key" });
+    }
+  } catch (err) {
+    console.warn("[progressSync] pull failed", err);
+  }
+  return changed;
+}
+
 /** Wipe local progress (for "reset progress" actions). */
 export function clearLocalProgress(): void {
   PROGRESS_KEYS.forEach((k) => { try { localStorage.removeItem(k); } catch {} });
