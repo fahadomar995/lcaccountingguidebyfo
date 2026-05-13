@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { PAST_PAPERS, type PaperEntry, type PaperDocument } from "@/data/pastPapers";
 
-type FilterType = "all" | "sec" | "mock";
+type FilterType = "all" | "sec" | "mock" | "predicted";
 
 function getDocHref(doc: PaperDocument) {
   return doc.externalUrl ?? `/papers/${doc.filename}`;
@@ -41,7 +41,7 @@ export default function PastPapersPage() {
 
       {/* Filters */}
       <div className="flex flex-wrap gap-2 mb-6">
-        {(["all", "sec", "mock"] as FilterType[]).map((t) => (
+        {(["all", "sec", "mock", "predicted"] as FilterType[]).map((t) => (
           <Button
             key={t}
             size="sm"
@@ -49,7 +49,7 @@ export default function PastPapersPage() {
             onClick={() => setTypeFilter(t)}
             className="text-xs capitalize"
           >
-            {t === "all" ? "All" : t === "sec" ? "SEC" : "Mock"}
+            {t === "all" ? "All" : t === "sec" ? "SEC" : t === "mock" ? "Mock" : "Predicted"}
           </Button>
         ))}
         <div className="w-px bg-border mx-1" />
@@ -107,7 +107,7 @@ function PaperCard({ paper }: { paper: PaperEntry }) {
         <div className="flex items-baseline justify-between">
           <span className="font-display text-xl font-bold text-foreground">{displayTitle}</span>
           <Badge variant={paper.type === "sec" ? "default" : "secondary"} className="text-[10px] uppercase">
-            {paper.type === "sec" ? "SEC" : "Mock"}
+            {paper.type === "sec" ? "SEC" : paper.type === "mock" ? "Mock" : "Predicted"}
           </Badge>
         </div>
         <div className="flex flex-col gap-1.5">
