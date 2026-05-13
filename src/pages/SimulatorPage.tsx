@@ -2587,17 +2587,28 @@ function FullExamPerQuestionPanel({
 
       <div>
         <h4 className="font-display text-sm font-semibold text-foreground mb-2">
-          Official SEC Marking Scheme — {question.year} Q{question.questionNumber}
+          {question.markingPageCount > 0
+            ? `Official SEC Marking Scheme — ${question.year} Q${question.questionNumber}`
+            : `Marking Scheme — ${question.year} Q${question.questionNumber}`}
         </h4>
-        <ScreenshotPageView
-          sources={Array.from({ length: question.markingPageCount }, (_, i) =>
-            getSimulatorImageSrc(question.id, "marking", i + 1),
-          )}
-          zoom={1.4}
-          fitToWidth={true}
-          title={`${question.year} Q${question.questionNumber} marking scheme`}
-        />
-        {question.markingSchemeUrl && (
+        {question.markingPageCount > 0 ? (
+          <ScreenshotPageView
+            sources={Array.from({ length: question.markingPageCount }, (_, i) =>
+              getSimulatorImageSrc(question.id, "marking", i + 1),
+            )}
+            zoom={1.4}
+            fitToWidth={true}
+            title={`${question.year} Q${question.questionNumber} marking scheme`}
+          />
+        ) : (
+          <div className="rounded-lg border border-dashed border-border bg-muted/30 px-4 py-6 text-center">
+            <p className="font-body text-sm text-foreground font-medium">No marking scheme available</p>
+            <p className="text-xs text-muted-foreground mt-1">
+              This is a predicted paper{question.isExamly ? " from Examly" : ""}. A marking scheme has not been published — self-mark using your knowledge of similar SEC schemes.
+            </p>
+          </div>
+        )}
+        {question.markingSchemeUrl && question.markingPageCount > 0 && (
           <a
             href={`${question.markingSchemeUrl}#page=${question.markingSchemePage}`}
             target="_blank"
