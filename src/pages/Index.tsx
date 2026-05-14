@@ -238,6 +238,25 @@ export default function Index() {
         </CardContent>
       </Card>
 
+      {/* Examly 2026 Predicted Paper — now with marking scheme */}
+      <Link to="/simulator" className="block mb-4 group">
+        <Card className="border-l-4 border-l-amber-500 bg-amber-500/5 hover:bg-amber-500/10 transition-colors">
+          <CardContent className="p-4 sm:p-5 flex items-center gap-4">
+            <span className="w-9 h-9 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
+              <Sparkles className="h-4 w-4" />
+            </span>
+            <div className="min-w-0 flex-1">
+              <div className="text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 mb-0.5">New · Predicted Paper 2026</div>
+              <div className="font-display text-sm font-bold text-foreground truncate">Examly 2026 Predicted Paper now in the Exam Simulator</div>
+              <div className="text-xs text-muted-foreground font-light mt-0.5">All 10 questions (Q1A–Q9) with the official Examly marking scheme attached.</div>
+            </div>
+            <span className="shrink-0 flex items-center gap-1 text-xs font-medium text-amber-600 dark:text-amber-400 group-hover:gap-1.5 transition-all">
+              Open <ArrowRight className="h-3.5 w-3.5" />
+            </span>
+          </CardContent>
+        </Card>
+      </Link>
+
       {/* Continue Where You Left Off — rotating */}
       {continueCard && (
         <Link to={continueCard.href} className="block mb-6 group">
