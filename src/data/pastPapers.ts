@@ -35,5 +35,8 @@ export const PAST_PAPERS: PaperEntry[] = [
   { year: 2021, type: "mock", source: "Mock", documents: [{ label: "Exam Paper", filename: "mock-2021-paper.pdf" }, { label: "Marking Scheme", filename: "mock-2021-ms.pdf" }] },
   { year: 2020, type: "mock", source: "Mock", documents: [{ label: "Exam Paper", filename: "mock-2020-paper.pdf" }, { label: "Marking Scheme", filename: "mock-2020-ms.pdf" }] },
   // Predicted papers (no marking scheme)
-  { year: 2026, type: "predicted", source: "Examly Predicted", documents: [{ label: "Predicted Paper", filename: "examly-2026-predicted-paper.pdf" }] },
+  { year: 2026, type: "predicted", source: "Examly Predicted", documents: [
+    { label: "Predicted Paper", filename: "examly-2026-predicted-paper.pdf" },
+    { label: "Marking Scheme", filename: "examly-2026-predicted-ms.pdf" },
+  ] },
 ];
