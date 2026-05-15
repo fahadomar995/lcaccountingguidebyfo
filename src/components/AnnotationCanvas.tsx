@@ -4,7 +4,7 @@ import { newStrokeId } from "@/lib/annotations";
 
 interface Props {
   /** The image element to overlay; canvas tracks its rendered size. */
-  imgRef: React.RefObject<HTMLImageElement>;
+  img: HTMLImageElement | null;
   strokes: Stroke[];
   onChange: (next: Stroke[]) => void;
   tool: AnnotationTool | "off";
@@ -17,7 +17,7 @@ const HIGHLIGHT_COLOR = "rgba(255, 220, 60, 0.45)";
  * Transparent canvas overlay that captures freehand strokes and renders
  * them in normalized coordinates so they survive zoom changes.
  */
-export function AnnotationCanvas({ imgRef, strokes, onChange, tool }: Props) {
+export function AnnotationCanvas({ img, strokes, onChange, tool }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [size, setSize] = useState<{ w: number; h: number }>({ w: 0, h: 0 });
   const drawingRef = useRef<Stroke | null>(null);
@@ -26,7 +26,6 @@ export function AnnotationCanvas({ imgRef, strokes, onChange, tool }: Props) {
 
   // Match canvas size to current rendered image size.
   useEffect(() => {
-    const img = imgRef.current;
     if (!img) return;
     const sync = () => {
       const r = img.getBoundingClientRect();
@@ -37,7 +36,7 @@ export function AnnotationCanvas({ imgRef, strokes, onChange, tool }: Props) {
     ro.observe(img);
     img.addEventListener("load", sync);
     return () => { ro.disconnect(); img.removeEventListener("load", sync); };
-  }, [imgRef]);
+  }, [img]);
 
   // Render strokes whenever size or strokes change.
   const render = useCallback(() => {
