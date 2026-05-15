@@ -971,15 +971,6 @@ function ScreenshotPageView({
   const [pageStrokes, setPageStrokes] = useState<PageStrokes>(() =>
     questionId ? loadAnnotations(questionId) : {}
   );
-  const [imgEls, setImgEls] = useState<(HTMLImageElement | null)[]>([]);
-  const setImgEl = useCallback((idx: number, el: HTMLImageElement | null) => {
-    setImgEls((prev) => {
-      if (prev[idx] === el) return prev;
-      const next = prev.slice();
-      next[idx] = el;
-      return next;
-    });
-  }, []);
   useEffect(() => {
     if (questionId) setPageStrokes(loadAnnotations(questionId));
   }, [questionId]);
@@ -1179,26 +1170,63 @@ function ScreenshotPageView({
               minWidth: fitToWidth ? undefined : "900px",
               maxWidth: fitToWidth ? "100%" : undefined,
             }}>
-              <img
-                ref={(el) => setImgEl(i, el)}
+              <AnnotatedPage
                 src={src}
                 alt={`${title} — ${labelFor(i)}`}
-                loading={i === 0 ? "eager" : "lazy"}
-                className="block h-auto w-full shadow-sm border border-border bg-card"
+                eager={i === 0}
+                annotate={annotateEnabled}
+                strokes={pageStrokes[i] ?? []}
+                onChange={(next) => updatePage(i, next)}
+                tool={tool}
               />
-              {annotateEnabled && (
-                <AnnotationCanvas
-                  img={imgEls[i] ?? null}
-                  strokes={pageStrokes[i] ?? []}
-                  onChange={(next) => updatePage(i, next)}
-                  tool={tool}
-                />
-              )}
             </div>
           </div>
         ))}
       </div>
     </div>
+  );
+}
+
+/**
+ * Single annotated page: owns its own img ref so we don't bounce React state
+ * on every parent re-render (which previously caused an infinite loop).
+ */
+function AnnotatedPage({
+  src, alt, eager, annotate, strokes, onChange, tool,
+}: {
+  src: string;
+  alt: string;
+  eager: boolean;
+  annotate: boolean;
+  strokes: Stroke[];
+  onChange: (next: Stroke[]) => void;
+  tool: AnnotationTool | "off";
+}) {
+  const imgRef = useRef<HTMLImageElement | null>(null);
+  // Force a re-render once the img element is mounted so AnnotationCanvas
+  // can read imgRef.current.
+  const [mounted, setMounted] = useState(false);
+  return (
+    <>
+      <img
+        ref={(el) => {
+          imgRef.current = el;
+          if (el && !mounted) setMounted(true);
+        }}
+        src={src}
+        alt={alt}
+        loading={eager ? "eager" : "lazy"}
+        className="block h-auto w-full shadow-sm border border-border bg-card"
+      />
+      {annotate && mounted && (
+        <AnnotationCanvas
+          img={imgRef.current}
+          strokes={strokes}
+          onChange={onChange}
+          tool={tool}
+        />
+      )}
+    </>
   );
 }
 
