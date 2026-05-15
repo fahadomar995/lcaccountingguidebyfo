@@ -971,7 +971,15 @@ function ScreenshotPageView({
   const [pageStrokes, setPageStrokes] = useState<PageStrokes>(() =>
     questionId ? loadAnnotations(questionId) : {}
   );
-  const imgRefs = useRef<(HTMLImageElement | null)[]>([]);
+  const [imgEls, setImgEls] = useState<(HTMLImageElement | null)[]>([]);
+  const setImgEl = useCallback((idx: number, el: HTMLImageElement | null) => {
+    setImgEls((prev) => {
+      if (prev[idx] === el) return prev;
+      const next = prev.slice();
+      next[idx] = el;
+      return next;
+    });
+  }, []);
   useEffect(() => {
     if (questionId) setPageStrokes(loadAnnotations(questionId));
   }, [questionId]);
@@ -1172,7 +1180,7 @@ function ScreenshotPageView({
               maxWidth: fitToWidth ? "100%" : undefined,
             }}>
               <img
-                ref={(el) => (imgRefs.current[i] = el)}
+                ref={(el) => setImgEl(i, el)}
                 src={src}
                 alt={`${title} — ${labelFor(i)}`}
                 loading={i === 0 ? "eager" : "lazy"}
@@ -1180,7 +1188,7 @@ function ScreenshotPageView({
               />
               {annotateEnabled && (
                 <AnnotationCanvas
-                  imgRef={{ current: imgRefs.current[i] } as React.RefObject<HTMLImageElement>}
+                  img={imgEls[i] ?? null}
                   strokes={pageStrokes[i] ?? []}
                   onChange={(next) => updatePage(i, next)}
                   tool={tool}
