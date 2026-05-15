@@ -948,6 +948,7 @@ function ScreenshotPageView({
   fitToWidth,
   className,
   enableThumbnails = false,
+  questionId,
 }: {
   sources: string[];
   title: string;
@@ -955,12 +956,47 @@ function ScreenshotPageView({
   fitToWidth: boolean;
   className?: string;
   enableThumbnails?: boolean;
+  /** When set, enables freehand pen/highlighter annotations stored per-question. */
+  questionId?: string;
 }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const pageRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [activePage, setActivePage] = useState(0);
   const [autoAdvance, setAutoAdvance] = useState(false);
   const [autoSeconds, setAutoSeconds] = useState(20);
+
+  // ── Annotations (Phase 1: pen + highlighter, local persistence) ──
+  const annotateEnabled = !!questionId;
+  const [tool, setTool] = useState<AnnotationTool | "off">("off");
+  const [pageStrokes, setPageStrokes] = useState<PageStrokes>(() =>
+    questionId ? loadAnnotations(questionId) : {}
+  );
+  const imgRefs = useRef<(HTMLImageElement | null)[]>([]);
+  useEffect(() => {
+    if (questionId) setPageStrokes(loadAnnotations(questionId));
+  }, [questionId]);
+  const updatePage = useCallback((pageIdx: number, next: Stroke[]) => {
+    if (!questionId) return;
+    setPageStrokes((prev) => {
+      const merged = { ...prev, [pageIdx]: next };
+      saveAnnotations(questionId, merged);
+      return merged;
+    });
+  }, [questionId]);
+  const clearPage = useCallback((pageIdx: number) => {
+    if (!questionId) return;
+    setPageStrokes((prev) => {
+      const merged = { ...prev };
+      delete merged[pageIdx];
+      saveAnnotations(questionId, merged);
+      return merged;
+    });
+  }, [questionId]);
+  const clearAll = useCallback(() => {
+    if (!questionId) return;
+    saveAnnotations(questionId, {});
+    setPageStrokes({});
+  }, [questionId]);
 
   // Label each page. For a 2-page question, page 2 is the "Required info" page
   // (the part (a)/(b)/(c) requirements). Page 1 is "Data".
