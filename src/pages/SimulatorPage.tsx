@@ -5,6 +5,7 @@ import {
   ZoomIn, ZoomOut, Maximize2, Minimize2, Eye, EyeOff, Flag, Award, TrendingUp,
   Plus, X, Lightbulb, Filter, BookOpen, PenSquare, Sparkles, SlidersHorizontal,
   ListPlus, ListChecks, Trash2, ArrowRight, Wand2, Settings2,
+  Highlighter, Pencil, Eraser, MousePointer2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,6 +28,10 @@ import {
 import { buildSuggestions, type Suggestion } from "@/lib/simulatorSuggestions";
 import { useTopicPreferences } from "@/hooks/useTopicPreferences";
 import { chaptersForExamTopic, isExamTopicExcluded } from "@/lib/examTopicChapters";
+import { AnnotationCanvas } from "@/components/AnnotationCanvas";
+import {
+  loadAnnotations, saveAnnotations, type PageStrokes, type Stroke, type AnnotationTool,
+} from "@/lib/annotations";
 
 type Stage = "select" | "active" | "results" | "full-exam" | "full-exam-results";
 type MarksFilter = ExamQuestion["marks"] | "ALL";
@@ -943,6 +948,7 @@ function ScreenshotPageView({
   fitToWidth,
   className,
   enableThumbnails = false,
+  questionId,
 }: {
   sources: string[];
   title: string;
@@ -950,12 +956,55 @@ function ScreenshotPageView({
   fitToWidth: boolean;
   className?: string;
   enableThumbnails?: boolean;
+  /** When set, enables freehand pen/highlighter annotations stored per-question. */
+  questionId?: string;
 }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const pageRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [activePage, setActivePage] = useState(0);
   const [autoAdvance, setAutoAdvance] = useState(false);
   const [autoSeconds, setAutoSeconds] = useState(20);
+
+  // ── Annotations (Phase 1: pen + highlighter, local persistence) ──
+  const annotateEnabled = !!questionId;
+  const [tool, setTool] = useState<AnnotationTool | "off">("off");
+  const [pageStrokes, setPageStrokes] = useState<PageStrokes>(() =>
+    questionId ? loadAnnotations(questionId) : {}
+  );
+  const [imgEls, setImgEls] = useState<(HTMLImageElement | null)[]>([]);
+  const setImgEl = useCallback((idx: number, el: HTMLImageElement | null) => {
+    setImgEls((prev) => {
+      if (prev[idx] === el) return prev;
+      const next = prev.slice();
+      next[idx] = el;
+      return next;
+    });
+  }, []);
+  useEffect(() => {
+    if (questionId) setPageStrokes(loadAnnotations(questionId));
+  }, [questionId]);
+  const updatePage = useCallback((pageIdx: number, next: Stroke[]) => {
+    if (!questionId) return;
+    setPageStrokes((prev) => {
+      const merged = { ...prev, [pageIdx]: next };
+      saveAnnotations(questionId, merged);
+      return merged;
+    });
+  }, [questionId]);
+  const clearPage = useCallback((pageIdx: number) => {
+    if (!questionId) return;
+    setPageStrokes((prev) => {
+      const merged = { ...prev };
+      delete merged[pageIdx];
+      saveAnnotations(questionId, merged);
+      return merged;
+    });
+  }, [questionId]);
+  const clearAll = useCallback(() => {
+    if (!questionId) return;
+    saveAnnotations(questionId, {});
+    setPageStrokes({});
+  }, [questionId]);
 
   // Label each page. For a 2-page question, page 2 is the "Required info" page
   // (the part (a)/(b)/(c) requirements). Page 1 is "Data".
@@ -1069,6 +1118,45 @@ function ScreenshotPageView({
           </div>
         </div>
       )}
+      {annotateEnabled && (
+        <div className="flex items-center gap-1.5 px-3 py-1.5 border-b border-border bg-card/60 text-[11px] font-body">
+          <span className="text-muted-foreground mr-1">Annotate:</span>
+          <Button
+            size="sm" variant={tool === "off" ? "default" : "outline"}
+            onClick={() => setTool("off")}
+            className={`h-6 px-2 text-[11px] gap-1 ${tool === "off" ? "bg-primary text-primary-foreground" : ""}`}
+            title="Pointer (scroll & zoom)"
+          ><MousePointer2 className="h-3 w-3" /> Off</Button>
+          <Button
+            size="sm" variant={tool === "pen" ? "default" : "outline"}
+            onClick={() => setTool("pen")}
+            className={`h-6 px-2 text-[11px] gap-1 ${tool === "pen" ? "bg-primary text-primary-foreground" : ""}`}
+            title="Pen — sage ink for ticks and notes"
+          ><Pencil className="h-3 w-3" /> Pen</Button>
+          <Button
+            size="sm" variant={tool === "highlighter" ? "default" : "outline"}
+            onClick={() => setTool("highlighter")}
+            className={`h-6 px-2 text-[11px] gap-1 ${tool === "highlighter" ? "bg-primary text-primary-foreground" : ""}`}
+            title="Highlighter"
+          ><Highlighter className="h-3 w-3" /> Highlight</Button>
+          <span className="mx-1 h-4 w-px bg-border" />
+          <Button
+            size="sm" variant="outline"
+            onClick={() => clearPage(activePage)}
+            className="h-6 px-2 text-[11px] gap-1"
+            title={`Clear annotations on page ${activePage + 1}`}
+          ><Eraser className="h-3 w-3" /> Clear page</Button>
+          <Button
+            size="sm" variant="ghost"
+            onClick={clearAll}
+            className="h-6 px-2 text-[11px] text-muted-foreground hover:text-destructive"
+            title="Clear all annotations on this question"
+          >Clear all</Button>
+          <span className="ml-auto text-[10px] font-mono text-muted-foreground">
+            Saved locally · per question
+          </span>
+        </div>
+      )}
       <div
         ref={containerRef}
         className="bg-muted/30 overflow-auto p-3 flex flex-col items-center gap-3"
@@ -1086,17 +1174,27 @@ function ScreenshotPageView({
                 {labelFor(i)} · Page {i + 1} of {sources.length}
               </div>
             )}
-            <img
-              src={src}
-              alt={`${title} — ${labelFor(i)}`}
-              loading={i === 0 ? "eager" : "lazy"}
-              className="block h-auto shadow-sm border border-border bg-card"
-              style={{
-                width: fitToWidth ? "100%" : `${Math.round(zoom * 100)}%`,
-                minWidth: fitToWidth ? undefined : "900px",
-                maxWidth: fitToWidth ? "100%" : undefined,
-              }}
-            />
+            <div className="relative inline-block" style={{
+              width: fitToWidth ? "100%" : `${Math.round(zoom * 100)}%`,
+              minWidth: fitToWidth ? undefined : "900px",
+              maxWidth: fitToWidth ? "100%" : undefined,
+            }}>
+              <img
+                ref={(el) => setImgEl(i, el)}
+                src={src}
+                alt={`${title} — ${labelFor(i)}`}
+                loading={i === 0 ? "eager" : "lazy"}
+                className="block h-auto w-full shadow-sm border border-border bg-card"
+              />
+              {annotateEnabled && (
+                <AnnotationCanvas
+                  img={imgEls[i] ?? null}
+                  strokes={pageStrokes[i] ?? []}
+                  onChange={(next) => updatePage(i, next)}
+                  tool={tool}
+                />
+              )}
+            </div>
           </div>
         ))}
       </div>
@@ -2055,6 +2153,7 @@ function ActiveStage({
             fitToWidth={fitMode}
             title={`${question.year} Q${question.questionNumber}`}
             enableThumbnails
+            questionId={question.id}
           />
           {question.paperUrl ? (
             <a
@@ -2393,6 +2492,7 @@ function FullExamStage({
           fitToWidth={fitMode}
           title={`${current.year} Q${current.questionNumber}`}
           enableThumbnails
+          questionId={current.id}
         />
       </div>
 
