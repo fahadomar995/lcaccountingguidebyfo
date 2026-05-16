@@ -2056,7 +2056,6 @@ function ActiveStage({
             fitToWidth={fitMode}
             title={`${question.year} Q${question.questionNumber}`}
             enableThumbnails
-            questionId={question.id}
           />
           {question.paperUrl ? (
             <a
@@ -2395,7 +2394,6 @@ function FullExamStage({
           fitToWidth={fitMode}
           title={`${current.year} Q${current.questionNumber}`}
           enableThumbnails
-          questionId={current.id}
         />
       </div>
 
