@@ -1069,45 +1069,6 @@ function ScreenshotPageView({
           </div>
         </div>
       )}
-      {annotateEnabled && (
-        <div className="flex items-center gap-1.5 px-3 py-1.5 border-b border-border bg-card/60 text-[11px] font-body">
-          <span className="text-muted-foreground mr-1">Annotate:</span>
-          <Button
-            size="sm" variant={tool === "off" ? "default" : "outline"}
-            onClick={() => setTool("off")}
-            className={`h-6 px-2 text-[11px] gap-1 ${tool === "off" ? "bg-primary text-primary-foreground" : ""}`}
-            title="Pointer (scroll & zoom)"
-          ><MousePointer2 className="h-3 w-3" /> Off</Button>
-          <Button
-            size="sm" variant={tool === "pen" ? "default" : "outline"}
-            onClick={() => setTool("pen")}
-            className={`h-6 px-2 text-[11px] gap-1 ${tool === "pen" ? "bg-primary text-primary-foreground" : ""}`}
-            title="Pen — sage ink for ticks and notes"
-          ><Pencil className="h-3 w-3" /> Pen</Button>
-          <Button
-            size="sm" variant={tool === "highlighter" ? "default" : "outline"}
-            onClick={() => setTool("highlighter")}
-            className={`h-6 px-2 text-[11px] gap-1 ${tool === "highlighter" ? "bg-primary text-primary-foreground" : ""}`}
-            title="Highlighter"
-          ><Highlighter className="h-3 w-3" /> Highlight</Button>
-          <span className="mx-1 h-4 w-px bg-border" />
-          <Button
-            size="sm" variant="outline"
-            onClick={() => clearPage(activePage)}
-            className="h-6 px-2 text-[11px] gap-1"
-            title={`Clear annotations on page ${activePage + 1}`}
-          ><Eraser className="h-3 w-3" /> Clear page</Button>
-          <Button
-            size="sm" variant="ghost"
-            onClick={clearAll}
-            className="h-6 px-2 text-[11px] text-muted-foreground hover:text-destructive"
-            title="Clear all annotations on this question"
-          >Clear all</Button>
-          <span className="ml-auto text-[10px] font-mono text-muted-foreground">
-            Saved locally · per question
-          </span>
-        </div>
-      )}
       <div
         ref={containerRef}
         className="bg-muted/30 overflow-auto p-3 flex flex-col items-center gap-3"
@@ -1130,63 +1091,17 @@ function ScreenshotPageView({
               minWidth: fitToWidth ? undefined : "900px",
               maxWidth: fitToWidth ? "100%" : undefined,
             }}>
-              <AnnotatedPage
+              <img
                 src={src}
                 alt={`${title} — ${labelFor(i)}`}
-                eager={i === 0}
-                annotate={annotateEnabled}
-                strokes={pageStrokes[i] ?? []}
-                onChange={(next) => updatePage(i, next)}
-                tool={tool}
+                loading={i === 0 ? "eager" : "lazy"}
+                className="block h-auto w-full shadow-sm border border-border bg-card"
               />
             </div>
           </div>
         ))}
       </div>
     </div>
-  );
-}
-
-/**
- * Single annotated page: owns its own img ref so we don't bounce React state
- * on every parent re-render (which previously caused an infinite loop).
- */
-function AnnotatedPage({
-  src, alt, eager, annotate, strokes, onChange, tool,
-}: {
-  src: string;
-  alt: string;
-  eager: boolean;
-  annotate: boolean;
-  strokes: Stroke[];
-  onChange: (next: Stroke[]) => void;
-  tool: AnnotationTool | "off";
-}) {
-  const imgRef = useRef<HTMLImageElement | null>(null);
-  // Force a re-render once the img element is mounted so AnnotationCanvas
-  // can read imgRef.current.
-  const [mounted, setMounted] = useState(false);
-  return (
-    <>
-      <img
-        ref={(el) => {
-          imgRef.current = el;
-          if (el && !mounted) setMounted(true);
-        }}
-        src={src}
-        alt={alt}
-        loading={eager ? "eager" : "lazy"}
-        className="block h-auto w-full shadow-sm border border-border bg-card"
-      />
-      {annotate && mounted && (
-        <AnnotationCanvas
-          img={imgRef.current}
-          strokes={strokes}
-          onChange={onChange}
-          tool={tool}
-        />
-      )}
-    </>
   );
 }
 
