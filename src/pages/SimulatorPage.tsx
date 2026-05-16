@@ -5,7 +5,6 @@ import {
   ZoomIn, ZoomOut, Maximize2, Minimize2, Eye, EyeOff, Flag, Award, TrendingUp,
   Plus, X, Lightbulb, Filter, BookOpen, PenSquare, Sparkles, SlidersHorizontal,
   ListPlus, ListChecks, Trash2, ArrowRight, Wand2, Settings2,
-  Highlighter, Pencil, Eraser, MousePointer2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,10 +27,6 @@ import {
 import { buildSuggestions, type Suggestion } from "@/lib/simulatorSuggestions";
 import { useTopicPreferences } from "@/hooks/useTopicPreferences";
 import { chaptersForExamTopic, isExamTopicExcluded } from "@/lib/examTopicChapters";
-import { AnnotationCanvas } from "@/components/AnnotationCanvas";
-import {
-  loadAnnotations, saveAnnotations, type PageStrokes, type Stroke, type AnnotationTool,
-} from "@/lib/annotations";
 
 type Stage = "select" | "active" | "results" | "full-exam" | "full-exam-results";
 type MarksFilter = ExamQuestion["marks"] | "ALL";
