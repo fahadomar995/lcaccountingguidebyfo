@@ -1220,7 +1220,7 @@ function SelectStage({
   const [mistakes, setMistakes] = useLocalStorage<MistakeEntry[]>(MISTAKES_KEY, []);
   const [onboardingDismissed, setOnboardingDismissed, onboardingMode, setOnboardingMode] = useOnboardingDismissed();
   const { prefs } = useTopicPreferences();
-  const [respectPrefs, setRespectPrefs] = useLocalStorage<boolean>("lca_simulator_respect_prefs", true);
+  const [respectPrefs, setRespectPrefs] = useLocalStorage<boolean>("lca_simulator_respect_prefs", false);
   const queue = useQueue();
   const [autoPrefs, setAutoPrefs] = useLocalStorage<AutoBuildPrefs>(
     "lca_simulator_autobuild_prefs_v1",
