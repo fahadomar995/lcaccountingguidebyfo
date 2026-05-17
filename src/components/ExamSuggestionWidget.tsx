@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Lightbulb, ArrowRight } from "lucide-react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useTopicPreferences } from "@/hooks/useTopicPreferences";
 import {
   buildSuggestions,
   SIM_HISTORY_KEY,
@@ -16,7 +17,11 @@ import {
  */
 export default function ExamSuggestionWidget() {
   const [history] = useLocalStorage<HistoryEntry[]>(SIM_HISTORY_KEY, []);
-  const suggestions = useMemo(() => buildSuggestions(history, undefined, 2), [history]);
+  const { prefs } = useTopicPreferences();
+  const suggestions = useMemo(
+    () => buildSuggestions(history, undefined, 2, { prefs }),
+    [history, prefs],
+  );
 
   if (suggestions.length === 0) return null;
   const top = suggestions[0];

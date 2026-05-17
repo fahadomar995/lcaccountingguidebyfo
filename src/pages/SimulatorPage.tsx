@@ -1332,8 +1332,8 @@ function SelectStage({
 
   // Personalised suggestions derived from session history.
   const suggestions = useMemo(
-    () => buildSuggestions(history, visiblePool),
-    [history, visiblePool],
+    () => buildSuggestions(history, visiblePool, 3, { prefs }),
+    [history, visiblePool, prefs],
   );
 
   return (
