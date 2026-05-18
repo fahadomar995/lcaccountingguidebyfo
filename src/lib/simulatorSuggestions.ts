@@ -155,10 +155,46 @@ export function buildSuggestions(
       if (q.marks !== mostRecent.marks) antiRepeat *= 1.15;
     }
 
-    const priority = weight * (0.5 + recency) * mastery * topicWeak * prefMul * antiRepeat;
+    // Fatigue / stamina: after a heavy marker, strongly prefer lighter
+    // questions for the next sitting. A 120-marker takes 50+ minutes and
+    // most students won't sit back-to-back heavyweights — bias toward
+    // 60/80/100 so the next suggestion is genuinely doable.
+    let fatigue = 1;
+    if (justAttempted && mostRecent) {
+      const lastM = mostRecent.marks;
+      const m = q.marks;
+      if (lastM >= 120) {
+        if (m >= 120) fatigue *= 0.25;       // avoid another 120
+        else if (m === 100) fatigue *= 1.25; // sweet-spot follow-up
+        else if (m === 80) fatigue *= 1.45;  // ideal cool-down
+        else if (m === 60) fatigue *= 1.35;  // quick win
+      } else if (lastM === 100) {
+        if (m >= 120) fatigue *= 0.55;
+        else if (m === 100) fatigue *= 0.7;
+        else if (m === 80) fatigue *= 1.3;
+        else if (m === 60) fatigue *= 1.25;
+      } else if (lastM === 80) {
+        if (m === 80) fatigue *= 0.75;
+        else if (m === 60) fatigue *= 1.15;
+        else if (m >= 100) fatigue *= 1.1;   // ready for a step up
+      } else if (lastM === 60) {
+        if (m === 60) fatigue *= 0.8;
+        else if (m >= 80) fatigue *= 1.15;
+      }
+    }
+
+    // Preferences carry more weight in ranking than raw mark size, so a
+    // "high priority" topic genuinely surfaces above an off-preference 120.
+    const prefBoost = Math.pow(prefMul, 1.35);
+
+    const priority = weight * (0.5 + recency) * mastery * topicWeak * prefBoost * antiRepeat * fatigue;
 
     let reason: string;
-    if (justAttempted && mostRecent && q.topic !== mostRecent.topic) {
+    if (justAttempted && mostRecent && mostRecent.marks >= 120 && q.marks < 120) {
+      reason = `You just sat a 120-marker — a ${q.marks}m ${q.topic.toLowerCase()} is a smarter next rep.`;
+    } else if (justAttempted && mostRecent && mostRecent.marks >= 100 && q.marks < mostRecent.marks) {
+      reason = `After that ${mostRecent.marks}m, step down to a ${q.marks}m ${q.topic.toLowerCase()} to keep momentum.`;
+    } else if (justAttempted && mostRecent && q.topic !== mostRecent.topic) {
       reason = `Switch focus after that ${mostRecent.marks}m ${mostRecent.topic.toLowerCase()} — try a ${q.marks}m ${q.topic.toLowerCase()}.`;
     } else if (daysSince === null) {
       reason = q.marks >= 100
