@@ -1,8 +1,8 @@
 import type { Archetype } from "./archetypes";
 
 export const Q1_CATEGORIES = [
-  { key: "all", label: "All (37)" },
-  { key: "universal", label: "Universal (26)" },
+  { key: "all", label: "All (38)" },
+  { key: "universal", label: "Universal (27)" },
   { key: "company", label: "Company (4)" },
   { key: "manufacturing", label: "Manufacturing (7)" },
 ];
