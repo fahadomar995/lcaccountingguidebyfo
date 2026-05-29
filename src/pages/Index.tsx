@@ -272,7 +272,7 @@ export default function Index() {
             <div className="min-w-0 flex-1">
               <div className="text-[10px] font-bold uppercase tracking-wider text-blue mb-0.5">Sister site · Leaving Cert Maths</div>
               <div className="font-display text-sm font-bold text-foreground truncate">Doing Maths too? Check out DebMaths</div>
-              <div className="text-xs text-muted-foreground font-light mt-0.5">Same study-tool approach for Higher Level Maths — theory, worked examples, and exam prep.</div>
+              <div className="text-xs text-muted-foreground font-light mt-0.5">Mock papers available, split by topic — pure questions practice for Higher Level Maths.</div>
             </div>
             <span className="shrink-0 flex items-center gap-1 text-xs font-medium text-blue group-hover:gap-1.5 transition-all">
               Visit <ArrowRight className="h-3.5 w-3.5" />
