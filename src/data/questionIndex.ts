@@ -468,7 +468,7 @@ export const questionIndex: ExamQuestion[] = [
     paperUrl: secPaper(2023), paperPage: 10, paperPageCount: 2,
     markingSchemeUrl: secMs(2023), markingSchemePage: 14, markingPageCount: 6,
     timingMinutes: 45, notes: "Goodwin plc — debenture-holder perspective" },
-  { id: "2023_Q6_published", year: 2023, questionNumber: 6, section: 2, marks: 100,
+  { id: "2023_Q6_suspense", year: 2023, questionNumber: 6, section: 2, marks: 100,
     topic: "Published Accounts", subtopic: "Published Accounts",
     paperUrl: secPaper(2023), paperPage: 12, paperPageCount: 2,
     markingSchemeUrl: secMs(2023), markingSchemePage: 19, markingPageCount: 5,
