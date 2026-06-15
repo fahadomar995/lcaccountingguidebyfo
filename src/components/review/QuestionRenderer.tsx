@@ -7,6 +7,9 @@ import DefineRenderer from './renderers/DefineRenderer';
 import MatchRenderer from './renderers/MatchRenderer';
 import SortRenderer from './renderers/SortRenderer';
 import OrderRenderer from './renderers/OrderRenderer';
+import ClozeRenderer from './renderers/ClozeRenderer';
+import ExplainRenderer from './renderers/ExplainRenderer';
+import CaseRenderer from './renderers/CaseRenderer';
 
 interface Props {
   item: ReviewItem;
@@ -88,6 +91,18 @@ export default function QuestionRenderer({ item, onAnswer, onAdvance }: Props) {
     case 'order':
       return wrapCard(
         <OrderRenderer data={item.itemData.data as any} submitted={submitted} onSubmit={handleResult} />
+      );
+    case 'cloze':
+      return wrapCard(
+        <ClozeRenderer data={item.itemData.data as any} submitted={submitted} onSubmit={handleResult} />
+      );
+    case 'explain':
+      return wrapCard(
+        <ExplainRenderer data={item.itemData.data as any} submitted={submitted} onSubmit={handleResult} />
+      );
+    case 'case':
+      return wrapCard(
+        <CaseRenderer data={item.itemData.data as any} submitted={submitted} onSubmit={handleResult} />
       );
     default:
       return null;
