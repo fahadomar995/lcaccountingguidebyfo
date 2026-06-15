@@ -267,8 +267,8 @@ export default function ChapterReadingView({ chapter, initialSectionId, onBack, 
                 <Badge variant="outline" className="text-[10px]">{section.id}</Badge>
                 <span className="text-[10px] text-muted-foreground font-mono ml-auto">{activeSectionIdx + 1}/{chapter.sections.length}</span>
               </div>
-              <h1 className="font-display text-xl sm:text-2xl font-bold mb-1">{chapter.title}</h1>
-              <h2 className="font-display text-base sm:text-lg font-semibold text-primary mb-4">{section.title}</h2>
+              <h1 className="font-display text-2xl sm:text-3xl font-bold mb-1.5 tracking-tight">{chapter.title}</h1>
+              <h2 className="font-display text-lg sm:text-xl font-semibold text-primary mb-5">{section.title}</h2>
 
               {/* Past-paper pointers — show on first section only */}
               {activeSectionIdx === 0 && chapter.examPointers && chapter.examPointers.length > 0 && (
@@ -290,17 +290,17 @@ export default function ChapterReadingView({ chapter, initialSectionId, onBack, 
               <div className="theory-learn-content space-y-6">
                 {section.subTopics.map(sub => (
                   <div key={sub.id} id={`st-${sub.id}`}>
-                    <h3 className="font-display text-sm font-bold mb-3 text-foreground">{sub.title}</h3>
+                    <h3 className="font-display text-lg sm:text-xl font-bold mb-3 text-foreground tracking-tight border-b border-border pb-2">{sub.title}</h3>
                     
                     {/* Key terms */}
                     {sub.keyTerms && sub.keyTerms.length > 0 && (
-                      <div className="mb-4 p-3 bg-muted/50 rounded-lg border border-border">
-                        <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-2">Key Terms</p>
-                        <div className="space-y-1.5">
+                      <div className="mb-4 p-4 bg-muted/50 rounded-lg border border-border border-l-[3px] border-l-primary">
+                        <p className="text-[11px] font-bold uppercase tracking-wider text-foreground mb-2.5">Key Terms</p>
+                        <div className="space-y-2">
                           {sub.keyTerms.map(kt => (
-                            <div key={kt.term} className="text-xs">
-                              <strong className="text-primary">{kt.term}:</strong>{' '}
-                              <span className="font-light text-muted-foreground">{kt.definition}</span>
+                            <div key={kt.term} className="text-[13px] leading-relaxed">
+                              <strong className="font-bold text-foreground">{kt.term}:</strong>{' '}
+                              <span className="text-foreground/80">{kt.definition}</span>
                             </div>
                           ))}
                         </div>
