@@ -4213,3 +4213,16 @@ const BASE_REVIEW_BANK: Record<number, ReviewItem[]> = {
     },
   ],
 };
+
+// Merge extra MCQ pool into the base bank (huge expansion of coverage + variation).
+export const REVIEW_BANK: Record<number, ReviewItem[]> = Object.keys({
+  ...BASE_REVIEW_BANK,
+  ...EXTRA_MCQ_BANK,
+}).reduce<Record<number, ReviewItem[]>>((acc, k) => {
+  const id = Number(k);
+  acc[id] = [
+    ...(BASE_REVIEW_BANK[id] ?? []),
+    ...(EXTRA_MCQ_BANK[id] ?? []),
+  ];
+  return acc;
+}, {});
