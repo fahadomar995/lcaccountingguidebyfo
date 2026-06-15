@@ -605,11 +605,15 @@ table.acct td.l.blank {
 .src-legend { display: flex; gap: 10px; flex-wrap: wrap; margin: 10px 0; padding: 8px 12px; background: hsl(var(--muted)); border-radius: 6px; font-size: 10px; }
 
 /* ═══ THEORY LEARN MODE ═══ */
-.theory-learn-content { font-size: 14px; line-height: 1.8; color: hsl(var(--foreground)); word-break: break-word; overflow-wrap: break-word; }
-.theory-learn-content h4 { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700; margin: 18px 0 8px; color: hsl(var(--foreground)); }
-.theory-learn-content p { margin: 8px 0; font-weight: 300; }
-.theory-learn-content strong { font-weight: 600; }
-.theory-learn-content em { font-style: italic; }
+.theory-learn-content { font-size: 14.5px; line-height: 1.8; color: hsl(var(--foreground) / 0.92); word-break: break-word; overflow-wrap: break-word; font-weight: 400; }
+.theory-learn-content h3 { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; margin: 24px 0 10px; color: hsl(var(--foreground)); letter-spacing: -0.01em; }
+.theory-learn-content h4 { font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700; margin: 20px 0 8px; color: hsl(var(--foreground)); letter-spacing: 0.01em; }
+.theory-learn-content p { margin: 10px 0; font-weight: 400; color: hsl(var(--foreground) / 0.85); }
+.theory-learn-content strong { font-weight: 700; color: hsl(var(--foreground)); }
+.theory-learn-content em { font-style: italic; color: hsl(var(--foreground) / 0.9); }
+.theory-learn-content ul, .theory-learn-content ol { padding-left: 22px; margin: 10px 0; }
+.theory-learn-content li { margin: 4px 0; font-weight: 400; color: hsl(var(--foreground) / 0.88); }
+.theory-learn-content li strong { font-weight: 700; color: hsl(var(--foreground)); }
 
 .theory-learn-content .learn-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 12px; }
 .theory-learn-content .learn-table th { background: hsl(var(--muted)); padding: 8px 12px; text-align: left; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.03em; border-bottom: 2px solid hsl(var(--border)); }
