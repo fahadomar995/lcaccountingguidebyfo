@@ -1,7 +1,7 @@
 import {
   Home, BookOpen, GraduationCap, Layers, FileText, Calculator,
   ClipboardList, BarChart3, PenTool, Grid3X3, HelpCircle,
-  Factory, Coins, Wrench, TrendingUp, Mail, Banknote, FileSearch, Sprout, Table2, Timer
+  Factory, Coins, Wrench, TrendingUp, Mail, Banknote, FileSearch, Sprout, Table2, Timer, Sparkles
 } from "lucide-react";
 
 export interface NavItem {
@@ -26,6 +26,7 @@ export const NAV_SECTIONS: NavSection[] = [
     label: "Learn",
     items: [
       { title: "Theory", url: "/theory", icon: BookOpen },
+      { title: "Chapter Review", url: "/review", icon: Sparkles },
       { title: "Learn Mode", url: "/learn", icon: GraduationCap },
       { title: "Q1 Walkthroughs", url: "/walkthroughs", icon: PenTool },
     ],

@@ -37,6 +37,7 @@ import AuthPage from "./pages/AuthPage";
 import ProfilePage from "./pages/ProfilePage";
 import TutorPage from "./pages/TutorPage";
 import PreferencesPage from "./pages/PreferencesPage";
+import ReviewHubPage from "./pages/ReviewHubPage";
 import { AuthProvider } from "@/hooks/useAuth";
 
 const queryClient = new QueryClient();
@@ -53,6 +54,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/theory" element={<TheoryPage />} />
             <Route path="/learn" element={<LearnPage />} />
+            <Route path="/review" element={<ReviewHubPage />} />
             <Route path="/classify" element={<ClassifyPage />} />
             <Route path="/layouts" element={<LayoutsPage />} />
             <Route path="/formulas" element={<FormulasPage />} />
