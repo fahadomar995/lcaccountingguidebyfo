@@ -66,7 +66,9 @@ export interface ReviewItem {
 
 // ── Per-chapter banks ──
 
-export const REVIEW_BANK: Record<number, ReviewItem[]> = {
+import { EXTRA_MCQ_BANK } from './chapter-review-mcq-extra';
+
+const BASE_REVIEW_BANK: Record<number, ReviewItem[]> = {
   // ────────────────────────────────────────────
   // Chapter 1 — Introduction to Accounting (12 items)
   // ────────────────────────────────────────────
