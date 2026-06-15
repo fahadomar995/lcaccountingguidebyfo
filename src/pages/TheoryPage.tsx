@@ -320,7 +320,7 @@ export default function TheoryPage() {
                       <span key={tag} className="text-[9px] bg-muted rounded px-1.5 py-0.5 text-muted-foreground font-medium">{tag}</span>
                     ))}
                   </div>
-                  <p className="text-base leading-relaxed font-medium">{currentPracticeQ.q}</p>
+                  <p className="text-[15px] sm:text-base leading-relaxed font-semibold text-foreground">{currentPracticeQ.q}</p>
                 </CardContent>
               </Card>
 
@@ -344,10 +344,10 @@ export default function TheoryPage() {
                 </Button>
               ) : (
                 <>
-                  <Card className="border-border bg-sage-bg">
-                    <CardContent className="p-6">
-                      <h4 className="text-xs font-bold text-primary uppercase tracking-wider mb-3">Marking Scheme Answer</h4>
-                      <p className="text-sm font-light leading-relaxed whitespace-pre-line">{currentPracticeQ.a}</p>
+                  <Card className="border border-border border-l-[3px] border-l-primary bg-muted/40">
+                    <CardContent className="p-5">
+                      <h4 className="text-[11px] font-bold text-foreground uppercase tracking-wider mb-3">Marking Scheme Answer</h4>
+                      <p className="text-[14px] font-normal leading-[1.75] whitespace-pre-line text-foreground/85">{currentPracticeQ.a}</p>
                     </CardContent>
                   </Card>
 
@@ -453,14 +453,14 @@ function QuestionCard({ q, revealed, onToggle, score, onScore, showScoring }: Qu
             <span key={tag} className="text-[9px] bg-muted rounded px-1.5 py-0.5 text-muted-foreground font-medium">{tag}</span>
           ))}
         </div>
-        <p className="text-sm leading-relaxed mb-3">{q.q}</p>
+        <p className="text-[14px] leading-relaxed mb-3 font-semibold text-foreground">{q.q}</p>
         <Button variant="outline" size="sm" className="text-xs gap-1.5" onClick={onToggle}>
           {revealed ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
           {revealed ? "Hide Answer" : "Show Answer"}
         </Button>
         {revealed && (
-          <div className="mt-4 p-4 bg-sage-bg border border-border rounded-lg">
-            <p className="text-sm font-light leading-relaxed whitespace-pre-line">{q.a}</p>
+          <div className="mt-4 p-4 bg-muted/40 border border-border border-l-[3px] border-l-primary rounded-lg">
+            <p className="text-[13.5px] font-normal leading-[1.75] whitespace-pre-line text-foreground/85">{q.a}</p>
           </div>
         )}
         {revealed && showScoring && (
