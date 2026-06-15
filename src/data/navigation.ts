@@ -26,7 +26,6 @@ export const NAV_SECTIONS: NavSection[] = [
     label: "Learn",
     items: [
       { title: "Theory", url: "/theory", icon: BookOpen },
-      { title: "Chapter Review", url: "/review", icon: Sparkles },
       { title: "Learn Mode", url: "/learn", icon: GraduationCap },
       { title: "Q1 Walkthroughs", url: "/walkthroughs", icon: PenTool },
     ],
