@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { THEORY_BANK, THEORY_FLASHCARDS, THEORY_TOPICS } from "@/data/theory";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { Eye, EyeOff, RotateCcw, Check, X, Minus, ChevronLeft, ChevronRight, BarChart3, Shuffle, BookOpen } from "lucide-react";
+import { Eye, EyeOff, RotateCcw, Check, X, Minus, ChevronLeft, ChevronRight, BarChart3, Shuffle, BookOpen, Sparkles } from "lucide-react";
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger,
@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import TheoryLearnMode from "@/components/TheoryLearnMode";
 import FlashcardDeck from "@/components/FlashcardDeck";
 import DailyReviewGoal from "@/components/DailyReviewGoal";
+import ReviewHubPage from "@/pages/ReviewHubPage";
 
 type Score = "got" | "partial" | "missed";
 const PAGE_SIZE = 20;
@@ -177,6 +178,7 @@ export default function TheoryPage() {
       <Tabs defaultValue="learn" className="w-full">
         {!isReading && <TabsList className="mb-6 w-full justify-start flex-wrap h-auto gap-1">
           <TabsTrigger value="learn" className="gap-1"><BookOpen className="h-3.5 w-3.5" /> Learn</TabsTrigger>
+          <TabsTrigger value="review" className="gap-1"><Sparkles className="h-3.5 w-3.5" /> Chapter Review</TabsTrigger>
           <TabsTrigger value="questions">All Questions</TabsTrigger>
           <TabsTrigger value="practice">Practice Mode</TabsTrigger>
           <TabsTrigger value="flashcards">Flashcards</TabsTrigger>
@@ -189,6 +191,11 @@ export default function TheoryPage() {
         {/* LEARN MODE TAB */}
         <TabsContent value="learn">
           <TheoryLearnMode onReadingStateChange={setIsReading} />
+        </TabsContent>
+
+        {/* CHAPTER REVIEW TAB */}
+        <TabsContent value="review">
+          <ReviewHubPage />
         </TabsContent>
 
         {/* ALL QUESTIONS TAB */}
