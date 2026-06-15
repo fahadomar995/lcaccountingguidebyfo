@@ -13,7 +13,17 @@ interface Props {
 }
 
 export default function ReviewSession({ chapterId, chapterTitle, onBack, onNavigateToSection }: Props) {
-  const { session, startSession, resumeSession, recordAnswer, advanceQuestion, clearSession, getItem, hasItems } = useChapterReview(chapterId);
+  const {
+    startSession,
+    resumeSession,
+    recordAnswer,
+    advanceQuestion,
+    clearSession,
+    getItem,
+    hasItems,
+    totalItems,
+    seenItems,
+  } = useChapterReview(chapterId);
 
   const [activeSession, setActiveSession] = useState(() => {
     const resumed = resumeSession();
@@ -78,6 +88,20 @@ export default function ReviewSession({ chapterId, chapterTitle, onBack, onNavig
       >
         <ArrowLeft className="h-3.5 w-3.5" /> Back to chapter
       </button>
+
+      {/* Chapter-level mastery progress */}
+      <div className="max-w-[720px] mx-auto">
+        <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-wider text-muted-foreground mb-1.5">
+          <span>Chapter coverage</span>
+          <span>{seenItems} / {totalItems} seen</span>
+        </div>
+        <div className="h-1 w-full rounded-full bg-muted overflow-hidden">
+          <div
+            className="h-full bg-accent transition-all duration-500"
+            style={{ width: totalItems > 0 ? `${Math.min(100, (seenItems / totalItems) * 100)}%` : '0%' }}
+          />
+        </div>
+      </div>
 
       {/* Progress dots */}
       <div className="flex items-center justify-center gap-2">
