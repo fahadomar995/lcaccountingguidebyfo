@@ -97,6 +97,7 @@ export interface ReviewItem {
 // ── Per-chapter banks ──
 
 import { EXTRA_MCQ_BANK } from './chapter-review-mcq-extra';
+import { INTERACTIVE_EXTRA_BANK } from './chapter-review-interactive-extra';
 
 const BASE_REVIEW_BANK: Record<number, ReviewItem[]> = {
   // ────────────────────────────────────────────
@@ -4248,11 +4249,13 @@ const BASE_REVIEW_BANK: Record<number, ReviewItem[]> = {
 export const REVIEW_BANK: Record<number, ReviewItem[]> = Object.keys({
   ...BASE_REVIEW_BANK,
   ...EXTRA_MCQ_BANK,
+  ...INTERACTIVE_EXTRA_BANK,
 }).reduce<Record<number, ReviewItem[]>>((acc, k) => {
   const id = Number(k);
   acc[id] = [
     ...(BASE_REVIEW_BANK[id] ?? []),
     ...(EXTRA_MCQ_BANK[id] ?? []),
+    ...(INTERACTIVE_EXTRA_BANK[id] ?? []),
   ];
   return acc;
 }, {});
