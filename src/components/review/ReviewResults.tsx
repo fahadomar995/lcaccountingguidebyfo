@@ -67,7 +67,7 @@ export default function ReviewResults({ score, total, results, onTryAnother, onB
             onClick={onTryAnother}
             className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-medium border border-border hover:border-accent text-muted-foreground hover:text-accent transition-colors"
           >
-            <RotateCcw className="h-3 w-3" /> Try another 5
+            <RotateCcw className="h-3 w-3" /> Try another set
           </button>
           <button
             onClick={onBackToChapter}

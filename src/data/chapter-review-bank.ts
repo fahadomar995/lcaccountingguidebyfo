@@ -66,7 +66,9 @@ export interface ReviewItem {
 
 // ── Per-chapter banks ──
 
-export const REVIEW_BANK: Record<number, ReviewItem[]> = {
+import { EXTRA_MCQ_BANK } from './chapter-review-mcq-extra';
+
+const BASE_REVIEW_BANK: Record<number, ReviewItem[]> = {
   // ────────────────────────────────────────────
   // Chapter 1 — Introduction to Accounting (12 items)
   // ────────────────────────────────────────────
@@ -4211,3 +4213,16 @@ export const REVIEW_BANK: Record<number, ReviewItem[]> = {
     },
   ],
 };
+
+// Merge extra MCQ pool into the base bank (huge expansion of coverage + variation).
+export const REVIEW_BANK: Record<number, ReviewItem[]> = Object.keys({
+  ...BASE_REVIEW_BANK,
+  ...EXTRA_MCQ_BANK,
+}).reduce<Record<number, ReviewItem[]>>((acc, k) => {
+  const id = Number(k);
+  acc[id] = [
+    ...(BASE_REVIEW_BANK[id] ?? []),
+    ...(EXTRA_MCQ_BANK[id] ?? []),
+  ];
+  return acc;
+}, {});
