@@ -92,11 +92,11 @@ export const INTERACTIVE_EXTRA_BANK: Record<number, ReviewItem[]> = {
       'Bank reconciliation compares the firm\u2019s cash-book balance with the bank statement — an independent record produced by the bank. Differences arise from timing (unpresented cheques, outstanding lodgements) or from items missing from one set of records (bank charges, direct debits, dishonoured cheques, errors). Performing the reconciliation regularly detects fraud and ensures the bank balance shown on the balance sheet is accurate.',
       'Independence is the control point — without it, cash is the easiest item to misappropriate.']),
     mkCase(3,['cs1','Update the cash book and reconcile for J. Walsh at 31 December.',
-      'J. Walsh\u2019s cash book shows a debit balance of €4,200. The bank statement shows a credit balance of €4,810. On comparison:\n• Unpresented cheques €420\n• Lodgement of €180 not yet on statement\n• Bank charges €70 missing from the cash book\n• Standing order for insurance €280 missing from the cash book',
+      'J. Walsh\u2019s cash book shows a debit balance of €4,920. The bank statement shows a credit balance of €4,810. On comparison:\n• Unpresented cheques €420\n• Lodgement of €180 not yet on statement\n• Bank charges €70 missing from the cash book\n• Standing order for insurance €280 missing from the cash book',
       [
-        { prompt: 'After updating the cash book for the items missing, the corrected cash-book balance is:', options: ['€3,850','€4,200','€4,550','€3,520'], correctIndex: 0, explanation: '4,200 − 70 − 280 = 3,850.' },
+        { prompt: 'After updating the cash book for the items missing, the corrected cash-book balance is:', options: ['€4,570','€4,920','€4,200','€5,270'], correctIndex: 0, explanation: '4,920 − 70 − 280 = 4,570.' },
         { prompt: 'In the reconciliation, the unpresented cheques are:', options: ['Deducted from the statement balance','Added to the statement balance','Added to the cash-book balance','Ignored'], correctIndex: 0, explanation: 'They have left our books but not the bank\u2019s — deduct from the statement.' },
-        { prompt: 'The reconciled balance per statement matches the updated cash book at:', options: ['€4,570','€3,850','€4,200','€4,810'], correctIndex: 1, explanation: '4,810 − 420 unpresented + 180 outstanding lodgement = 4,570? Trick: 4,810 − 420 − ? Actual: 4,810 − 420 + 180 = 4,570 (NOT a match). The corrected cash book is 3,850 — so there is a difference flagged for further investigation.' },
+        { prompt: 'The reconciled balance per statement matches the updated cash book at:', options: ['€4,570','€4,810','€4,920','€5,230'], correctIndex: 0, explanation: '4,810 − 420 unpresented + 180 outstanding lodgement = 4,570, matching the corrected cash book.' },
       ],
       'A typical multi-step reconciliation — updating the cash book first, then reconciling timing differences.']),
   ],
@@ -274,7 +274,7 @@ export const INTERACTIVE_EXTRA_BANK: Record<number, ReviewItem[]> = {
     mkCase(13,['cs1','Calculate subscription income for the year.',
       'Riverside GAA Club: subscriptions received in cash during the year €34,800. At year-start: subs in arrears €1,400, subs in advance €600. At year-end: subs in arrears €900, subs in advance €1,100.',
       [
-        { prompt: 'Subscription income recognised in the I&E account is:', options: ['€34,800 + 900 − 1,400 − 600 + 1,100? Use the formula correctly: €34,800','€35,300','€34,200','€33,800'], correctIndex: 1, explanation: '34,800 + closing arrears 900 − closing advance (already in cash) adjustment: Income = Cash 34,800 + (closing arrears 900 − opening arrears 1,400) + (opening advance 600 − closing advance 1,100) = 34,800 − 500 − 500 = 33,800.' },
+        { prompt: 'Subscription income recognised in the I&E account is:', options: ['€33,800','€34,800','€35,300','€34,200'], correctIndex: 0, explanation: 'Income = Cash 34,800 + (closing arrears 900 − opening arrears 1,400) + (opening advance 600 − closing advance 1,100) = 34,800 − 500 − 500 = 33,800.' },
         { prompt: 'Closing balance "subscriptions in arrears" appears on the balance sheet as:', options: ['Current asset','Current liability','Reserve','Capital'], correctIndex: 0 },
         { prompt: 'Closing balance "subscriptions in advance" appears on the balance sheet as:', options: ['Current liability','Current asset','Reserve','Income'], correctIndex: 0 },
       ],
