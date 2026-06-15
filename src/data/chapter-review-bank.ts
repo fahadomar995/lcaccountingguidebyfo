@@ -44,6 +44,33 @@ export interface DefineData {
   modelDefinition: string;
 }
 
+export interface ClozeData {
+  /** Sentence text. Use {{0}}, {{1}}, ... where blanks belong. */
+  sentence: string;
+  /** Accepted answers per blank. First entry is the model answer; others are equivalents. Case/whitespace ignored. */
+  blanks: { accepts: string[]; hint?: string }[];
+}
+
+export interface ExplainData {
+  /** Optional bullet list of points a strong answer should mention. */
+  keyPoints?: string[];
+  modelAnswer: string;
+}
+
+export interface CaseSubQuestion {
+  prompt: string;
+  options: string[];
+  correctIndex: number;
+  explanation?: string;
+}
+
+export interface CaseData {
+  /** Scenario/stem shown above the linked sub-questions. */
+  scenario: string;
+  /** 2-3 linked sub-MCQs. */
+  questions: CaseSubQuestion[];
+}
+
 export type ReviewItemData =
   | { type: 'mcq'; data: MCQData }
   | { type: 'match'; data: MatchData }
@@ -51,13 +78,16 @@ export type ReviewItemData =
   | { type: 'fill-chip'; data: FillChipData }
   | { type: 'true-false'; data: TrueFalseData }
   | { type: 'order'; data: OrderData }
-  | { type: 'define'; data: DefineData };
+  | { type: 'define'; data: DefineData }
+  | { type: 'cloze'; data: ClozeData }
+  | { type: 'explain'; data: ExplainData }
+  | { type: 'case'; data: CaseData };
 
 export interface ReviewItem {
   id: string;
   chapterId: number;
   sectionId?: string;
-  type: 'mcq' | 'match' | 'sort' | 'fill-chip' | 'true-false' | 'order' | 'define';
+  type: 'mcq' | 'match' | 'sort' | 'fill-chip' | 'true-false' | 'order' | 'define' | 'cloze' | 'explain' | 'case';
   prompt: string;
   itemData: ReviewItemData;
   explanation: string;
@@ -67,6 +97,7 @@ export interface ReviewItem {
 // ── Per-chapter banks ──
 
 import { EXTRA_MCQ_BANK } from './chapter-review-mcq-extra';
+import { INTERACTIVE_EXTRA_BANK } from './chapter-review-interactive-extra';
 
 const BASE_REVIEW_BANK: Record<number, ReviewItem[]> = {
   // ────────────────────────────────────────────
@@ -4218,11 +4249,13 @@ const BASE_REVIEW_BANK: Record<number, ReviewItem[]> = {
 export const REVIEW_BANK: Record<number, ReviewItem[]> = Object.keys({
   ...BASE_REVIEW_BANK,
   ...EXTRA_MCQ_BANK,
+  ...INTERACTIVE_EXTRA_BANK,
 }).reduce<Record<number, ReviewItem[]>>((acc, k) => {
   const id = Number(k);
   acc[id] = [
     ...(BASE_REVIEW_BANK[id] ?? []),
     ...(EXTRA_MCQ_BANK[id] ?? []),
+    ...(INTERACTIVE_EXTRA_BANK[id] ?? []),
   ];
   return acc;
 }, {});
